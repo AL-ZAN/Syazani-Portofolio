@@ -1,0 +1,1748 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kartu Santai — Syazani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400..700&family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..800&display=swap">
+<style>
+:root{
+  --ink:#1C1917;--muted:#78716C;--ice:#7DD3FC;--deep:#0369A1;--ice-soft:#E0F2FE;
+  --gold:#FDE68A;--gold-deep:#F59E0B;--green:#10B981;--red:#EF4444;--purple:#A78BFA;
+  --line:rgba(28,25,23,.1);
+  --f-display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#082E1E;color:#fff;font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow:hidden;height:100vh;height:100dvh}
+button{font-family:inherit}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ==================== LOBBY ==================== */
+.lobby{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;
+  background:radial-gradient(ellipse at 30% 20%, #1C8A5A 0%, transparent 50%),radial-gradient(ellipse at 70% 80%, #0E4A31 0%, transparent 50%),linear-gradient(160deg,#0B5D3B,#082E1E);
+  overflow-y:auto;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.lobby[hidden]{display:none!important}
+.lobby::before{content:"";position:fixed;inset:0;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.02) 0 2px,transparent 2px 12px);pointer-events:none}
+.lobby-in{position:relative;max-width:1100px;margin-inline:auto;padding:clamp(24px,5vw,60px) clamp(16px,4vw,40px);width:100%}
+.lobby-head{text-align:center;margin-bottom:clamp(28px,5vw,48px)}
+.lobby-brand{display:inline-flex;align-items:center;gap:12px;font:800 clamp(1.6rem,4vw,2.4rem) var(--f-display);color:#fff;text-decoration:none;margin-bottom:8px}
+.lobby-brand .mark{width:clamp(44px,6vw,56px);height:clamp(44px,6vw,56px);border-radius:14px;background:linear-gradient(160deg,#FDE68A,#F59E0B);color:#1C1917;display:grid;place-items:center;font-size:1.6rem;box-shadow:0 12px 24px -10px rgba(245,158,11,.7)}
+.lobby-sub{color:rgba(255,247,237,.75);font-size:clamp(.92rem,1.6vw,1.05rem);max-width:60ch;margin:0 auto}
+.lobby-hint{display:inline-flex;align-items:center;gap:8px;font:600 .74rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#FDE68A;background:rgba(253,230,138,.14);padding:6px 14px;border-radius:999px;margin-top:14px;border:1px solid rgba(253,230,138,.3)}
+.breadcrumb{display:flex;align-items:center;gap:8px;justify-content:center;font:600 .78rem var(--f-mono);color:rgba(255,247,237,.6);margin-bottom:18px;flex-wrap:wrap}
+.breadcrumb b{color:#FDE68A}
+.breadcrumb .sep{opacity:.4}
+.breadcrumb button{background:none;border:0;color:rgba(255,247,237,.7);font:inherit;cursor:pointer;padding:4px 8px;border-radius:6px;transition:.2s}
+.breadcrumb button:hover{background:rgba(255,255,255,.1);color:#fff}
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:32px}
+.game-card{position:relative;padding:22px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1.5px solid rgba(255,255,255,.14);cursor:pointer;transition:.25s;text-align:left;color:#fff;font-family:inherit;overflow:hidden;backdrop-filter:blur(8px);min-height:180px;display:flex;flex-direction:column;gap:10px}
+.game-card::before{content:"";position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(253,230,138,.15) 0%,transparent 70%);pointer-events:none}
+.game-card:hover:not(.locked){transform:translateY(-4px);border-color:rgba(253,230,138,.5);background:linear-gradient(160deg,rgba(253,230,138,.1),rgba(255,255,255,.03));box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.game-card.locked{cursor:not-allowed;opacity:.55}
+.game-card.active{border-color:#FDE68A;background:linear-gradient(160deg,rgba(253,230,138,.16),rgba(253,230,138,.04));box-shadow:0 20px 40px -20px rgba(245,158,11,.4)}
+.game-card.active::after{content:"●";position:absolute;top:14px;right:16px;color:#10B981;font-size:.9rem;animation:pulseDot 1.6s infinite}
+.game-card.parent::after{content:"📁";position:absolute;top:14px;right:16px;font-size:1.2rem;opacity:.7;animation:none}
+@keyframes pulseDot{50%{opacity:.3}}
+.game-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:1.6rem;flex:none;transition:.25s}
+.game-card:hover:not(.locked) .game-icon{background:rgba(253,230,138,.2);transform:scale(1.05)}
+.game-card.active .game-icon{background:linear-gradient(160deg,#FDE68A,#F59E0B);color:#1C1917}
+.game-name{font:800 1.15rem var(--f-display);line-height:1.2}
+.game-desc{font-size:.82rem;color:rgba(255,247,237,.7);line-height:1.5}
+.game-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.game-tag{font:600 .62rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.1);color:rgba(255,247,237,.85)}
+.game-tag.soon{background:rgba(245,158,11,.2);color:#FDE68A}
+.game-tag.ready{background:rgba(16,185,129,.2);color:#6EE7B7}
+.game-tag.sub{background:rgba(167,139,250,.2);color:#DDD6FE}
+.game-tag.parent{background:rgba(125,211,252,.2);color:#BAE6FD}
+.lobby-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.lbtn{display:inline-flex;align-items:center;gap:8px;font:700 .9rem var(--f-body);padding:12px 22px;border-radius:999px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;transition:.2s;text-decoration:none;backdrop-filter:blur(6px)}
+.lbtn:hover{background:rgba(255,255,255,.16);transform:translateY(-1px)}
+.lbtn.primary{background:linear-gradient(160deg,#FDE68A,#F59E0B);color:#1C1917;border-color:transparent;box-shadow:0 8px 20px -8px rgba(245,158,11,.7)}
+.lbtn.primary:hover{background:linear-gradient(160deg,#FCD34D,#D97706);transform:translateY(-1px)}
+
+/* ==================== GAME SHELL ==================== */
+.wrap{height:100vh;height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);background:radial-gradient(ellipse at 50% 55%, #145A3D 0%, #0E4A31 40%, #082E1E 100%)}
+.wrap[hidden]{display:none!important}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px clamp(12px,2vw,20px);z-index:5;flex:none;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:9px;font:700 1rem var(--f-display);color:#fff;text-decoration:none;cursor:pointer}
+.brand .mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(160deg,#FDE68A,#F59E0B);color:var(--ink);display:grid;place-items:center;font-size:1.1rem}
+.tag{font:600 .68rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#FDE68A;background:rgba(0,0,0,.35);padding:4px 10px;border-radius:999px;border:1px solid rgba(253,230,138,.2)}
+.diff-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:4px 12px;border-radius:999px;border:1px solid;cursor:pointer}
+.diff-badge.beginner{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.5);color:#6EE7B7}
+.diff-badge.intermediate{background:rgba(245,158,11,.2);border-color:rgba(245,158,11,.5);color:#FDE68A}
+.diff-badge.advance{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.5);color:#FCA5A5}
+.dir-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#BAE6FD;padding:4px 12px;border-radius:999px;border:1px solid rgba(125,211,252,.5);background:rgba(125,211,252,.15);cursor:pointer;transition:.2s}
+.dir-badge:hover{background:rgba(125,211,252,.3)}
+.dir-badge.ccw{color:#DDD6FE;border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.15)}
+.dir-badge.ccw:hover{background:rgba(167,139,250,.3)}
+.top-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.tbtn{display:inline-flex;align-items:center;gap:6px;font:600 .82rem var(--f-body);color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:8px 14px;border-radius:999px;cursor:pointer;transition:.2s;text-decoration:none}
+.tbtn:hover{background:rgba(255,255,255,.22)}
+.tbtn.help{background:rgba(253,230,138,.15);border-color:rgba(253,230,138,.35);color:#FDE68A}
+.tbtn.help:hover{background:rgba(253,230,138,.3)}
+
+/* ==================== POKER TABLE ==================== */
+.stage{position:relative;flex:1;min-height:0;display:grid;place-items:center;padding:clamp(8px,2vw,20px);overflow:hidden}
+.table{position:relative;width:min(100%,980px);height:min(100%,640px);max-height:100%;display:grid;place-items:center}
+.felt{position:absolute;inset:0;border-radius:50%/46%;background:radial-gradient(ellipse at 50% 40%, #1C8A5A 0%, #127A4E 35%, #0B5D3B 70%, #08452B 100%);box-shadow:inset 0 0 0 6px #0A3D26,inset 0 0 0 9px #12603D,inset 0 0 0 30px #0A4A2F,inset 0 40px 80px -20px rgba(0,0,0,.45),inset 0 -40px 80px -20px rgba(0,0,0,.5),0 30px 60px -20px rgba(0,0,0,.7),0 0 0 8px #1A1A1A,0 0 0 12px #333,0 0 0 14px #0A0A0A}
+.felt::before{content:"";position:absolute;inset:36px;border-radius:50%/46%;border:2px solid rgba(255,255,255,.06);background:radial-gradient(ellipse at 50% 50%, rgba(255,255,255,.04) 0%, transparent 60%);pointer-events:none}
+.felt::after{content:"SYAZANI · KARTU SANTAI";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:800 clamp(1.6rem,3.4vw,2.8rem)/1 var(--f-display);letter-spacing:.18em;color:rgba(255,255,255,.055);white-space:nowrap;pointer-events:none;text-align:center}
+.rail{position:absolute;inset:-14px;border-radius:50%/46%;pointer-events:none;background:conic-gradient(from 0deg, #2A1A0E, #4A2E1A, #2A1A0E, #4A2E1A, #2A1A0E);filter:blur(1px);mask:radial-gradient(ellipse at center, transparent 0 calc(100% - 34px), #000 calc(100% - 33px));-webkit-mask:radial-gradient(ellipse at center, transparent 0 calc(100% - 34px), #000 calc(100% - 33px));z-index:-1;box-shadow:0 0 0 3px #0A0A0A}
+
+.seat{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px;width:clamp(84px,11vw,120px);z-index:3;transition:.25s}
+.seat.hero{width:auto;min-width:clamp(100px,14vw,160px)}
+.seat.active .avatar{box-shadow:0 0 0 3px #FDE68A,0 0 20px rgba(253,230,138,.6);animation:seatPulse 1.4s ease-in-out infinite}
+@keyframes seatPulse{50%{box-shadow:0 0 0 3px #FDE68A,0 0 28px rgba(253,230,138,.8)}}
+.seat.fold{opacity:.4;filter:grayscale(.6)}
+.avatar{width:clamp(44px,6vw,58px);height:clamp(44px,6vw,58px);border-radius:50%;background:linear-gradient(160deg,#FFF7ED,#FDE68A);color:var(--ink);display:grid;place-items:center;font:800 clamp(.95rem,1.6vw,1.15rem) var(--f-display);border:3px solid #fff;box-shadow:0 8px 18px -8px rgba(0,0,0,.6);transition:.25s}
+.name{font:700 .72rem var(--f-body);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8);white-space:nowrap}
+.chips{font:700 .7rem var(--f-mono);color:#FDE68A;text-shadow:0 1px 3px rgba(0,0,0,.9);white-space:nowrap}
+.bet{position:absolute;top:calc(100% - 4px);left:50%;transform:translateX(-50%);font:800 .66rem var(--f-mono);color:#0A2E1E;background:#FDE68A;padding:2px 9px;border-radius:999px;white-space:nowrap;box-shadow:0 3px 8px rgba(0,0,0,.4);opacity:0;transition:.2s}
+.bet.show{opacity:1}
+.status{position:absolute;bottom:calc(100% - 2px);left:50%;transform:translateX(-50%);font:700 .58rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#0A2E1E;background:#7DD3FC;padding:2px 8px;border-radius:999px;white-space:nowrap;opacity:0;transition:.2s}
+.status.show{opacity:1}
+.status.fold{background:#FCA5A5;color:#7F1D1D}
+.cards-mini{display:flex;gap:2px;margin-top:-6px}
+.mini{width:16px;height:22px;font-size:.55rem;border-radius:3px;display:grid;place-items:center;background:#fff;font-weight:800;box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.mini.red{color:#DC2626}
+.mini.blk{color:var(--ink)}
+.mini.back{background:repeating-linear-gradient(45deg,#0369A1 0 3px,#075985 3px 6px);border:1px solid rgba(255,255,255,.85)}
+.seat[data-pos="top"]{top:-2%;left:50%;transform:translate(-50%,-40%)}
+.seat[data-pos="left"]{top:50%;left:2%;transform:translate(-30%,-50%)}
+.seat[data-pos="right"]{top:50%;right:2%;transform:translate(30%,-50%)}
+.seat[data-pos="hero"]{bottom:-2%;left:50%;transform:translate(-50%,40%)}
+
+.center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:clamp(6px,1.2vh,12px);z-index:4;pointer-events:none;width:max-content;max-width:94%}
+.pot{font:800 clamp(.9rem,1.8vw,1.2rem) var(--f-display);color:#FDE68A;background:rgba(0,0,0,.5);padding:4px 18px;border-radius:999px;letter-spacing:.02em;box-shadow:inset 0 0 0 1px rgba(253,230,138,.35),0 6px 16px -6px rgba(0,0,0,.6)}
+.community{display:flex;gap:clamp(4px,.8vw,8px);justify-content:center;min-height:1px}
+.community:empty{display:none}
+.pcard{width:clamp(38px,6vw,58px);aspect-ratio:5/7;border-radius:7px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 6px 16px -6px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.5) inset;font-weight:800;line-height:1;animation:cardDeal .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes cardDeal{from{transform:translateY(-20px) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+.pcard .rk{font-size:clamp(.95rem,1.8vw,1.35rem)}
+.pcard .su{font-size:clamp(.8rem,1.5vw,1.05rem);margin-top:2px}
+.pcard.red{color:#DC2626}
+.pcard.blk{color:var(--ink)}
+.msg{font:600 clamp(.72rem,1.2vw,.85rem) var(--f-body);color:rgba(255,255,255,.9);text-align:center;min-height:1.2em;text-shadow:0 1px 3px rgba(0,0,0,.7);max-width:36ch}
+.hero-cards{display:flex;gap:clamp(4px,.8vw,8px);margin-top:2px}
+.hero-cards .pcard{width:clamp(44px,7vw,64px)}
+
+.actions{flex:none;padding:clamp(10px,2vh,18px) clamp(12px,3vw,24px) clamp(14px,2.4vh,22px);display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35) 40%);z-index:6}
+.pbtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font:700 .85rem var(--f-body);padding:11px 20px;border-radius:999px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;transition:.18s;min-width:100px;backdrop-filter:blur(6px)}
+.pbtn:hover:not(:disabled){background:rgba(255,255,255,.22);transform:translateY(-1px)}
+.pbtn:disabled{opacity:.32;cursor:not-allowed;transform:none}
+.pbtn.start{background:var(--ice);color:var(--ink);border-color:var(--ice)}
+.pbtn.start:hover:not(:disabled){background:#BAE6FD}
+.pbtn.check{background:#7DD3FC;color:#0C4A6E;border-color:#7DD3FC}
+.pbtn.check:hover:not(:disabled){background:#BAE6FD}
+.pbtn.raise{background:#FDE68A;color:#78350F;border-color:#FDE68A}
+.pbtn.raise:hover:not(:disabled){background:#FCD34D}
+.pbtn.fold{background:#FCA5A5;color:#7F1D1D;border-color:#FCA5A5}
+.pbtn.fold:hover:not(:disabled){background:#F87171;color:#fff}
+.pbtn.icon{min-width:auto;padding:11px 16px;background:rgba(253,230,138,.2);color:#FDE68A;border-color:rgba(253,230,138,.4)}
+.pbtn.icon:hover:not(:disabled){background:rgba(253,230,138,.35)}
+
+.info{position:absolute;top:64px;right:clamp(10px,2vw,20px);z-index:5;display:flex;flex-direction:column;gap:8px;max-width:min(240px,42vw)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.stat-box{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:6px 10px;color:#fff;backdrop-filter:blur(6px)}
+.stat-box span{display:block;font:600 .55rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#9AE6B4}
+.stat-box b{display:block;font:800 .95rem var(--f-display);color:#FDE68A;font-variant-numeric:tabular-nums}
+.log-wrap{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;backdrop-filter:blur(6px)}
+.log-head{display:flex;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.1);font:700 .58rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#9AE6B4}
+.log{max-height:130px;overflow-y:auto;padding:6px 12px;font:500 .68rem/1.6 var(--f-mono);color:rgba(255,255,255,.85)}
+.log div{padding:1px 0;border-bottom:1px dashed rgba(255,255,255,.08)}
+.log div:last-child{border:0}
+.log .win{color:#86EFAC;font-weight:700}
+.log .lose{color:#FCA5A5;font-weight:700}
+
+/* ==================== CATFISH ==================== */
+.catfish-stage{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;padding:clamp(8px,2vw,16px);gap:10px;overflow:hidden}
+.cf-header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;flex:none}
+.cf-title{font:800 clamp(1.05rem,2vw,1.35rem) var(--f-display);color:#FDE68A;display:flex;align-items:center;gap:8px}
+.cf-scores{display:flex;gap:6px;flex-wrap:wrap}
+.score-chip{display:inline-flex;align-items:center;gap:5px;font:700 .7rem var(--f-mono);background:rgba(0,0,0,.4);padding:4px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.15);color:#fff}
+.score-chip .dot{width:7px;height:7px;border-radius:50%;flex:none}
+.score-chip.you .dot{background:#10B981}
+.score-chip.budi .dot{background:#3B82F6}
+.score-chip.sinta .dot{background:#A78BFA}
+.score-chip.raka .dot{background:#F59E0B}
+.score-chip b{color:#FDE68A}
+
+.cf-table-wrap{position:relative;flex:1;min-height:0;display:grid;place-items:center;padding:0}
+.cf-table{position:relative;width:100%;height:100%;max-width:1100px;border-radius:24px;
+  background:radial-gradient(ellipse at 50% 40%, #1C8A5A 0%, #127A4E 35%, #0B5D3B 70%, #08452B 100%);
+  box-shadow:inset 0 0 0 6px #0A3D26,inset 0 0 0 9px #12603D,inset 0 0 0 24px #0A4A2F,inset 0 30px 60px -20px rgba(0,0,0,.4),0 20px 40px -16px rgba(0,0,0,.7),0 0 0 6px #1A1A1A,0 0 0 9px #333;
+  padding:clamp(10px,2vw,20px);
+  display:grid;
+  grid-template-columns:1fr 1.1fr 1fr;
+  grid-template-rows:1fr 1.15fr 1fr;
+  gap:6px;
+  align-items:stretch}
+.cf-seat{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 6px;border-radius:14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.08);transition:.25s;min-width:0;align-self:center}
+.cf-seat.active{background:rgba(253,230,138,.15);border-color:rgba(253,230,138,.5);box-shadow:0 0 0 2px rgba(253,230,138,.3)}
+.cf-seat[data-pos="top"]{grid-column:2;grid-row:1;justify-self:center}
+.cf-seat[data-pos="left"]{grid-column:1;grid-row:2;justify-self:start}
+.cf-seat[data-pos="right"]{grid-column:3;grid-row:2;justify-self:end}
+.cf-seat[data-pos="hero"]{grid-column:2;grid-row:3;justify-self:center;align-self:end}
+.cf-avatar{width:clamp(36px,4.6vw,46px);height:clamp(36px,4.6vw,46px);border-radius:50%;background:linear-gradient(160deg,#FFF7ED,#FDE68A);color:var(--ink);display:grid;place-items:center;font:800 clamp(.8rem,1.3vw,.95rem) var(--f-display);border:2.5px solid #fff;box-shadow:0 6px 14px -6px rgba(0,0,0,.6);position:relative}
+.cf-seat.active .cf-avatar{animation:seatPulse 1.4s infinite}
+.cf-seat.you .cf-avatar{background:linear-gradient(160deg,#A7F3D0,#10B981);color:#06351E}
+.cf-name{font:700 .68rem var(--f-body);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.cf-count{font:700 .66rem var(--f-mono);color:#FDE68A;background:rgba(0,0,0,.4);padding:2px 8px;border-radius:999px;white-space:nowrap}
+.cf-sets{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;min-height:12px}
+.cf-set-badge{font:700 .55rem var(--f-mono);color:#0A2E1E;background:#FDE68A;padding:1px 5px;border-radius:3px;line-height:1.2}
+.cf-set-badge.you{background:#10B981;color:#fff}
+
+.cf-center{grid-column:2;grid-row:2;justify-self:center;align-self:center;text-align:center;z-index:2;display:flex;flex-direction:column;gap:8px;align-items:center;padding:6px 10px;max-width:100%}
+.cf-pond{position:relative;width:clamp(60px,10vw,80px);height:clamp(84px,14vw,112px);cursor:default}
+.cf-pond::before{content:"";position:absolute;inset:0;border-radius:8px;background:repeating-linear-gradient(45deg,#0369A1 0 8px,#075985 8px 16px);box-shadow:0 8px 20px -6px rgba(0,0,0,.6),0 0 0 3px #fff,0 0 0 5px #0A2E1E;transform:rotate(-3deg)}
+.cf-pond::after{content:"";position:absolute;inset:0;border-radius:8px;background:repeating-linear-gradient(45deg,#0369A1 0 8px,#075985 8px 16px);box-shadow:0 8px 20px -6px rgba(0,0,0,.6),0 0 0 3px #fff;transform:rotate(3deg) translate(4px,4px)}
+.cf-pond-count{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font:700 .68rem var(--f-mono);color:#FDE68A;background:rgba(0,0,0,.5);padding:2px 10px;border-radius:999px;white-space:nowrap}
+.cf-msg{font:700 .82rem var(--f-body);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8);max-width:28ch;min-height:2.4em}
+.cf-turn{font:700 .66rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#0A2E1E;background:#FDE68A;padding:3px 12px;border-radius:999px;display:inline-block}
+.cf-turn.you{background:#10B981;color:#fff}
+
+/* Catfish: hero hand */
+.cf-hand{flex:none;padding:8px clamp(8px,2vw,16px);background:rgba(0,0,0,.35);border-top:1px solid rgba(255,255,255,.1);border-radius:14px;margin:0 clamp(8px,2vw,16px) 8px;backdrop-filter:blur(6px)}
+.cf-hand-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.cf-hand-title{font:700 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#9AE6B4}
+.cf-hand-cards{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;min-height:52px}
+.cf-hand-card{position:relative;width:clamp(38px,6vw,50px);aspect-ratio:5/7;border-radius:7px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 12px -4px rgba(0,0,0,.6);font-weight:800;line-height:1;cursor:pointer;transition:.2s;border:2px solid transparent}
+.cf-hand-card:hover{transform:translateY(-4px);box-shadow:0 8px 16px -4px rgba(0,0,0,.7)}
+.cf-hand-card.selected{border-color:#FDE68A;box-shadow:0 0 0 2px rgba(253,230,138,.5),0 8px 16px -4px rgba(0,0,0,.7);transform:translateY(-4px)}
+.cf-hand-card.red{color:#DC2626}
+.cf-hand-card.blk{color:var(--ink)}
+.cf-hand-card .rk{font-size:clamp(.85rem,1.6vw,1.15rem)}
+.cf-hand-card .su{font-size:clamp(.7rem,1.3vw,.9rem);margin-top:2px}
+.cf-hand-card .count{position:absolute;top:-6px;right:-6px;font:700 .58rem var(--f-mono);background:#FDE68A;color:#0A2E1E;padding:1px 6px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.cf-hand-empty{font:500 .82rem var(--f-body);color:rgba(255,255,255,.6);text-align:center;padding:14px 0}
+
+/* Catfish: ask panel (rank & target) */
+.cf-ask{flex:none;padding:8px clamp(8px,2vw,16px);background:rgba(0,0,0,.35);border-radius:14px;margin:0 clamp(8px,2vw,16px) 8px;display:none;flex-direction:column;gap:8px;backdrop-filter:blur(6px)}
+.cf-ask.show{display:flex}
+.cf-ask-row{display:flex;flex-direction:column;gap:6px}
+.cf-ask-label{font:700 .66rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#9AE6B4}
+.cf-targets{display:flex;gap:6px;flex-wrap:wrap}
+.cf-target{display:inline-flex;align-items:center;gap:6px;font:700 .78rem var(--f-body);padding:8px 14px;border-radius:999px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;transition:.18s}
+.cf-target:hover:not(:disabled){background:rgba(255,255,255,.18);transform:translateY(-1px)}
+.cf-target.on{background:#FDE68A;color:#0A2E1E;border-color:#FDE68A}
+.cf-target:disabled{opacity:.3;cursor:not-allowed}
+.cf-target .dot{width:8px;height:8px;border-radius:50%}
+.cf-target[data-target="1"] .dot{background:#3B82F6}
+.cf-target[data-target="2"] .dot{background:#A78BFA}
+.cf-target[data-target="3"] .dot{background:#F59E0B}
+.cf-ask-hint{font:500 .72rem var(--f-body);color:rgba(255,255,255,.6);text-align:center}
+
+/* ==================== MODALS ==================== */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;place-items:center;z-index:30;padding:20px;overflow-y:auto}
+.modal.open{display:grid;animation:fade .25s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal-card{background:linear-gradient(160deg,#FFF7ED,#E0F2FE);border-radius:22px;padding:clamp(22px,4vw,38px);max-width:480px;width:100%;text-align:center;box-shadow:0 40px 80px -20px rgba(0,0,0,.8);animation:pop .35s cubic-bezier(.2,.8,.2,1);color:var(--ink)}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.modal-card h2{font-size:1.55rem;margin-bottom:6px;font-family:var(--f-display)}
+.modal-card p{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+.modal-card .big{font:800 2rem/1.15 var(--f-display);color:var(--deep);margin:10px 0 18px}
+.modal-card .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.modal-card .pbtn{padding:10px 20px;font-size:.88rem}
+
+.help-modal,.settings-modal,.diff-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;place-items:center;z-index:40;padding:20px;overflow-y:auto}
+.help-modal.open,.settings-modal.open,.diff-modal.open{display:grid;animation:fade .25s}
+.help-card,.settings-card,.diff-card{background:linear-gradient(160deg,#FFF7ED,#E0F2FE);border-radius:22px;padding:clamp(20px,3vw,32px);max-width:640px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px -20px rgba(0,0,0,.8);animation:pop .35s cubic-bezier(.2,.8,.2,1);color:var(--ink);text-align:left}
+.settings-card{max-width:520px}
+.diff-card{max-width:520px;text-align:center}
+.help-card h2,.settings-card h2,.diff-card h2{font-size:1.6rem;margin-bottom:6px;color:var(--deep);display:flex;align-items:center;gap:10px;font-family:var(--f-display)}
+.diff-card h2{justify-content:center}
+.help-card .sub,.settings-card .sub,.diff-card .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+.help-card h3{font:700 .95rem var(--f-body);margin:18px 0 8px;color:var(--deep);display:flex;align-items:center;gap:8px}
+.help-card h3 .num{width:24px;height:24px;border-radius:50%;background:var(--deep);color:#fff;display:grid;place-items:center;font:700 .78rem var(--f-mono);flex:none}
+.help-card p,.help-card li{font-size:.9rem;line-height:1.55;color:var(--ink)}
+.help-card ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.help-card ul li{padding-left:18px;position:relative}
+.help-card ul li::before{content:"▸";position:absolute;left:2px;color:var(--deep);font-weight:800}
+.help-card .rank-list{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:6px}
+.help-card .rank-list div{font-size:.84rem;display:flex;gap:8px;align-items:baseline}
+.help-card .rank-list b{font:700 .78rem var(--f-mono);color:var(--deep);min-width:24px}
+.help-card .rank-list span{color:var(--muted);font-size:.74rem;font-family:var(--f-mono)}
+.help-card .close-help{display:flex;justify-content:center;margin-top:20px}
+.help-card .close-help .pbtn{background:var(--deep);border-color:var(--deep);color:#fff;padding:11px 24px}
+.help-card .close-help .pbtn:hover{background:#075985}
+.help-card .tip{background:var(--ice-soft);border-left:3px solid var(--deep);padding:10px 14px;border-radius:8px;font-size:.85rem;margin-top:12px}
+
+.settings-card .field{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.settings-card label{font:700 .8rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.settings-card input[type=number]{font:600 .95rem var(--f-body);color:var(--ink);padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;width:100%}
+.settings-card input[type=number]:focus{outline:none;border-color:var(--deep)}
+.settings-card .hint{font:500 .72rem var(--f-body);color:var(--muted);margin-top:-4px}
+.settings-card .row{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+.settings-card .pbtn{padding:10px 20px;font-size:.88rem;border-color:var(--line);background:#fff;color:var(--ink);min-width:auto}
+.settings-card .pbtn:hover:not(:disabled){background:var(--ice-soft);border-color:var(--deep);color:var(--deep)}
+.settings-card .pbtn.primary{background:var(--deep);border-color:var(--deep);color:#fff}
+.settings-card .pbtn.primary:hover:not(:disabled){background:#075985;border-color:#075985;color:#fff}
+
+.diff-opts{display:grid;grid-template-columns:1fr;gap:10px;margin:20px 0}
+.diff-opt{padding:16px 20px;border-radius:16px;border:2px solid var(--line);background:#fff;cursor:pointer;text-align:left;transition:.2s;color:var(--ink);display:flex;align-items:center;gap:14px}
+.diff-opt:hover{border-color:var(--deep);transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(3,105,161,.4)}
+.diff-opt.on{border-color:var(--deep);background:var(--ice-soft)}
+.diff-opt .di{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:1.4rem;flex:none}
+.diff-opt.beginner .di{background:rgba(16,185,129,.15);color:#10B981}
+.diff-opt.intermediate .di{background:rgba(245,158,11,.15);color:#F59E0B}
+.diff-opt.advance .di{background:rgba(239,68,68,.15);color:#EF4444}
+.diff-opt .dinfo{flex:1;min-width:0}
+.diff-opt .dinfo b{display:block;font:800 1rem var(--f-display);margin-bottom:2px}
+.diff-opt .dinfo small{display:block;font:500 .78rem var(--f-body);color:var(--muted);line-height:1.4}
+.diff-card .pbtn{padding:11px 24px;font-size:.92rem;border-color:var(--line);background:#fff;color:var(--ink);min-width:auto}
+.diff-card .pbtn:hover{background:var(--ice-soft);border-color:var(--deep);color:var(--deep)}
+.diff-card .pbtn.primary{background:var(--deep);border-color:var(--deep);color:#fff}
+.diff-card .pbtn.primary:hover{background:#075985;border-color:#075985;color:#fff}
+.diff-card .row{display:flex;gap:10px;justify-content:center;margin-top:8px}
+
+.waiting-badge{position:absolute;top:64px;left:50%;transform:translateX(-50%);z-index:5;font:700 .72rem var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:#0A2E1E;background:#FDE68A;padding:6px 16px;border-radius:999px;box-shadow:0 6px 16px -6px rgba(0,0,0,.6);display:none;animation:waitPulse 1.6s ease-in-out infinite;max-width:90vw;text-align:center}
+.waiting-badge.on{display:block}
+@keyframes waitPulse{50%{opacity:.7;transform:translateX(-50%) scale(1.03)}}
+
+/* Responsif */
+@media (max-width:900px){
+  .info{display:none}
+  .seat{width:clamp(70px,15vw,90px)}
+  .name{font-size:.62rem}
+  .chips{font-size:.6rem}
+  .avatar{width:40px;height:40px;font-size:.9rem}
+  .center{gap:4px}
+  .help-card .rank-list{grid-template-columns:1fr}
+  .game-grid{grid-template-columns:1fr 1fr}
+  .cf-table{grid-template-columns:1fr 1.2fr 1fr;padding:8px}
+  .cf-seat{padding:6px 4px}
+  .cf-name{font-size:.62rem}
+  .cf-count{font-size:.6rem}
+}
+@media (max-width:560px){
+  .table{height:min(100%,520px)}
+  .seat[data-pos="left"]{left:0;transform:translate(0,-50%)}
+  .seat[data-pos="right"]{right:0;transform:translate(0,-50%)}
+  .pbtn{min-width:80px;padding:10px 14px;font-size:.78rem}
+  .pcard .rk{font-size:.85rem}
+  .pcard .su{font-size:.72rem}
+  .waiting-badge{top:56px;font-size:.62rem;padding:5px 12px}
+  .game-grid{grid-template-columns:1fr}
+  .lobby-actions{flex-direction:column}
+  .lbtn{width:100%;justify-content:center}
+  .cf-table{grid-template-columns:1fr 1.3fr 1fr;grid-template-rows:auto 1fr auto;gap:4px}
+  .cf-avatar{width:32px;height:32px;font-size:.78rem}
+  .cf-name{font-size:.58rem}
+  .cf-hand-card{width:36px}
+  .cf-hand-card .rk{font-size:.82rem}
+  .cf-hand-card .su{font-size:.68rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     LOBBY
+     ============================================================ -->
+<div class="lobby" id="lobby">
+  <div class="lobby-in">
+    <div class="lobby-head">
+      <a class="lobby-brand" href="index.html" title="Kembali ke portofolio">
+        <span class="mark" aria-hidden="true">&#9822;&#xFE0E;</span>Kartu Santai
+      </a>
+      <p class="lobby-sub">Kumpulan permainan kartu untuk hiburan. Tanpa uang nyata, tanpa pembelian.</p>
+      <div class="lobby-hint" id="lobbyHint">Pilih game</div>
+    </div>
+    <div id="lobbyBreadcrumb"></div>
+    <div class="game-grid" id="gameGrid"></div>
+    <div class="lobby-actions">
+      <a class="lbtn" href="index.html#projek">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        Kembali ke Portofolio
+      </a>
+      <button class="lbtn primary" id="lobbySettingsBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Pengaturan Global
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GAME SHELL
+     ============================================================ -->
+<div class="wrap" id="gameWrap" hidden>
+  <div class="top">
+    <a class="brand" id="backBtn" href="#" title="Kembali">
+      <span class="mark" aria-hidden="true">&#9822;&#xFE0E;</span>Kartu Santai
+    </a>
+    <span class="tag" id="modeTag">Poker</span>
+    <button class="diff-badge beginner" id="diffBadge" type="button" title="Ganti kesulitan">Beginner</button>
+    <button class="dir-badge" id="dirBadge" type="button" title="Ganti arah giliran">↻ Searah</button>
+    <div class="top-actions">
+      <button class="tbtn help" id="btnHelp" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-1.5 2-2 2.5-.3.3-.5.7-.5 1.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+        Cara Bermain
+      </button>
+      <button class="tbtn" id="btnSettings" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Pengaturan
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== POKER VIEW ==================== -->
+  <div id="pokerView" style="display:flex;flex-direction:column;flex:1;min-height:0">
+    <div class="stage">
+      <div class="waiting-badge" id="waitingBadge">Giliranmu</div>
+      <div class="table">
+        <div class="rail" aria-hidden="true"></div>
+        <div class="felt" aria-hidden="true"></div>
+
+        <div class="seat" data-pos="top" id="seat1">
+          <span class="status" id="st1"></span>
+          <div class="avatar">BD</div>
+          <div class="name">Budi</div>
+          <div class="chips" id="ch1">1000</div>
+          <div class="cards-mini" id="cd1"></div>
+          <span class="bet" id="bet1"></span>
+        </div>
+        <div class="seat" data-pos="left" id="seat2">
+          <span class="status" id="st2"></span>
+          <div class="avatar">ST</div>
+          <div class="name">Sinta</div>
+          <div class="chips" id="ch2">1000</div>
+          <div class="cards-mini" id="cd2"></div>
+          <span class="bet" id="bet2"></span>
+        </div>
+        <div class="seat" data-pos="right" id="seat3">
+          <span class="status" id="st3"></span>
+          <div class="avatar">RK</div>
+          <div class="name">Raka</div>
+          <div class="chips" id="ch3">1000</div>
+          <div class="cards-mini" id="cd3"></div>
+          <span class="bet" id="bet3"></span>
+        </div>
+        <div class="seat hero" data-pos="hero" id="seat0">
+          <span class="status" id="st0"></span>
+          <div class="avatar">MS</div>
+          <div class="name">Kamu</div>
+          <div class="chips" id="ch0">1000</div>
+          <div class="hero-cards" id="cd0"></div>
+          <span class="bet" id="bet0"></span>
+        </div>
+
+        <div class="center">
+          <div class="pot" id="pot">Pot: 0</div>
+          <div class="community" id="community"></div>
+          <div class="msg" id="msg">Tekan "Mulai Ronde" untuk membagikan kartu.</div>
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="stats">
+          <div class="stat-box"><span>Ronde</span><b id="pRound">0</b></div>
+          <div class="stat-box"><span>Menang</span><b id="pWin">0</b></div>
+          <div class="stat-box"><span>Kalah</span><b id="pLose">0</b></div>
+          <div class="stat-box"><span>Chip</span><b id="pChips">1000</b></div>
+        </div>
+        <div class="log-wrap">
+          <div class="log-head"><span>Riwayat</span><span id="pLogCount">0</span></div>
+          <div class="log" id="log"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="pbtn start" id="btnStart" type="button">Mulai Ronde</button>
+      <button class="pbtn check" id="btnCheck" type="button" disabled>Check / Call</button>
+      <button class="pbtn raise" id="btnRaise" type="button" disabled>Raise 50</button>
+      <button class="pbtn fold" id="btnFold" type="button" disabled>Fold</button>
+      <button class="pbtn icon" id="btnHelp2" type="button" aria-label="Cara Bermain">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-1.5 2-2 2.5-.3.3-.5.7-.5 1.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== CATFISH VIEW ==================== -->
+  <div id="catfishView" style="display:none;flex-direction:column;flex:1;min-height:0">
+    <div class="catfish-stage">
+      <div class="cf-header">
+        <div class="cf-title"><span aria-hidden="true">&#128031;</span>Catfish</div>
+        <div class="cf-scores" id="cfScores"></div>
+      </div>
+
+      <div class="cf-table-wrap">
+        <div class="cf-table" id="cfTable">
+          <!-- Seat Budi (top) -->
+          <div class="cf-seat" data-pos="top" data-seat="1" id="cf-seat1">
+            <div class="cf-avatar">BD</div>
+            <div class="cf-name">Budi</div>
+            <div class="cf-count" id="cf-count1">0 kartu</div>
+            <div class="cf-sets" id="cf-sets1"></div>
+          </div>
+
+          <!-- Seat Sinta (left) -->
+          <div class="cf-seat" data-pos="left" data-seat="2" id="cf-seat2">
+            <div class="cf-avatar">ST</div>
+            <div class="cf-name">Sinta</div>
+            <div class="cf-count" id="cf-count2">0 kartu</div>
+            <div class="cf-sets" id="cf-sets2"></div>
+          </div>
+
+          <!-- Kolam ikan (center) -->
+          <div class="cf-center">
+            <div class="cf-pond"><span class="cf-pond-count" id="cfPondCount">0 kartu</span></div>
+            <div class="cf-msg" id="cfMsg">Tekan "Mulai Game" untuk membagikan kartu.</div>
+            <div class="cf-turn" id="cfTurn">Siap</div>
+          </div>
+
+          <!-- Seat Raka (right) -->
+          <div class="cf-seat" data-pos="right" data-seat="3" id="cf-seat3">
+            <div class="cf-avatar">RK</div>
+            <div class="cf-name">Raka</div>
+            <div class="cf-count" id="cf-count3">0 kartu</div>
+            <div class="cf-sets" id="cf-sets3"></div>
+          </div>
+
+          <!-- Seat player (bottom) -->
+          <div class="cf-seat you" data-pos="hero" data-seat="0" id="cf-seat0">
+            <div class="cf-avatar">MS</div>
+            <div class="cf-name">Kamu</div>
+            <div class="cf-count" id="cf-count0">0 kartu</div>
+            <div class="cf-sets" id="cf-sets0"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Player hand -->
+      <div class="cf-hand">
+        <div class="cf-hand-head">
+          <div class="cf-hand-title">Kartu Kamu</div>
+          <div id="cfHandHint" style="font:500 .72rem var(--f-body);color:rgba(255,255,255,.6)"></div>
+        </div>
+        <div class="cf-hand-cards" id="cfHand"></div>
+      </div>
+
+      <!-- Ask panel (rank & target) -->
+      <div class="cf-ask" id="cfAsk">
+        <div class="cf-ask-row">
+          <div class="cf-ask-label">Minta ke:</div>
+          <div class="cf-targets" id="cfTargets">
+            <button class="cf-target" data-target="1" type="button"><span class="dot"></span>Budi</button>
+            <button class="cf-target" data-target="2" type="button"><span class="dot"></span>Sinta</button>
+            <button class="cf-target" data-target="3" type="button"><span class="dot"></span>Raka</button>
+          </div>
+        </div>
+        <div class="cf-ask-row">
+          <div class="cf-ask-label">Rank yang diminta: <span id="cfSelectedRank" style="color:#FDE68A">-</span></div>
+        </div>
+        <div class="cf-ask-hint" id="cfAskHint">Pilih rank di kartu tanganmu, lalu pilih target.</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="pbtn start" id="cfStart" type="button">Mulai Game</button>
+      <button class="pbtn check" id="cfAskBtn" type="button" disabled>Minta Kartu</button>
+      <button class="pbtn icon" id="cfHelp2" type="button" aria-label="Cara Bermain">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-1.5 2-2 2.5-.3.3-.5.7-.5 1.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: HASIL RONDE / GAME
+     ============================================================ -->
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <h2 id="mTitle">Hasil</h2>
+    <p id="mDesc"></p>
+    <div class="big" id="mBig"></div>
+    <div class="row">
+      <button class="pbtn start" id="mNext" type="button">Lanjut</button>
+      <button class="pbtn" id="mClose" type="button">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: BANTUAN POKER
+     ============================================================ -->
+<div class="help-modal" id="helpModal">
+  <div class="help-card" id="helpPoker">
+    <h2><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-3 3-6 5.5-6 9a4 4 0 0 0 5 3.8c-.2 1.5-1 2.5-2 3.2h6c-1-.7-1.8-1.7-2-3.2A4 4 0 0 0 18 12c0-3.5-3-6-6-9z"/></svg>Cara Bermain Poker</h2>
+    <p class="sub">Texas Hold'em mini vs 3 AI. Chip fiktif, tanpa uang nyata.</p>
+    <h3><span class="num">1</span>Tujuan</h3>
+    <p>Bentuk <b>kombinasi 5 kartu terbaik</b> dari 2 kartu tangan + 5 kartu komunitas. Atau buat semua lawan <b>fold</b>.</p>
+    <h3><span class="num">2</span>Alur</h3>
+    <ul>
+      <li><b>Pre-flop</b> — 2 kartu tertutup, ante kecil.</li>
+      <li><b>Flop</b> — 3 kartu komunitas dibuka.</li>
+      <li><b>Turn</b> — kartu ke-4 dibuka.</li>
+      <li><b>River</b> — kartu ke-5 dibuka.</li>
+      <li><b>Showdown</b> — kombinasi terbaik menang.</li>
+    </ul>
+    <h3><span class="num">3</span>Aksi</h3>
+    <ul>
+      <li><b>Check / Call</b> — lewat (check) atau samakan taruhan (call).</li>
+      <li><b>Raise 50</b> — naikkan taruhan 50 chip.</li>
+      <li><b>Fold</b> — menyerah, kehilangan chip di pot.</li>
+    </ul>
+    <h3><span class="num">4</span>Kombinasi (terkuat → terlemah)</h3>
+    <div class="rank-list">
+      <div><b>1</b>Straight Flush</div><div><b>2</b>Four of a Kind</div><div><b>3</b>Full House</div>
+      <div><b>4</b>Flush</div><div><b>5</b>Straight</div><div><b>6</b>Three of a Kind</div>
+      <div><b>7</b>Two Pair</div><div><b>8</b>One Pair</div><div><b>9</b>High Card</div>
+    </div>
+    <h3><span class="num">5</span>Arah Giliran</h3>
+    <ul>
+      <li>Giliran berurutan sesuai arah. Klik badge <b>↻ / ↺</b> di top bar untuk ganti arah.</li>
+      <li>Arah default: <b>searah</b> — Kamu → Budi → Sinta → Raka → Kamu.</li>
+    </ul>
+    <h3><span class="num">6</span>Waktu</h3>
+    <ul>
+      <li><b>Setiap giliranmu tidak ada batas waktu.</b> AI tidak akan bergerak sampai kamu menekan tombol.</li>
+    </ul>
+    <div class="tip">💡 Semua chip fiktif. Reset chip lewat Pengaturan → Reset Chip.</div>
+    <div class="close-help">
+      <button class="pbtn" id="helpClose" type="button">Mengerti, Ayo Main!</button>
+    </div>
+  </div>
+
+  <div class="help-card" id="helpCatfish" style="display:none">
+    <h2><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M2 12s3-4 7-4 7 4 7 4-3 4-7 4-7-4-7-4z"/><circle cx="9" cy="12" r="1.5" fill="currentColor"/><path d="M16 12l4-3v6z"/></svg>Cara Bermain Catfish</h2>
+    <p class="sub">Kumpulkan Book (4 kartu rank sama) sebanyak mungkin. Pemain dengan Book terbanyak menang.</p>
+    <h3><span class="num">1</span>Persiapan</h3>
+    <ul>
+      <li>4 pemain (Kamu + 3 AI). 4 pemain = <b>5 kartu/pemain</b>.</li>
+      <li>Sisa kartu → <b>Kolam Ikan</b> di tengah meja, tertutup.</li>
+    </ul>
+    <h3><span class="num">2</span>Tujuan</h3>
+    <p>Kumpulkan <b>Book</b> = 4 kartu dengan rank sama (misal 4 Raja). Book terbanyak = Juara Catfish Go Fish!</p>
+    <h3><span class="num">3</span>Cara Minta Kartu</h3>
+    <ul>
+      <li>Pilih <b>rank</b> dari kartu di tanganmu (klik kartu). Syarat: kamu punya minimal 1 kartu rank itu.</li>
+      <li>Pilih <b>target</b> pemain (Budi / Sinta / Raka).</li>
+      <li>Klik <b>"Minta Kartu"</b>.</li>
+      <li>Kalau benar → target kasih semua kartu rank itu, <b>giliranmu lanjut</b> (bisa minta lagi, bebas rank & target).</li>
+      <li>Kalau salah → <b>"Go Fish!"</b> → kamu ambil 1 kartu dari kolam.</li>
+    </ul>
+    <h3><span class="num">4</span>Go Fish!</h3>
+    <ul>
+      <li>Ambil 1 kartu dari kolam.</li>
+      <li>Kalau kartu yang diambil = rank yang kamu minta → <b>giliran lanjut</b> (keberuntungan instan).</li>
+      <li>Kalau bukan → giliran <b>pindah ke pemain berikutnya</b> sesuai arah.</li>
+    </ul>
+    <h3><span class="num">5</span>Book</h3>
+    <ul>
+      <li>Begitu kamu punya <b>4 kartu rank sama</b> di tangan → otomatis Book, tampil di meja.</li>
+      <li>Kalau tanganmu habis (Book atau diminta orang) dan kolam masih ada → <b>wajib ambil 1 kartu</b> dari kolam agar tetap ikut main.</li>
+    </ul>
+    <h3><span class="num">6</span>Akhir Permainan</h3>
+    <p>Game berakhir saat kolam habis + semua tangan habis jadi Book. Hitung Book masing-masing, terbanyak = juara.</p>
+    <h3><span class="num">7</span>Arah Giliran</h3>
+    <p>Giliran berurutan sesuai arah. Klik badge <b>↻ / ↺</b> di top bar untuk ganti arah. Default: searah.</p>
+    <div class="tip">💡 Ini game tanpa uang nyata. Murni untuk hiburan dan latihan strategi bluff.</div>
+    <div class="close-help">
+      <button class="pbtn" id="helpCloseCatfish" type="button">Mengerti, Ayo Main!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: PENGATURAN
+     ============================================================ -->
+<div class="settings-modal" id="settingsModal">
+  <div class="settings-card">
+    <h2>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Pengaturan
+    </h2>
+    <p class="sub">Nilai dalam milidetik (ms). Isi sendiri sesuai selera.</p>
+    <div class="field">
+      <label for="setAIMin">Kecepatan AI — minimum (ms)</label>
+      <input type="number" id="setAIMin" min="100" max="10000" step="100" value="1200">
+      <span class="hint">Contoh: 1200 = AI berpikir minimal 1.2 detik.</span>
+    </div>
+    <div class="field">
+      <label for="setAIMax">Kecepatan AI — maksimum (ms)</label>
+      <input type="number" id="setAIMax" min="100" max="15000" step="100" value="2000">
+      <span class="hint">AI memilih jeda acak antara minimum dan maksimum.</span>
+    </div>
+    <div class="field">
+      <label for="setStageDelay">Jeda antar-stage Poker (ms)</label>
+      <input type="number" id="setStageDelay" min="0" max="5000" step="100" value="900">
+      <span class="hint">Jeda setelah flop/turn/river dibuka.</span>
+    </div>
+    <div class="row">
+      <button class="pbtn" id="settingsClose" type="button">Tutup</button>
+      <button class="pbtn" id="settingsReset" type="button">Reset Chip</button>
+      <button class="pbtn primary" id="settingsSave" type="button">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: KESULITAN
+     ============================================================ -->
+<div class="diff-modal" id="diffModal">
+  <div class="diff-card">
+    <h2>Pilih Kesulitan AI</h2>
+    <p class="sub">Bisa diubah kapan saja. Berlaku untuk ronde berikutnya.</p>
+    <div class="diff-opts">
+      <button class="diff-opt beginner" data-diff="beginner" type="button">
+        <div class="di">&#127793;</div>
+        <div class="dinfo"><b>Beginner</b><small>AI main acak, sering call/fold tanpa hitung, kadang raise asal.</small></div>
+      </button>
+      <button class="diff-opt intermediate" data-diff="intermediate" type="button">
+        <div class="di">&#9889;</div>
+        <div class="dinfo"><b>Intermediate</b><small>AI hitung kekuatan tangan sederhana, call/raise berdasarkan threshold.</small></div>
+      </button>
+      <button class="diff-opt advance" data-diff="advance" type="button">
+        <div class="di">&#128293;</div>
+        <div class="dinfo"><b>Advance</b><small>AI simulasi Monte Carlo + pot odds + bluff occasional. Paling susah.</small></div>
+      </button>
+    </div>
+    <div class="row">
+      <button class="pbtn primary" id="diffClose" type="button">Selesai</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+var SETTINGS={
+  aiMin:1200,
+  aiMax:2000,
+  stageDelay:900,
+  difficulty:'beginner',
+  direction:'cw' // 'cw' = searah (0→1→2→3), 'ccw' = berlawanan (0→3→2→1)
+};
+try{
+  var saved=localStorage.getItem('kartuSantai.settings3');
+  if(saved){var obj=JSON.parse(saved);Object.keys(obj).forEach(function(k){if(k in SETTINGS)SETTINGS[k]=obj[k]})}
+}catch(e){}
+function saveSettings(){try{localStorage.setItem('kartuSantai.settings3',JSON.stringify(SETTINGS))}catch(e){}}
+function aiDelay(){var min=SETTINGS.aiMin,max=Math.max(min+100,SETTINGS.aiMax);return min+Math.random()*(max-min)}
+
+function nextPlayerIndex(current){
+  if(SETTINGS.direction==='cw')return (current+1)%4;
+  return (current+3)%4;
+}
+
+var audioCtx=null;
+function beep(freq,dur){
+  try{
+    if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    var o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.frequency.value=freq;o.type='sine';g.gain.value=0.035;
+    o.connect(g);g.connect(audioCtx.destination);
+    o.start();g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);
+    o.stop(audioCtx.currentTime+dur);
+  }catch(e){}
+}
+
+/* ============================================================
+   MENU
+   ============================================================ */
+var MENU={
+  root:[
+    {id:'remi',name:'Remi',icon:'&#127183;',desc:'Kumpulan permainan Remi: Poker, Catfish, BS.',status:'ready',isParent:true,tags:['Parent','3 mode','Kartu remi']},
+    {id:'uno',name:'Uno',icon:'&#127920;',desc:'4 sub-mode: Express, Flip, No Mercy, Flip No Mercy Express.',status:'soon',tags:['Segera','4 sub-mode']},
+    {id:'ek',name:'Exploding Kittens',icon:'&#128008;',desc:'Kucing meledak + kartu baru. Segera hadir.',status:'soon',tags:['Segera','Kartu baru']}
+  ],
+  remi:[
+    {id:'poker',name:'Poker',icon:'&#9824;',desc:'Texas Hold\'em vs 3 AI. Chip fiktif.',status:'ready',tags:['Aktif','Texas Hold\'em','1 vs 3']},
+    {id:'catfish',name:'Catfish',icon:'&#128031;',desc:'Kumpulkan Book 4 kartu rank sama. Go Fish!',status:'ready',tags:['Aktif','Go Fish','Book']},
+    {id:'bs',name:'BS',icon:'&#128290;',desc:'Buat lawan percaya atau tertangkap bohong. Segera hadir.',status:'soon',tags:['Segera','Bluff']}
+  ]
+};
+var menuPath=[];
+function renderMenu(){
+  var grid=$('#gameGrid'), bcWrap=$('#lobbyBreadcrumb'), hint=$('#lobbyHint');
+  var list, title;
+  if(menuPath.length===0){
+    list=MENU.root; title='Pilih game';
+    bcWrap.innerHTML='';
+  }else{
+    list=MENU[menuPath[0]]; title='Mode '+menuPath[0].charAt(0).toUpperCase()+menuPath[0].slice(1);
+    bcWrap.innerHTML='<div class="breadcrumb"><button data-back="1">Menu Utama</button><span class="sep">›</span><b>'+menuPath[0].charAt(0).toUpperCase()+menuPath[0].slice(1)+'</b></div>';
+  }
+  hint.textContent=title;
+  grid.innerHTML=list.map(function(m){
+    var locked=m.status!=='ready';
+    return '<button class="game-card '+(locked?'locked ':'')+(m.isParent?'parent ':'')+(m.status==='ready'?'active':'')+'" data-id="'+m.id+'" type="button" '+(locked?'disabled':'')+'>'+
+      '<div class="game-icon">'+m.icon+'</div>'+
+      '<div class="game-name">'+m.name+'</div>'+
+      '<div class="game-desc">'+m.desc+'</div>'+
+      '<div class="game-meta">'+m.tags.map(function(t,i){
+        var cls=m.status==='ready'?(i===0?'ready':'sub'):(i===0?'soon':'sub');
+        if(m.isParent&&i===0)cls='parent';
+        return '<span class="game-tag '+cls+'">'+t+'</span>';
+      }).join('')+'</div>'+
+    '</button>';
+  }).join('');
+}
+renderMenu();
+
+/* ============================================================
+   DECK & KARTU
+   ============================================================ */
+var SUITS=[{s:'\u2660',red:false},{s:'\u2665',red:true},{s:'\u2666',red:true},{s:'\u2663',red:false}];
+var RANKS=['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+var RANK_VAL={'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':11,'Q':12,'K':13,'A':14};
+var RANK_LABEL={'J':'Jack','Q':'Queen','K':'King','A':'As'};
+function rankLabel(r){return RANK_LABEL[r]||r}
+function makeDeck(){var d=[];for(var i=0;i<SUITS.length;i++)for(var j=0;j<RANKS.length;j++)d.push({r:RANKS[j],s:SUITS[i].s,red:SUITS[i].red,v:RANK_VAL[RANKS[j]]});return d}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+/* ============================================================
+   EVALUATOR POKER 7-KARTU
+   ============================================================ */
+function evaluate7(cards){
+  var vals=cards.map(function(c){return c.v}).sort(function(a,b){return b-a});
+  var suits={},rankCount={},flushSuit=null;
+  cards.forEach(function(c){suits[c.s]=(suits[c.s]||0)+1;rankCount[c.v]=(rankCount[c.v]||0)+1;if(suits[c.s]>=5)flushSuit=c.s});
+  var isFlush=!!flushSuit;
+  var flushCards=isFlush?cards.filter(function(c){return c.s===flushSuit}).map(function(c){return c.v}).sort(function(a,b){return b-a}):[];
+  function findStraight(vs){
+    var u=[];for(var i=0;i<vs.length;i++)if(u.indexOf(vs[i])<0)u.push(vs[i]);
+    u.sort(function(a,b){return b-a});
+    if(u.indexOf(14)>=0&&u.indexOf(2)>=0)u.push(1);
+    for(var i=0;i<=u.length-5;i++){var ok=true;for(var k=0;k<4;k++)if(u[i+k]-1!==u[i+k+1]){ok=false;break}if(ok)return u[i]}
+    return 0;
+  }
+  var straightHigh=findStraight(vals);
+  var straightFlushHigh=isFlush?findStraight(flushCards):0;
+  if(straightFlushHigh)return {rank:8,high:[straightFlushHigh],label:'Straight Flush'};
+  var quads=[],trips=[],pairs=[],singles=[];
+  Object.keys(rankCount).forEach(function(k){var v=+k,n=rankCount[k];if(n===4)quads.push(v);else if(n===3)trips.push(v);else if(n===2)pairs.push(v);else singles.push(v)});
+  quads.sort(function(a,b){return b-a});trips.sort(function(a,b){return b-a});pairs.sort(function(a,b){return b-a});singles.sort(function(a,b){return b-a});
+  if(quads.length)return {rank:7,high:[quads[0],Math.max.apply(null,vals.filter(function(v){return v!==quads[0]}))],label:'Four of a Kind'};
+  if(trips.length&&pairs.length)return {rank:6,high:[trips[0],pairs[0]],label:'Full House'};
+  if(isFlush)return {rank:5,high:flushCards.slice(0,5),label:'Flush'};
+  if(straightHigh)return {rank:4,high:[straightHigh],label:'Straight'};
+  if(trips.length)return {rank:3,high:[trips[0]].concat(singles.slice(0,2)),label:'Three of a Kind'};
+  if(pairs.length>=2)return {rank:2,high:[pairs[0],pairs[1]].concat(singles.slice(0,1)),label:'Two Pair'};
+  if(pairs.length===1)return {rank:1,high:[pairs[0]].concat(singles.slice(0,3)),label:'One Pair'};
+  return {rank:0,high:vals.slice(0,5),label:'High Card'};
+}
+function compareHands(a,b){
+  if(a.rank!==b.rank)return a.rank-b.rank;
+  for(var i=0;i<Math.min(a.high.length,b.high.length);i++)if(a.high[i]!==b.high[i])return a.high[i]-b.high[i];
+  return 0;
+}
+
+/* ============================================================
+   POKER STATE
+   ============================================================ */
+var PLAYERS=[
+  {id:0,name:'Kamu',you:true,chips:1000,bet:0,folded:false,hand:[],allIn:false,av:'MS',acted:false},
+  {id:1,name:'Budi',you:false,chips:1000,bet:0,folded:false,hand:[],allIn:false,av:'BD',acted:false},
+  {id:2,name:'Sinta',you:false,chips:1000,bet:0,folded:false,hand:[],allIn:false,av:'ST',acted:false},
+  {id:3,name:'Raka',you:false,chips:1000,bet:0,folded:false,hand:[],allIn:false,av:'RK',acted:false}
+];
+var MIN_BET=20,RAISE_SIZE=50;
+var S={round:0,wins:0,losses:0,deck:[],community:[],pot:0,currentBet:0,dealer:0,turn:0,stage:'idle',active:false,log:[],aiTimer:null};
+var playerHasActedThisStage=false;
+
+/* ============================================================
+   POKER RENDER
+   ============================================================ */
+function cardHTML(c,hidden,small){
+  if(hidden){
+    if(small)return '<div class="mini back"></div>';
+    return '<div class="pcard back"><span>?</span></div>';
+  }
+  if(small)return '<div class="mini '+(c.red?'red':'blk')+'">'+c.r+c.s+'</div>';
+  return '<div class="pcard '+(c.red?'red':'blk')+'"><div class="rk">'+c.r+'</div><div class="su">'+c.s+'</div></div>';
+}
+function renderPoker(){
+  for(var i=1;i<4;i++){
+    var p=PLAYERS[i];
+    var seatEl=$('#seat'+i);
+    seatEl.classList.toggle('active',S.active&&S.turn===i);
+    seatEl.classList.toggle('fold',p.folded);
+    $('#ch'+i).textContent=p.chips;
+    var st=$('#st'+i);
+    if(p.folded){st.textContent='FOLD';st.className='status show fold'}
+    else if(S.active&&S.turn===i){st.textContent='GILIRAN';st.className='status show'}
+    else{st.className='status'}
+    var bet=$('#bet'+i);
+    if(p.bet){bet.textContent='Bet '+p.bet;bet.classList.add('show')}else bet.classList.remove('show');
+    var cd=$('#cd'+i);
+    if(p.hand.length){
+      var hidden=S.stage!=='showdown';
+      cd.innerHTML=p.hand.map(function(c){return cardHTML(c,hidden,true)}).join('');
+    }else cd.innerHTML='';
+  }
+  var me=PLAYERS[0];
+  var s0=$('#seat0');
+  s0.classList.toggle('active',S.active&&S.turn===0);
+  s0.classList.toggle('fold',me.folded);
+  $('#ch0').textContent=me.chips;
+  var st0=$('#st0');
+  if(me.folded){st0.textContent='FOLD';st0.className='status show fold'}
+  else if(S.active&&S.turn===0){st0.textContent='GILIRAN';st0.className='status show'}
+  else{st0.className='status'}
+  var bet0=$('#bet0');
+  if(me.bet){bet0.textContent='Bet '+me.bet;bet0.classList.add('show')}else bet0.classList.remove('show');
+  $('#cd0').innerHTML=me.hand.map(function(c){return cardHTML(c,false,false)}).join('');
+
+  $('#community').innerHTML=S.community.map(function(c){return cardHTML(c,false,false)}).join('');
+  $('#pot').textContent='Pot: '+S.pot;
+  $('#pRound').textContent=S.round;
+  $('#pWin').textContent=S.wins;
+  $('#pLose').textContent=S.losses;
+  $('#pChips').textContent=me.chips;
+
+  var canAct=S.active&&S.stage!=='showdown'&&S.stage!=='done'&&S.turn===0&&!me.folded;
+  $('#btnCheck').disabled=!canAct;
+  $('#btnRaise').disabled=!canAct||me.chips<RAISE_SIZE;
+  $('#btnFold').disabled=!canAct;
+  $('#btnStart').disabled=S.active;
+
+  var wb=$('#waitingBadge');
+  if(canAct){wb.classList.add('on');wb.textContent='Giliranmu — tidak ada batas waktu'}
+  else{wb.classList.remove('on')}
+
+  var db=$('#diffBadge');
+  db.textContent=SETTINGS.difficulty.charAt(0).toUpperCase()+SETTINGS.difficulty.slice(1);
+  db.className='diff-badge '+SETTINGS.difficulty;
+
+  var dr=$('#dirBadge');
+  if(SETTINGS.direction==='cw'){dr.textContent='↻ Searah';dr.className='dir-badge'}
+  else{dr.textContent='↺ Berlawanan';dr.className='dir-badge ccw'}
+
+  $('#pLogCount').textContent=S.log.length;
+  $('#log').innerHTML=S.log.slice().reverse().map(function(l){
+    var cls=l.win?'win':l.lose?'lose':'';
+    return '<div class="'+cls+'">'+l.text+'</div>';
+  }).join('');
+}
+function setMsg(t){ $('#msg').textContent=t; }
+function addLog(t,cls){
+  var l={text:'['+String(S.round).padStart(2,'0')+'] '+t};
+  if(cls==='win')l.win=true;
+  if(cls==='lose')l.lose=true;
+  S.log.push(l);
+}
+function resetBets(){ PLAYERS.forEach(function(p){p.bet=0;p.acted=false}); S.currentBet=0; }
+function clearAITimer(){ if(S.aiTimer){clearTimeout(S.aiTimer);S.aiTimer=null} }
+function scheduleAI(){
+  clearAITimer();
+  if(S.turn===0)return;
+  if(!S.active)return;
+  S.aiTimer=setTimeout(function(){
+    S.aiTimer=null;
+    if(!S.active)return;
+    if(S.turn===0)return;
+    pokerAI();
+  },aiDelay());
+}
+
+/* ============================================================
+   POKER ROUND
+   ============================================================ */
+function startRound(){
+  if(S.active)return;
+  clearAITimer();
+  if(PLAYERS[0].chips<MIN_BET){
+    showResult('Chip habis','Chip kamu di bawah minimum bet. Reset chip lewat Pengaturan.','&#128176;');
+    return;
+  }
+  S.round++;
+  S.deck=shuffle(makeDeck());
+  S.community=[];
+  S.pot=0;
+  S.stage='preflop';
+  S.active=true;
+  // dealer pindah sesuai arah
+  S.dealer=nextPlayerIndex(S.dealer);
+  S.turn=nextPlayerIndex(S.dealer);
+  S.currentBet=MIN_BET;
+  playerHasActedThisStage=false;
+  PLAYERS.forEach(function(p){p.hand=[];p.folded=false;p.allIn=false;p.acted=false});
+  resetBets();
+  PLAYERS.forEach(function(p){p.hand=[S.deck.pop(),S.deck.pop()]});
+  PLAYERS.forEach(function(p){var a=MIN_BET/2;p.chips-=a;S.pot+=a;p.bet=a});
+  addLog('Ronde #'+S.round+' dimulai. AI: '+SETTINGS.difficulty+', arah '+SETTINGS.direction+'.');
+  beep(520,.08);
+  renderPoker();
+  setMsg('Giliranmu. Check/Call, Raise, atau Fold — tidak ada batas waktu.');
+  pokerAdvanceTurn();
+}
+
+function pokerAdvanceTurn(){
+  if(!S.active)return;
+  clearAITimer();
+
+  var alive=PLAYERS.filter(function(p){return !p.folded});
+  if(alive.length<=1){
+    var w=alive[0]||PLAYERS[0];
+    w.chips+=S.pot;
+    addLog(w.name+' menang '+S.pot+' chip (semua fold).',w.you?'win':null);
+    if(w.you)S.wins++;else S.losses++;
+    S.active=false;S.stage='done';
+    beep(w.you?880:320,.15);
+    renderPoker();
+    showResult('Ronde '+S.round,w.you?'Kamu menang! Chip +'+S.pot:'Semua pemain lain fold.','&#127881; '+w.name+' +'+S.pot+' chip');
+    return;
+  }
+
+  // cari pemain berikutnya sesuai arah
+  for(var i=0;i<4;i++){
+    S.turn=nextPlayerIndex(S.turn);
+    var p=PLAYERS[S.turn];
+    if(p.folded||p.allIn)continue;
+    if(p.chips<=0){p.folded=true;continue}
+    break;
+  }
+
+  var allMatched=PLAYERS.every(function(p){return p.folded||p.allIn||p.bet===S.currentBet});
+  var allActed=PLAYERS.every(function(p){return p.folded||p.allIn||p.acted});
+
+  if(allMatched&&allActed){
+    if(!PLAYERS[0].folded&&!playerHasActedThisStage){
+      S.turn=0;
+      renderPoker();
+      setMsg('Giliranmu. Bet sekarang '+S.currentBet+'. Tidak ada batas waktu.');
+      return;
+    }
+    return pokerAdvanceStreet();
+  }
+
+  renderPoker();
+  var p2=PLAYERS[S.turn];
+  if(p2.you){
+    setMsg('Giliranmu. Bet sekarang '+S.currentBet+'. Tidak ada batas waktu.');
+  }else{
+    setMsg(p2.name+' berpikir...');
+    scheduleAI();
+  }
+}
+
+function pokerAdvanceStreet(){
+  clearAITimer();
+  if(S.stage==='preflop'){S.stage='flop';S.community=[S.deck.pop(),S.deck.pop(),S.deck.pop()]}
+  else if(S.stage==='flop'){S.stage='turn';S.community.push(S.deck.pop())}
+  else if(S.stage==='turn'){S.stage='river';S.community.push(S.deck.pop())}
+  else if(S.stage==='river'){return pokerShowdown()}
+  resetBets();
+  S.currentBet=0;
+  S.turn=S.dealer;
+  playerHasActedThisStage=false;
+  addLog('Stage: '+S.stage.toUpperCase());
+  beep(440,.08);
+  renderPoker();
+  var stageName=S.stage==='flop'?'Flop (3 kartu)':S.stage==='turn'?'Turn (kartu 4)':'River (kartu 5)';
+  setMsg(stageName+' dibuka. Bet 0 — boleh Check.');
+  S.aiTimer=setTimeout(function(){
+    S.aiTimer=null;
+    pokerNextFromDealer();
+  },SETTINGS.stageDelay);
+}
+function pokerNextFromDealer(){
+  if(!S.active)return;
+  for(var i=0;i<4;i++){
+    S.turn=nextPlayerIndex(S.turn);
+    var p=PLAYERS[S.turn];
+    if(p.folded||p.allIn)continue;
+    break;
+  }
+  renderPoker();
+  var p=PLAYERS[S.turn];
+  if(p.you){
+    setMsg('Giliranmu. Boleh Check atau Raise. Tidak ada batas waktu.');
+  }else{
+    setMsg(p.name+' berpikir...');
+    scheduleAI();
+  }
+}
+
+function pokerShowdown(){
+  clearAITimer();
+  S.stage='showdown';S.active=false;
+  var contenders=PLAYERS.filter(function(p){return !p.folded});
+  contenders.forEach(function(p){p.score=evaluate7(p.hand.concat(S.community))});
+  var best=contenders[0];
+  contenders.forEach(function(p){if(compareHands(p.score,best.score)>0)best=p});
+  var winners=contenders.filter(function(p){return compareHands(p.score,best.score)===0});
+  var each=Math.floor(S.pot/winners.length);
+  winners.forEach(function(w){w.chips+=each});
+  var names=winners.map(function(w){return w.name}).join(', ');
+  var youWin=winners.some(function(w){return w.you});
+  addLog('Showdown: '+names+' menang '+each+' chip ('+best.score.label+').',youWin?'win':null);
+  if(youWin)S.wins++;else S.losses++;
+  beep(youWin?880:320,.18);
+  renderPoker();
+  setMsg('Showdown! '+names+' menang dengan '+best.score.label+'.');
+  var desc=winners.map(function(w){return w.name+': '+w.hand.map(function(c){return c.r+c.s}).join(' ')+' — '+w.score.label}).join(' | ');
+  showResult('Showdown Ronde '+S.round,youWin?'Kamu menang!':best.name+' menang.','&#127881; '+names+'<br><span style="font-size:.85rem;color:#78716C">'+desc+'</span>');
+}
+
+/* ============================================================
+   POKER AI 3 TAHAP
+   ============================================================ */
+function pokerAI(){
+  if(!S.active)return;
+  if(S.turn===0)return;
+  var p=PLAYERS[S.turn];
+  if(p.you||p.folded){pokerAdvanceTurn();return}
+  var toCall=S.currentBet-p.bet;
+  var action;
+  if(SETTINGS.difficulty==='beginner')action=aiBeginner(p,toCall);
+  else if(SETTINGS.difficulty==='intermediate')action=aiIntermediate(p,toCall);
+  else action=aiAdvance(p,toCall);
+
+  p.acted=true;
+
+  if(action.type==='fold'){
+    p.folded=true;addLog(p.name+' fold.');pokerAdvanceTurn();
+  }else if(action.type==='check'){
+    addLog(p.name+' check.');pokerAdvanceTurn();
+  }else if(action.type==='call'){
+    var amt=Math.min(toCall,p.chips);
+    if(amt>=p.chips){p.allIn=true;p.chips=0;p.bet+=amt;S.pot+=amt;addLog(p.name+' ALL-IN '+p.bet+' chip.')}
+    else{p.chips-=amt;p.bet+=amt;S.pot+=amt;addLog(p.name+' call '+amt+' chip.')}
+    pokerAdvanceTurn();
+  }else if(action.type==='raise'){
+    var total=S.currentBet+RAISE_SIZE;
+    var need=total-p.bet;
+    if(need>=p.chips){
+      p.allIn=true;S.pot+=p.chips;p.bet+=p.chips;p.chips=0;
+      addLog(p.name+' ALL-IN '+p.bet+' chip.');
+      S.currentBet=Math.max(S.currentBet,p.bet);
+    }else{
+      p.chips-=need;S.pot+=need;p.bet+=need;S.currentBet=p.bet;
+      addLog(p.name+' raise ke '+p.bet+' chip.');
+    }
+    PLAYERS.forEach(function(q){if(!q.you&&!q.folded)q.acted=false});
+    playerHasActedThisStage=false;
+    pokerAdvanceTurn();
+  }
+}
+
+function aiBeginner(p,toCall){
+  var r=Math.random();
+  if(toCall<=0){if(r<0.8)return {type:'check'};return {type:'raise'}}
+  if(r<0.4)return {type:'fold'};
+  if(r<0.9)return {type:'call'};
+  return {type:'raise'};
+}
+function aiIntermediate(p,toCall){
+  var strength=pokerHandStrength(p.hand,S.community);
+  var r=Math.random();
+  var potOdds=toCall/(S.pot+toCall+0.001);
+  if(toCall<=0){
+    if(strength>0.6&&r<0.5)return {type:'raise'};
+    return {type:'check'};
+  }
+  if(strength>0.75)return {type:'raise'};
+  if(strength>0.5&&r<0.75)return {type:'call'};
+  if(strength>0.3&&potOdds<0.3&&r<0.6)return {type:'call'};
+  if(r<0.25)return {type:'call'};
+  return {type:'fold'};
+}
+function aiAdvance(p,toCall){
+  var r=Math.random();
+  var winRate=pokerMonteCarlo(p.hand,S.community,40);
+  var potOdds=toCall/(S.pot+toCall+0.001);
+  if(r<0.10&&toCall>0)return {type:'raise'};
+  if(toCall<=0){
+    if(winRate>0.7)return {type:'raise'};
+    if(winRate>0.45&&r<0.6)return {type:'raise'};
+    return {type:'check'};
+  }
+  if(winRate>0.8)return {type:'raise'};
+  if(winRate>0.55&&r<0.7)return {type:'raise'};
+  if(winRate>potOdds)return {type:'call'};
+  if(winRate>potOdds*0.7&&r<0.4)return {type:'call'};
+  return {type:'fold'};
+}
+function pokerHandStrength(hand,community){
+  var all=hand.concat(community);
+  if(all.length<5){
+    var s=0;
+    hand.forEach(function(c){if(c.v>=10)s+=0.3;else if(c.v>=8)s+=0.15;else s+=0.05;if(c.v===14)s+=0.1});
+    if(hand[0].v===hand[1].v)s+=0.25;
+    if(hand[0].s===hand[1].s)s+=0.1;
+    return Math.min(1,s);
+  }
+  return evaluate7(all).rank/8+0.05;
+}
+function pokerMonteCarlo(hand,community,iterations){
+  if(community.length===0)return pokerHandStrength(hand,community)*0.9;
+  var wins=0;
+  var known=hand.concat(community);
+  var fullDeck=makeDeck();
+  var unknown=fullDeck.filter(function(c){return !known.some(function(k){return k.r===c.r&&k.s===c.s})});
+  for(var iter=0;iter<iterations;iter++){
+    var deck=shuffle(unknown.slice());
+    var comm=community.slice();
+    while(comm.length<5)comm.push(deck.pop());
+    var myScore=evaluate7(hand.concat(comm));
+    var oppHand=[deck.pop(),deck.pop()];
+    var oppScore=evaluate7(oppHand.concat(comm));
+    if(compareHands(myScore,oppScore)>0)wins++;
+    else if(compareHands(myScore,oppScore)===0)wins+=0.5;
+  }
+  return wins/iterations;
+}
+
+/* ============================================================
+   POKER PLAYER ACTIONS
+   ============================================================ */
+function pCheck(){
+  if(!S.active||S.turn!==0)return;
+  clearAITimer();
+  var me=PLAYERS[0];me.acted=true;playerHasActedThisStage=true;
+  var toCall=S.currentBet-me.bet;
+  if(toCall<=0){addLog('Kamu check.');pokerAdvanceTurn()}
+  else{
+    if(me.chips<toCall){me.allIn=true;S.pot+=me.chips;me.bet+=me.chips;me.chips=0;addLog('Kamu ALL-IN '+me.bet+' chip.')}
+    else{me.chips-=toCall;S.pot+=toCall;me.bet+=toCall;addLog('Kamu call '+toCall+' chip.')}
+    pokerAdvanceTurn();
+  }
+}
+function pRaise(){
+  if(!S.active||S.turn!==0)return;
+  clearAITimer();
+  var me=PLAYERS[0];me.acted=true;playerHasActedThisStage=true;
+  var total=S.currentBet+RAISE_SIZE,toCall=total-me.bet;
+  if(me.chips<toCall){
+    me.allIn=true;S.pot+=me.chips;me.bet+=me.chips;me.chips=0;
+    addLog('Kamu ALL-IN '+me.bet+' chip.');
+    S.currentBet=Math.max(S.currentBet,me.bet);
+  }else{
+    me.chips-=toCall;S.pot+=toCall;me.bet+=toCall;S.currentBet=me.bet;
+    addLog('Kamu raise ke '+me.bet+' chip.');
+  }
+  PLAYERS.forEach(function(q){if(!q.you&&!q.folded)q.acted=false});
+  pokerAdvanceTurn();
+}
+function pFold(){
+  if(!S.active||S.turn!==0)return;
+  clearAITimer();
+  PLAYERS[0].acted=true;playerHasActedThisStage=true;
+  PLAYERS[0].folded=true;
+  addLog('Kamu fold.');
+  pokerAdvanceTurn();
+}
+
+/* ============================================================
+   CATFISH STATE
+   ============================================================ */
+var CF={
+  deck:[],
+  players:[
+    {id:0,name:'Kamu',you:true,hand:[],books:[],av:'MS'},
+    {id:1,name:'Budi',you:false,hand:[],books:[],av:'BD'},
+    {id:2,name:'Sinta',you:false,hand:[],books:[],av:'ST'},
+    {id:3,name:'Raka',you:false,hand:[],books:[],av:'RK'}
+  ],
+  turn:0,
+  active:false,
+  selectedRank:null,
+  selectedTarget:null,
+  chain:false, // apakah player sedang dalam mode chain (boleh minta lagi)
+  aiTimer:null,
+  log:[]
+};
+
+function cfClearTimer(){ if(CF.aiTimer){clearTimeout(CF.aiTimer);CF.aiTimer=null} }
+
+/* ============================================================
+   CATFISH RENDER
+   ============================================================ */
+function cfCardHTML(c,small){
+  if(small)return '<div class="mini '+(c.red?'red':'blk')+'">'+c.r+c.s+'</div>';
+  return '<div class="pcard '+(c.red?'red':'blk')+'"><div class="rk">'+c.r+'</div><div class="su">'+c.s+'</div></div>';
+}
+function cfHandCardHTML(c,count,selected){
+  var cls='cf-hand-card '+(c.red?'red':'blk')+(selected?' selected':'');
+  return '<div class="'+cls+'" data-rank="'+c.r+'" role="button" tabindex="0">'+
+    (count>1?'<span class="count">×'+count+'</span>':'')+
+    '<div class="rk">'+c.r+'</div><div class="su">'+c.s+'</div>'+
+  '</div>';
+}
+function cfRender(){
+  // skor atas
+  var sc=$('#cfScores');
+  sc.innerHTML=CF.players.map(function(p,i){
+    var cls=['you','budi','sinta','raka'][i];
+    return '<span class="score-chip '+cls+'"><span class="dot"></span>'+p.name+' <b>'+p.books.length+'</b></span>';
+  }).join('');
+
+  // seat
+  CF.players.forEach(function(p,i){
+    var seat=$('#cf-seat'+i);
+    if(!seat)return;
+    seat.classList.toggle('active',CF.active&&CF.turn===i);
+    $('#cf-count'+i).textContent=p.hand.length+' kartu';
+    var setsEl=$('#cf-sets'+i);
+    if(p.books.length){
+      setsEl.innerHTML=p.books.map(function(b){return '<span class="cf-set-badge'+(p.you?' you':'')+'">'+b+'</span>'}).join('');
+    }else setsEl.innerHTML='';
+  });
+
+  // kolam
+  $('#cfPondCount').textContent=CF.deck.length+' kartu';
+
+  // hand player
+  var me=CF.players[0];
+  var handEl=$('#cfHand');
+  if(!me.hand.length){
+    handEl.innerHTML='<div class="cf-hand-empty">Tanganmu kosong</div>';
+  }else{
+    // group by rank
+    var groups={};
+    me.hand.forEach(function(c){groups[c.r]=(groups[c.r]||[]).concat([c])});
+    handEl.innerHTML=Object.keys(groups).map(function(rk){
+      var arr=groups[rk];
+      var sel=(CF.selectedRank===rk);
+      return cfHandCardHTML(arr[0],arr.length,sel);
+    }).join('');
+  }
+
+  // selected rank display
+  $('#cfSelectedRank').textContent=CF.selectedRank?rankLabel(CF.selectedRank):'-';
+
+  // target buttons
+  $$('.cf-target').forEach(function(b){
+    var t=+b.getAttribute('data-target');
+    b.classList.toggle('on',CF.selectedTarget===t);
+  });
+
+  // turn / msg
+  var turnEl=$('#cfTurn');
+  if(!CF.active){turnEl.textContent='Siap';turnEl.className='cf-turn'}
+  else if(CF.turn===0){turnEl.textContent='Giliranmu';turnEl.className='cf-turn you'}
+  else{turnEl.textContent=CF.players[CF.turn].name;turnEl.className='cf-turn'}
+
+  // ask panel visibility
+  var canAsk=CF.active&&CF.turn===0&&me.hand.length>0;
+  var askEl=$('#cfAsk');
+  if(canAsk){askEl.classList.add('show')}else{askEl.classList.remove('show')}
+
+  // ask button
+  var askBtn=$('#cfAskBtn');
+  var ready=canAsk&&CF.selectedRank&&CF.selectedTarget!==null;
+  askBtn.disabled=!ready;
+
+  // hint
+  var hint=$('#cfHandHint');
+  if(!CF.active)hint.textContent='';
+  else if(CF.turn!==0)hint.textContent='Menunggu '+CF.players[CF.turn].name+'...';
+  else if(!CF.selectedRank)hint.textContent='Klik kartu di tanganmu untuk pilih rank';
+  else if(CF.selectedTarget===null)hint.textContent='Pilih target pemain';
+  else hint.textContent='Tekan "Minta Kartu"';
+
+  // start button
+  $('#cfStart').disabled=CF.active;
+}
+
+/* ============================================================
+   CATFISH LOGIC
+   ============================================================ */
+function cfStart(){
+  if(CF.active)return;
+  cfClearTimer();
+  CF.deck=shuffle(makeDeck());
+  CF.players.forEach(function(p){p.hand=[];p.books=[]});
+  // 4 pemain -> 5 kartu/pemain
+  for(var round=0;round<5;round++){
+    for(var i=0;i<4;i++)CF.players[i].hand.push(CF.deck.pop());
+  }
+  CF.active=true;
+  CF.turn=0;
+  CF.selectedRank=null;
+  CF.selectedTarget=null;
+  CF.chain=false;
+  CF.log=[];
+  $('#cfMsg').textContent='Game dimulai. Giliranmu — pilih kartu & target.';
+  beep(520,.08);
+  cfRender();
+  cfTurnStart();
+}
+
+function cfTurnStart(){
+  cfClearTimer();
+  if(!CF.active)return;
+  // cek tangan kosong: kalau kosong dan kolam masih ada, wajib ambil
+  CF.players.forEach(function(p){
+    if(p.hand.length===0&&CF.deck.length>0){
+      p.hand.push(CF.deck.pop());
+    }
+  });
+  cfRender();
+  if(CF.turn===0){
+    // player turn: tidak ada timer
+    $('#cfMsg').textContent='Giliranmu. Klik kartu, pilih target, lalu Minta Kartu.';
+    $('#cfAsk').classList.add('show');
+  }else{
+    $('#cfMsg').textContent=CF.players[CF.turn].name+' berpikir...';
+    $('#cfAsk').classList.remove('show');
+    CF.aiTimer=setTimeout(function(){
+      CF.aiTimer=null;
+      if(!CF.active)return;
+      cfAITurn();
+    },aiDelay());
+  }
+}
+
+function cfAITurn(){
+  if(!CF.active)return;
+  if(CF.turn===0)return;
+  var p=CF.players[CF.turn];
+  if(!p.hand.length){cfNextTurn();return}
+
+  // pilih rank: rank yang paling sering muncul di tangan
+  var counts={};
+  p.hand.forEach(function(c){counts[c.r]=(counts[c.r]||0)+1});
+  var bestRank=null,bestCount=0;
+  Object.keys(counts).forEach(function(r){
+    if(counts[r]>bestCount){bestCount=counts[r];bestRank=r}
+  });
+  // beginner: random rank. intermediate: most common. advance: most common + kadang bluff
+  var diff=SETTINGS.difficulty;
+  if(diff==='beginner'){
+    var ranks=Object.keys(counts);
+    bestRank=ranks[Math.floor(Math.random()*ranks.length)];
+  }else if(diff==='advance'){
+    if(Math.random()<0.15){
+      // bluff: minta rank yang tidak ada
+      var allRanks=RANKS.slice();
+      bestRank=allRanks[Math.floor(Math.random()*allRanks.length)];
+    }
+  }
+
+  // pilih target: pilih pemain lain yang belum punya book rank ini (acak)
+  var targets=[];
+  for(var i=0;i<4;i++){
+    if(i===CF.turn)continue;
+    if(CF.players[i].hand.length===0&&CF.deck.length===0)continue;
+    targets.push(i);
+  }
+  if(!targets.length){cfNextTurn();return}
+  var target=targets[Math.floor(Math.random()*targets.length)];
+
+  cfAsk(CF.turn,target,bestRank);
+}
+
+function cfAsk(from,target,rank){
+  cfClearTimer();
+  if(!CF.active)return;
+  var p=CF.players[from], t=CF.players[target];
+  // pindahkan semua kartu rank ke from
+  var moved=[];
+  t.hand=t.hand.filter(function(c){
+    if(c.r===rank){moved.push(c);return false}
+    return true;
+  });
+  p.hand=p.hand.concat(moved);
+
+  var logPrefix=(from===0?'Kamu':p.name)+' minta '+rankLabel(rank)+' ke '+(target===0?'Kamu':t.name)+'. ';
+
+  if(moved.length>0){
+    // BENAR — chain lanjut
+    $('#cfMsg').textContent=logPrefix+t.name+' punya '+moved.length+' '+rankLabel(rank)+'!';
+    beep(720,.08);
+    // cek book
+    cfCheckBook(from);
+    cfCheckBook(target);
+    cfRender();
+    setTimeout(function(){
+      if(!CF.active)return;
+      if(from===0){
+        // player chain: lanjut giliran player
+        $('#cfMsg').textContent='Tebakan benar! Kamu boleh minta lagi (rank & target bebas).';
+        CF.chain=true;
+        cfTurnStart();
+      }else{
+        cfAITurn();
+      }
+    },800);
+  }else{
+    // SALAH — Go Fish
+    $('#cfMsg').textContent=logPrefix+'Go Fish!';
+    beep(320,.12);
+    cfRender();
+    setTimeout(function(){
+      if(!CF.active)return;
+      // ambil dari kolam
+      if(CF.deck.length>0){
+        var drawn=CF.deck.pop();
+        p.hand.push(drawn);
+        if(drawn.r===rank){
+          // keberuntungan instan
+          $('#cfMsg').textContent='Go Fish! Kamu dapat '+rankLabel(rank)+' dari kolam — giliran lanjut!';
+          beep(880,.1);
+          cfCheckBook(from);
+          cfRender();
+          setTimeout(function(){
+            if(!CF.active)return;
+            if(from===0){CF.chain=true;cfTurnStart()}
+            else{cfAITurn()}
+          },800);
+          return;
+        }
+      }
+      // giliran pindah
+      cfCheckBook(from);
+      cfRender();
+      setTimeout(function(){cfNextTurn()},600);
+    },700);
+  }
+}
+
+function cfNextTurn(){
+  if(!CF.active)return;
+  CF.chain=false;
+  CF.turn=nextPlayerIndex(CF.turn);
+  cfTurnStart();
+}
+
+function cfCheckBook(playerIdx){
+  var p=CF.players[playerIdx];
+  var counts={};
+  p.hand.forEach(function(c){counts[c.r]=(counts[c.r]||0)+1});
+  Object.keys(counts).forEach(function(r){
+    if(counts[r]>=4){
+      // buang 4 kartu rank ini -> book
+      var removed=0;
+      p.hand=p.hand.filter(function(c){
+        if(c.r===r&&removed<4){removed++;return false}
+        return true;
+      });
+      p.books.push(r);
+      if(playerIdx===0){
+        $('#cfMsg').textContent='Kamu dapat Book '+rankLabel(r)+'!';
+        beep(880,.12);
+      }
+    }
+  });
+}
+
+function cfPlayerAsk(){
+  if(!CF.active||CF.turn!==0)return;
+  if(!CF.selectedRank||CF.selectedTarget===null)return;
+  // validasi: player harus punya minimal 1 kartu rank ini
+  var has=CF.players[0].hand.some(function(c){return c.r===CF.selectedRank});
+  if(!has){$('#cfMsg').textContent='Kamu tidak punya kartu '+rankLabel(CF.selectedRank)+'!';return}
+  cfClearTimer();
+  cfAsk(0,CF.selectedTarget,CF.selectedRank);
+  // reset pilihan setelah ask
+  CF.selectedRank=null;
+  CF.selectedTarget=null;
+  cfRender();
+}
+
+function cfCheckEnd(){
+  if(!CF.active)return false;
+  var totalHands=CF.players.reduce(function(a,p){return a+p.hand.length},0);
+  if(CF.deck.length===0&&totalHands===0){
+    CF.active=false;
+    cfClearTimer();
+    // hitung pemenang
+    var maxBooks=-1,winners=[];
+    CF.players.forEach(function(p){
+      if(p.books.length>maxBooks){maxBooks=p.books.length;winners=[p]}
+      else if(p.books.length===maxBooks)winners.push(p);
+    });
+    var names=winners.map(function(w){return w.name}).join(', ');
+    var youWin=winners.some(function(w){return w.you});
+    var desc=CF.players.map(function(p){return p.name+': '+p.books.length+' book'}).join(' | ');
+    showResult('Game Selesai',youWin?'Kamu menang!':'Pemenang: '+names,'&#127881; '+names+'<br><span style="font-size:.85rem;color:#78716C">'+desc+'</span>');
+    cfRender();
+    return true;
+  }
+  return false;
+}
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+function showResult(title,desc,big){
+  $('#mTitle').textContent=title;
+  $('#mDesc').textContent=desc;
+  $('#mBig').innerHTML=big||'';
+  $('#modal').classList.add('open');
+}
+function closeResult(){ $('#modal').classList.remove('open'); }
+function openHelp(){ $('#helpModal').classList.add('open'); syncHelp() }
+function closeHelp(){ $('#helpModal').classList.remove('open'); }
+function syncHelp(){
+  var isCatfish=($('#modeTag').textContent==='Catfish');
+  $('#helpPoker').style.display=isCatfish?'none':'block';
+  $('#helpCatfish').style.display=isCatfish?'block':'none';
+}
+function openSettings(){
+  $('#setAIMin').value=SETTINGS.aiMin;
+  $('#setAIMax').value=SETTINGS.aiMax;
+  $('#setStageDelay').value=SETTINGS.stageDelay;
+  $('#settingsModal').classList.add('open');
+}
+function closeSettings(){ $('#settingsModal').classList.remove('open'); }
+function openDiff(){ syncDiffUI(); $('#diffModal').classList.add('open'); }
+function closeDiff(){ $('#diffModal').classList.remove('open'); }
+function syncDiffUI(){ $$('.diff-opt').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-diff')===SETTINGS.difficulty)}) }
+
+/* ============================================================
+   NAVIGASI
+   ============================================================ */
+function enterMode(mode){
+  cfClearTimer();clearAITimer();
+  $('#lobby').hidden=true;
+  $('#gameWrap').hidden=false;
+  document.body.style.overflow='hidden';
+  if(mode==='poker'){
+    $('#modeTag').textContent='Poker';
+    $('#pokerView').style.display='flex';
+    $('#catfishView').style.display='none';
+    PLAYERS.forEach(function(p){p.chips=1000;p.bet=0;p.folded=false;p.hand=[];p.allIn=false;p.score=null;p.acted=false});
+    S.round=0;S.wins=0;S.losses=0;S.pot=0;S.community=[];S.log=[];S.stage='idle';S.active=false;S.dealer=0;
+    playerHasActedThisStage=false;
+    renderPoker();
+    setMsg('Tekan "Mulai Ronde" untuk membagikan kartu.');
+  }else if(mode==='catfish'){
+    $('#modeTag').textContent='Catfish';
+    $('#pokerView').style.display='none';
+    $('#catfishView').style.display='flex';
+    CF.active=false;
+    CF.players.forEach(function(p){p.hand=[];p.books=[]});
+    CF.deck=[];CF.turn=0;CF.selectedRank=null;CF.selectedTarget=null;
+    $('#cfMsg').textContent='Tekan "Mulai Game" untuk membagikan kartu.';
+    cfRender();
+  }
+}
+function exitMode(){
+  cfClearTimer();clearAITimer();
+  $('#gameWrap').hidden=true;
+  $('#lobby').hidden=false;
+  document.body.style.overflow='';
+  menuPath=[];
+  renderMenu();
+}
+
+document.addEventListener('click',function(e){
+  var back=e.target.closest('[data-back]');
+  if(back){menuPath=[];renderMenu();return}
+  var card=e.target.closest('.game-card');
+  if(!card||card.disabled)return;
+  var id=card.getAttribute('data-id');
+  if(id==='remi'){menuPath=['remi'];renderMenu();return}
+  if(id==='poker'||id==='catfish'){enterMode(id);return}
+});
+
+/* ============================================================
+   WIRE EVENTS — GLOBAL
+   ============================================================ */
+$('#backBtn').addEventListener('click',function(e){e.preventDefault();exitMode()});
+$('#btnHelp').addEventListener('click',openHelp);
+$('#helpClose').addEventListener('click',closeHelp);
+$('#helpCloseCatfish').addEventListener('click',closeHelp);
+$('#btnSettings').addEventListener('click',openSettings);
+$('#lobbySettingsBtn').addEventListener('click',openSettings);
+$('#settingsClose').addEventListener('click',closeSettings);
+$('#settingsSave').addEventListener('click',function(){
+  var v=function(id,def){var n=parseInt($(id).value,10);return isNaN(n)||n<0?def:n};
+  SETTINGS.aiMin=Math.max(100,v('#setAIMin',1200));
+  SETTINGS.aiMax=Math.max(SETTINGS.aiMin+100,v('#setAIMax',2000));
+  SETTINGS.stageDelay=v('#setStageDelay',900);
+  saveSettings();
+  closeSettings();
+  if($('#modeTag').textContent==='Poker')setMsg('Pengaturan disimpan.');
+});
+$('#settingsReset').addEventListener('click',function(){
+  PLAYERS.forEach(function(p){p.chips=1000;p.bet=0;p.folded=false;p.hand=[];p.allIn=false;p.score=null;p.acted=false});
+  S.round=0;S.wins=0;S.losses=0;S.pot=0;S.community=[];S.log=[];S.stage='idle';S.active=false;
+  playerHasActedThisStage=false;
+  clearAITimer();
+  closeSettings();renderPoker();setMsg('Chip di-reset. Tekan "Mulai Ronde".');
+});
+
+/* difficulty */
+$('#diffBadge').addEventListener('click',openDiff);
+$('#diffClose').addEventListener('click',closeDiff);
+$$('.diff-opt').forEach(function(b){
+  b.addEventListener('click',function(){
+    SETTINGS.difficulty=b.getAttribute('data-diff');
+    saveSettings();syncDiffUI();
+    renderPoker();
+    if($('#modeTag').textContent==='Poker')setMsg('Kesulitan: '+SETTINGS.difficulty);
+  });
+});
+
+/* direction toggle */
+$('#dirBadge').addEventListener('click',function(){
+  SETTINGS.direction=SETTINGS.direction==='cw'?'ccw':'cw';
+  saveSettings();renderPoker();
+  if($('#modeTag').textContent==='Poker')setMsg('Arah giliran: '+(SETTINGS.direction==='cw'?'searah':'berlawanan'));
+});
+
+/* POKER buttons */
+$('#btnStart').addEventListener('click',startRound);
+$('#btnCheck').addEventListener('click',pCheck);
+$('#btnRaise').addEventListener('click',pRaise);
+$('#btnFold').addEventListener('click',pFold);
+$('#btnHelp2').addEventListener('click',openHelp);
+$('#mClose').addEventListener('click',closeResult);
+$('#mNext').addEventListener('click',function(){
+  closeResult();
+  if($('#modeTag').textContent==='Poker')setTimeout(startRound,150);
+  else if($('#modeTag').textContent==='Catfish')setTimeout(cfStart,150);
+});
+
+/* CATFISH buttons */
+$('#cfStart').addEventListener('click',cfStart);
+$('#cfHelp2').addEventListener('click',openHelp);
+$('#cfAskBtn').addEventListener('click',cfPlayerAsk);
+$('#cfHand').addEventListener('click',function(e){
+  var card=e.target.closest('.cf-hand-card');
+  if(!card)return;
+  if(!CF.active||CF.turn!==0)return;
+  CF.selectedRank=card.getAttribute('data-rank');
+  cfRender();
+});
+$('#cfTargets').addEventListener('click',function(e){
+  var btn=e.target.closest('.cf-target');
+  if(!btn)return;
+  if(!CF.active||CF.turn!==0)return;
+  CF.selectedTarget=+btn.getAttribute('data-target');
+  cfRender();
+});
+
+/* keyboard */
+document.addEventListener('keydown',function(e){
+  if($('#helpModal').classList.contains('open')){if(e.key==='Escape')closeHelp();return}
+  if($('#settingsModal').classList.contains('open')){if(e.key==='Escape')closeSettings();return}
+  if($('#diffModal').classList.contains('open')){if(e.key==='Escape')closeDiff();return}
+  if($('#modal').classList.contains('open')){if(e.key==='Escape')closeResult();return}
+  if($('#modeTag').textContent==='Poker'){
+    if(!S.active||S.turn!==0)return;
+    if(e.key==='c'||e.key==='C')pCheck();
+    if(e.key==='r'||e.key==='R')pRaise();
+    if(e.key==='f'||e.key==='F')pFold();
+    if(e.key==='h'||e.key==='H'||e.key==='?')openHelp();
+    if(e.key==='s'||e.key==='S')openSettings();
+  }
+});
+
+/* init */
+renderPoker();
+})();
+</script>
+</body>
+</html>
