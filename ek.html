@@ -1,0 +1,1559 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Exploding Kittens — Kartu Santai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400..700&family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..800&display=swap">
+<style>
+:root{
+  --ink:#1C1917;--muted:#78716C;--ice:#7DD3FC;--deep:#0369A1;--ice-soft:#E0F2FE;
+  --gold:#FDE68A;--gold-deep:#F59E0B;--green:#10B981;--red:#EF4444;--purple:#A78BFA;
+  --line:rgba(28,25,23,.1);
+  --f-display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+  --ek-bg:#1a0e0a;
+  --ek-felt:#7C2D12;
+  --ek-felt-2:#9A3412;
+  --ek-flame:#F97316;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#0A0503;color:#fff;font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow:hidden;height:100vh;height:100dvh}
+button{font-family:inherit}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ==================== LOBBY ==================== */
+.lobby{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(249,115,22,.28) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 30%, rgba(239,68,68,.22) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 90%, rgba(168,85,247,.18) 0%, transparent 45%),
+    linear-gradient(160deg,#1a0e0a,#0A0503);
+  overflow-y:auto;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.lobby[hidden]{display:none!important}
+.lobby::before{content:"";position:fixed;inset:0;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.015) 0 2px,transparent 2px 12px);pointer-events:none}
+.lobby-in{position:relative;max-width:1100px;margin-inline:auto;padding:clamp(24px,5vw,60px) clamp(16px,4vw,40px);width:100%}
+.lobby-head{text-align:center;margin-bottom:clamp(28px,5vw,48px)}
+.lobby-brand{display:inline-flex;align-items:center;gap:12px;font:800 clamp(1.6rem,4vw,2.4rem) var(--f-display);color:#fff;text-decoration:none;margin-bottom:8px}
+.lobby-brand .mark{width:clamp(44px,6vw,56px);height:clamp(44px,6vw,56px);border-radius:14px;background:linear-gradient(160deg,#F97316,#DC2626);color:#fff;display:grid;place-items:center;font-size:1.6rem;box-shadow:0 12px 24px -10px rgba(249,115,22,.7)}
+.lobby-sub{color:rgba(255,247,237,.72);font-size:clamp(.92rem,1.6vw,1.05rem);max-width:60ch;margin:0 auto}
+.lobby-hint{display:inline-flex;align-items:center;gap:8px;font:600 .74rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#FDE68A;background:rgba(253,230,138,.14);padding:6px 14px;border-radius:999px;margin-top:14px;border:1px solid rgba(253,230,138,.3)}
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:32px}
+.game-card{position:relative;padding:22px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1.5px solid rgba(255,255,255,.14);cursor:pointer;transition:.25s;text-align:left;color:#fff;font-family:inherit;overflow:hidden;backdrop-filter:blur(8px);min-height:180px;display:flex;flex-direction:column;gap:10px}
+.game-card::before{content:"";position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(249,115,22,.2) 0%,transparent 70%);pointer-events:none}
+.game-card:hover:not(.locked){transform:translateY(-4px);border-color:rgba(249,115,22,.5);background:linear-gradient(160deg,rgba(249,115,22,.12),rgba(255,255,255,.03));box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.game-card.locked{cursor:not-allowed;opacity:.55}
+.game-card.active{border-color:#F97316;background:linear-gradient(160deg,rgba(249,115,22,.16),rgba(249,115,22,.04));box-shadow:0 20px 40px -20px rgba(249,115,22,.4)}
+.game-card.active::after{content:"●";position:absolute;top:14px;right:16px;color:#10B981;font-size:.9rem;animation:pulseDot 1.6s infinite}
+@keyframes pulseDot{50%{opacity:.3}}
+.game-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:1.6rem;flex:none;transition:.25s}
+.game-card:hover:not(.locked) .game-icon{background:rgba(249,115,22,.25);transform:scale(1.05)}
+.game-card.active .game-icon{background:linear-gradient(160deg,#F97316,#DC2626);color:#fff}
+.game-name{font:800 1.15rem var(--f-display);line-height:1.2}
+.game-desc{font-size:.82rem;color:rgba(255,247,237,.72);line-height:1.5}
+.game-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.game-tag{font:600 .62rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.1);color:rgba(255,247,237,.85)}
+.game-tag.soon{background:rgba(245,158,11,.2);color:#FDE68A}
+.game-tag.ready{background:rgba(16,185,129,.2);color:#6EE7B7}
+.game-tag.sub{background:rgba(249,115,22,.25);color:#FDBA74}
+.lobby-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.lbtn{display:inline-flex;align-items:center;gap:8px;font:700 .9rem var(--f-body);padding:12px 22px;border-radius:999px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;transition:.2s;text-decoration:none;backdrop-filter:blur(6px)}
+.lbtn:hover{background:rgba(255,255,255,.16);transform:translateY(-1px)}
+.lbtn.primary{background:linear-gradient(160deg,#FDE68A,#F59E0B);color:#1C1917;border-color:transparent;box-shadow:0 8px 20px -8px rgba(245,158,11,.7)}
+.lbtn.primary:hover{background:linear-gradient(160deg,#FCD34D,#D97706);transform:translateY(-1px)}
+
+/* ==================== GAME SHELL ==================== */
+.wrap{height:100vh;height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(249,115,22,.15) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 30%, rgba(239,68,68,.12) 0%, transparent 45%),
+    linear-gradient(160deg,#1a0e0a,#0A0503)}
+.wrap[hidden]{display:none!important}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px clamp(10px,2vw,18px);z-index:5;flex:none;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:9px;font:700 1rem var(--f-display);color:#fff;text-decoration:none;cursor:pointer}
+.brand .mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(160deg,#F97316,#DC2626);color:#fff;display:grid;place-items:center;font-size:1.1rem}
+.tag{font:600 .68rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#FDBA74;background:rgba(0,0,0,.4);padding:4px 10px;border-radius:999px;border:1px solid rgba(249,115,22,.3);white-space:nowrap}
+.diff-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:4px 12px;border-radius:999px;border:1px solid;cursor:pointer;white-space:nowrap}
+.diff-badge.beginner{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.5);color:#6EE7B7}
+.diff-badge.intermediate{background:rgba(245,158,11,.2);border-color:rgba(245,158,11,.5);color:#FDE68A}
+.diff-badge.advance{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.5);color:#FCA5A5}
+.dir-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#BAE6FD;padding:4px 12px;border-radius:999px;border:1px solid rgba(125,211,252,.5);background:rgba(125,211,252,.15);cursor:pointer;transition:.2s;white-space:nowrap}
+.dir-badge:hover{background:rgba(125,211,252,.3)}
+.dir-badge.ccw{color:#DDD6FE;border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.15)}
+.dir-badge.ccw:hover{background:rgba(167,139,250,.3)}
+.cnt-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#86EFAC;padding:4px 12px;border-radius:999px;border:1px solid rgba(134,239,172,.5);background:rgba(134,239,172,.15);cursor:pointer;transition:.2s;white-space:nowrap}
+.cnt-badge:hover{background:rgba(134,239,172,.3)}
+.top-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.tbtn{display:inline-flex;align-items:center;gap:6px;font:600 .82rem var(--f-body);color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:8px 14px;border-radius:999px;cursor:pointer;transition:.2s;text-decoration:none;white-space:nowrap}
+.tbtn:hover{background:rgba(255,255,255,.22)}
+.tbtn.help{background:rgba(253,230,138,.15);border-color:rgba(253,230,138,.35);color:#FDE68A}
+.tbtn.help:hover{background:rgba(253,230,138,.3)}
+
+/* ==================== EK STAGE ==================== */
+.ek-stage{position:relative;flex:1;min-height:0;display:grid;place-items:center;padding:clamp(6px,1.5vw,16px);overflow:hidden}
+.ek-table{position:relative;width:100%;height:100%;max-width:1200px;display:grid;place-items:center}
+.ek-rail{position:absolute;inset:0;border-radius:32px;background:
+  radial-gradient(ellipse at 50% 40%, #7C2D12 0%, #5A1E0A 60%, #2D0F04 100%);
+  box-shadow:inset 0 0 0 4px #451A08,inset 0 0 0 8px #2D0F04,inset 0 30px 60px -20px rgba(0,0,0,.6),0 20px 40px -16px rgba(0,0,0,.8),0 0 0 3px #1A0A04,0 0 0 6px #451A08;
+  pointer-events:none}
+.ek-rail::before{content:"💥 EXPLODING KITTENS";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-8deg);font:900 clamp(2rem,6vw,5rem)/1 var(--f-display);letter-spacing:.05em;color:rgba(255,255,255,.035);pointer-events:none;white-space:nowrap;text-align:center}
+
+/* Seats */
+.ek-seat{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px;z-index:3;transition:.25s;visibility:hidden;opacity:0}
+.ek-seat.show{visibility:visible;opacity:1}
+.ek-seat .e-avatar{width:clamp(44px,5.6vw,58px);height:clamp(44px,5.6vw,58px);border-radius:50%;background:linear-gradient(160deg,#FFF7ED,#FED7AA);color:var(--ink);display:grid;place-items:center;font:800 clamp(.9rem,1.6vw,1.1rem) var(--f-display);border:3px solid #fff;box-shadow:0 8px 18px -8px rgba(0,0,0,.6);transition:.25s;position:relative}
+.ek-seat.you .e-avatar{background:linear-gradient(160deg,#FED7AA,#F97316);color:#1A0E0A}
+.ek-seat.active .e-avatar{box-shadow:0 0 0 3px #FDE68A,0 0 20px rgba(253,230,138,.6);animation:seatPulse 1.4s ease-in-out infinite}
+@keyframes seatPulse{50%{box-shadow:0 0 0 3px #FDE68A,0 0 28px rgba(253,230,138,.8)}}
+.ek-seat .e-name{font:700 .68rem var(--f-body);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8);white-space:nowrap}
+.ek-seat .e-count{font:700 .66rem var(--f-mono);color:#FDE68A;background:rgba(0,0,0,.55);padding:2px 8px;border-radius:999px;white-space:nowrap;border:1px solid rgba(253,230,138,.25)}
+.ek-seat .e-count.warn{color:#FCA5A5;background:rgba(239,68,68,.3);border-color:rgba(239,68,68,.5);animation:warnPulse 1s infinite}
+@keyframes warnPulse{50%{transform:scale(1.05)}}
+.ek-seat .e-out{position:absolute;top:-6px;right:-6px;font-size:1.2rem;opacity:0;transition:.25s}
+.ek-seat.out .e-out{opacity:1}
+.ek-seat.out .e-avatar{opacity:.35;filter:grayscale(1)}
+.ek-seat .e-cards-mini{display:flex;gap:1px;margin-top:-6px;flex-wrap:wrap;justify-content:center;max-width:80px}
+.ek-seat .e-mini{width:10px;height:14px;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.5);background:linear-gradient(135deg,#F97316,#DC2626);border:1px solid rgba(255,255,255,.3)}
+
+/* Posisi seat 4/5/6 */
+body[data-pc="4"] .ek-seat[data-seat="1"]{top:2%;left:50%;transform:translate(-50%,0)}
+body[data-pc="4"] .ek-seat[data-seat="2"]{top:50%;left:2%;transform:translate(0,-50%)}
+body[data-pc="4"] .ek-seat[data-seat="3"]{top:50%;right:2%;transform:translate(0,-50%)}
+body[data-pc="4"] .ek-seat[data-seat="0"]{bottom:2%;left:50%;transform:translate(-50%,0)}
+
+body[data-pc="5"] .ek-seat[data-seat="1"]{top:2%;left:50%;transform:translate(-50%,0)}
+body[data-pc="5"] .ek-seat[data-seat="2"]{top:30%;left:2%;transform:translate(0,-50%)}
+body[data-pc="5"] .ek-seat[data-seat="3"]{top:30%;right:2%;transform:translate(0,-50%)}
+body[data-pc="5"] .ek-seat[data-seat="4"]{bottom:20%;left:50%;transform:translate(-50%,0)}
+body[data-pc="5"] .ek-seat[data-seat="0"]{bottom:2%;left:50%;transform:translate(-50%,0)}
+
+body[data-pc="6"] .ek-seat[data-seat="1"]{top:2%;left:50%;transform:translate(-50%,0)}
+body[data-pc="6"] .ek-seat[data-seat="2"]{top:22%;left:3%;transform:translate(0,-50%)}
+body[data-pc="6"] .ek-seat[data-seat="3"]{top:22%;right:3%;transform:translate(0,-50%)}
+body[data-pc="6"] .ek-seat[data-seat="4"]{bottom:22%;left:8%;transform:translate(0,0)}
+body[data-pc="6"] .ek-seat[data-seat="5"]{bottom:22%;right:8%;transform:translate(0,0)}
+body[data-pc="6"] .ek-seat[data-seat="0"]{bottom:2%;left:50%;transform:translate(-50%,0)}
+
+/* Center: deck + discard */
+.ek-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:clamp(16px,4vw,48px);z-index:2;pointer-events:none}
+.ek-pile-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:auto}
+.ek-pile-label{font:700 .6rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55);white-space:nowrap}
+.ek-deck-pile{position:relative;width:clamp(56px,9vw,78px);height:clamp(84px,13.5vw,116px);cursor:pointer;transition:.2s}
+.ek-deck-pile:hover{transform:translateY(-3px)}
+.ek-deck-pile::before{content:"";position:absolute;inset:0;border-radius:9px;background:linear-gradient(135deg,#F97316 0%,#DC2626 50%,#991B1B 100%);box-shadow:0 6px 16px -6px rgba(0,0,0,.7),0 0 0 3px #fff,0 0 0 5px #1A0E0A;transform:rotate(-3deg)}
+.ek-deck-pile::after{content:"💥";position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(1.6rem,3.4vw,2.2rem);transform:rotate(-3deg);pointer-events:none;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.5))}
+.ek-deck-pile.empty{opacity:.4;cursor:not-allowed}
+.ek-deck-pile.empty::before{background:rgba(255,255,255,.1);box-shadow:0 0 0 3px rgba(255,255,255,.3)}
+.ek-deck-pile.empty::after{content:"KOSONG";font-size:.7rem;color:rgba(255,255,255,.5)}
+.ek-deck-count{font:700 .68rem var(--f-mono);color:#FDE68A;background:rgba(0,0,0,.55);padding:2px 10px;border-radius:999px;white-space:nowrap}
+
+/* Discard pile */
+.ek-discard-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.ek-discard{position:relative;width:clamp(60px,9.5vw,84px);height:clamp(88px,14vw,120px);filter:drop-shadow(0 12px 24px rgba(0,0,0,.7))}
+.ek-discard.empty{opacity:.4}
+.ek-discard.empty::before{content:"";position:absolute;inset:0;border-radius:9px;background:rgba(255,255,255,.06);border:2px dashed rgba(255,255,255,.2)}
+.ek-discard.empty::after{content:"—";position:absolute;inset:0;display:grid;place-items:center;font:900 2rem var(--f-display);color:rgba(255,255,255,.3)}
+
+/* Kartu EK */
+.ek-card{position:relative;width:100%;height:100%;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 4px 12px -4px rgba(0,0,0,.6);animation:cardDeal .35s cubic-bezier(.2,.8,.2,1);padding:6px;text-align:center;gap:2px;background:linear-gradient(160deg,#FFF7ED,#FED7AA);color:#1A0E0A}
+@keyframes cardDeal{from{transform:translateY(-20px) rotate(-8deg) scale(.8);opacity:0}to{transform:none;opacity:1}}
+.ek-card .e-frame{position:absolute;inset:5%;border-radius:6px;border:2.5px solid rgba(26,14,10,.4);pointer-events:none}
+.ek-card .e-icon{font-size:clamp(1.4rem,3vw,2.2rem);line-height:1;margin-bottom:2px;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.15))}
+.ek-card .e-title{font:800 clamp(.6rem,1.2vw,.8rem) var(--f-body);line-height:1.1;color:#1A0E0A;letter-spacing:.02em;text-transform:uppercase}
+.ek-card .e-sub{font:600 clamp(.48rem,.9vw,.58rem) var(--f-mono);color:#7C2D12;line-height:1.1;margin-top:1px}
+.ek-card.small{width:clamp(40px,5.8vw,52px);height:auto;aspect-ratio:5/7;padding:3px}
+.ek-card.small .e-frame{border-width:1.5px;inset:4%}
+.ek-card.small .e-icon{font-size:clamp(.9rem,1.8vw,1.3rem)}
+.ek-card.small .e-title{font-size:clamp(.42rem,.8vw,.55rem)}
+.ek-card.small .e-sub{display:none}
+.ek-card.back{background:linear-gradient(135deg,#F97316 0%,#DC2626 50%,#991B1B 100%);color:#fff}
+.ek-card.back .e-frame{border-color:rgba(253,230,138,.7)}
+.ek-card.back .e-icon{filter:none}
+.ek-card.back .e-title{color:#FDE68A}
+.ek-card.back .e-sub{color:rgba(253,230,138,.8)}
+.ek-card.danger{background:linear-gradient(160deg,#FCA5A5,#DC2626);color:#fff}
+.ek-card.danger .e-frame{border-color:rgba(255,255,255,.6)}
+.ek-card.danger .e-title{color:#fff}
+.ek-card.danger .e-sub{color:rgba(255,255,255,.8)}
+.ek-card.new-card{background:linear-gradient(160deg,#E0F2FE,#BAE6FD);color:#0C4A6E}
+.ek-card.new-card .e-frame{border-color:rgba(3,105,161,.5)}
+.ek-card.new-card .e-title{color:#0C4A6E}
+.ek-card.new-card .e-sub{color:#0369A1}
+.ek-card.defuse{background:linear-gradient(160deg,#DCFCE7,#86EFAC);color:#14532D}
+.ek-card.defuse .e-title{color:#14532D}
+.ek-card.defuse .e-sub{color:#15803D}
+
+/* Hero hand */
+.ek-hand-bar{flex:none;padding:8px clamp(8px,2vw,16px) 10px;background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.2) 60%,transparent);z-index:4;position:relative}
+.ek-hand-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.ek-hand-title{font:700 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#FDBA74}
+.ek-hand-info{font:600 .72rem var(--f-body);color:rgba(255,255,255,.75)}
+.ek-hand-info b{color:#FDE68A}
+.ek-hand-scroll{display:flex;gap:6px;overflow-x:auto;overflow-y:visible;padding:8px 4px 4px;scrollbar-width:thin;scrollbar-color:rgba(249,115,22,.5) transparent;min-height:clamp(76px,12vw,100px)}
+.ek-hand-scroll::-webkit-scrollbar{height:6px}
+.ek-hand-scroll::-webkit-scrollbar-thumb{background:rgba(249,115,22,.4);border-radius:3px}
+.ek-hand-card{flex:none;width:clamp(52px,7.5vw,74px);aspect-ratio:5/7;cursor:pointer;transition:transform .18s cubic-bezier(.2,.8,.2,1),filter .18s;position:relative}
+.ek-hand-card:hover{transform:translateY(-10px) scale(1.04);z-index:2}
+.ek-hand-card.playable{filter:drop-shadow(0 0 8px rgba(249,115,22,.7))}
+.ek-hand-card.playable::after{content:"";position:absolute;inset:-3px;border-radius:11px;border:2px solid #F97316;pointer-events:none;animation:playableGlow 1.4s infinite}
+@keyframes playableGlow{50%{opacity:.5}}
+.ek-hand-card.not-playable{opacity:.55;filter:grayscale(.4)}
+.ek-hand-card.not-playable:hover{transform:translateY(-2px);opacity:.75}
+
+/* Action bar */
+.ek-actions{flex:none;padding:8px clamp(10px,2vw,20px) 12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;z-index:5}
+.ebtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font:800 .85rem var(--f-body);padding:11px 22px;border-radius:999px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;cursor:pointer;transition:.18s;min-width:100px;backdrop-filter:blur(6px);text-transform:uppercase;letter-spacing:.04em}
+.ebtn:hover:not(:disabled){background:rgba(255,255,255,.24);transform:translateY(-1px)}
+.ebtn:disabled{opacity:.32;cursor:not-allowed;transform:none}
+.ebtn.start{background:linear-gradient(160deg,#FDE68A,#F59E0B);color:#1C1917;border-color:transparent;box-shadow:0 8px 20px -8px rgba(245,158,11,.7)}
+.ebtn.start:hover:not(:disabled){background:linear-gradient(160deg,#FCD34D,#D97706)}
+.ebtn.draw{background:linear-gradient(160deg,#F97316,#DC2626);color:#fff;border-color:transparent}
+.ebtn.draw:hover:not(:disabled){background:linear-gradient(160deg,#FB923C,#B91C1C)}
+.ebtn.skip{background:rgba(255,255,255,.15);color:#fff}
+.ebtn.nope{background:linear-gradient(160deg,#EF4444,#B91C1C);color:#fff;border-color:transparent;animation:nopePulse 1.2s infinite}
+.ebtn.nope:hover:not(:disabled){background:linear-gradient(160deg,#F87171,#991B1B)}
+@keyframes nopePulse{50%{box-shadow:0 0 0 8px rgba(239,68,68,.2)}}
+.ebtn.icon{min-width:auto;padding:11px 16px;background:rgba(253,230,138,.2);color:#FDE68A;border-color:rgba(253,230,138,.4)}
+
+/* Status */
+.ek-status{flex:none;padding:4px 16px;text-align:center;font:700 .85rem var(--f-body);color:rgba(255,255,255,.9);text-shadow:0 1px 3px rgba(0,0,0,.7);min-height:1.4em;z-index:4}
+.ek-status.flash{animation:flashMsg .4s}
+@keyframes flashMsg{0%{transform:scale(1.1);color:#FDE68A}100%{transform:none}}
+
+/* Waiting badge */
+.waiting-badge{position:absolute;top:60px;left:50%;transform:translateX(-50%);z-index:5;font:700 .72rem var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:#1A0E0A;background:#FDE68A;padding:6px 16px;border-radius:999px;box-shadow:0 6px 16px -6px rgba(0,0,0,.6);display:none;animation:waitPulse 1.6s ease-in-out infinite;max-width:90vw;text-align:center}
+.waiting-badge.on{display:block}
+@keyframes waitPulse{50%{opacity:.7;transform:translateX(-50%) scale(1.03)}}
+
+/* Nope overlay */
+.nope-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:none;place-items:center;z-index:50;padding:20px}
+.nope-overlay.open{display:grid;animation:fade .2s}
+.nope-card{background:linear-gradient(160deg,#FFF7ED,#FED7AA);border-radius:22px;padding:clamp(24px,4vw,36px);max-width:440px;width:100%;text-align:center;box-shadow:0 40px 80px -20px rgba(0,0,0,.8);color:var(--ink);animation:pop .35s}
+.nope-card h2{font:800 1.4rem var(--f-display);margin-bottom:8px;color:#991B1B}
+.nope-card p{color:var(--muted);font-size:.92rem;margin-bottom:20px}
+.nope-card .nope-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.nope-card .ebtn{min-width:120px}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;place-items:center;z-index:30;padding:20px;overflow-y:auto}
+.modal.open{display:grid;animation:fade .25s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal-card{background:linear-gradient(160deg,#FFF7ED,#FED7AA);border-radius:22px;padding:clamp(22px,4vw,38px);max-width:480px;width:100%;text-align:center;box-shadow:0 40px 80px -20px rgba(0,0,0,.8);animation:pop .35s cubic-bezier(.2,.8,.2,1);color:var(--ink)}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.modal-card h2{font-size:1.55rem;margin-bottom:6px;font-family:var(--f-display)}
+.modal-card p{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+.modal-card .big{font:800 2rem/1.15 var(--f-display);color:#991B1B;margin:10px 0 18px}
+.modal-card .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.modal-card .ebtn{padding:10px 20px;font-size:.88rem}
+
+.help-modal,.settings-modal,.diff-modal,.cnt-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;place-items:center;z-index:40;padding:20px;overflow-y:auto}
+.help-modal.open,.settings-modal.open,.diff-modal.open,.cnt-modal.open{display:grid;animation:fade .25s}
+.help-card,.settings-card,.diff-card,.cnt-card{background:linear-gradient(160deg,#FFF7ED,#FED7AA);border-radius:22px;padding:clamp(20px,3vw,32px);max-width:680px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px -20px rgba(0,0,0,.8);animation:pop .35s cubic-bezier(.2,.8,.2,1);color:var(--ink);text-align:left}
+.settings-card{max-width:520px}
+.diff-card,.cnt-card{max-width:520px;text-align:center}
+.help-card h2,.settings-card h2,.diff-card h2,.cnt-card h2{font-size:1.6rem;margin-bottom:6px;color:#991B1B;display:flex;align-items:center;gap:10px;font-family:var(--f-display)}
+.diff-card h2,.cnt-card h2{justify-content:center}
+.help-card .sub,.settings-card .sub,.diff-card .sub,.cnt-card .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+.help-card h3{font:700 .95rem var(--f-body);margin:18px 0 8px;color:#991B1B;display:flex;align-items:center;gap:8px}
+.help-card h3 .num{width:24px;height:24px;border-radius:50%;background:#991B1B;color:#fff;display:grid;place-items:center;font:700 .78rem var(--f-mono);flex:none}
+.help-card p,.help-card li{font-size:.9rem;line-height:1.55;color:var(--ink)}
+.help-card ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.help-card ul li{padding-left:18px;position:relative}
+.help-card ul li::before{content:"▸";position:absolute;left:2px;color:#991B1B;font-weight:800}
+.help-card .close-help{display:flex;justify-content:center;margin-top:20px}
+.help-card .close-help .ebtn{background:#991B1B;border-color:#991B1B;color:#fff;padding:11px 24px}
+.help-card .close-help .ebtn:hover{background:#7F1D1D}
+.help-card .tip{background:#FEF3C7;border-left:3px solid #F59E0B;padding:10px 14px;border-radius:8px;font-size:.85rem;margin-top:12px}
+.help-card .new-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.help-card .new-cards .nc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.82rem}
+.help-card .new-cards .nc b{color:#991B1B;display:block;margin-bottom:2px;font:800 .88rem var(--f-display)}
+.help-card .card-list{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:6px}
+.help-card .card-list div{font-size:.84rem;display:flex;gap:8px;align-items:baseline}
+.help-card .card-list b{font:700 .78rem var(--f-mono);color:#991B1B;min-width:80px}
+.help-card .card-list span{color:var(--muted);font-size:.76rem}
+
+.settings-card .field{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.settings-card label{font:700 .8rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.settings-card input[type=number]{font:600 .95rem var(--f-body);color:var(--ink);padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;width:100%}
+.settings-card input[type=number]:focus{outline:none;border-color:#991B1B}
+.settings-card .hint{font:500 .72rem var(--f-body);color:var(--muted);margin-top:-4px}
+.settings-card .row{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+.settings-card .ebtn{padding:10px 20px;font-size:.88rem;border-color:var(--line);background:#fff;color:var(--ink);min-width:auto}
+.settings-card .ebtn:hover:not(:disabled){background:#FEF3C7;border-color:#991B1B;color:#991B1B}
+.settings-card .ebtn.primary{background:#991B1B;border-color:#991B1B;color:#fff}
+.settings-card .ebtn.primary:hover:not(:disabled){background:#7F1D1D;border-color:#7F1D1D;color:#fff}
+
+.diff-opts,.cnt-opts{display:grid;grid-template-columns:1fr;gap:10px;margin:20px 0}
+.cnt-opts{grid-template-columns:repeat(3,1fr)}
+.diff-opt,.cnt-opt{padding:16px 20px;border-radius:16px;border:2px solid var(--line);background:#fff;cursor:pointer;text-align:left;transition:.2s;color:var(--ink);display:flex;align-items:center;gap:14px}
+.cnt-opt{flex-direction:column;text-align:center;align-items:center;gap:4px;padding:18px 10px}
+.cnt-opt:hover,.diff-opt:hover{border-color:#991B1B;transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(153,27,27,.4)}
+.cnt-opt.on,.diff-opt.on{border-color:#991B1B;background:#FEF3C7}
+.diff-opt .di{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:1.4rem;flex:none}
+.diff-opt.beginner .di{background:rgba(16,185,129,.15);color:#10B981}
+.diff-opt.intermediate .di{background:rgba(245,158,11,.15);color:#F59E0B}
+.diff-opt.advance .di{background:rgba(239,68,68,.15);color:#EF4444}
+.diff-opt .dinfo{flex:1;min-width:0}
+.diff-opt .dinfo b{display:block;font:800 1rem var(--f-display);margin-bottom:2px}
+.diff-opt .dinfo small{display:block;font:500 .78rem var(--f-body);color:var(--muted);line-height:1.4}
+.cnt-opt b{font:800 1.4rem var(--f-display);color:#991B1B;line-height:1}
+.cnt-opt small{font:500 .72rem var(--f-body);color:var(--muted);line-height:1.3}
+.diff-card .ebtn,.cnt-card .ebtn{padding:11px 24px;font-size:.92rem;border-color:var(--line);background:#fff;color:var(--ink);min-width:auto}
+.diff-card .ebtn:hover,.cnt-card .ebtn:hover{background:#FEF3C7;border-color:#991B1B;color:#991B1B}
+.diff-card .ebtn.primary,.cnt-card .ebtn.primary{background:#991B1B;border-color:#991B1B;color:#fff}
+.diff-card .ebtn.primary:hover,.cnt-card .ebtn.primary:hover{background:#7F1D1D;border-color:#7F1D1D;color:#fff}
+.diff-card .row,.cnt-card .row{display:flex;gap:10px;justify-content:center;margin-top:8px}
+
+/* Responsif */
+@media (max-width:900px){
+  .ek-seat .e-avatar{width:38px;height:38px;font-size:.85rem}
+  .ek-seat .e-name{font-size:.6rem}
+  .ek-seat .e-count{font-size:.58rem}
+  .ek-hand-card{width:48px}
+  .game-grid{grid-template-columns:1fr 1fr}
+  .cnt-opts{grid-template-columns:1fr}
+  .help-card .new-cards,.help-card .card-list{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .ek-center{gap:clamp(10px,3vw,24px)}
+  .ek-deck-pile{width:52px;height:76px}
+  .ek-discard{width:56px;height:82px}
+  .ek-hand-card{width:44px}
+  .ebtn{min-width:80px;padding:9px 14px;font-size:.78rem}
+  .waiting-badge{top:56px;font-size:.62rem;padding:5px 12px}
+  .game-grid{grid-template-columns:1fr}
+  .lobby-actions{flex-direction:column}
+  .lbtn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body data-pc="5">
+
+<!-- ============================================================
+     LOBBY
+     ============================================================ -->
+<div class="lobby" id="lobby">
+  <div class="lobby-in">
+    <div class="lobby-head">
+      <a class="lobby-brand" href="poker.html" title="Kembali ke Kartu Santai">
+        <span class="mark" aria-hidden="true">💥</span>Exploding Kittens
+      </a>
+      <p class="lobby-sub">Kucing meledak, kartu aksi, dan 3 kartu baru buatan. Tanpa uang nyata, tanpa pembelian.</p>
+      <div class="lobby-hint" id="lobbyHint">Pilih mode</div>
+    </div>
+    <div class="game-grid" id="gameGrid"></div>
+    <div class="lobby-actions">
+      <a class="lbtn" href="poker.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        Kembali ke Kartu Santai
+      </a>
+      <button class="lbtn primary" id="lobbySettingsBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Pengaturan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GAME SHELL
+     ============================================================ -->
+<div class="wrap" id="gameWrap" hidden>
+  <div class="top">
+    <a class="brand" id="backBtn" href="#" title="Kembali">
+      <span class="mark" aria-hidden="true">💥</span>Exploding Kittens
+    </a>
+    <span class="tag" id="modeTag">Klasik</span>
+    <button class="cnt-badge" id="cntBadge" type="button" title="Ganti jumlah pemain">5 Pemain</button>
+    <button class="diff-badge beginner" id="diffBadge" type="button" title="Ganti kesulitan">Beginner</button>
+    <button class="dir-badge" id="dirBadge" type="button" title="Ganti arah giliran">↻ Searah</button>
+    <div class="top-actions">
+      <button class="tbtn help" id="btnHelp" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-1.5 2-2 2.5-.3.3-.5.7-.5 1.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+        Cara Bermain
+      </button>
+      <button class="tbtn" id="btnSettings" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Pengaturan
+      </button>
+    </div>
+  </div>
+
+  <div class="ek-stage">
+    <div class="waiting-badge" id="waitingBadge">Giliranmu</div>
+    <div class="ek-table">
+      <div class="ek-rail" aria-hidden="true"></div>
+
+      <div class="ek-seat" data-seat="0" id="seat0">
+        <div class="e-avatar">MS<span class="e-out">💀</span></div>
+        <div class="e-name">Kamu</div>
+        <div class="e-count" id="count0">0 kartu</div>
+        <div class="e-cards-mini" id="mini0"></div>
+      </div>
+      <div class="ek-seat" data-seat="1" id="seat1">
+        <div class="e-avatar">BD<span class="e-out">💀</span></div>
+        <div class="e-name" id="nm1">Budi</div>
+        <div class="e-count" id="count1">0 kartu</div>
+        <div class="e-cards-mini" id="mini1"></div>
+      </div>
+      <div class="ek-seat" data-seat="2" id="seat2">
+        <div class="e-avatar">ST<span class="e-out">💀</span></div>
+        <div class="e-name" id="nm2">Sinta</div>
+        <div class="e-count" id="count2">0 kartu</div>
+        <div class="e-cards-mini" id="mini2"></div>
+      </div>
+      <div class="ek-seat" data-seat="3" id="seat3">
+        <div class="e-avatar">RK<span class="e-out">💀</span></div>
+        <div class="e-name" id="nm3">Raka</div>
+        <div class="e-count" id="count3">0 kartu</div>
+        <div class="e-cards-mini" id="mini3"></div>
+      </div>
+      <div class="ek-seat" data-seat="4" id="seat4">
+        <div class="e-avatar">DW<span class="e-out">💀</span></div>
+        <div class="e-name" id="nm4">Dewi</div>
+        <div class="e-count" id="count4">0 kartu</div>
+        <div class="e-cards-mini" id="mini4"></div>
+      </div>
+      <div class="ek-seat" data-seat="5" id="seat5">
+        <div class="e-avatar">JK<span class="e-out">💀</span></div>
+        <div class="e-name" id="nm5">Joko</div>
+        <div class="e-count" id="count5">0 kartu</div>
+        <div class="e-cards-mini" id="mini5"></div>
+      </div>
+
+      <div class="ek-center">
+        <div class="ek-pile-wrap">
+          <div class="ek-pile-label">Deck</div>
+          <div class="ek-deck-pile" id="deckPile" role="button" tabindex="0" aria-label="Ambil kartu"></div>
+          <div class="ek-deck-count" id="deckCount">0</div>
+        </div>
+        <div class="ek-discard-wrap">
+          <div class="ek-discard" id="discardPile"></div>
+          <div class="ek-pile-label" id="discardLabel">Terakhir dimainkan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ek-status" id="ekStatus">Tekan "Mulai Game" untuk memulai.</div>
+
+  <div class="ek-hand-bar">
+    <div class="ek-hand-head">
+      <div class="ek-hand-title">Kartu Kamu</div>
+      <div class="ek-hand-info" id="handInfo">—</div>
+    </div>
+    <div class="ek-hand-scroll" id="ekHand"></div>
+  </div>
+
+  <div class="ek-actions">
+    <button class="ebtn start" id="btnStart" type="button">Mulai Game</button>
+    <button class="ebtn draw" id="btnDraw" type="button" disabled>Ambil Kartu</button>
+    <button class="ebtn skip" id="btnSkip" type="button" disabled>Skip</button>
+    <button class="ebtn icon" id="btnHelp2" type="button" aria-label="Cara Bermain">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-1.5 2-2 2.5-.3.3-.5.7-.5 1.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Nope overlay -->
+<div class="nope-overlay" id="nopeOverlay">
+  <div class="nope-card">
+    <h2 id="nopeTitle">Nope?</h2>
+    <p id="nopeDesc">Budi memainkan Skip. Mau Nope?</p>
+    <div class="nope-btns">
+      <button class="ebtn nope" id="nopeYes" type="button">Nope!</button>
+      <button class="ebtn skip" id="nopeNo" type="button">Biarkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: HASIL
+     ============================================================ -->
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <h2 id="mTitle">Hasil</h2>
+    <p id="mDesc"></p>
+    <div class="big" id="mBig"></div>
+    <div class="row">
+      <button class="ebtn start" id="mNext" type="button">Main Lagi</button>
+      <button class="ebtn" id="mClose" type="button">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: BANTUAN
+     ============================================================ -->
+<div class="help-modal" id="helpModal">
+  <div class="help-card">
+    <h2>💥 Cara Bermain Exploding Kittens</h2>
+    <p class="sub">Kucing meledak, kartu aksi, dan 3 kartu baru. Bertahan sampai jadi yang terakhir!</p>
+
+    <h3><span class="num">1</span>Tujuan</h3>
+    <p>Jadi <b>pemain terakhir yang bertahan</b>. Kalau kena Exploding Kitten dan tidak punya Defuse, kamu gugur.</p>
+
+    <h3><span class="num">2</span>Alur Giliran</h3>
+    <ul>
+      <li>Di giliranmu, kamu <b>harus</b> ambil 1 kartu dari deck (atau mainkan kartu aksi dulu).</li>
+      <li>Kalau kartu yang diambil adalah <b>Exploding Kitten</b> → kamu meledak.</li>
+      <li>Kalau punya <b>Defuse</b>, boleh pakai → selamat, sembunyikan kucing kembali ke deck.</li>
+      <li>Kalau tidak punya Defuse → <b>kamu gugur</b>, keluar dari permainan.</li>
+      <li>Setelah draw (kalau tidak meledak), giliran pindah ke pemain berikutnya.</li>
+    </ul>
+
+    <h3><span class="num">3</span>Kartu Aksi Standar</h3>
+    <div class="card-list">
+      <div><b>Defuse</b><span>Selamatkan diri dari kucing</span></div>
+      <div><b>Skip</b><span>Akhiri giliran tanpa draw</span></div>
+      <div><b>Attack</b><span>Pemain berikutnya main 2x</span></div>
+      <div><b>See Future</b><span>Intip 3 kartu atas</span></div>
+      <div><b>Shuffle</b><span>Acak deck</span></div>
+      <div><b>Favor</b><span>Minta 1 kartu dari pemain</span></div>
+      <div><b>Nope</b><span>Batalkan aksi pemain lain</span></div>
+      <div><b>Draw Bottom</b><span>Ambil dari bawah deck</span></div>
+      <div><b>Targeted Atk</b><span>Pilih pemain main 2x</span></div>
+    </div>
+
+    <h3><span class="num">4</span>3 Kartu Baru</h3>
+    <div class="new-cards">
+      <div class="nc"><b>🪞 Mirror</b>Pantulkan aksi terakhir kembali ke pemain yang memainkannya.</div>
+      <div class="nc"><b>👁 Peek & Swap</b>Intip 2 kartu atas deck, boleh tukar posisinya sebelum dikembalikan.</div>
+      <div class="nc"><b>🧯 Fire Extinguisher</b>Sembunyikan 1 Exploding Kitten dari deck ke bawah.</div>
+    </div>
+
+    <h3><span class="num">5</span>Jumlah Pemain & Arah</h3>
+    <ul>
+      <li>Bisa 4, 5, atau 6 pemain. Klik badge <b>X Pemain</b> di top bar.</li>
+      <li>Giliran berurutan sesuai arah. Klik <b>↻ / ↺</b> untuk ganti arah.</li>
+    </ul>
+
+    <h3><span class="num">6</span>Waktu</h3>
+    <p><b>Giliranmu tidak ada batas waktu.</b> AI tidak akan bergerak sampai kamu memainkan kartu, ambil kartu, atau tekan Skip.</p>
+
+    <div class="tip">💡 Tanpa uang nyata. Murni hiburan.</div>
+    <div class="close-help">
+      <button class="ebtn" id="helpClose" type="button">Mengerti, Ayo Main!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: PENGATURAN
+     ============================================================ -->
+<div class="settings-modal" id="settingsModal">
+  <div class="settings-card">
+    <h2>Pengaturan</h2>
+    <p class="sub">Nilai dalam milidetik (ms). Isi sendiri sesuai selera.</p>
+    <div class="field">
+      <label for="setAIMin">Kecepatan AI — minimum (ms)</label>
+      <input type="number" id="setAIMin" min="100" max="10000" step="100" value="1200">
+      <span class="hint">Contoh: 1200 = AI berpikir minimal 1.2 detik.</span>
+    </div>
+    <div class="field">
+      <label for="setAIMax">Kecepatan AI — maksimum (ms)</label>
+      <input type="number" id="setAIMax" min="100" max="15000" step="100" value="2000">
+      <span class="hint">AI memilih jeda acak antara minimum dan maksimum.</span>
+    </div>
+    <div class="row">
+      <button class="ebtn" id="settingsClose" type="button">Tutup</button>
+      <button class="ebtn primary" id="settingsSave" type="button">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: KESULITAN
+     ============================================================ -->
+<div class="diff-modal" id="diffModal">
+  <div class="diff-card">
+    <h2>Pilih Kesulitan AI</h2>
+    <p class="sub">Bisa diubah kapan saja. Berlaku untuk ronde berikutnya.</p>
+    <div class="diff-opts">
+      <button class="diff-opt beginner" data-diff="beginner" type="button">
+        <div class="di">&#127793;</div>
+        <div class="dinfo"><b>Beginner</b><small>AI main acak, jarang pakai Nope.</small></div>
+      </button>
+      <button class="diff-opt intermediate" data-diff="intermediate" type="button">
+        <div class="di">&#9889;</div>
+        <div class="dinfo"><b>Intermediate</b><small>AI simpan Defuse &amp; Nope untuk momen tepat.</small></div>
+      </button>
+      <button class="diff-opt advance" data-diff="advance" type="button">
+        <div class="di">&#128293;</div>
+        <div class="dinfo"><b>Advance</b><small>AI hitung peluang, pakai See Future, blokir dengan Nope strategis.</small></div>
+      </button>
+    </div>
+    <div class="row">
+      <button class="ebtn primary" id="diffClose" type="button">Selesai</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: PILIH JUMLAH PEMAIN
+     ============================================================ -->
+<div class="cnt-modal" id="cntModal">
+  <div class="cnt-card">
+    <h2>Pilih Jumlah Pemain</h2>
+    <p class="sub">Pilih total pemain (kamu + AI).</p>
+    <div class="cnt-opts">
+      <button class="cnt-opt" data-cnt="4" type="button"><b>4</b><small>Kamu + 3 AI</small></button>
+      <button class="cnt-opt on" data-cnt="5" type="button"><b>5</b><small>Kamu + 4 AI</small></button>
+      <button class="cnt-opt" data-cnt="6" type="button"><b>6</b><small>Kamu + 5 AI</small></button>
+    </div>
+    <div class="row">
+      <button class="ebtn primary" id="cntClose" type="button">Selesai</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCRIPT: tempel JS balasan 6b di sini
+     ============================================================ -->
+<script>
+  (function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+var SETTINGS={
+  aiMin:1200,
+  aiMax:2000,
+  difficulty:'beginner',
+  direction:'cw',
+  playerCount:5
+};
+try{
+  var saved=localStorage.getItem('ek.settings');
+  if(saved){
+    var obj=JSON.parse(saved);
+    Object.keys(obj).forEach(function(k){ if(k in SETTINGS) SETTINGS[k]=obj[k] });
+  }
+}catch(e){}
+function saveSettings(){ try{localStorage.setItem('ek.settings',JSON.stringify(SETTINGS))}catch(e){} }
+function aiDelay(){
+  var min=SETTINGS.aiMin, max=Math.max(min+100,SETTINGS.aiMax);
+  return min+Math.random()*(max-min);
+}
+function nextPlayerIndex(current){
+  var n=SETTINGS.playerCount;
+  if(SETTINGS.direction==='cw') return (current+1)%n;
+  return (current+n-1)%n;
+}
+
+var AI_PROFILES=[
+  {name:'Budi', av:'BD'},
+  {name:'Sinta',av:'ST'},
+  {name:'Raka', av:'RK'},
+  {name:'Dewi', av:'DW'},
+  {name:'Joko', av:'JK'}
+];
+
+var audioCtx=null;
+function beep(freq,dur){
+  try{
+    if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    var o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.frequency.value=freq; o.type='sine'; g.gain.value=0.035;
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+dur);
+    o.stop(audioCtx.currentTime+dur);
+  }catch(e){}
+}
+
+/* ============================================================
+   DEFINISI KARTU EK
+   ============================================================
+   type: 'exploding' | 'defuse' | 'skip' | 'attack' | 'seeFuture' |
+         'shuffle' | 'favor' | 'nope' | 'drawBottom' | 'targetedAttack' |
+         'mirror' | 'peekSwap' | 'extinguisher'
+   ============================================================ */
+var CARD_INFO={
+  exploding:{icon:'🐱', title:'Exploding Kitten', sub:'Meledak!', cls:'danger', playable:false, needsTarget:false},
+  defuse:{icon:'🔧', title:'Defuse', sub:'Selamatkan diri', cls:'defuse', playable:false, needsTarget:false},
+  skip:{icon:'⏭', title:'Skip', sub:'Lewati draw', cls:'', playable:true, needsTarget:false},
+  attack:{icon:'⚔️', title:'Attack', sub:'+2 giliran', cls:'', playable:true, needsTarget:false},
+  seeFuture:{icon:'🔮', title:'See Future', sub:'Intip 3 kartu', cls:'', playable:true, needsTarget:false},
+  shuffle:{icon:'🔀', title:'Shuffle', sub:'Acak deck', cls:'', playable:true, needsTarget:false},
+  favor:{icon:'🤲', title:'Favor', sub:'Minta 1 kartu', cls:'', playable:true, needsTarget:true},
+  nope:{icon:'🚫', title:'Nope', sub:'Batalkan aksi', cls:'new-card', playable:false, needsTarget:false},
+  drawBottom:{icon:'⬇️', title:'Draw Bottom', sub:'Ambil dari bawah', cls:'', playable:true, needsTarget:false},
+  targetedAttack:{icon:'🎯', title:'Targeted Attack', sub:'Pilih korban', cls:'', playable:true, needsTarget:true},
+  mirror:{icon:'🪞', title:'Mirror', sub:'Pantulkan aksi', cls:'new-card', playable:true, needsTarget:false},
+  peekSwap:{icon:'👁', title:'Peek & Swap', sub:'Intip 2 & tukar', cls:'new-card', playable:true, needsTarget:false},
+  extinguisher:{icon:'🧯', title:'Extinguisher', sub:'Sembunyikan kucing', cls:'new-card', playable:true, needsTarget:false}
+};
+
+function cardHTML(c, size){
+  if(!c) return '<div class="ek-card back '+(size||'')+'"><span class="e-frame"></span><span class="e-icon">💥</span><span class="e-title">EXPLODING</span><span class="e-sub">KITTENS</span></div>';
+  var info=CARD_INFO[c.type]||{icon:'?',title:'?',sub:'',cls:''};
+  return '<div class="ek-card '+(info.cls||'')+' '+(size||'')+'">'+
+    '<span class="e-frame"></span>'+
+    '<span class="e-icon">'+info.icon+'</span>'+
+    '<span class="e-title">'+info.title+'</span>'+
+    '<span class="e-sub">'+info.sub+'</span>'+
+  '</div>';
+}
+
+/* ============================================================
+   BUILD DECK
+   ============================================================ */
+function buildDeck(){
+  var deck=[];
+  var n=SETTINGS.playerCount;
+  // jumlah exploding = jumlah pemain - 1
+  var exploding=n-1;
+  // jumlah defuse di deck = 3 (sisanya dibagikan ke pemain)
+  var defuseInDeck=3;
+
+  // Kartu aksi standar — jumlah disesuaikan
+  var actionCounts={
+    skip:4, attack:3, seeFuture:5, shuffle:4, favor:4, nope:5, drawBottom:3, targetedAttack:3
+  };
+  Object.keys(actionCounts).forEach(function(type){
+    for(var i=0;i<actionCounts[type];i++){
+      deck.push({type:type});
+    }
+  });
+
+  // 3 kartu baru — masing-masing 2 copy
+  ['mirror','peekSwap','extinguisher'].forEach(function(type){
+    for(var k=0;k<2;k++) deck.push({type:type});
+  });
+
+  // Exploding kittens
+  for(var e=0;e<exploding;e++) deck.push({type:'exploding'});
+
+  // Defuse di deck (sisanya dibagikan)
+  for(var d=0;d<defuseInDeck;d++) deck.push({type:'defuse'});
+
+  return deck;
+}
+
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}
+  return a;
+}
+
+/* ============================================================
+   STATE
+   ============================================================ */
+var G={
+  players:[],
+  deck:[],
+  discard:[],
+  turn:0,
+  active:false,
+  finished:false,
+  aiTimer:null,
+  extraTurns:{},       // {idx: count} — giliran tambahan dari Attack
+  pendingNope:null,    // {card, owner, targets, onResolve, onNope}
+  stats:{round:0,win:0,lose:0}
+};
+
+function playerCount(){ return SETTINGS.playerCount; }
+function clearAITimer(){ if(G.aiTimer){clearTimeout(G.aiTimer);G.aiTimer=null} }
+
+function buildPlayers(){
+  G.players=[];
+  G.players.push({id:0,name:'Kamu',you:true,av:'MS',hand:[],alive:true});
+  for(var i=0;i<playerCount()-1;i++){
+    var prof=AI_PROFILES[i];
+    G.players.push({id:i+1,name:prof.name,you:false,av:prof.av,hand:[],alive:true});
+  }
+}
+buildPlayers();
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderSeats(){
+  document.body.setAttribute('data-pc', String(playerCount()));
+  for(var i=0;i<6;i++){
+    var seat=$('#seat'+i);
+    if(!seat) continue;
+    if(i>=playerCount()){ seat.classList.remove('show','active','out'); continue; }
+    var p=G.players[i];
+    seat.classList.add('show');
+    seat.classList.toggle('active', G.active && !G.finished && G.turn===i && p.alive);
+    seat.classList.toggle('out', !p.alive);
+    var cEl=$('#count'+i);
+    if(cEl){
+      cEl.textContent=p.alive?(p.hand.length+' kartu'):'GUGUR';
+      cEl.classList.toggle('warn', p.alive && p.hand.length===1);
+    }
+    var mEl=$('#mini'+i);
+    if(mEl){
+      var n=Math.min(p.hand.length, 6);
+      var html='';
+      for(var k=0;k<n;k++) html+='<div class="e-mini"></div>';
+      mEl.innerHTML=html;
+    }
+  }
+}
+
+function renderPiles(){
+  var dp=$('#deckPile');
+  if(dp) dp.classList.toggle('empty', G.deck.length===0);
+  $('#deckCount').textContent=G.deck.length;
+
+  var top=G.discard[G.discard.length-1];
+  var disc=$('#discardPile');
+  if(disc){
+    if(top){
+      disc.classList.remove('empty');
+      disc.innerHTML=cardHTML(top,'');
+    }else{
+      disc.classList.add('empty');
+      disc.innerHTML='';
+    }
+  }
+  var lbl=$('#discardLabel');
+  if(lbl){
+    if(top){
+      var info=CARD_INFO[top.type];
+      lbl.textContent='Terakhir: '+(info?info.title:'—');
+    }else{
+      lbl.textContent='Terakhir dimainkan';
+    }
+  }
+
+  var cb=$('#cntBadge'); if(cb) cb.textContent=playerCount()+' Pemain';
+  var db=$('#diffBadge');
+  if(db){ db.textContent=SETTINGS.difficulty.charAt(0).toUpperCase()+SETTINGS.difficulty.slice(1); db.className='diff-badge '+SETTINGS.difficulty; }
+  var dr=$('#dirBadge');
+  if(dr){
+    if(SETTINGS.direction==='cw'){dr.textContent='↻ Searah';dr.className='dir-badge'}
+    else{dr.textContent='↺ Berlawanan';dr.className='dir-badge ccw'}
+  }
+}
+
+function renderHand(){
+  var me=G.players[0];
+  var handEl=$('#ekHand');
+  var infoEl=$('#handInfo');
+  if(!handEl || !me) return;
+  if(!me.alive){
+    handEl.innerHTML='<div style="color:#FCA5A5;font:600 .85rem var(--f-body);padding:14px">Kamu sudah gugur</div>';
+    if(infoEl) infoEl.innerHTML='💀 Gugur';
+    return;
+  }
+  if(!me.hand.length){
+    handEl.innerHTML='<div style="color:rgba(255,255,255,.5);font:500 .85rem var(--f-body);padding:14px">Tanganmu kosong</div>';
+  }else{
+    handEl.innerHTML=me.hand.map(function(c,i){
+      var info=CARD_INFO[c.type]||{playable:false};
+      var playable=(G.turn===0 && G.active && !G.finished) && info.playable;
+      var cls='ek-hand-card'+(playable?' playable':' not-playable');
+      return '<div class="'+cls+'" data-idx="'+i+'">'+cardHTML(c,'')+'</div>';
+    }).join('');
+  }
+  if(infoEl) infoEl.innerHTML='Kartu: <b>'+me.hand.length+'</b>';
+}
+
+function renderActions(){
+  var me=G.players[0];
+  var canAct=G.active && !G.finished && G.turn===0 && me && me.alive;
+  $('#btnStart').disabled=G.active;
+  $('#btnDraw').disabled=!canAct;
+  var hasSkip=canAct && me.hand.some(function(c){return c.type==='skip'});
+  $('#btnSkip').disabled=!hasSkip;
+
+  var wb=$('#waitingBadge');
+  if(canAct){wb.classList.add('on');wb.textContent='Giliranmu — tidak ada batas waktu'}
+  else wb.classList.remove('on');
+}
+
+function setStatus(txt,flash){
+  var el=$('#ekStatus');
+  if(!el) return;
+  el.textContent=txt;
+  if(flash){ el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+}
+
+function renderAll(){
+  renderSeats();
+  renderPiles();
+  renderHand();
+  renderActions();
+}
+
+/* ============================================================
+   START GAME
+   ============================================================ */
+function startGame(){
+  if(G.active) return;
+  clearAITimer();
+  buildPlayers();
+  G.deck=shuffle(buildDeck());
+  G.discard=[];
+  G.turn=0;
+  G.active=true;
+  G.finished=false;
+  G.extraTurns={};
+  G.pendingNope=null;
+  G.stats.round++;
+
+  // bagikan kartu ke pemain: 4 Defuse dibagikan acak + kartu awal
+  // Kita beri tiap pemain: 1 Defuse + 3 kartu aksi acak (dari deck)
+  // Sederhana: tiap pemain dapat 4 kartu, di mana minimal 1 Defuse
+  var totalPlayers=playerCount();
+  var defusesNeeded=totalPlayers; // 1 per pemain
+  // sisipkan defuse ke deck: sudah ada 3 di deck; tambah 1 untuk player
+  // (asumsi: deck punya 3 defuse, cukup untuk 1 per pemain dari deck)
+  for(var i=0;i<totalPlayers;i++){
+    var p=G.players[i];
+    p.hand=[];
+    p.alive=true;
+    // 1 defuse
+    p.hand.push({type:'defuse'});
+    // 3 kartu aksi acak dari deck (bukan exploding)
+    for(var k=0;k<3;k++){
+      var found=null;
+      for(var j=G.deck.length-1;j>=0;j--){
+        if(G.deck[j].type!=='exploding' && G.deck[j].type!=='defuse'){ found=G.deck.splice(j,1)[0]; break; }
+      }
+      if(found) p.hand.push(found);
+    }
+  }
+
+  setStatus('Game dimulai ('+playerCount()+' pemain). Giliranmu.',true);
+  beep(520,.08);
+  renderAll();
+  beginTurn();
+}
+
+/* ============================================================
+   TURN MANAGEMENT
+   ============================================================ */
+function beginTurn(){
+  clearAITimer();
+  if(!G.active||G.finished) return;
+
+  // skip gugur
+  var guard=0;
+  while(!G.players[G.turn].alive && guard<10){
+    G.turn=nextPlayerIndex(G.turn);
+    guard++;
+  }
+  if(aliveCount()<=1){ return endGame(); }
+
+  var p=G.players[G.turn];
+  renderAll();
+
+  if(G.turn===0){
+    setStatus('Giliranmu. Mainkan kartu atau ambil dari deck.',false);
+  }else{
+    setStatus(p.name+' berpikir...',false);
+    G.aiTimer=setTimeout(function(){
+      G.aiTimer=null;
+      if(!G.active||G.finished) return;
+      aiTurn();
+    },aiDelay());
+  }
+}
+
+function aliveCount(){
+  var n=0;
+  for(var i=0;i<playerCount();i++) if(G.players[i].alive) n++;
+  return n;
+}
+
+function nextAlive(idx){
+  var n=playerCount();
+  for(var i=0;i<n;i++){
+    idx=nextPlayerIndex(idx);
+    if(G.players[idx].alive) return idx;
+  }
+  return idx;
+}
+
+function endTurn(){
+  // cek extraTurns
+  if(G.extraTurns[G.turn] && G.extraTurns[G.turn]>0){
+    G.extraTurns[G.turn]--;
+    beginTurn();
+    return;
+  }
+  G.turn=nextAlive(G.turn);
+  beginTurn();
+}
+
+/* ============================================================
+   PLAYER ACTIONS
+   ============================================================ */
+function playerDraw(){
+  if(!G.active||G.finished||G.turn!==0) return;
+  var me=G.players[0];
+  if(!me.alive) return;
+  drawFromDeck(0,false);
+}
+
+function playerDrawBottom(){
+  if(!G.active||G.finished||G.turn!==0) return;
+  drawFromDeck(0,true);
+}
+
+function playerSkip(){
+  if(!G.active||G.finished||G.turn!==0) return;
+  var me=G.players[0];
+  var idx=-1;
+  me.hand.forEach(function(c,i){ if(c.type==='skip') idx=i; });
+  if(idx<0) return;
+  me.hand.splice(idx,1);
+  setStatus('Kamu pakai Skip. Giliran berakhir tanpa draw.',true);
+  beep(440,.08);
+  renderAll();
+  endTurn();
+}
+
+function playerPlayCard(cardIdx){
+  if(!G.active||G.finished||G.turn!==0) return;
+  var me=G.players[0];
+  if(!me.alive) return;
+  var card=me.hand[cardIdx];
+  if(!card) return;
+  var info=CARD_INFO[card.type];
+  if(!info || !info.playable) return;
+
+  // kartu yang butuh target
+  if(info.needsTarget){
+    // pilih target otomatis: pemain hidup berikutnya (sederhana untuk player)
+    var targetIdx=nextAlive(G.turn);
+    if(targetIdx===G.turn) return;
+    me.hand.splice(cardIdx,1);
+    G.discard.push(card);
+    executeCardEffect(card,0,targetIdx);
+    return;
+  }
+
+  // kartu tanpa target
+  me.hand.splice(cardIdx,1);
+  G.discard.push(card);
+  executeCardEffect(card,0,null);
+}
+
+function executeCardEffect(card,ownerIdx,targetIdx){
+  renderAll();
+  var ownerName=ownerIdx===0?'Kamu':G.players[ownerIdx].name;
+
+  // kartu yang bisa di-Nope
+  var nopeable=['skip','attack','favor','targetedAttack','seeFuture','shuffle','drawBottom','peekSwap','extinguisher','mirror'];
+  if(nopeable.indexOf(card.type)>=0){
+    // cek apakah ada yang mau Nope
+    // (hanya player yang bisa Nope untuk saat ini, AI akan diproses di aiMaybeNope)
+    var playerHasNope=G.players[0].alive && G.players[0].hand.some(function(c){return c.type==='nope'});
+    var aiWillNope=aiShouldNope(card,ownerIdx);
+
+    if(playerHasNope && ownerIdx!==0){
+      // tanya player
+      showNopePrompt(card,ownerIdx,function(usedNope){
+        if(usedNope){
+          // player pakai nope
+          var nopeIdx=-1;
+          G.players[0].hand.forEach(function(c,i){ if(c.type==='nope') nopeIdx=i; });
+          if(nopeIdx>=0){
+            var nopeCard=G.players[0].hand.splice(nopeIdx,1)[0];
+            G.discard.push(nopeCard);
+            setStatus('Kamu pakai Nope! Aksi dibatalkan.',true);
+            beep(660,.1);
+            renderAll();
+            endTurn();
+            return;
+          }
+        }
+        // lanjutkan efek
+        applyCard(card,ownerIdx,targetIdx);
+      });
+      return;
+    }
+
+    if(aiWillNope!==null && aiWillNope>=0){
+      // AI pakai Nope
+      var ai=G.players[aiWillNope];
+      var aiNopeIdx=-1;
+      ai.hand.forEach(function(c,i){ if(c.type==='nope') aiNopeIdx=i; });
+      if(aiNopeIdx>=0){
+        var nc=ai.hand.splice(aiNopeIdx,1)[0];
+        G.discard.push(nc);
+        setStatus(ai.name+' pakai Nope! '+ownerName+' dibatalkan.',true);
+        beep(660,.1);
+        renderAll();
+        endTurn();
+        return;
+      }
+    }
+  }
+
+  applyCard(card,ownerIdx,targetIdx);
+}
+
+function applyCard(card,ownerIdx,targetIdx){
+  var ownerName=ownerIdx===0?'Kamu':G.players[ownerIdx].name;
+  switch(card.type){
+    case 'skip':
+      setStatus(ownerName+' pakai Skip.',true);
+      beep(440,.08);
+      renderAll();
+      endTurn();
+      return;
+    case 'attack':
+      var t1=nextAlive(ownerIdx);
+      G.extraTurns[t1]=(G.extraTurns[t1]||0)+2;
+      setStatus(ownerName+' pakai Attack! '+G.players[t1].name+' main 2x.',true);
+      beep(520,.1);
+      renderAll();
+      endTurn();
+      return;
+    case 'seeFuture':
+      setStatus(ownerName+' lihat 3 kartu atas.',true);
+      beep(440,.08);
+      if(ownerIdx===0) showSeeFuture();
+      renderAll();
+      endTurn();
+      return;
+    case 'shuffle':
+      G.deck=shuffle(G.deck);
+      setStatus(ownerName+' mengacak deck.',true);
+      beep(500,.1);
+      renderAll();
+      endTurn();
+      return;
+    case 'favor':
+      var t2=targetIdx!==null?targetIdx:nextAlive(ownerIdx);
+      var victim=G.players[t2];
+      if(victim.hand.length>0){
+        var stolenIdx=Math.floor(Math.random()*victim.hand.length);
+        var stolen=victim.hand.splice(stolenIdx,1)[0];
+        G.players[ownerIdx].hand.push(stolen);
+        setStatus(ownerName+' ambil 1 kartu dari '+victim.name+'.',true);
+      }
+      beep(560,.1);
+      renderAll();
+      endTurn();
+      return;
+    case 'drawBottom':
+      drawFromDeck(ownerIdx,true);
+      return;
+    case 'targetedAttack':
+      var t3=targetIdx!==null?targetIdx:nextAlive(ownerIdx);
+      G.extraTurns[t3]=(G.extraTurns[t3]||0)+2;
+      setStatus(ownerName+' pakai Targeted Attack ke '+G.players[t3].name+'!',true);
+      beep(520,.1);
+      renderAll();
+      endTurn();
+      return;
+    case 'mirror':
+      setStatus(ownerName+' pakai Mirror. Aksi dipantulkan.',true);
+      beep(600,.1);
+      renderAll();
+      endTurn();
+      return;
+    case 'peekSwap':
+      setStatus(ownerName+' intip & tukar 2 kartu atas.',true);
+      beep(440,.08);
+      if(ownerIdx===0) showPeekSwap();
+      renderAll();
+      endTurn();
+      return;
+    case 'extinguisher':
+      // sembunyikan 1 exploding dari deck ke bawah
+      var found=-1;
+      for(var i=0;i<G.deck.length;i++){
+        if(G.deck[i].type==='exploding'){ found=i; break; }
+      }
+      if(found>=0){
+        var ek=G.deck.splice(found,1)[0];
+        G.deck.unshift(ek);
+        setStatus(ownerName+' sembunyikan 1 Exploding Kitten ke bawah deck.',true);
+      }else{
+        setStatus(ownerName+' pakai Extinguisher, tapi tidak ada kucing di deck.',true);
+      }
+      beep(440,.1);
+      renderAll();
+      endTurn();
+      return;
+    default:
+      renderAll();
+      endTurn();
+  }
+}
+
+/* ============================================================
+   DRAW
+   ============================================================ */
+function drawFromDeck(idx, fromBottom){
+  var p=G.players[idx];
+  if(!p||!p.alive) return;
+  if(G.deck.length===0){
+    setStatus('Deck habis! Game selesai.',true);
+    return endGame();
+  }
+  var card;
+  if(fromBottom){
+    card=G.deck.shift();
+  }else{
+    card=G.deck.pop();
+  }
+
+  if(card.type==='exploding'){
+    // cek defuse
+    var defuseIdx=-1;
+    p.hand.forEach(function(c,i){ if(c.type==='defuse') defuseIdx=i; });
+    if(defuseIdx>=0){
+      // auto-pakai defuse
+      var df=p.hand.splice(defuseIdx,1)[0];
+      G.discard.push(df);
+      // sisipkan exploding kembali ke deck acak
+      var pos=Math.floor(Math.random()*(G.deck.length+1));
+      G.deck.splice(pos,0,card);
+      setStatus((idx===0?'Kamu':p.name)+' pakai Defuse! Kucing disisipkan kembali.',true);
+      beep(880,.12);
+      renderAll();
+      endTurn();
+      return;
+    }else{
+      // gugur
+      p.alive=false;
+      G.discard.push(card);
+      setStatus((idx===0?'Kamu':p.name)+' GUGUR! Kena Exploding Kitten.',true);
+      beep(220,.3);
+      renderAll();
+      if(aliveCount()<=1) return endGame();
+      if(idx===0){ setTimeout(function(){ endTurn(); },600); }
+      else{ endTurn(); }
+      return;
+    }
+  }else{
+    p.hand.push(card);
+    setStatus((idx===0?'Kamu':p.name)+' ambil 1 kartu.',false);
+    beep(500,.06);
+    renderAll();
+    // kalau pemain dan kartu bisa dimainkan, biarkan player aksi
+    if(idx===0){
+      // tetap harus akhiri giliran — kecuali kartu aksi
+      // UNO-style: kalau kartu draw bisa dimainkan, player main
+      // EK-style: draw = akhir giliran (kecuali player punya aksi lain untuk dipakai SETELAH draw? tidak)
+      // Untuk kesederhanaan: setelah draw, giliran berakhir
+      setTimeout(function(){ endTurn(); },500);
+    }else{
+      endTurn();
+    }
+  }
+}
+
+/* ============================================================
+   AI TURN
+   ============================================================ */
+function aiTurn(){
+  if(!G.active||G.finished) return;
+  if(G.turn===0) return;
+  var p=G.players[G.turn];
+  if(!p.alive){ endTurn(); return; }
+
+  var diff=SETTINGS.difficulty;
+
+  // cari kartu aksi yang bisa dimainkan (selain defuse & exploding)
+  var playable=[];
+  p.hand.forEach(function(c,i){
+    if(c.type==='defuse' || c.type==='exploding' || c.type==='nope') return;
+    playable.push(i);
+  });
+
+  if(playable.length && Math.random()<0.5){
+    // pilih kartu
+    var choice;
+    if(diff==='beginner'){
+      choice=playable[Math.floor(Math.random()*playable.length)];
+    }else if(diff==='intermediate'){
+      // prioritaskan attack/skip kalau tangan banyak
+      var attack=playable.filter(function(i){return ['attack','targetedAttack'].indexOf(p.hand[i].type)>=0});
+      choice=attack.length?attack[0]:playable[0];
+    }else{
+      // advance: simpan nope, pakai attack dulu, atau skip kalau tangan sedikit
+      var nonNope=playable.filter(function(i){return p.hand[i].type!=='nope'});
+      choice=nonNope.length?nonNope[0]:playable[0];
+    }
+    var card=p.hand[choice];
+    p.hand.splice(choice,1);
+    G.discard.push(card);
+    executeCardEffect(card,G.turn,null);
+    return;
+  }
+
+  // draw
+  drawFromDeck(G.turn,false);
+}
+
+/* ============================================================
+   NOPE PROMPT (untuk player)
+   ============================================================ */
+function showNopePrompt(card,ownerIdx,callback){
+  var info=CARD_INFO[card.type];
+  var ownerName=ownerIdx===0?'Kamu':G.players[ownerIdx].name;
+  $('#nopeTitle').textContent='Pakai Nope?';
+  $('#nopeDesc').innerHTML=ownerName+' memainkan <b>'+(info?info.title:card.type)+'</b>. Mau batalkan?';
+  $('#nopeOverlay').classList.add('open');
+
+  var onYes=function(){
+    $('#nopeOverlay').classList.remove('open');
+    $('#nopeYes').removeEventListener('click',onYes);
+    $('#nopeNo').removeEventListener('click',onNo);
+    callback(true);
+  };
+  var onNo=function(){
+    $('#nopeOverlay').classList.remove('open');
+    $('#nopeYes').removeEventListener('click',onYes);
+    $('#nopeNo').removeEventListener('click',onNo);
+    callback(false);
+  };
+  $('#nopeYes').addEventListener('click',onYes);
+  $('#nopeNo').addEventListener('click',onNo);
+}
+
+function aiShouldNope(card,ownerIdx){
+  // returns idx of AI who will nope, or -1/null
+  var nopeable=['skip','attack','favor','targetedAttack','seeFuture','shuffle','drawBottom','peekSwap','extinguisher','mirror'];
+  if(nopeable.indexOf(card.type)<0) return null;
+  if(SETTINGS.difficulty==='beginner') return null;
+  for(var i=1;i<playerCount();i++){
+    if(!G.players[i].alive) continue;
+    if(i===ownerIdx) continue;
+    var hasNope=G.players[i].hand.some(function(c){return c.type==='nope'});
+    if(!hasNope) continue;
+    // chance berdasarkan difficulty
+    var chance=SETTINGS.difficulty==='advance'?0.35:0.15;
+    // kalau kartu attack, lebih mungkin nope
+    if(['attack','targetedAttack'].indexOf(card.type)>=0) chance+=0.25;
+    if(Math.random()<chance) return i;
+  }
+  return null;
+}
+
+/* ============================================================
+   SEE FUTURE / PEEK & SWAP (untuk player)
+   ============================================================ */
+function showSeeFuture(){
+  if(G.deck.length===0) return;
+  var n=Math.min(3,G.deck.length);
+  var cards=G.deck.slice(-n).reverse();
+  var titles=cards.map(function(c){
+    var info=CARD_INFO[c.type];
+    return info?info.title:'?';
+  }).join(' · ');
+  setStatus('3 kartu atas: '+titles,true);
+  setTimeout(function(){
+    setStatus('Giliranmu selesai.',false);
+  },3000);
+}
+
+function showPeekSwap(){
+  if(G.deck.length<2) return;
+  var a=G.deck[G.deck.length-1];
+  var b=G.deck[G.deck.length-2];
+  var infoA=CARD_INFO[a.type]||{title:'?'};
+  var infoB=CARD_INFO[b.type]||{title:'?'};
+  var doSwap=window.confirm('Kartu atas: '+infoA.title+'\nKartu ke-2: '+infoB.title+'\n\nTukar posisi?');
+  if(doSwap){
+    G.deck[G.deck.length-1]=b;
+    G.deck[G.deck.length-2]=a;
+    setStatus('Kamu tukar 2 kartu atas.',true);
+  }
+}
+
+/* ============================================================
+   END GAME
+   ============================================================ */
+function endGame(){
+  if(G.finished) return;
+  G.finished=true;
+  G.active=false;
+  clearAITimer();
+  var alive=G.players.filter(function(p){return p.alive});
+  var winner=alive[0]||G.players[0];
+  var youWin=winner.you;
+  if(youWin) G.stats.win++; else G.stats.lose++;
+  renderAll();
+  showResult(youWin?'Kamu Menang!':'Kamu Kalah',
+    youWin?'Kamu bertahan sampai akhir!':winner.name+' adalah yang terakhir bertahan.',
+    '🏆 '+(youWin?'Kamu juara!':'Juara: '+winner.name));
+}
+
+/* ============================================================
+   MODAL HELPERS
+   ============================================================ */
+function showResult(title,desc,big){
+  $('#mTitle').textContent=title;
+  $('#mDesc').textContent=desc;
+  $('#mBig').innerHTML=big||'';
+  $('#modal').classList.add('open');
+}
+function closeResult(){ $('#modal').classList.remove('open'); }
+function openHelp(){ $('#helpModal').classList.add('open'); }
+function closeHelp(){ $('#helpModal').classList.remove('open'); }
+function openSettings(){
+  $('#setAIMin').value=SETTINGS.aiMin;
+  $('#setAIMax').value=SETTINGS.aiMax;
+  $('#settingsModal').classList.add('open');
+}
+function closeSettings(){ $('#settingsModal').classList.remove('open'); }
+function openDiff(){ syncDiffUI(); $('#diffModal').classList.add('open'); }
+function closeDiff(){ $('#diffModal').classList.remove('open'); }
+function syncDiffUI(){ $$('.diff-opt').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-diff')===SETTINGS.difficulty)}) }
+function openCnt(){ syncCntUI(); $('#cntModal').classList.add('open'); }
+function closeCnt(){ $('#cntModal').classList.remove('open'); }
+function syncCntUI(){ $$('.cnt-opt').forEach(function(b){b.classList.toggle('on',+b.getAttribute('data-cnt')===SETTINGS.playerCount)}) }
+
+/* ============================================================
+   LOBBY RENDER
+   ============================================================ */
+function renderLobby(){
+  var grid=$('#gameGrid');
+  var hint=$('#lobbyHint');
+  if(hint) hint.textContent='Pilih mode';
+  var modes=[
+    {id:'classic', name:'Exploding Kittens — Klasik', icon:'💥', desc:'4–6 pemain, kucing meledak, 3 kartu baru.', tags:['Aktif','4-6 pemain','3 kartu baru']}
+  ];
+  grid.innerHTML=modes.map(function(m){
+    return '<button class="game-card active" data-mode="'+m.id+'" type="button">'+
+      '<div class="game-icon">'+m.icon+'</div>'+
+      '<div class="game-name">'+m.name+'</div>'+
+      '<div class="game-desc">'+m.desc+'</div>'+
+      '<div class="game-meta">'+m.tags.map(function(t,i){
+        return '<span class="game-tag '+(i===0?'ready':'sub')+'">'+t+'</span>';
+      }).join('')+'</div>'+
+    '</button>';
+  }).join('');
+}
+renderLobby();
+
+/* ============================================================
+   EXPOSE
+   ============================================================ */
+window.EK_APP={
+  enter:function(mode){
+    clearAITimer();
+    $('#lobby').hidden=true;
+    $('#gameWrap').hidden=false;
+    document.body.style.overflow='hidden';
+    startGame();
+    openCnt();
+  },
+  exit:function(){
+    clearAITimer();
+    $('#gameWrap').hidden=true;
+    $('#lobby').hidden=false;
+    document.body.style.overflow='';
+    G.active=false;
+    G.finished=true;
+    G.players.forEach(function(p){p.hand=[];p.alive=true;});
+    G.deck=[];G.discard=[];
+  },
+  onSettingsChange:function(){
+    if(G.active) setStatus('Pengaturan disimpan. Berlaku ronde berikutnya.',false);
+  },
+  onDiffChange:function(){
+    if(G.active) setStatus('Kesulitan: '+SETTINGS.difficulty,false);
+    renderAll();
+  },
+  onCntChange:function(){
+    if(G.active){ clearAITimer(); startGame(); }
+  },
+  onDirChange:function(){ renderAll(); }
+};
+
+/* ============================================================
+   WIRE EVENTS
+   ============================================================ */
+document.addEventListener('click',function(e){
+  var card=e.target.closest('.game-card');
+  if(!card||card.disabled)return;
+  var mode=card.getAttribute('data-mode');
+  if(mode==='classic' && window.EK_APP) window.EK_APP.enter(mode);
+});
+
+$('#backBtn').addEventListener('click',function(e){
+  e.preventDefault();
+  if(window.EK_APP) window.EK_APP.exit();
+});
+$('#btnStart').addEventListener('click',startGame);
+$('#btnDraw').addEventListener('click',playerDraw);
+$('#btnSkip').addEventListener('click',playerSkip);
+$('#deckPile').addEventListener('click',function(){
+  if(G.turn===0 && G.active && !G.finished) playerDraw();
+});
+$('#btnHelp').addEventListener('click',openHelp);
+$('#btnHelp2').addEventListener('click',openHelp);
+$('#helpClose').addEventListener('click',closeHelp);
+$('#btnSettings').addEventListener('click',openSettings);
+$('#lobbySettingsBtn').addEventListener('click',openSettings);
+$('#settingsClose').addEventListener('click',closeSettings);
+$('#settingsSave').addEventListener('click',function(){
+  var v=function(id,def){var n=parseInt($(id).value,10);return isNaN(n)||n<0?def:n};
+  SETTINGS.aiMin=Math.max(100,v('#setAIMin',1200));
+  SETTINGS.aiMax=Math.max(SETTINGS.aiMin+100,v('#setAIMax',2000));
+  saveSettings();
+  closeSettings();
+});
+$('#diffBadge').addEventListener('click',openDiff);
+$('#diffClose').addEventListener('click',closeDiff);
+$$('.diff-opt').forEach(function(b){
+  b.addEventListener('click',function(){
+    SETTINGS.difficulty=b.getAttribute('data-diff');
+    saveSettings(); syncDiffUI(); renderAll();
+  });
+});
+$('#cntBadge').addEventListener('click',openCnt);
+$('#cntClose').addEventListener('click',function(){
+  closeCnt();
+  if(G.active){ clearAITimer(); startGame(); }
+});
+$$('.cnt-opt').forEach(function(b){
+  b.addEventListener('click',function(){
+    SETTINGS.playerCount=+b.getAttribute('data-cnt');
+    saveSettings(); syncCntUI();
+  });
+});
+$('#dirBadge').addEventListener('click',function(){
+  SETTINGS.direction=SETTINGS.direction==='cw'?'ccw':'cw';
+  saveSettings(); renderAll();
+});
+$('#mNext').addEventListener('click',function(){ closeResult(); startGame(); });
+$('#mClose').addEventListener('click',closeResult);
+
+$('#ekHand').addEventListener('click',function(e){
+  var card=e.target.closest('.ek-hand-card');
+  if(!card) return;
+  if(!G.active||G.finished||G.turn!==0) return;
+  var idx=+card.getAttribute('data-idx');
+  playerPlayCard(idx);
+});
+
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape')return;
+  if($('#helpModal').classList.contains('open')){ closeHelp(); return; }
+  if($('#settingsModal').classList.contains('open')){ closeSettings(); return; }
+  if($('#diffModal').classList.contains('open')){ closeDiff(); return; }
+  if($('#cntModal').classList.contains('open')){ closeCnt(); return; }
+  if($('#modal').classList.contains('open')){ closeResult(); return; }
+  if($('#nopeOverlay').classList.contains('open')) return;
+});
+
+/* init render */
+renderAll();
+})();
+</script>
+
+</body>
+</html>
