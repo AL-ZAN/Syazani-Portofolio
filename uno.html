@@ -1,0 +1,1962 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Uno — Kartu Santai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400..700&family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..800&display=swap">
+<style>
+:root{
+  --ink:#1C1917;--muted:#78716C;--ice:#7DD3FC;--deep:#0369A1;--ice-soft:#E0F2FE;
+  --gold:#FDE68A;--gold-deep:#F59E0B;--green:#10B981;--red:#EF4444;--purple:#A78BFA;
+  --line:rgba(28,25,23,.1);
+  --f-display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+  /* Warna kartu Uno */
+  --uno-red:#EF4444;
+  --uno-yellow:#FBBF24;
+  --uno-green:#10B981;
+  --uno-blue:#3B82F6;
+  --uno-wild:#1C1917;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#0A0E1A;color:#fff;font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow:hidden;height:100vh;height:100dvh}
+button{font-family:inherit}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ==================== LOBBY ==================== */
+.lobby{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(239,68,68,.25) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 30%, rgba(59,130,246,.25) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 90%, rgba(16,185,129,.25) 0%, transparent 45%),
+    linear-gradient(160deg,#0A0E1A,#0F172A);
+  overflow-y:auto;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.lobby[hidden]{display:none!important}
+.lobby::before{content:"";position:fixed;inset:0;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.015) 0 2px,transparent 2px 12px);pointer-events:none}
+.lobby-in{position:relative;max-width:1100px;margin-inline:auto;padding:clamp(24px,5vw,60px) clamp(16px,4vw,40px);width:100%}
+.lobby-head{text-align:center;margin-bottom:clamp(28px,5vw,48px)}
+.lobby-brand{display:inline-flex;align-items:center;gap:12px;font:800 clamp(1.6rem,4vw,2.4rem) var(--f-display);color:#fff;text-decoration:none;margin-bottom:8px}
+.lobby-brand .mark{width:clamp(44px,6vw,56px);height:clamp(44px,6vw,56px);border-radius:14px;background:linear-gradient(160deg,#EF4444,#F59E0B);color:#fff;display:grid;place-items:center;font-size:1.6rem;box-shadow:0 12px 24px -10px rgba(239,68,68,.7);font-style:italic;font-weight:900;transform:rotate(-6deg)}
+.lobby-sub{color:rgba(255,247,237,.72);font-size:clamp(.92rem,1.6vw,1.05rem);max-width:60ch;margin:0 auto}
+.lobby-hint{display:inline-flex;align-items:center;gap:8px;font:600 .74rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#FDE68A;background:rgba(253,230,138,.14);padding:6px 14px;border-radius:999px;margin-top:14px;border:1px solid rgba(253,230,138,.3)}
+.breadcrumb{display:flex;align-items:center;gap:8px;justify-content:center;font:600 .78rem var(--f-mono);color:rgba(255,247,237,.6);margin-bottom:18px;flex-wrap:wrap}
+.breadcrumb b{color:#FDE68A}
+.breadcrumb .sep{opacity:.4}
+.breadcrumb button{background:none;border:0;color:rgba(255,247,237,.7);font:inherit;cursor:pointer;padding:4px 8px;border-radius:6px;transition:.2s}
+.breadcrumb button:hover{background:rgba(255,255,255,.1);color:#fff}
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:32px}
+.game-card{position:relative;padding:22px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1.5px solid rgba(255,255,255,.14);cursor:pointer;transition:.25s;text-align:left;color:#fff;font-family:inherit;overflow:hidden;backdrop-filter:blur(8px);min-height:180px;display:flex;flex-direction:column;gap:10px}
+.game-card::before{content:"";position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(253,230,138,.15) 0%,transparent 70%);pointer-events:none}
+.game-card:hover:not(.locked){transform:translateY(-4px);border-color:rgba(253,230,138,.5);background:linear-gradient(160deg,rgba(253,230,138,.1),rgba(255,255,255,.03));box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.game-card.locked{cursor:not-allowed;opacity:.55}
+.game-card.active{border-color:#FDE68A;background:linear-gradient(160deg,rgba(253,230,138,.16),rgba(253,230,138,.04));box-shadow:0 20px 40px -20px rgba(245,158,11,.4)}
+.game-card.active::after{content:"●";position:absolute;top:14px;right:16px;color:#10B981;font-size:.9rem;animation:pulseDot 1.6s infinite}
+.game-card.parent::after{content:"📁";position:absolute;top:14px;right:16px;font-size:1.2rem;opacity:.7;animation:none}
+@keyframes pulseDot{50%{opacity:.3}}
+.game-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:1.6rem;flex:none;transition:.25s;font-style:italic;font-weight:900;color:#fff}
+.game-card:hover:not(.locked) .game-icon{background:rgba(253,230,138,.2);transform:scale(1.05)}
+.game-card.active .game-icon{background:linear-gradient(160deg,#EF4444,#F59E0B);color:#fff}
+.game-name{font:800 1.15rem var(--f-display);line-height:1.2}
+.game-desc{font-size:.82rem;color:rgba(255,247,237,.72);line-height:1.5}
+.game-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.game-tag{font:600 .62rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.1);color:rgba(255,247,237,.85)}
+.game-tag.soon{background:rgba(245,158,11,.2);color:#FDE68A}
+.game-tag.ready{background:rgba(16,185,129,.2);color:#6EE7B7}
+.game-tag.sub{background:rgba(167,139,250,.2);color:#DDD6FE}
+.game-tag.parent{background:rgba(125,211,252,.2);color:#BAE6FD}
+.lobby-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.lbtn{display:inline-flex;align-items:center;gap:8px;font:700 .9rem var(--f-body);padding:12px 22px;border-radius:999px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;transition:.2s;text-decoration:none;backdrop-filter:blur(6px)}
+.lbtn:hover{background:rgba(255,255,255,.16);transform:translateY(-1px)}
+.lbtn.primary{background:linear-gradient(160deg,#FDE68A,#F59E0B);color:#1C1917;border-color:transparent;box-shadow:0 8px 20px -8px rgba(245,158,11,.7)}
+.lbtn.primary:hover{background:linear-gradient(160deg,#FCD34D,#D97706);transform:translateY(-1px)}
+
+/* ==================== GAME SHELL ==================== */
+.wrap{height:100vh;height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(239,68,68,.18) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 30%, rgba(59,130,246,.18) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 90%, rgba(16,185,129,.18) 0%, transparent 45%),
+    linear-gradient(160deg,#0A0E1A,#0F172A)}
+.wrap[hidden]{display:none!important}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px clamp(10px,2vw,18px);z-index:5;flex:none;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:9px;font:700 1rem var(--f-display);color:#fff;text-decoration:none;cursor:pointer}
+.brand .mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(160deg,#EF4444,#F59E0B);color:#fff;display:grid;place-items:center;font-size:1.1rem;font-style:italic;font-weight:900;transform:rotate(-6deg)}
+.tag{font:600 .68rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#FDE68A;background:rgba(0,0,0,.35);padding:4px 10px;border-radius:999px;border:1px solid rgba(253,230,138,.2);white-space:nowrap}
+.mode-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:999px;border:1px solid;white-space:nowrap}
+.mode-badge.express{background:rgba(59,130,246,.2);border-color:rgba(59,130,246,.5);color:#93C5FD}
+.mode-badge.flip{background:rgba(167,139,250,.2);border-color:rgba(167,139,250,.5);color:#DDD6FE}
+.mode-badge.nomercy{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.5);color:#FCA5A5}
+.mode-badge.combo{background:linear-gradient(90deg,rgba(167,139,250,.3),rgba(239,68,68,.3));border-color:rgba(253,230,138,.6);color:#FDE68A}
+.diff-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:4px 12px;border-radius:999px;border:1px solid;cursor:pointer;white-space:nowrap}
+.diff-badge.beginner{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.5);color:#6EE7B7}
+.diff-badge.intermediate{background:rgba(245,158,11,.2);border-color:rgba(245,158,11,.5);color:#FDE68A}
+.diff-badge.advance{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.5);color:#FCA5A5}
+.dir-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#BAE6FD;padding:4px 12px;border-radius:999px;border:1px solid rgba(125,211,252,.5);background:rgba(125,211,252,.15);cursor:pointer;transition:.2s;white-space:nowrap}
+.dir-badge:hover{background:rgba(125,211,252,.3)}
+.dir-badge.ccw{color:#DDD6FE;border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.15)}
+.dir-badge.ccw:hover{background:rgba(167,139,250,.3)}
+.cnt-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#86EFAC;padding:4px 12px;border-radius:999px;border:1px solid rgba(134,239,172,.5);background:rgba(134,239,172,.15);cursor:pointer;transition:.2s;white-space:nowrap}
+.cnt-badge:hover{background:rgba(134,239,172,.3)}
+.top-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.tbtn{display:inline-flex;align-items:center;gap:6px;font:600 .82rem var(--f-body);color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:8px 14px;border-radius:999px;cursor:pointer;transition:.2s;text-decoration:none;white-space:nowrap}
+.tbtn:hover{background:rgba(255,255,255,.22)}
+.tbtn.help{background:rgba(253,230,138,.15);border-color:rgba(253,230,138,.35);color:#FDE68A}
+.tbtn.help:hover{background:rgba(253,230,138,.3)}
+
+/* ==================== UNO STAGE ==================== */
+.uno-stage{position:relative;flex:1;min-height:0;display:grid;place-items:center;padding:clamp(6px,1.5vw,16px);overflow:hidden}
+.uno-table{position:relative;width:100%;height:100%;max-width:1200px;display:grid;place-items:center}
+.uno-rail{position:absolute;inset:0;border-radius:32px;background:
+  radial-gradient(ellipse at 50% 40%, #1E293B 0%, #0F172A 60%, #060B18 100%);
+  box-shadow:inset 0 0 0 4px #1E293B,inset 0 0 0 8px #0F172A,inset 0 30px 60px -20px rgba(0,0,0,.6),0 20px 40px -16px rgba(0,0,0,.8),0 0 0 3px #050810,0 0 0 6px #1E293B;
+  pointer-events:none}
+.uno-rail::before{content:"UNO";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-12deg);font:900 clamp(6rem,18vw,14rem)/1 var(--f-display);letter-spacing:.05em;color:rgba(255,255,255,.025);font-style:italic;pointer-events:none;white-space:nowrap}
+
+/* Seats */
+.uno-seat{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px;z-index:3;transition:.25s;visibility:hidden;opacity:0}
+.uno-seat.show{visibility:visible;opacity:1}
+.uno-seat .u-avatar{width:clamp(40px,5.4vw,54px);height:clamp(40px,5.4vw,54px);border-radius:50%;background:linear-gradient(160deg,#FFF7ED,#FDE68A);color:var(--ink);display:grid;place-items:center;font:800 clamp(.85rem,1.5vw,1.05rem) var(--f-display);border:3px solid #fff;box-shadow:0 8px 18px -8px rgba(0,0,0,.6);transition:.25s;position:relative}
+.uno-seat.you .u-avatar{background:linear-gradient(160deg,#A7F3D0,#10B981);color:#06351E}
+.uno-seat.active .u-avatar{box-shadow:0 0 0 3px #FDE68A,0 0 20px rgba(253,230,138,.6);animation:seatPulse 1.4s ease-in-out infinite}
+@keyframes seatPulse{50%{box-shadow:0 0 0 3px #FDE68A,0 0 28px rgba(253,230,138,.8)}}
+.uno-seat .u-name{font:700 .68rem var(--f-body);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8);white-space:nowrap}
+.uno-seat .u-count{font:700 .66rem var(--f-mono);color:#FDE68A;background:rgba(0,0,0,.55);padding:2px 8px;border-radius:999px;white-space:nowrap;border:1px solid rgba(253,230,138,.25)}
+.uno-seat .u-count.warn{color:#FCA5A5;background:rgba(239,68,68,.3);border-color:rgba(239,68,68,.5);animation:warnPulse 1s infinite}
+@keyframes warnPulse{50%{transform:scale(1.05)}}
+.uno-seat .u-uno{position:absolute;top:-8px;right:-8px;font:900 .56rem var(--f-mono);background:#EF4444;color:#fff;padding:3px 7px;border-radius:999px;box-shadow:0 3px 8px rgba(0,0,0,.5);opacity:0;transform:scale(.6);transition:.2s;letter-spacing:.05em}
+.uno-seat .u-uno.show{opacity:1;transform:scale(1)}
+.uno-seat .u-finished{position:absolute;inset:0;display:grid;place-items:center;font-size:1.6rem;opacity:0;transition:.25s}
+.uno-seat.finished .u-finished{opacity:1}
+.uno-seat.finished .u-avatar{opacity:.4;filter:grayscale(.7)}
+.uno-seat .u-cards-mini{display:flex;gap:1px;margin-top:-6px;flex-wrap:wrap;justify-content:center;max-width:80px}
+.uno-seat .u-mini{width:10px;height:14px;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.5)}
+
+/* Posisi seat untuk 4/5/6 */
+body[data-pc="4"] .uno-seat[data-seat="1"]{top:2%;left:50%;transform:translate(-50%,0)}
+body[data-pc="4"] .uno-seat[data-seat="2"]{top:50%;left:2%;transform:translate(0,-50%)}
+body[data-pc="4"] .uno-seat[data-seat="3"]{top:50%;right:2%;transform:translate(0,-50%)}
+body[data-pc="4"] .uno-seat[data-seat="0"]{bottom:2%;left:50%;transform:translate(-50%,0)}
+
+body[data-pc="5"] .uno-seat[data-seat="1"]{top:2%;left:50%;transform:translate(-50%,0)}
+body[data-pc="5"] .uno-seat[data-seat="2"]{top:30%;left:2%;transform:translate(0,-50%)}
+body[data-pc="5"] .uno-seat[data-seat="3"]{top:30%;right:2%;transform:translate(0,-50%)}
+body[data-pc="5"] .uno-seat[data-seat="4"]{bottom:20%;left:50%;transform:translate(-50%,0)}
+body[data-pc="5"] .uno-seat[data-seat="0"]{bottom:2%;left:50%;transform:translate(-50%,0)}
+
+body[data-pc="6"] .uno-seat[data-seat="1"]{top:2%;left:50%;transform:translate(-50%,0)}
+body[data-pc="6"] .uno-seat[data-seat="2"]{top:22%;left:3%;transform:translate(0,-50%)}
+body[data-pc="6"] .uno-seat[data-seat="3"]{top:22%;right:3%;transform:translate(0,-50%)}
+body[data-pc="6"] .uno-seat[data-seat="4"]{bottom:22%;left:8%;transform:translate(0,0)}
+body[data-pc="6"] .uno-seat[data-seat="5"]{bottom:22%;right:8%;transform:translate(0,0)}
+body[data-pc="6"] .uno-seat[data-seat="0"]{bottom:2%;left:50%;transform:translate(-50%,0)}
+
+/* Center: draw pile + discard */
+.uno-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:clamp(16px,4vw,48px);z-index:2;pointer-events:none}
+.uno-pile-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:auto}
+.uno-pile-label{font:700 .6rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);white-space:nowrap}
+.uno-draw-pile{position:relative;width:clamp(56px,9vw,78px);height:clamp(84px,13.5vw,116px);cursor:pointer;transition:.2s}
+.uno-draw-pile:hover{transform:translateY(-3px)}
+.uno-draw-pile::before{content:"";position:absolute;inset:0;border-radius:9px;background:linear-gradient(135deg,#EF4444 0%,#DC2626 50%,#B91C1C 100%);box-shadow:0 6px 16px -6px rgba(0,0,0,.7),0 0 0 3px #fff,0 0 0 5px #0A0E1A;transform:rotate(-3deg)}
+.uno-draw-pile::after{content:"UNO";position:absolute;inset:0;display:grid;place-items:center;font:900 clamp(1rem,2.4vw,1.5rem)/1 var(--f-display);color:#FDE68A;font-style:italic;letter-spacing:.05em;text-shadow:2px 2px 0 rgba(0,0,0,.5);transform:rotate(-3deg);pointer-events:none}
+.uno-draw-pile.empty{opacity:.4;cursor:not-allowed}
+.uno-draw-pile.empty::before{background:rgba(255,255,255,.1);box-shadow:0 0 0 3px rgba(255,255,255,.3)}
+.uno-draw-pile.empty::after{content:"KOSONG";font-size:.7rem;color:rgba(255,255,255,.5)}
+.uno-draw-count{font:700 .68rem var(--f-mono);color:#FDE68A;background:rgba(0,0,0,.55);padding:2px 10px;border-radius:999px;white-space:nowrap}
+
+/* Discard pile — kartu besar di tengah */
+.uno-discard-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.uno-discard{position:relative;width:clamp(64px,10vw,90px);height:clamp(96px,15vw,134px);filter:drop-shadow(0 12px 24px rgba(0,0,0,.7))}
+
+/* Kartu Uno */
+.uno-card{position:relative;width:100%;height:100%;border-radius:9px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 4px 12px -4px rgba(0,0,0,.6);animation:cardDeal .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes cardDeal{from{transform:translateY(-20px) rotate(-8deg) scale(.8);opacity:0}to{transform:none;opacity:1}}
+.uno-card.red{background:linear-gradient(135deg,#F87171 0%,#EF4444 50%,#B91C1C 100%)}
+.uno-card.yellow{background:linear-gradient(135deg,#FDE047 0%,#FBBF24 50%,#D97706 100%)}
+.uno-card.green{background:linear-gradient(135deg,#34D399 0%,#10B981 50%,#047857 100%)}
+.uno-card.blue{background:linear-gradient(135deg,#60A5FA 0%,#3B82F6 50%,#1D4ED8 100%)}
+.uno-card.wild{background:linear-gradient(135deg,#1C1917 0%,#000 100%)}
+.uno-card.wild::before{content:"";position:absolute;inset:0;background:conic-gradient(from 0deg, #EF4444 0 90deg, #FBBF24 90deg 180deg, #10B981 180deg 270deg, #3B82F6 270deg 360deg);clip-path:polygon(50% 50%, 100% 0%, 100% 100%, 0% 100%, 0% 0%)}
+.uno-card .u-frame{position:absolute;inset:6%;border-radius:6px;border:3px solid rgba(255,255,255,.95);pointer-events:none}
+.uno-card .u-corner{position:absolute;font:900 clamp(.7rem,1.4vw,1rem)/1 var(--f-display);color:#fff;text-shadow:2px 2px 0 rgba(0,0,0,.5);pointer-events:none;font-style:italic}
+.uno-card .u-corner.tl{top:5%;left:8%}
+.uno-card .u-corner.br{bottom:5%;right:8%;transform:rotate(180deg)}
+.uno-card .u-center{position:relative;font:900 clamp(1.4rem,3.4vw,2.4rem)/1 var(--f-display);color:#fff;text-shadow:3px 3px 0 rgba(0,0,0,.5),-1px -1px 0 rgba(0,0,0,.3);pointer-events:none;font-style:italic;transform:rotate(-8deg);text-align:center;padding:0 6px;z-index:2}
+.uno-card .u-symbol{position:absolute;inset:14%;border-radius:50%;background:rgba(0,0,0,.15);pointer-events:none}
+.uno-card.back{background:linear-gradient(135deg,#EF4444 0%,#DC2626 50%,#B91C1C 100%);cursor:default}
+.uno-card.back .u-frame{border-color:rgba(253,230,138,.9)}
+.uno-card.back .u-center{font-size:clamp(1rem,2vw,1.4rem);color:#FDE68A;transform:rotate(-8deg)}
+.uno-card.flip-dark.red{background:linear-gradient(135deg,#F472B6 0%,#DB2777 50%,#9D174D 100%)}
+.uno-card.flip-dark.yellow{background:linear-gradient(135deg,#FCD34D 0%,#F59E0B 50%,#B45309 100%)}
+.uno-card.flip-dark.green{background:linear-gradient(135deg,#5EEAD4 0%,#14B8A6 50%,#0F766E 100%)}
+.uno-card.flip-dark.blue{background:linear-gradient(135deg,#C084FC 0%,#A855F7 50%,#6B21A8 100%)}
+.uno-card.flip-dark.wild{background:linear-gradient(135deg,#1C1917 0%,#000 100%)}
+.uno-card.small{width:clamp(38px,5.6vw,50px);height:auto;aspect-ratio:5/7}
+.uno-card.small .u-frame{border-width:2px}
+.uno-card.small .u-corner{font-size:clamp(.55rem,1vw,.7rem)}
+.uno-card.small .u-center{font-size:clamp(.9rem,1.8vw,1.25rem);text-shadow:1.5px 1.5px 0 rgba(0,0,0,.5)}
+
+/* Hero hand — horizontal scroll */
+.uno-hand-bar{flex:none;padding:8px clamp(8px,2vw,16px) 10px;background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.2) 60%,transparent);z-index:4;position:relative}
+.uno-hand-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.uno-hand-title{font:700 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#9AE6B4}
+.uno-hand-info{font:600 .72rem var(--f-body);color:rgba(255,255,255,.75)}
+.uno-hand-info b{color:#FDE68A}
+.uno-hand-scroll{display:flex;gap:6px;overflow-x:auto;overflow-y:visible;padding:8px 4px 4px;scrollbar-width:thin;scrollbar-color:rgba(253,230,138,.5) transparent;min-height:clamp(76px,12vw,100px)}
+.uno-hand-scroll::-webkit-scrollbar{height:6px}
+.uno-hand-scroll::-webkit-scrollbar-thumb{background:rgba(253,230,138,.4);border-radius:3px}
+.uno-hand-card{flex:none;width:clamp(50px,7.5vw,72px);aspect-ratio:5/7;cursor:pointer;transition:transform .18s cubic-bezier(.2,.8,.2,1),filter .18s;position:relative}
+.uno-hand-card:hover{transform:translateY(-10px) scale(1.04);z-index:2}
+.uno-hand-card.playable{filter:drop-shadow(0 0 8px rgba(253,230,138,.8))}
+.uno-hand-card.playable::after{content:"";position:absolute;inset:-3px;border-radius:11px;border:2px solid #FDE68A;pointer-events:none;animation:playableGlow 1.4s infinite}
+@keyframes playableGlow{50%{opacity:.5}}
+.uno-hand-card.not-playable{opacity:.55;filter:grayscale(.4)}
+.uno-hand-card.not-playable:hover{transform:translateY(-2px);opacity:.75}
+.uno-hand-card .u-frame{border-width:2px}
+.uno-hand-card .u-corner{font-size:.65rem}
+.uno-hand-card .u-center{font-size:1.15rem}
+
+/* Color picker overlay */
+.uno-color-picker{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:none;place-items:center;z-index:50;padding:20px}
+.uno-color-picker.open{display:grid;animation:fade .2s}
+.uno-color-picker .cp-card{background:linear-gradient(160deg,#FFF7ED,#E0F2FE);border-radius:22px;padding:clamp(24px,4vw,36px);max-width:400px;width:100%;text-align:center;box-shadow:0 40px 80px -20px rgba(0,0,0,.8);color:var(--ink)}
+.uno-color-picker .cp-card h2{font:800 1.4rem var(--f-display);margin-bottom:8px;color:var(--deep)}
+.uno-color-picker .cp-card p{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+.uno-color-picker .cp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.uno-color-btn{font:800 1rem var(--f-display);padding:24px 12px;border-radius:16px;border:3px solid #fff;color:#fff;cursor:pointer;transition:.2s;box-shadow:0 8px 20px -8px rgba(0,0,0,.4);font-style:italic;letter-spacing:.05em}
+.uno-color-btn.red{background:linear-gradient(160deg,#F87171,#EF4444)}
+.uno-color-btn.yellow{background:linear-gradient(160deg,#FDE047,#FBBF24);color:#1C1917}
+.uno-color-btn.green{background:linear-gradient(160deg,#34D399,#10B981)}
+.uno-color-btn.blue{background:linear-gradient(160deg,#60A5FA,#3B82F6)}
+.uno-color-btn:hover{transform:scale(1.05);box-shadow:0 12px 28px -10px rgba(0,0,0,.5)}
+
+/* Action bar */
+.uno-actions{flex:none;padding:8px clamp(10px,2vw,20px) 12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;z-index:5}
+.ubtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font:800 .85rem var(--f-body);padding:11px 22px;border-radius:999px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;cursor:pointer;transition:.18s;min-width:100px;backdrop-filter:blur(6px);text-transform:uppercase;letter-spacing:.04em}
+.ubtn:hover:not(:disabled){background:rgba(255,255,255,.24);transform:translateY(-1px)}
+.ubtn:disabled{opacity:.32;cursor:not-allowed;transform:none}
+.ubtn.start{background:linear-gradient(160deg,#FDE68A,#F59E0B);color:#1C1917;border-color:transparent;box-shadow:0 8px 20px -8px rgba(245,158,11,.7)}
+.ubtn.start:hover:not(:disabled){background:linear-gradient(160deg,#FCD34D,#D97706)}
+.ubtn.draw{background:linear-gradient(160deg,#60A5FA,#3B82F6);color:#fff;border-color:transparent}
+.ubtn.draw:hover:not(:disabled){background:linear-gradient(160deg,#93C5FD,#2563EB)}
+.ubtn.uno{background:linear-gradient(160deg,#F87171,#EF4444);color:#fff;border-color:transparent;animation:unoPulse 1.2s infinite}
+.ubtn.uno:hover:not(:disabled){background:linear-gradient(160deg,#FCA5A5,#DC2626)}
+@keyframes unoPulse{50%{box-shadow:0 0 0 8px rgba(239,68,68,.2)}}
+.ubtn.pass{background:rgba(255,255,255,.15);color:#fff}
+.ubtn.icon{min-width:auto;padding:11px 16px;background:rgba(253,230,138,.2);color:#FDE68A;border-color:rgba(253,230,138,.4)}
+
+/* Status message */
+.uno-status{flex:none;padding:4px 16px;text-align:center;font:700 .85rem var(--f-body);color:rgba(255,255,255,.9);text-shadow:0 1px 3px rgba(0,0,0,.7);min-height:1.4em;z-index:4}
+.uno-status.flash{animation:flashMsg .4s}
+@keyframes flashMsg{0%{transform:scale(1.1);color:#FDE68A}100%{transform:none}}
+
+/* Direction indicator (panah kecil di atas meja) */
+.dir-indicator{position:absolute;left:50%;top:8%;transform:translateX(-50%);z-index:3;display:flex;gap:4px;font-size:1.2rem;color:#FDE68A;opacity:.7;pointer-events:none}
+.dir-indicator .arrow{animation:arrowSpin 2s linear infinite}
+.dir-indicator.ccw .arrow{animation-direction:reverse}
+@keyframes arrowSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* Waiting badge */
+.waiting-badge{position:absolute;top:60px;left:50%;transform:translateX(-50%);z-index:5;font:700 .72rem var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:#0A2E1E;background:#FDE68A;padding:6px 16px;border-radius:999px;box-shadow:0 6px 16px -6px rgba(0,0,0,.6);display:none;animation:waitPulse 1.6s ease-in-out infinite;max-width:90vw;text-align:center}
+.waiting-badge.on{display:block}
+@keyframes waitPulse{50%{opacity:.7;transform:translateX(-50%) scale(1.03)}}
+
+/* ==================== MODALS ==================== */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;place-items:center;z-index:30;padding:20px;overflow-y:auto}
+.modal.open{display:grid;animation:fade .25s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal-card{background:linear-gradient(160deg,#FFF7ED,#E0F2FE);border-radius:22px;padding:clamp(22px,4vw,38px);max-width:480px;width:100%;text-align:center;box-shadow:0 40px 80px -20px rgba(0,0,0,.8);animation:pop .35s cubic-bezier(.2,.8,.2,1);color:var(--ink)}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.modal-card h2{font-size:1.55rem;margin-bottom:6px;font-family:var(--f-display)}
+.modal-card p{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+.modal-card .big{font:800 2rem/1.15 var(--f-display);color:var(--deep);margin:10px 0 18px}
+.modal-card .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.modal-card .ubtn{padding:10px 20px;font-size:.88rem}
+
+.help-modal,.settings-modal,.diff-modal,.cnt-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;place-items:center;z-index:40;padding:20px;overflow-y:auto}
+.help-modal.open,.settings-modal.open,.diff-modal.open,.cnt-modal.open{display:grid;animation:fade .25s}
+.help-card,.settings-card,.diff-card,.cnt-card{background:linear-gradient(160deg,#FFF7ED,#E0F2FE);border-radius:22px;padding:clamp(20px,3vw,32px);max-width:660px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px -20px rgba(0,0,0,.8);animation:pop .35s cubic-bezier(.2,.8,.2,1);color:var(--ink);text-align:left}
+.settings-card{max-width:520px}
+.diff-card,.cnt-card{max-width:520px;text-align:center}
+.help-card h2,.settings-card h2,.diff-card h2,.cnt-card h2{font-size:1.6rem;margin-bottom:6px;color:var(--deep);display:flex;align-items:center;gap:10px;font-family:var(--f-display)}
+.diff-card h2,.cnt-card h2{justify-content:center}
+.help-card .sub,.settings-card .sub,.diff-card .sub,.cnt-card .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+.help-card h3{font:700 .95rem var(--f-body);margin:18px 0 8px;color:var(--deep);display:flex;align-items:center;gap:8px}
+.help-card h3 .num{width:24px;height:24px;border-radius:50%;background:var(--deep);color:#fff;display:grid;place-items:center;font:700 .78rem var(--f-mono);flex:none}
+.help-card p,.help-card li{font-size:.9rem;line-height:1.55;color:var(--ink)}
+.help-card ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.help-card ul li{padding-left:18px;position:relative}
+.help-card ul li::before{content:"▸";position:absolute;left:2px;color:var(--deep);font-weight:800}
+.help-card .close-help{display:flex;justify-content:center;margin-top:20px}
+.help-card .close-help .ubtn{background:var(--deep);border-color:var(--deep);color:#fff;padding:11px 24px}
+.help-card .close-help .ubtn:hover{background:#075985}
+.help-card .tip{background:var(--ice-soft);border-left:3px solid var(--deep);padding:10px 14px;border-radius:8px;font-size:.85rem;margin-top:12px}
+.help-card .new-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.help-card .new-cards .nc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.82rem}
+.help-card .new-cards .nc b{color:var(--deep);display:block;margin-bottom:2px;font:800 .88rem var(--f-display)}
+
+.settings-card .field{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.settings-card label{font:700 .8rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.settings-card input[type=number]{font:600 .95rem var(--f-body);color:var(--ink);padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;width:100%}
+.settings-card input[type=number]:focus{outline:none;border-color:var(--deep)}
+.settings-card .hint{font:500 .72rem var(--f-body);color:var(--muted);margin-top:-4px}
+.settings-card .row{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+.settings-card .ubtn{padding:10px 20px;font-size:.88rem;border-color:var(--line);background:#fff;color:var(--ink);min-width:auto}
+.settings-card .ubtn:hover:not(:disabled){background:var(--ice-soft);border-color:var(--deep);color:var(--deep)}
+.settings-card .ubtn.primary{background:var(--deep);border-color:var(--deep);color:#fff}
+.settings-card .ubtn.primary:hover:not(:disabled){background:#075985;border-color:#075985;color:#fff}
+
+.diff-opts,.cnt-opts{display:grid;grid-template-columns:1fr;gap:10px;margin:20px 0}
+.cnt-opts{grid-template-columns:repeat(3,1fr)}
+.diff-opt,.cnt-opt{padding:16px 20px;border-radius:16px;border:2px solid var(--line);background:#fff;cursor:pointer;text-align:left;transition:.2s;color:var(--ink);display:flex;align-items:center;gap:14px}
+.cnt-opt{flex-direction:column;text-align:center;align-items:center;gap:4px;padding:18px 10px}
+.cnt-opt:hover,.diff-opt:hover{border-color:var(--deep);transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(3,105,161,.4)}
+.cnt-opt.on,.diff-opt.on{border-color:var(--deep);background:var(--ice-soft)}
+.diff-opt .di{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:1.4rem;flex:none}
+.diff-opt.beginner .di{background:rgba(16,185,129,.15);color:#10B981}
+.diff-opt.intermediate .di{background:rgba(245,158,11,.15);color:#F59E0B}
+.diff-opt.advance .di{background:rgba(239,68,68,.15);color:#EF4444}
+.diff-opt .dinfo{flex:1;min-width:0}
+.diff-opt .dinfo b{display:block;font:800 1rem var(--f-display);margin-bottom:2px}
+.diff-opt .dinfo small{display:block;font:500 .78rem var(--f-body);color:var(--muted);line-height:1.4}
+.cnt-opt b{font:800 1.4rem var(--f-display);color:var(--deep);line-height:1}
+.cnt-opt small{font:500 .72rem var(--f-body);color:var(--muted);line-height:1.3}
+.diff-card .ubtn,.cnt-card .ubtn{padding:11px 24px;font-size:.92rem;border-color:var(--line);background:#fff;color:var(--ink);min-width:auto}
+.diff-card .ubtn:hover,.cnt-card .ubtn:hover{background:var(--ice-soft);border-color:var(--deep);color:var(--deep)}
+.diff-card .ubtn.primary,.cnt-card .ubtn.primary{background:var(--deep);border-color:var(--deep);color:#fff}
+.diff-card .ubtn.primary:hover,.cnt-card .ubtn.primary:hover{background:#075985;border-color:#075985;color:#fff}
+.diff-card .row,.cnt-card .row{display:flex;gap:10px;justify-content:center;margin-top:8px}
+
+/* Responsif */
+@media (max-width:900px){
+  .uno-seat .u-avatar{width:36px;height:36px;font-size:.82rem}
+  .uno-seat .u-name{font-size:.6rem}
+  .uno-seat .u-count{font-size:.58rem}
+  .uno-hand-card{width:48px}
+  .uno-hand-card .u-center{font-size:1rem}
+  .uno-hand-card .u-corner{font-size:.58rem}
+  .game-grid{grid-template-columns:1fr 1fr}
+  .cnt-opts{grid-template-columns:1fr}
+  .help-card .new-cards{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .uno-center{gap:clamp(10px,3vw,24px)}
+  .uno-draw-pile{width:56px;height:82px}
+  .uno-discard{width:60px;height:88px}
+  .uno-hand-card{width:44px}
+  .ubtn{min-width:80px;padding:9px 14px;font-size:.78rem}
+  .waiting-badge{top:56px;font-size:.62rem;padding:5px 12px}
+  .game-grid{grid-template-columns:1fr}
+  .lobby-actions{flex-direction:column}
+  .lbtn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body data-pc="5">
+
+<!-- ============================================================
+     LOBBY
+     ============================================================ -->
+<div class="lobby" id="lobby">
+  <div class="lobby-in">
+    <div class="lobby-head">
+      <a class="lobby-brand" href="poker.html" title="Kembali ke Kartu Santai">
+        <span class="mark" aria-hidden="true">U</span>Uno
+      </a>
+      <p class="lobby-sub">4 sub-mode Uno: Express, Flip, No Mercy, dan Flip No Mercy Express. Tanpa uang nyata, tanpa pembelian.</p>
+      <div class="lobby-hint" id="lobbyHint">Pilih sub-mode</div>
+    </div>
+    <div class="game-grid" id="gameGrid"></div>
+    <div class="lobby-actions">
+      <a class="lbtn" href="poker.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        Kembali ke Kartu Santai
+      </a>
+      <button class="lbtn primary" id="lobbySettingsBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Pengaturan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GAME SHELL
+     ============================================================ -->
+<div class="wrap" id="gameWrap" hidden>
+  <div class="top">
+    <a class="brand" id="backBtn" href="#" title="Kembali">
+      <span class="mark" aria-hidden="true">U</span>Uno
+    </a>
+    <span class="mode-badge express" id="modeBadge">Express</span>
+    <button class="cnt-badge" id="cntBadge" type="button" title="Ganti jumlah pemain">5 Pemain</button>
+    <button class="diff-badge beginner" id="diffBadge" type="button" title="Ganti kesulitan">Beginner</button>
+    <button class="dir-badge" id="dirBadge" type="button" title="Ganti arah giliran">↻ Searah</button>
+    <div class="top-actions">
+      <button class="tbtn help" id="btnHelp" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-1.5 2-2 2.5-.3.3-.5.7-.5 1.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+        Cara Bermain
+      </button>
+      <button class="tbtn" id="btnSettings" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Pengaturan
+      </button>
+    </div>
+  </div>
+
+  <div class="uno-stage">
+    <div class="waiting-badge" id="waitingBadge">Giliranmu</div>
+    <div class="uno-table">
+      <div class="uno-rail" aria-hidden="true"></div>
+
+      <div class="dir-indicator" id="dirIndicator" aria-hidden="true">
+        <span class="arrow">↻</span>
+      </div>
+
+      <!-- 6 seat slot -->
+      <div class="uno-seat" data-seat="0" id="seat0">
+        <div class="u-avatar">MS<span class="u-uno" id="uno0">UNO!</span><span class="u-finished">🏆</span></div>
+        <div class="u-name">Kamu</div>
+        <div class="u-count" id="count0">0 kartu</div>
+        <div class="u-cards-mini" id="mini0"></div>
+      </div>
+      <div class="uno-seat" data-seat="1" id="seat1">
+        <div class="u-avatar">BD<span class="u-uno" id="uno1">UNO!</span><span class="u-finished">🏆</span></div>
+        <div class="u-name" id="nm1">Budi</div>
+        <div class="u-count" id="count1">0 kartu</div>
+        <div class="u-cards-mini" id="mini1"></div>
+      </div>
+      <div class="uno-seat" data-seat="2" id="seat2">
+        <div class="u-avatar">ST<span class="u-uno" id="uno2">UNO!</span><span class="u-finished">🏆</span></div>
+        <div class="u-name" id="nm2">Sinta</div>
+        <div class="u-count" id="count2">0 kartu</div>
+        <div class="u-cards-mini" id="mini2"></div>
+      </div>
+      <div class="uno-seat" data-seat="3" id="seat3">
+        <div class="u-avatar">RK<span class="u-uno" id="uno3">UNO!</span><span class="u-finished">🏆</span></div>
+        <div class="u-name" id="nm3">Raka</div>
+        <div class="u-count" id="count3">0 kartu</div>
+        <div class="u-cards-mini" id="mini3"></div>
+      </div>
+      <div class="uno-seat" data-seat="4" id="seat4">
+        <div class="u-avatar">DW<span class="u-uno" id="uno4">UNO!</span><span class="u-finished">🏆</span></div>
+        <div class="u-name" id="nm4">Dewi</div>
+        <div class="u-count" id="count4">0 kartu</div>
+        <div class="u-cards-mini" id="mini4"></div>
+      </div>
+      <div class="uno-seat" data-seat="5" id="seat5">
+        <div class="u-avatar">JK<span class="u-uno" id="uno5">UNO!</span><span class="u-finished">🏆</span></div>
+        <div class="u-name" id="nm5">Joko</div>
+        <div class="u-count" id="count5">0 kartu</div>
+        <div class="u-cards-mini" id="mini5"></div>
+      </div>
+
+      <!-- Center: draw pile + discard -->
+      <div class="uno-center">
+        <div class="uno-pile-wrap">
+          <div class="uno-pile-label">Ambil</div>
+          <div class="uno-draw-pile" id="drawPile" role="button" tabindex="0" aria-label="Ambil kartu"></div>
+          <div class="uno-draw-count" id="drawCount">0</div>
+        </div>
+        <div class="uno-discard-wrap">
+          <div class="uno-discard" id="discardPile"></div>
+          <div class="uno-pile-label" id="currentColorLabel">Warna: —</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uno-status" id="unoStatus">Tekan "Mulai Game" untuk memulai.</div>
+
+  <div class="uno-hand-bar">
+    <div class="uno-hand-head">
+      <div class="uno-hand-title">Kartu Kamu</div>
+      <div class="uno-hand-info" id="handInfo">—</div>
+    </div>
+    <div class="uno-hand-scroll" id="unoHand"></div>
+  </div>
+
+  <div class="uno-actions">
+    <button class="ubtn start" id="btnStart" type="button">Mulai Game</button>
+    <button class="ubtn draw" id="btnDraw" type="button" disabled>Ambil Kartu</button>
+    <button class="ubtn uno" id="btnUno" type="button" disabled>UNO!</button>
+    <button class="ubtn icon" id="btnHelp2" type="button" aria-label="Cara Bermain">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-1.5 2-2 2.5-.3.3-.5.7-.5 1.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Color picker -->
+<div class="uno-color-picker" id="colorPicker">
+  <div class="cp-card">
+    <h2>Pilih Warna</h2>
+    <p>Kartu Wild — pilih warna berikutnya.</p>
+    <div class="cp-grid">
+      <button class="uno-color-btn red" data-color="red" type="button">MERAH</button>
+      <button class="uno-color-btn yellow" data-color="yellow" type="button">KUNING</button>
+      <button class="uno-color-btn green" data-color="green" type="button">HIJAU</button>
+      <button class="uno-color-btn blue" data-color="blue" type="button">BIRU</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: HASIL
+     ============================================================ -->
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <h2 id="mTitle">Hasil</h2>
+    <p id="mDesc"></p>
+    <div class="big" id="mBig"></div>
+    <div class="row">
+      <button class="ubtn start" id="mNext" type="button">Main Lagi</button>
+      <button class="ubtn" id="mClose" type="button">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: BANTUAN
+     ============================================================ -->
+<div class="help-modal" id="helpModal">
+  <div class="help-card">
+    <h2>Cara Bermain Uno</h2>
+    <p class="sub">4 sub-mode: Express, Flip, No Mercy, Flip No Mercy Express.</p>
+
+    <h3><span class="num">1</span>Tujuan</h3>
+    <p>Jadi pemain <b>pertama yang menghabiskan semua kartu</b> di tangan.</p>
+
+    <h3><span class="num">2</span>Aturan Dasar</h3>
+    <ul>
+      <li>Di giliranmu, mainkan 1 kartu yang <b>cocok warna</b> atau <b>cocok angka/simbol</b> dengan kartu di tumpukan buang.</li>
+      <li>Kalau tidak punya kartu yang cocok, <b>ambil 1 dari draw pile</b>. Kalau kartu yang diambil cocok, boleh langsung dimainkan.</li>
+      <li>Kartu <b>Wild</b> boleh dimainkan kapan saja, lalu pilih warna.</li>
+      <li>Kartu <b>Wild Draw 4</b> paksa pemain berikutnya ambil 4 kartu dan kehilangan giliran.</li>
+      <li>Kalau kartu di tanganmu tinggal 1, tekan <b>"UNO!"</b> sebelum pemain lain menangkap. Kalau tidak, kena penalti +2.</li>
+      <li>Pemain pertama yang habis kartunya menang.</li>
+    </ul>
+
+    <h3><span class="num">3</span>Sub-mode</h3>
+    <ul>
+      <li><b>Express</b> — paling cepat & sederhana. Aksi standar, tanpa stacking.</li>
+      <li><b>Flip</b> — kartu 2 sisi. Sisi Terang pakai warna terang; kartu "Flip" membalik semua ke sisi Gelap dengan aksi berbeda (Draw 5, Skip Everyone, Wild Draw Color).</li>
+      <li><b>No Mercy</b> — agresif. Ada stacking +2/+4/+6/+10, wajib Draw Until Playable, dan "Mercy Rule": kalau tangan ≥ 25 kartu, langsung kalah.</li>
+      <li><b>Flip No Mercy Express</b> — gabungan Flip + No Mercy + Express. Stacking lintas sisi, wajib draw sampai playable, Mercy di 20 kartu.</li>
+    </ul>
+
+    <h3><span class="num">4</span>5 Kartu Baru</h3>
+    <div class="new-cards">
+      <div class="nc"><b>Reflect</b>Pantulkan efek aksi terakhir ke pemain sebelumnya.</div>
+      <div class="nc"><b>Swap Hands</b>Tukar seluruh tanganmu dengan pemain pilihan.</div>
+      <div class="nc"><b>Shield</b>Pasang perisai; Draw berikutnya untukmu dilempar ke pemain sebelumnya.</div>
+      <div class="nc"><b>Double Play</b>Mainkan 2 kartu sekaligus (harus warna/angka sama).</div>
+      <div class="nc"><b>Time Bomb</b>Menggantung 3 giliran; kalau tidak didefuse, kena +4.</div>
+    </div>
+
+    <h3><span class="num">5</span>Jumlah Pemain & Arah</h3>
+    <ul>
+      <li>Bisa 4, 5, atau 6 pemain. Klik badge <b>X Pemain</b> di top bar.</li>
+      <li>Giliran berurutan sesuai arah. Klik <b>↻ / ↺</b> untuk ganti arah.</li>
+    </ul>
+
+    <h3><span class="num">6</span>Waktu</h3>
+    <p><b>Giliranmu tidak ada batas waktu.</b> AI tidak akan bergerak sampai kamu memainkan kartu, ambil kartu, atau tekan UNO!.</p>
+
+    <div class="tip">💡 Tanpa uang nyata. Murni hiburan.</div>
+    <div class="close-help">
+      <button class="ubtn" id="helpClose" type="button">Mengerti, Ayo Main!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: PENGATURAN
+     ============================================================ -->
+<div class="settings-modal" id="settingsModal">
+  <div class="settings-card">
+    <h2>Pengaturan</h2>
+    <p class="sub">Nilai dalam milidetik (ms). Isi sendiri sesuai selera.</p>
+    <div class="field">
+      <label for="setAIMin">Kecepatan AI — minimum (ms)</label>
+      <input type="number" id="setAIMin" min="100" max="10000" step="100" value="1200">
+      <span class="hint">Contoh: 1200 = AI berpikir minimal 1.2 detik.</span>
+    </div>
+    <div class="field">
+      <label for="setAIMax">Kecepatan AI — maksimum (ms)</label>
+      <input type="number" id="setAIMax" min="100" max="15000" step="100" value="2000">
+      <span class="hint">AI memilih jeda acak antara minimum dan maksimum.</span>
+    </div>
+    <div class="row">
+      <button class="ubtn" id="settingsClose" type="button">Tutup</button>
+      <button class="ubtn primary" id="settingsSave" type="button">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: KESULITAN
+     ============================================================ -->
+<div class="diff-modal" id="diffModal">
+  <div class="diff-card">
+    <h2>Pilih Kesulitan AI</h2>
+    <p class="sub">Bisa diubah kapan saja. Berlaku untuk ronde berikutnya.</p>
+    <div class="diff-opts">
+      <button class="diff-opt beginner" data-diff="beginner" type="button">
+        <div class="di">&#127793;</div>
+        <div class="dinfo"><b>Beginner</b><small>AI main acak, sering salah pilih warna.</small></div>
+      </button>
+      <button class="diff-opt intermediate" data-diff="intermediate" type="button">
+        <div class="di">&#9889;</div>
+        <div class="dinfo"><b>Intermediate</b><small>AI pilih warna paling banyak di tangan, sesekali blokir.</small></div>
+      </button>
+      <button class="diff-opt advance" data-diff="advance" type="button">
+        <div class="di">&#128293;</div>
+        <div class="dinfo"><b>Advance</b><small>AI hitung warna mayoritas, simpan kartu aksi untuk momen tepat.</small></div>
+      </button>
+    </div>
+    <div class="row">
+      <button class="ubtn primary" id="diffClose" type="button">Selesai</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: PILIH JUMLAH PEMAIN
+     ============================================================ -->
+<div class="cnt-modal" id="cntModal">
+  <div class="cnt-card">
+    <h2>Pilih Jumlah Pemain</h2>
+    <p class="sub">Pilih total pemain (kamu + AI). Berlaku untuk semua sub-mode.</p>
+    <div class="cnt-opts">
+      <button class="cnt-opt" data-cnt="4" type="button"><b>4</b><small>Kamu + 3 AI</small></button>
+      <button class="cnt-opt on" data-cnt="5" type="button"><b>5</b><small>Kamu + 4 AI</small></button>
+      <button class="cnt-opt" data-cnt="6" type="button"><b>6</b><small>Kamu + 5 AI</small></button>
+    </div>
+    <div class="row">
+      <button class="ubtn primary" id="cntClose" type="button">Selesai</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCRIPT: tempel JS balasan 5b & 5c di sini
+     ============================================================ -->
+<script>
+  (function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+var SETTINGS={
+  aiMin:1200,
+  aiMax:2000,
+  difficulty:'beginner',
+  direction:'cw',
+  playerCount:5
+};
+try{
+  var saved=localStorage.getItem('uno.settings');
+  if(saved){
+    var obj=JSON.parse(saved);
+    Object.keys(obj).forEach(function(k){ if(k in SETTINGS) SETTINGS[k]=obj[k] });
+  }
+}catch(e){}
+function saveSettings(){ try{localStorage.setItem('uno.settings',JSON.stringify(SETTINGS))}catch(e){} }
+function aiDelay(){
+  var min=SETTINGS.aiMin, max=Math.max(min+100,SETTINGS.aiMax);
+  return min+Math.random()*(max-min);
+}
+function nextPlayerIndex(current){
+  var n=SETTINGS.playerCount;
+  if(SETTINGS.direction==='cw') return (current+1)%n;
+  return (current+n-1)%n;
+}
+
+/* Profil AI 5 slot */
+var AI_PROFILES=[
+  {name:'Budi', av:'BD'},
+  {name:'Sinta',av:'ST'},
+  {name:'Raka', av:'RK'},
+  {name:'Dewi', av:'DW'},
+  {name:'Joko', av:'JK'}
+];
+
+/* Audio opsional */
+var audioCtx=null;
+function beep(freq,dur){
+  try{
+    if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    var o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.frequency.value=freq; o.type='sine'; g.gain.value=0.035;
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+dur);
+    o.stop(audioCtx.currentTime+dur);
+  }catch(e){}
+}
+
+/* ============================================================
+   DEFINISI KARTU UNO
+   ============================================================
+   Struktur kartu:
+   { type, color, value, side, label, symbol }
+   
+   type: 'number' | 'skip' | 'reverse' | 'draw2' | 'wild' | 'wild4' | 
+         'flip' | 'draw5' | 'skipAll' | 'wildColor' | 'draw6' | 'draw10'
+         'reflect' | 'swapHands' | 'shield' | 'doublePlay' | 'timeBomb'
+   color: 'red' | 'yellow' | 'green' | 'blue' | 'wild'
+   side: 'light' | 'dark' (untuk flip)
+   value: angka 0-9 (untuk type 'number'), null untuk lainnya
+   ============================================================ */
+
+var COLORS=['red','yellow','green','blue'];
+var COLOR_LABEL={red:'Merah',yellow:'Kuning',green:'Hijau',blue:'Biru',wild:'Wild'};
+
+/* 5 kartu baru buatan */
+var NEW_CARD_TYPES=['reflect','swapHands','shield','doublePlay','timeBomb'];
+var NEW_CARD_INFO={
+  reflect:{label:'Reflect',symbol:'⟲',desc:'Pantulkan efek aksi terakhir ke pemain sebelumnya.'},
+  swapHands:{label:'Swap',symbol:'⇄',desc:'Tukar tangan dengan pemain pilihan.'},
+  shield:{label:'Shield',symbol:'🛡',desc:'Draw berikutnya untukmu dilempar ke pemain sebelumnya.'},
+  doublePlay:{label:'Double',symbol:'2×',desc:'Mainkan 2 kartu sekaligus (warna/angka sama).'},
+  timeBomb:{label:'Bomb',symbol:'💣',desc:'Menggantung 3 giliran; kalau tidak didefuse, +4 kartu.'}
+};
+
+/* Bangun deck sesuai sub-mode */
+function buildDeck(mode){
+  var deck=[];
+  var side=mode==='flip' || mode==='combo' ? 'light' : 'light';
+
+  function addNumbers(side, variant){
+    COLORS.forEach(function(color){
+      // 0 hanya 1
+      deck.push({type:'number',color:color,value:0,side:side,label:'0',symbol:'0'});
+      // 1-9 masing-masing 2
+      for(var n=1;n<=9;n++){
+        deck.push({type:'number',color:color,value:n,side:side,label:String(n),symbol:String(n)});
+        deck.push({type:'number',color:color,value:n,side:side,label:String(n),symbol:String(n)});
+      }
+      // Aksi standar: Skip, Reverse, Draw2 masing-masing 2
+      ['skip','reverse','draw2'].forEach(function(t){
+        deck.push({type:t,color:color,value:null,side:side,label:'',symbol:''});
+        deck.push({type:t,color:color,value:null,side:side,label:'',symbol:''});
+      });
+    });
+    // Wild: 4
+    for(var i=0;i<4;i++){
+      deck.push({type:'wild',color:'wild',value:null,side:side,label:'W',symbol:'W'});
+    }
+    // Wild Draw 4: 4
+    for(var j=0;j<4;j++){
+      deck.push({type:'wild4',color:'wild',value:null,side:side,label:'+4',symbol:'+4'});
+    }
+  }
+
+  if(mode==='express'){
+    addNumbers('light');
+    // tambah 5 kartu baru (1 copy masing-masing)
+    NEW_CARD_TYPES.forEach(function(t){
+      deck.push({type:t,color:'wild',value:null,side:'light',label:NEW_CARD_INFO[t].symbol,symbol:NEW_CARD_INFO[t].symbol});
+    });
+  }
+  else if(mode==='flip'){
+    // Sisi Terang — angka 1-9, Skip, Reverse, Draw1
+    COLORS.forEach(function(color){
+      deck.push({type:'number',color:color,value:0,side:'light',label:'0',symbol:'0'});
+      for(var n=1;n<=9;n++){
+        deck.push({type:'number',color:color,value:n,side:'light',label:String(n),symbol:String(n)});
+      }
+      ['skip','reverse','draw1'].forEach(function(t){
+        deck.push({type:t,color:color,value:null,side:'light',label:'',symbol:''});
+      });
+    });
+    for(var w=0;w<4;w++){
+      deck.push({type:'wild',color:'wild',value:null,side:'light',label:'W',symbol:'W'});
+    }
+    // Kartu Flip: 2 di sisi terang
+    for(var f=0;f<2;f++){
+      deck.push({type:'flip',color:'wild',value:null,side:'light',label:'FLIP',symbol:'⟳'});
+    }
+    // Sisi Gelap — angka 1-9 (warna gelap pakai warna sama, visual beda via CSS), Draw5, Skip All, Wild Draw Color
+    COLORS.forEach(function(color){
+      for(var n2=1;n2<=9;n2++){
+        deck.push({type:'number',color:color,value:n2,side:'dark',label:String(n2),symbol:String(n2)});
+      }
+      deck.push({type:'draw5',color:color,value:null,side:'dark',label:'+5',symbol:'+5'});
+      deck.push({type:'skipAll',color:color,value:null,side:'dark',label:'⊘⊘',symbol:'⊘⊘'});
+    });
+    for(var wc=0;wc<2;wc++){
+      deck.push({type:'wildColor',color:'wild',value:null,side:'dark',label:'W',symbol:'W'});
+    }
+    // 5 kartu baru
+    NEW_CARD_TYPES.forEach(function(t){
+      deck.push({type:t,color:'wild',value:null,side:'light',label:NEW_CARD_INFO[t].symbol,symbol:NEW_CARD_INFO[t].symbol});
+    });
+  }
+  else if(mode==='nomercy'){
+    addNumbers('light');
+    // Tambahan kartu No Mercy: Draw6, Draw10 (2 masing-masing per warna)
+    COLORS.forEach(function(color){
+      deck.push({type:'draw6',color:color,value:null,side:'light',label:'+6',symbol:'+6'});
+      deck.push({type:'draw6',color:color,value:null,side:'light',label:'+6',symbol:'+6'});
+      deck.push({type:'draw10',color:color,value:null,side:'light',label:'+10',symbol:'+10'});
+      deck.push({type:'draw10',color:color,value:null,side:'light',label:'+10',symbol:'+10'});
+    });
+    // Wild Draw 6 / Draw 10 versi No Mercy
+    deck.push({type:'draw6',color:'wild',value:null,side:'light',label:'+6',symbol:'+6'});
+    deck.push({type:'draw10',color:'wild',value:null,side:'light',label:'+10',symbol:'+10'});
+    // 5 kartu baru
+    NEW_CARD_TYPES.forEach(function(t){
+      deck.push({type:t,color:'wild',value:null,side:'light',label:NEW_CARD_INFO[t].symbol,symbol:NEW_CARD_INFO[t].symbol});
+    });
+  }
+  else if(mode==='combo'){
+    // Gabungan: sisi Terang & Gelap + No Mercy kartu + 5 kartu baru
+    COLORS.forEach(function(color){
+      deck.push({type:'number',color:color,value:0,side:'light',label:'0',symbol:'0'});
+      for(var n3=1;n3<=9;n3++){
+        deck.push({type:'number',color:color,value:n3,side:'light',label:String(n3),symbol:String(n3)});
+        deck.push({type:'number',color:color,value:n3,side:'dark',label:String(n3),symbol:String(n3)});
+      }
+      ['skip','reverse','draw2'].forEach(function(t){
+        deck.push({type:t,color:color,value:null,side:'light',label:'',symbol:''});
+        deck.push({type:t,color:color,value:null,side:'light',label:'',symbol:''});
+      });
+      // dark side actions
+      deck.push({type:'draw5',color:color,value:null,side:'dark',label:'+5',symbol:'+5'});
+      deck.push({type:'skipAll',color:color,value:null,side:'dark',label:'⊘⊘',symbol:'⊘⊘'});
+      // No Mercy stacking
+      deck.push({type:'draw6',color:color,value:null,side:'light',label:'+6',symbol:'+6'});
+      deck.push({type:'draw10',color:color,value:null,side:'light',label:'+10',symbol:'+10'});
+    });
+    for(var wc2=0;wc2<4;wc2++){
+      deck.push({type:'wild',color:'wild',value:null,side:'light',label:'W',symbol:'W'});
+      deck.push({type:'wild4',color:'wild',value:null,side:'light',label:'+4',symbol:'+4'});
+    }
+    for(var fc=0;fc<2;fc++){
+      deck.push({type:'flip',color:'wild',value:null,side:'light',label:'FLIP',symbol:'⟳'});
+    }
+    for(var wc3=0;wc3<2;wc3++){
+      deck.push({type:'wildColor',color:'wild',value:null,side:'dark',label:'W',symbol:'W'});
+    }
+    NEW_CARD_TYPES.forEach(function(t){
+      deck.push({type:t,color:'wild',value:null,side:'light',label:NEW_CARD_INFO[t].symbol,symbol:NEW_CARD_INFO[t].symbol});
+    });
+  }
+  return deck;
+}
+
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}
+  return a;
+}
+
+/* Label & ikon untuk kartu aksi */
+function cardLabel(c){
+  switch(c.type){
+    case 'number': return c.label || String(c.value);
+    case 'skip': return '⊘';
+    case 'reverse': return '⇋';
+    case 'draw2': return '+2';
+    case 'draw1': return '+1';
+    case 'draw5': return '+5';
+    case 'draw6': return '+6';
+    case 'draw10': return '+10';
+    case 'wild4': return '+4';
+    case 'wild': return 'W';
+    case 'wildColor': return 'W';
+    case 'flip': return '⟳';
+    case 'skipAll': return '⊘⊘';
+    case 'reflect': return '⟲';
+    case 'swapHands': return '⇄';
+    case 'shield': return '🛡';
+    case 'doublePlay': return '2×';
+    case 'timeBomb': return '💣';
+  }
+  return '?';
+}
+function cardName(c){
+  switch(c.type){
+    case 'number': return c.value;
+    case 'skip': return 'Skip';
+    case 'reverse': return 'Reverse';
+    case 'draw2': return 'Draw 2';
+    case 'draw1': return 'Draw 1';
+    case 'draw5': return 'Draw 5';
+    case 'draw6': return 'Draw 6';
+    case 'draw10': return 'Draw 10';
+    case 'wild4': return 'Wild Draw 4';
+    case 'wild': return 'Wild';
+    case 'wildColor': return 'Wild Color';
+    case 'flip': return 'Flip';
+    case 'skipAll': return 'Skip All';
+    case 'reflect': return 'Reflect';
+    case 'swapHands': return 'Swap Hands';
+    case 'shield': return 'Shield';
+    case 'doublePlay': return 'Double Play';
+    case 'timeBomb': return 'Time Bomb';
+  }
+  return '?';
+}
+
+/* Cek apakah kartu cocok dengan discard */
+function canPlayCard(card, topCard, currentColor, sideActive){
+  // Side mismatch — tidak bisa main kecuali kartu flip
+  if(card.type==='flip') return true;
+  if(card.side!==sideActive) return false;
+  // Wild family: selalu bisa
+  if(card.color==='wild') return true;
+  if(card.type==='wild4' || card.type==='wildColor') return true;
+  // Kartu baru (semua wild)
+  if(NEW_CARD_TYPES.indexOf(card.type)>=0) return true;
+  // Nomor: cocok warna atau angka
+  if(card.type==='number' && topCard.type==='number'){
+    return card.color===currentColor || card.value===topCard.value;
+  }
+  // Aksi: cocok warna, atau aksi sama (di sisi yang sama)
+  if(card.color===currentColor) return true;
+  if(card.type===topCard.type) return true;
+  return false;
+}
+
+/* ============================================================
+   RENDER KARTU KE HTML
+   ============================================================ */
+function cardHTML(c, size){
+  if(!c) return '<div class="uno-card back '+(size||'')+'"><span class="u-frame"></span><span class="u-center">UNO</span></div>';
+  var colorCls = c.color==='wild' ? 'wild' : c.color;
+  var sideCls = c.side==='dark' ? ' flip-dark' : '';
+  var lbl = cardLabel(c);
+  var corner = (c.type==='number') ? String(c.value) : (lbl.length<=2?lbl:lbl.charAt(0));
+  var html = '<div class="uno-card '+colorCls+sideCls+' '+(size||'')+'">'+
+    '<span class="u-frame"></span>'+
+    '<span class="u-corner tl">'+corner+'</span>'+
+    '<span class="u-corner br">'+corner+'</span>'+
+    '<span class="u-center">'+lbl+'</span>'+
+  '</div>';
+  return html;
+}
+
+/* ============================================================
+   MENU SUB-MODE
+   ============================================================ */
+var SUBMODES=[
+  {id:'express', name:'Uno Express', icon:'⚡', desc:'Cepat & sederhana. Aksi standar, tanpa stacking.', status:'ready', tags:['Aktif','Cepat','Simpel']},
+  {id:'flip', name:'Uno Flip', icon:'⟳', desc:'Kartu 2 sisi. Flip membalik semua ke sisi Gelap.', status:'ready', tags:['Aktif','2 sisi','Aksi khusus']},
+  {id:'nomercy', name:'Uno No Mercy', icon:'🔥', desc:'Agresif. Stacking +6/+10, wajib draw sampai playable.', status:'ready', tags:['Aktif','Agresif','Stacking']},
+  {id:'combo', name:'Flip No Mercy Express', icon:'🌟', desc:'Gabungan: Flip + No Mercy + Express. Paling kompleks.', status:'ready', tags:['Aktif','Kompleks','Combo']}
+];
+function renderLobby(){
+  var grid=$('#gameGrid');
+  var hint=$('#lobbyHint');
+  if(hint) hint.textContent='Pilih sub-mode';
+  grid.innerHTML=SUBMODES.map(function(m){
+    var cls='game-card '+(m.status==='ready'?'active':'locked');
+    return '<button class="'+cls+'" data-mode="'+m.id+'" type="button">'+
+      '<div class="game-icon">'+m.icon+'</div>'+
+      '<div class="game-name">'+m.name+'</div>'+
+      '<div class="game-desc">'+m.desc+'</div>'+
+      '<div class="game-meta">'+m.tags.map(function(t,i){
+        return '<span class="game-tag '+(i===0?'ready':'sub')+'">'+t+'</span>';
+      }).join('')+'</div>'+
+    '</button>';
+  }).join('');
+}
+renderLobby();
+
+/* ============================================================
+   MODAL HELPERS
+   ============================================================ */
+function showResult(title,desc,big){
+  $('#mTitle').textContent=title;
+  $('#mDesc').textContent=desc;
+  $('#mBig').innerHTML=big||'';
+  $('#modal').classList.add('open');
+}
+function closeResult(){ $('#modal').classList.remove('open'); }
+function openHelp(){ $('#helpModal').classList.add('open'); }
+function closeHelp(){ $('#helpModal').classList.remove('open'); }
+function openSettings(){
+  $('#setAIMin').value=SETTINGS.aiMin;
+  $('#setAIMax').value=SETTINGS.aiMax;
+  $('#settingsModal').classList.add('open');
+}
+function closeSettings(){ $('#settingsModal').classList.remove('open'); }
+function openDiff(){ syncDiffUI(); $('#diffModal').classList.add('open'); }
+function closeDiff(){ $('#diffModal').classList.remove('open'); }
+function syncDiffUI(){ $$('.diff-opt').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-diff')===SETTINGS.difficulty)}) }
+function openCnt(){ syncCntUI(); $('#cntModal').classList.add('open'); }
+function closeCnt(){ $('#cntModal').classList.remove('open'); }
+function syncCntUI(){ $$('.cnt-opt').forEach(function(b){b.classList.toggle('on',+b.getAttribute('data-cnt')===SETTINGS.playerCount)}) }
+
+/* ============================================================
+   EXPOSE KE GLOBAL
+   ============================================================ */
+window.UNO={
+  SETTINGS:SETTINGS,
+  AI_PROFILES:AI_PROFILES,
+  COLORS:COLORS,
+  COLOR_LABEL:COLOR_LABEL,
+  NEW_CARD_TYPES:NEW_CARD_TYPES,
+  NEW_CARD_INFO:NEW_CARD_INFO,
+  buildDeck:buildDeck,
+  shuffle:shuffle,
+  cardLabel:cardLabel,
+  cardName:cardName,
+  cardHTML:cardHTML,
+  canPlayCard:canPlayCard,
+  nextPlayerIndex:nextPlayerIndex,
+  aiDelay:aiDelay,
+  beep:beep,
+  showResult:showResult,
+  closeResult:closeResult,
+  openHelp:openHelp,
+  closeHelp:closeHelp,
+  openSettings:openSettings,
+  closeSettings:closeSettings,
+  openDiff:openDiff,
+  closeDiff:closeDiff,
+  openCnt:openCnt,
+  closeCnt:closeCnt,
+  syncDiffUI:syncDiffUI,
+  syncCntUI:syncCntUI,
+  saveSettings:saveSettings,
+  renderLobby:renderLobby
+};
+
+/* ============================================================
+   WIRE EVENT GLOBAL
+   ============================================================ */
+$('#backBtn').addEventListener('click',function(e){
+  e.preventDefault();
+  if(window.UNO_APP && window.UNO_APP.exit){ window.UNO_APP.exit(); return; }
+  // fallback
+  $('#gameWrap').hidden=true;
+  $('#lobby').hidden=false;
+  document.body.style.overflow='';
+});
+$('#btnHelp').addEventListener('click',openHelp);
+$('#helpClose').addEventListener('click',closeHelp);
+$('#btnHelp2').addEventListener('click',openHelp);
+$('#btnSettings').addEventListener('click',openSettings);
+$('#lobbySettingsBtn').addEventListener('click',openSettings);
+$('#settingsClose').addEventListener('click',closeSettings);
+$('#settingsSave').addEventListener('click',function(){
+  var v=function(id,def){var n=parseInt($(id).value,10);return isNaN(n)||n<0?def:n};
+  SETTINGS.aiMin=Math.max(100,v('#setAIMin',1200));
+  SETTINGS.aiMax=Math.max(SETTINGS.aiMin+100,v('#setAIMax',2000));
+  saveSettings();
+  closeSettings();
+  if(window.UNO_APP && window.UNO_APP.onSettingsChange) window.UNO_APP.onSettingsChange();
+});
+$('#diffBadge').addEventListener('click',openDiff);
+$('#diffClose').addEventListener('click',closeDiff);
+$$('.diff-opt').forEach(function(b){
+  b.addEventListener('click',function(){
+    SETTINGS.difficulty=b.getAttribute('data-diff');
+    saveSettings(); syncDiffUI();
+    if(window.UNO_APP && window.UNO_APP.onDiffChange) window.UNO_APP.onDiffChange();
+  });
+});
+$('#cntBadge').addEventListener('click',openCnt);
+$('#cntClose').addEventListener('click',function(){
+  closeCnt();
+  if(window.UNO_APP && window.UNO_APP.onCntChange) window.UNO_APP.onCntChange();
+});
+$$('.cnt-opt').forEach(function(b){
+  b.addEventListener('click',function(){
+    SETTINGS.playerCount=+b.getAttribute('data-cnt');
+    saveSettings(); syncCntUI();
+  });
+});
+$('#dirBadge').addEventListener('click',function(){
+  SETTINGS.direction=SETTINGS.direction==='cw'?'ccw':'cw';
+  saveSettings();
+  if(window.UNO_APP && window.UNO_APP.onDirChange) window.UNO_APP.onDirChange();
+});
+
+/* Klik card sub-mode di lobby */
+document.addEventListener('click',function(e){
+  var card=e.target.closest('.game-card');
+  if(!card||card.disabled)return;
+  var mode=card.getAttribute('data-mode');
+  if(mode && window.UNO_APP && window.UNO_APP.enter) window.UNO_APP.enter(mode);
+});
+
+/* Escape tutup modal */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape')return;
+  if($('#helpModal').classList.contains('open')){ closeHelp(); return; }
+  if($('#settingsModal').classList.contains('open')){ closeSettings(); return; }
+  if($('#diffModal').classList.contains('open')){ closeDiff(); return; }
+  if($('#cntModal').classList.contains('open')){ closeCnt(); return; }
+  if($('#modal').classList.contains('open')){ closeResult(); return; }
+  if($('#colorPicker').classList.contains('open')){ /* biarkan, wajib pilih */ return; }
+});
+
+/* Render awal */
+renderLobby();
+
+/* Selesai bagian 5b. Bagian 5c akan mendefinisikan window.UNO_APP:
+   - enter(mode)
+   - exit()
+   - onSettingsChange()
+   - onDiffChange()
+   - onCntChange()
+   - onDirChange()
+*/
+})();
+
+  /* ============================================================
+   BAGIAN 5c: LOGIKA UNO (4 SUB-MODE) — FINAL
+   ============================================================ */
+(function(){
+'use strict';
+if(!window.UNO){ console.warn('Bagian 5c: modul UNO tidak ditemukan.'); return; }
+var U=window.UNO;
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+var G={
+  mode:'express',
+  players:[],
+  deck:[],
+  discard:[],       // tumpukan buang
+  currentColor:null,
+  sideActive:'light',
+  turn:0,
+  direction:'cw',    // arah local (bisa dibalik oleh Reverse)
+  active:false,
+  finished:false,
+  aiTimer:null,
+  awaitingColorChoice:false,   // player harus pilih warna
+  pendingColorCard:null,       // kartu wild yang memicu color picker
+  unoCalls:{},                 // {playerIdx:true} — siapa sudah tekan UNO
+  doublePlay:{active:false,firstCard:null},  // untuk Double Play
+  timeBombs:[],                // array {owner, turnsLeft}
+  shields:{},                  // {playerIdx:true}
+  stats:{round:0,win:0,lose:0}
+};
+
+function playerCount(){ return U.SETTINGS.playerCount; }
+function clearAITimer(){ if(G.aiTimer){clearTimeout(G.aiTimer);G.aiTimer=null} }
+
+function buildPlayers(){
+  G.players=[];
+  G.players.push({id:0,name:'Kamu',you:true,av:'MS',hand:[],finished:false,unoCalled:false});
+  for(var i=0;i<playerCount()-1;i++){
+    var prof=U.AI_PROFILES[i];
+    G.players.push({id:i+1,name:prof.name,you:false,av:prof.av,hand:[],finished:false,unoCalled:false});
+  }
+}
+buildPlayers();
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function seatEl(idx){ return $('#seat'+idx); }
+
+function renderSeats(){
+  document.body.setAttribute('data-pc', String(playerCount()));
+  for(var i=0;i<6;i++){
+    var seat=seatEl(i);
+    if(!seat) continue;
+    if(i>=playerCount()){ seat.classList.remove('show','active','finished'); continue; }
+    var p=G.players[i];
+    seat.classList.add('show');
+    seat.classList.toggle('active', G.active && !G.finished && G.turn===i && !p.finished);
+    seat.classList.toggle('finished', p.finished);
+    var cEl=$('#count'+i);
+    if(cEl){
+      cEl.textContent=p.finished?'SELESAI':(p.hand.length+' kartu');
+      cEl.classList.toggle('warn', !p.finished && p.hand.length===1);
+    }
+    var uEl=$('#uno'+i);
+    if(uEl) uEl.classList.toggle('show', p.unoCalled && !p.finished);
+    // mini cards
+    var mEl=$('#mini'+i);
+    if(mEl){
+      var n=Math.min(p.hand.length, 6);
+      var html='';
+      for(var k=0;k<n;k++){
+        var col=p.hand[k] ? p.hand[k].color : 'red';
+        if(col==='wild') col='wild';
+        html+='<div class="u-mini" style="background:'+colorBg(col)+'"></div>';
+      }
+      mEl.innerHTML=html;
+    }
+  }
+}
+
+function colorBg(c){
+  switch(c){
+    case 'red':return 'linear-gradient(135deg,#F87171,#EF4444)';
+    case 'yellow':return 'linear-gradient(135deg,#FDE047,#FBBF24)';
+    case 'green':return 'linear-gradient(135deg,#34D399,#10B981)';
+    case 'blue':return 'linear-gradient(135deg,#60A5FA,#3B82F6)';
+    default:return 'linear-gradient(135deg,#1C1917,#000)';
+  }
+}
+
+function renderPiles(){
+  // Draw pile
+  var dp=$('#drawPile');
+  if(dp){
+    dp.classList.toggle('empty', G.deck.length===0);
+  }
+  $('#drawCount').textContent=G.deck.length;
+
+  // Discard pile
+  var top=G.discard[G.discard.length-1];
+  var dpile=$('#discardPile');
+  if(dpile) dpile.innerHTML=U.cardHTML(top,'');
+
+  // Current color label
+  var cl=$('#currentColorLabel');
+  if(cl){
+    cl.textContent='Warna: '+(G.currentColor?U.COLOR_LABEL[G.currentColor]:'—');
+  }
+
+  // Direction indicator
+  var di=$('#dirIndicator');
+  if(di){
+    di.classList.toggle('ccw', G.direction==='ccw');
+    var arrow=di.querySelector('.arrow');
+    if(arrow) arrow.textContent=G.direction==='ccw'?'↺':'↻';
+  }
+
+  // Mode badge
+  var mb=$('#modeBadge');
+  if(mb){
+    mb.textContent={express:'Express',flip:'Flip',nomercy:'No Mercy',combo:'Flip No Mercy Express'}[G.mode]||'Uno';
+    mb.className='mode-badge '+(G.mode==='express'?'express':G.mode==='flip'?'flip':G.mode==='nomercy'?'nomercy':'combo');
+  }
+
+  // Cnt, Diff, Dir badges
+  var cb=$('#cntBadge'); if(cb) cb.textContent=playerCount()+' Pemain';
+  var db=$('#diffBadge');
+  if(db){ db.textContent=U.SETTINGS.difficulty.charAt(0).toUpperCase()+U.SETTINGS.difficulty.slice(1); db.className='diff-badge '+U.SETTINGS.difficulty; }
+  var dr=$('#dirBadge');
+  if(dr){
+    if(U.SETTINGS.direction==='cw'){dr.textContent='↻ Searah';dr.className='dir-badge'}
+    else{dr.textContent='↺ Berlawanan';dr.className='dir-badge ccw'}
+  }
+}
+
+function renderHand(){
+  var me=G.players[0];
+  var handEl=$('#unoHand');
+  var infoEl=$('#handInfo');
+  if(!handEl) return;
+  if(!me){
+    handEl.innerHTML='';
+    return;
+  }
+  if(!me.hand.length){
+    handEl.innerHTML='<div style="color:rgba(255,255,255,.5);font:500 .85rem var(--f-body);padding:14px">Tanganmu kosong</div>';
+  }else{
+    var top=G.discard[G.discard.length-1];
+    handEl.innerHTML=me.hand.map(function(c,i){
+      var playable=G.active && !G.finished && G.turn===0 && !me.finished && U.canPlayCard(c,top,G.currentColor,G.sideActive);
+      var cls='uno-hand-card'+(playable?' playable':' not-playable');
+      return '<div class="'+cls+'" data-idx="'+i+'">'+U.cardHTML(c,'')+'</div>';
+    }).join('');
+  }
+  var info='';
+  if(me.finished) info='Kamu sudah selesai! 🏆';
+  else if(G.turn===0 && G.active && !G.finished) info='Kartu: <b>'+me.hand.length+'</b> · Giliranmu';
+  else info='Kartu: <b>'+me.hand.length+'</b> · Menunggu '+(G.players[G.turn]?G.players[G.turn].name:'');
+  if(infoEl) infoEl.innerHTML=info;
+}
+
+function renderActions(){
+  var me=G.players[0];
+  var top=G.discard[G.discard.length-1];
+  var canAct=G.active && !G.finished && G.turn===0 && me && !me.finished && !G.awaitingColorChoice;
+  var hasPlayable=canAct && me.hand.some(function(c){return U.canPlayCard(c,top,G.currentColor,G.sideActive)});
+
+  $('#btnStart').disabled=G.active;
+  $('#btnDraw').disabled=!canAct;
+  var canUno=canAct && me && me.hand.length===1 && !me.unoCalled;
+  $('#btnUno').disabled=!canUno;
+
+  var wb=$('#waitingBadge');
+  if(canAct){wb.classList.add('on');wb.textContent='Giliranmu — tidak ada batas waktu'}
+  else wb.classList.remove('on');
+}
+
+function setStatus(txt,flash){
+  var el=$('#unoStatus');
+  if(!el) return;
+  el.textContent=txt;
+  if(flash){ el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+}
+
+function renderAll(){
+  renderSeats();
+  renderPiles();
+  renderHand();
+  renderActions();
+}
+
+/* ============================================================
+   COLOR PICKER (untuk Wild)
+   ============================================================ */
+function showColorPicker(card){
+  G.awaitingColorChoice=true;
+  G.pendingColorCard=card;
+  $('#colorPicker').classList.add('open');
+}
+function hideColorPicker(){
+  $('#colorPicker').classList.remove('open');
+}
+function onColorPick(color){
+  if(!G.awaitingColorChoice) return;
+  var card=G.pendingColorCard;
+  G.awaitingColorChoice=false;
+  G.pendingColorCard=null;
+  hideColorPicker();
+  if(!card) return;
+  G.currentColor=color;
+  // lanjut efek kartu
+  applyWildEffect(card,color);
+  renderAll();
+  nextTurnAfterPlay();
+}
+
+/* ============================================================
+   START GAME
+   ============================================================ */
+function startGame(mode){
+  if(G.active) return;
+  clearAITimer();
+  G.mode=mode;
+  buildPlayers();
+  G.deck=U.shuffle(U.buildDeck(mode));
+  G.discard=[];
+  G.currentColor=null;
+  G.sideActive='light';
+  G.turn=0;
+  G.direction=U.SETTINGS.direction;
+  G.active=true;
+  G.finished=false;
+  G.unoCalls={};
+  G.shields={};
+  G.timeBombs=[];
+  G.doublePlay={active:false,firstCard:null};
+  G.stats.round++;
+
+  // bagikan 7 kartu per pemain
+  G.players.forEach(function(p){
+    p.hand=[];
+    p.finished=false;
+    p.unoCalled=false;
+    for(var k=0;k<7;k++){
+      if(G.deck.length) p.hand.push(G.deck.pop());
+    }
+  });
+
+  // kartu pertama ke discard (skip wild4 di awal)
+  var first=null;
+  var tries=0;
+  while(G.deck.length && tries<20){
+    var c=G.deck.pop();
+    tries++;
+    if(c.type==='wild4' || c.type==='draw6' || c.type==='draw10' || c.type==='draw5' || c.type==='wildColor'){
+      // sisipkan kembali ke bawah
+      G.deck.splice(0,0,c);
+      continue;
+    }
+    first=c;
+    break;
+  }
+  if(!first && G.deck.length){ first=G.deck.pop(); }
+  if(first){
+    G.discard.push(first);
+    G.currentColor=first.color==='wild'?'red':first.color;
+    G.sideActive=first.side||'light';
+  }
+
+  setStatus('Game dimulai ('+playerCount()+' pemain, mode '+UnoModeName(mode)+'). Giliranmu.',true);
+  U.beep(520,.08);
+  renderAll();
+  beginTurn();
+}
+
+function UnoModeName(m){ return {express:'Express',flip:'Flip',nomercy:'No Mercy',combo:'Flip No Mercy Express'}[m]||'Uno'; }
+
+/* ============================================================
+   TURN MANAGEMENT
+   ============================================================ */
+function beginTurn(){
+  clearAITimer();
+  if(!G.active || G.finished) return;
+
+  // tick time bombs
+  tickTimeBombs();
+
+  // skip finished
+  var guard=0;
+  while(G.players[G.turn].finished && guard<10){
+    G.turn=advanceIndex(G.turn);
+    guard++;
+  }
+  if(allFinishedExceptOne()){ return endGame(); }
+
+  var p=G.players[G.turn];
+  renderAll();
+
+  if(G.turn===0){
+    setStatus('Giliranmu. Mainkan kartu atau ambil dari tumpukan.',false);
+    // tidak ada timer — menunggu player
+  }else{
+    setStatus(p.name+' berpikir...',false);
+    G.aiTimer=setTimeout(function(){
+      G.aiTimer=null;
+      if(!G.active||G.finished) return;
+      aiTurn();
+    },U.aiDelay());
+  }
+}
+
+function advanceIndex(idx){
+  if(G.direction==='cw') return (idx+1)%playerCount();
+  return (idx+playerCount()-1)%playerCount();
+}
+
+function nextTurnAfterPlay(){
+  G.turn=advanceIndex(G.turn);
+  beginTurn();
+}
+
+function allFinishedExceptOne(){
+  var playing=0;
+  for(var i=0;i<playerCount();i++){
+    if(!G.players[i].finished) playing++;
+  }
+  return playing<=1;
+}
+
+/* ============================================================
+   PLAYER ACTION: MAIN KARTU
+   ============================================================ */
+function playCard(idx){
+  if(!G.active||G.finished||G.turn!==0) return;
+  var me=G.players[0];
+  if(me.finished) return;
+  var card=me.hand[idx];
+  if(!card) return;
+  var top=G.discard[G.discard.length-1];
+  if(!U.canPlayCard(card,top,G.currentColor,G.sideActive)){
+    setStatus('Kartu tidak cocok.',true);
+    return;
+  }
+
+  // hapus dari tangan
+  me.hand.splice(idx,1);
+
+  // UNO! logic
+  if(me.hand.length===1 && !me.unoCalled){
+    // tunggu player tekan UNO! — beri penalti kalau tidak
+    // sederhana: kalau tidak tekan dalam 1 giliran, +2
+  }
+  if(me.hand.length===0){
+    me.finished=true;
+    G.finished=true;
+    G.active=false;
+    G.stats.win++;
+    U.beep(880,.18);
+    renderAll();
+    U.showResult('Kamu Menang!','Tanganmu habis duluan!','&#127881; Kamu juara Uno mode '+UnoModeName(G.mode));
+    return;
+  }
+
+  // taruh di discard
+  G.discard.push(card);
+  if(card.color!=='wild') G.currentColor=card.color;
+  renderAll();
+
+  // efek kartu
+  applyCardEffect(card,0);
+}
+
+function applyCardEffect(card,ownerIdx){
+  // Wild family → minta warna dulu kalau owner=player
+  if(card.color==='wild' && !['flip'].includes(card.type)){
+    if(ownerIdx===0 && ['wild','wild4','wildColor'].includes(card.type)){
+      // player pilih warna
+      showColorPicker(card);
+      return;
+    }
+    // AI pilih warna otomatis
+    var aiColor=aiPickColor(G.players[ownerIdx]);
+    G.currentColor=aiColor;
+    applyWildEffect(card,aiColor);
+    renderAll();
+    return;
+  }
+
+  // Kartu non-wild: langsung efek
+  applyNormalEffect(card,ownerIdx);
+}
+
+function applyWildEffect(card,color){
+  // efek khusus wild
+  if(card.type==='wild4'){
+    // next player draw 4 + skip
+    var t=advanceIndex(G.turn);
+    forceDraw(t,4);
+    setStatus(G.players[t].name+' ambil 4 kartu dan skip.',true);
+    G.turn=t; // skip
+    // kalau target adalah player, tetap ke next
+    G.turn=advanceIndex(G.turn);
+    return beginTurn();
+  }
+  if(card.type==='wildColor'){
+    var t2=advanceIndex(G.turn);
+    forceDraw(t2,4);
+    G.currentColor=color;
+    setStatus(G.players[t2].name+' ambil 4 kartu (wild color).',true);
+    G.turn=t2;
+    G.turn=advanceIndex(G.turn);
+    return beginTurn();
+  }
+  // wild biasa
+  nextTurnAfterPlay();
+}
+
+function applyNormalEffect(card,ownerIdx){
+  var t;
+  switch(card.type){
+    case 'skip':
+      setStatus((ownerIdx===0?'Kamu':G.players[ownerIdx].name)+' main Skip.',true);
+      G.turn=advanceIndex(G.turn);
+      nextTurnAfterPlay();
+      return;
+    case 'reverse':
+      G.direction=G.direction==='cw'?'ccw':'cw';
+      setStatus((ownerIdx===0?'Kamu':G.players[ownerIdx].name)+' main Reverse.',true);
+      if(playerCount()===2){ G.turn=advanceIndex(G.turn); }
+      nextTurnAfterPlay();
+      return;
+    case 'draw2':
+      t=advanceIndex(G.turn);
+      forceDraw(t,2);
+      setStatus(G.players[t].name+' ambil 2 kartu dan skip.',true);
+      G.turn=t;
+      G.turn=advanceIndex(G.turn);
+      return beginTurn();
+    case 'draw1':
+      t=advanceIndex(G.turn);
+      forceDraw(t,1);
+      setStatus(G.players[t].name+' ambil 1 kartu.',true);
+      G.turn=t;
+      G.turn=advanceIndex(G.turn);
+      return beginTurn();
+    case 'draw5':
+      t=advanceIndex(G.turn);
+      forceDraw(t,5);
+      setStatus(G.players[t].name+' ambil 5 kartu.',true);
+      G.turn=t;
+      G.turn=advanceIndex(G.turn);
+      return beginTurn();
+    case 'draw6':
+      t=advanceIndex(G.turn);
+      forceDraw(t,6);
+      setStatus(G.players[t].name+' ambil 6 kartu.',true);
+      G.turn=t;
+      G.turn=advanceIndex(G.turn);
+      return beginTurn();
+    case 'draw10':
+      t=advanceIndex(G.turn);
+      forceDraw(t,10);
+      setStatus(G.players[t].name+' ambil 10 kartu.',true);
+      G.turn=t;
+      G.turn=advanceIndex(G.turn);
+      return beginTurn();
+    case 'skipAll':
+      setStatus('Skip All! Semua pemain lain dilewati.',true);
+      G.turn=G.turn; // player main lagi
+      beginTurn();
+      return;
+    case 'flip':
+      flipSides();
+      setStatus('FLIP! Semua kartu dibalik ke sisi '+(G.sideActive==='light'?'Terang':'Gelap')+'.',true);
+      nextTurnAfterPlay();
+      return;
+    case 'reflect':
+      // pantulkan efek kartu sebelumnya (sederhana: tukar giliran 2 langkah)
+      setStatus('Reflect! Efek dipantulkan.',true);
+      G.turn=advanceIndex(G.turn);
+      nextTurnAfterPlay();
+      return;
+    case 'swapHands':
+      // player tukar tangan dengan pemain berikutnya
+      var target=advanceIndex(G.turn);
+      var tmp=G.players[ownerIdx].hand;
+      G.players[ownerIdx].hand=G.players[target].hand;
+      G.players[target].hand=tmp;
+      setStatus((ownerIdx===0?'Kamu':G.players[ownerIdx].name)+' tukar tangan dengan '+G.players[target].name+'.',true);
+      nextTurnAfterPlay();
+      return;
+    case 'shield':
+      G.shields[ownerIdx]=true;
+      setStatus((ownerIdx===0?'Kamu':G.players[ownerIdx].name)+' pasang Shield.',true);
+      nextTurnAfterPlay();
+      return;
+    case 'doublePlay':
+      setStatus('Double Play! Mainkan 2 kartu berikutnya.',true);
+      nextTurnAfterPlay();
+      return;
+    case 'timeBomb':
+      G.timeBombs.push({owner:ownerIdx,turnsLeft:3});
+      setStatus('Time Bomb dipasang! Meledak dalam 3 giliran.',true);
+      nextTurnAfterPlay();
+      return;
+    default:
+      nextTurnAfterPlay();
+      return;
+  }
+}
+
+function flipSides(){
+  G.sideActive=G.sideActive==='light'?'dark':'light';
+  // balik semua kartu di tangan
+  G.players.forEach(function(p){
+    p.hand.forEach(function(c){ c.side=c.side==='light'?'dark':'light'; });
+  });
+  // balik discard
+  G.discard.forEach(function(c){ c.side=c.side==='light'?'dark':'light'; });
+}
+
+function forceDraw(idx,count){
+  var p=G.players[idx];
+  if(!p) return;
+  // cek shield
+  if(G.shields[idx]){
+    // lempar ke pemain sebelumnya
+    delete G.shields[idx];
+    var prev=idx;
+    for(var i=0;i<playerCount();i++){
+      prev=(prev-1+playerCount())%playerCount();
+      if(!G.players[prev].finished) break;
+    }
+    setStatus('Shield '+p.name+' aktif! Draw dilempar ke '+G.players[prev].name+'.',true);
+    idx=prev;
+    p=G.players[idx];
+  }
+  for(var k=0;k<count;k++){
+    if(G.deck.length===0){
+      reshuffleDeck();
+      if(G.deck.length===0) break;
+    }
+    p.hand.push(G.deck.pop());
+  }
+  // cek mercy
+  checkMercy(idx);
+}
+
+function reshuffleDeck(){
+  if(G.discard.length<=1) return;
+  var top=G.discard.pop();
+  var rest=G.discard.slice();
+  G.discard=[top];
+  G.deck=U.shuffle(rest);
+  setStatus('Deck di-reset.',false);
+}
+
+function checkMercy(idx){
+  var p=G.players[idx];
+  var threshold=(G.mode==='nomercy')?25:(G.mode==='combo'?20:Infinity);
+  if(p.hand.length>=threshold){
+    p.finished=true;
+    setStatus(p.name+' kena Mercy Rule — tangan ≥ '+threshold+' kartu, gugur!',true);
+  }
+}
+
+function tickTimeBombs(){
+  if(!G.timeBombs.length) return;
+  var remaining=[];
+  G.timeBombs.forEach(function(bomb){
+    bomb.turnsLeft--;
+    if(bomb.turnsLeft<=0){
+      forceDraw(bomb.owner,4);
+      setStatus('Time Bomb meledak! '+G.players[bomb.owner].name+' ambil 4 kartu.',true);
+    }else{
+      remaining.push(bomb);
+    }
+  });
+  G.timeBombs=remaining;
+}
+
+/* ============================================================
+   PLAYER ACTION: DRAW
+   ============================================================ */
+function drawCard(){
+  if(!G.active||G.finished||G.turn!==0) return;
+  var me=G.players[0];
+  if(me.finished) return;
+  if(G.deck.length===0) reshuffleDeck();
+  if(G.deck.length===0){ setStatus('Deck habis. Lewati giliran.',true); nextTurnAfterPlay(); return; }
+  var drawn=G.deck.pop();
+  me.hand.push(drawn);
+  setStatus('Kamu ambil 1 kartu.',false);
+  // kalau cocok, boleh langsung main
+  var top=G.discard[G.discard.length-1];
+  if(U.canPlayCard(drawn,top,G.currentColor,G.sideActive)){
+    setStatus('Kartu cocok! Mainkan atau tekan Ambil lagi.',true);
+    renderAll();
+    // tidak pindah turn — player bisa main kartu yang diambil
+    return;
+  }
+  renderAll();
+  setTimeout(function(){ nextTurnAfterPlay(); },400);
+}
+
+/* ============================================================
+   PLAYER ACTION: UNO!
+   ============================================================ */
+function callUno(){
+  if(!G.active||G.finished||G.turn!==0) return;
+  var me=G.players[0];
+  if(me.hand.length!==1) return;
+  me.unoCalled=true;
+  setStatus('UNO! Kamu aman.',true);
+  U.beep(880,.12);
+  renderAll();
+}
+
+/* ============================================================
+   AI TURN
+   ============================================================ */
+function aiTurn(){
+  if(!G.active||G.finished) return;
+  if(G.turn===0) return;
+  var p=G.players[G.turn];
+  if(!p || p.finished){ nextTurnAfterPlay(); return; }
+
+  var top=G.discard[G.discard.length-1];
+  var playable=[];
+  p.hand.forEach(function(c,i){
+    if(U.canPlayCard(c,top,G.currentColor,G.sideActive)) playable.push(i);
+  });
+
+  if(!playable.length){
+    // draw 1
+    if(G.deck.length===0) reshuffleDeck();
+    if(G.deck.length){
+      var d=G.deck.pop();
+      p.hand.push(d);
+      setStatus(p.name+' ambil 1 kartu.',false);
+      if(U.canPlayCard(d,top,G.currentColor,G.sideActive)){
+        // boleh main
+        setTimeout(function(){ aiPlayCard(p, p.hand.indexOf(d)); },300);
+        return;
+      }
+    }
+    setTimeout(function(){ nextTurnAfterPlay(); },500);
+    return;
+  }
+
+  // pilih kartu sesuai difficulty
+  var choice;
+  if(U.SETTINGS.difficulty==='beginner'){
+    choice=playable[Math.floor(Math.random()*playable.length)];
+  }else if(U.SETTINGS.difficulty==='intermediate'){
+    choice=aiIntermediateChoose(p,playable);
+  }else{
+    choice=aiAdvanceChoose(p,playable);
+  }
+  aiPlayCard(p,choice);
+}
+
+function aiPlayCard(p,idx){
+  if(!G.active||G.finished) return;
+  var card=p.hand[idx];
+  if(!card) return;
+  p.hand.splice(idx,1);
+
+  if(p.hand.length===1 && !p.unoCalled){
+    // AI 60% chance tekan UNO
+    if(Math.random()<0.7) p.unoCalled=true;
+  }
+  if(p.hand.length===0){
+    p.finished=true;
+    G.finished=true;
+    G.active=false;
+    G.stats.lose++;
+    U.beep(320,.18);
+    renderAll();
+    U.showResult('Kamu Kalah',p.name+' menghabiskan kartu lebih dulu.','&#128542; Coba lagi!');
+    return;
+  }
+
+  G.discard.push(card);
+  if(card.color!=='wild') G.currentColor=card.color;
+  renderAll();
+  applyCardEffect(card,G.turn);
+}
+
+function aiPickColor(p){
+  // pilih warna mayoritas di tangan; beginner acak
+  if(U.SETTINGS.difficulty==='beginner'){
+    return U.COLORS[Math.floor(Math.random()*4)];
+  }
+  var counts={red:0,yellow:0,green:0,blue:0};
+  p.hand.forEach(function(c){ if(counts[c.color]!==undefined) counts[c.color]++; });
+  var best='red',bestN=-1;
+  Object.keys(counts).forEach(function(k){ if(counts[k]>bestN){bestN=counts[k];best=k;} });
+  return best;
+}
+
+function aiIntermediateChoose(p,playable){
+  // prioritaskan kartu angka dulu, simpan aksi untuk akhir
+  var numbers=playable.filter(function(i){return p.hand[i].type==='number'});
+  if(numbers.length) return numbers[0];
+  return playable[0];
+}
+
+function aiAdvanceChoose(p,playable){
+  // hitung warna mayoritas
+  var counts={red:0,yellow:0,green:0,blue:0};
+  p.hand.forEach(function(c){ if(counts[c.color]!==undefined) counts[c.color]++; });
+  var bestColor='red',bestN=-1;
+  Object.keys(counts).forEach(function(k){ if(counts[k]>bestN){bestN=counts[k];best=k;} });
+
+  // prioritaskan aksi serangan kalau tangan sedikit
+  if(p.hand.length<=3){
+    var attack=playable.filter(function(i){
+      return ['draw2','draw6','draw10','wild4','draw5'].indexOf(p.hand[i].type)>=0;
+    });
+    if(attack.length) return attack[0];
+  }
+  // prioritaskan warna mayoritas
+  var same=playable.filter(function(i){return p.hand[i].color===bestColor});
+  if(same.length) return same[0];
+  return playable[0];
+}
+
+/* ============================================================
+   END GAME
+   ============================================================ */
+function endGame(){
+  if(G.finished) return;
+  G.finished=true;
+  G.active=false;
+  clearAITimer();
+  var alive=G.players.filter(function(p){return !p.finished});
+  var winner=alive[0]||G.players[0];
+  var youWin=winner.you;
+  if(youWin) G.stats.win++; else G.stats.lose++;
+  renderAll();
+  U.showResult(youWin?'Kamu Menang!':'Kamu Kalah',youWin?'Tanganmu habis duluan!':winner.name+' menang.',
+    '&#127881; Juara: '+winner.name);
+}
+
+/* ============================================================
+   UNO_APP — manajer mode
+   ============================================================ */
+window.UNO_APP={
+  enter:function(mode){
+    clearAITimer();
+    $('#lobby').hidden=true;
+    $('#gameWrap').hidden=false;
+    document.body.style.overflow='hidden';
+    startGame(mode);
+    U.openCnt();
+  },
+  exit:function(){
+    clearAITimer();
+    $('#gameWrap').hidden=true;
+    $('#lobby').hidden=false;
+    document.body.style.overflow='';
+    G.active=false;
+    G.finished=true;
+    G.players.forEach(function(p){p.hand=[];p.finished=false;});
+    G.deck=[];G.discard=[];
+  },
+  onSettingsChange:function(){
+    if(G.active) setStatus('Pengaturan disimpan. Berlaku ronde berikutnya.',false);
+  },
+  onDiffChange:function(){
+    if(G.active) setStatus('Kesulitan: '+U.SETTINGS.difficulty,false);
+    renderAll();
+  },
+  onCntChange:function(){
+    if(G.active){
+      clearAITimer();
+      startGame(G.mode);
+    }
+  },
+  onDirChange:function(){
+    G.direction=U.SETTINGS.direction;
+    renderAll();
+  }
+};
+
+/* ============================================================
+   WIRE EVENT
+   ============================================================ */
+$('#btnStart').addEventListener('click',function(){
+  startGame(G.mode);
+});
+$('#btnDraw').addEventListener('click',drawCard);
+$('#btnUno').addEventListener('click',callUno);
+$('#drawPile').addEventListener('click',function(){
+  if(G.turn===0 && G.active && !G.finished) drawCard();
+});
+
+$('#unoHand').addEventListener('click',function(e){
+  var card=e.target.closest('.uno-hand-card');
+  if(!card) return;
+  if(!G.active||G.finished||G.turn!==0) return;
+  var idx=+card.getAttribute('data-idx');
+  playCard(idx);
+});
+
+$('#colorPicker').addEventListener('click',function(e){
+  var btn=e.target.closest('.uno-color-btn');
+  if(!btn) return;
+  onColorPick(btn.getAttribute('data-color'));
+});
+
+$('#mNext').addEventListener('click',function(){
+  U.closeResult();
+  startGame(G.mode);
+});
+$('#mClose').addEventListener('click',U.closeResult);
+
+/* Keyboard shortcuts */
+document.addEventListener('keydown',function(e){
+  if(!G.active||G.finished) return;
+  if(G.turn!==0) return;
+  if($('#helpModal').classList.contains('open')) return;
+  if($('#settingsModal').classList.contains('open')) return;
+  if($('#diffModal').classList.contains('open')) return;
+  if($('#cntModal').classList.contains('open')) return;
+  if($('#modal').classList.contains('open')) return;
+  if($('#colorPicker').classList.contains('open')) return;
+  if(e.key==='d'||e.key==='D') drawCard();
+  if(e.key==='u'||e.key==='U') callUno();
+});
+
+/* Init render */
+renderAll();
+})();
+</script>
+
+</body>
+</html>
