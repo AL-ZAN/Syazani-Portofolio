@@ -1,0 +1,1231 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Checkers — Board Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400..700&family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..800&display=swap">
+<style>
+:root{
+  --ink:#1C1917;--muted:#78716C;--ice:#7DD3FC;--deep:#0369A1;--ice-soft:#E0F2FE;
+  --gold:#FDE68A;--gold-deep:#F59E0B;--green:#10B981;--red:#EF4444;--purple:#A78BFA;
+  --line:rgba(28,25,23,.1);
+  --f-display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+  /* Papan */
+  --sq-light:#F5EBD8;
+  --sq-dark:#8B5A2B;
+  --board-border:#3E2723;
+  --board-bg:#0B0F1A;
+  --board-bg-2:#070B14;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(239,68,68,.14) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 30%, rgba(253,230,138,.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 90%, rgba(167,139,250,.12) 0%, transparent 45%),
+    linear-gradient(160deg,var(--board-bg),var(--board-bg-2));
+  color:#fff;font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;min-height:100dvh
+}
+button{font-family:inherit}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ==================== TOP BAR ==================== */
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px clamp(10px,2vw,18px);flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.25);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:9px;font:700 1rem var(--f-display);color:#fff;text-decoration:none}
+.brand .mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(160deg,#FCA5A5,#DC2626);color:#fff;display:grid;place-items:center;font-size:1.1rem}
+.tag{font:600 .68rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#FCA5A5;background:rgba(0,0,0,.4);padding:4px 10px;border-radius:999px;border:1px solid rgba(239,68,68,.3);white-space:nowrap}
+.diff-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:4px 12px;border-radius:999px;border:1px solid;cursor:pointer;white-space:nowrap;transition:.2s}
+.diff-badge.beginner{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.5);color:#6EE7B7}
+.diff-badge.intermediate{background:rgba(245,158,11,.2);border-color:rgba(245,158,11,.5);color:#FDE68A}
+.diff-badge.advance{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.5);color:#FCA5A5}
+.diff-badge:hover{filter:brightness(1.2)}
+.theme-badge{font:700 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#DDD6FE;padding:4px 12px;border-radius:999px;border:1px solid rgba(167,139,250,.5);background:rgba(167,139,250,.15);cursor:pointer;transition:.2s;white-space:nowrap}
+.theme-badge:hover{background:rgba(167,139,250,.3)}
+.top-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.tbtn{display:inline-flex;align-items:center;gap:6px;font:600 .82rem var(--f-body);color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:8px 14px;border-radius:999px;cursor:pointer;transition:.2s;text-decoration:none;white-space:nowrap}
+.tbtn:hover{background:rgba(255,255,255,.22)}
+.tbtn.help{background:rgba(253,230,138,.15);border-color:rgba(253,230,138,.35);color:#FDE68A}
+.tbtn.help:hover{background:rgba(253,230,138,.3)}
+
+/* ==================== LAYOUT ==================== */
+.wrap{max-width:1400px;margin-inline:auto;padding:clamp(12px,2vw,24px);display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:clamp(16px,3vw,32px);align-items:start}
+@media (max-width:1000px){.wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* ==================== BOARD ==================== */
+.board-area{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0}
+.board-wrap{position:relative;width:100%;max-width:min(92vw,720px);aspect-ratio:1/1;container-type:inline-size}
+.board-frame{position:relative;width:100%;height:100%;padding:clamp(8px,2cqw,18px);background:linear-gradient(160deg,#5D4037,#3E2723);border-radius:8px;box-shadow:0 20px 60px -20px rgba(0,0,0,.8),inset 0 0 0 2px rgba(255,255,255,.08),inset 0 0 40px rgba(0,0,0,.5)}
+.board{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:repeat(8,minmax(0,1fr));width:100%;height:100%;border-radius:2px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.4);position:relative}
+
+.sq{position:relative;display:grid;place-items:center;width:100%;height:100%;overflow:hidden;border:0;padding:0;margin:0;cursor:pointer;font-size:clamp(20px,10cqw,54px);line-height:1;min-width:0;min-height:0;-webkit-tap-highlight-color:transparent;transition:background .15s}
+.sq.l{background:var(--sq-light);cursor:default}
+.sq.d{background:var(--sq-dark)}
+.sq::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;transition:background .2s}
+.sq.last::before{background:rgba(253,230,138,.32)}
+.sq.must-capture::before{background:rgba(239,68,68,.18)}
+.sq.sel{outline:4px solid var(--ice);outline-offset:-4px;z-index:2}
+.sq.tgt::after{content:"";position:absolute;width:34%;height:34%;border-radius:50%;background:rgba(16,185,129,.7);box-shadow:0 0 12px rgba(16,185,129,.8);z-index:3;animation:tgtPop .3s ease-out;pointer-events:none}
+.sq.tgt::after{animation:tgtPop .3s ease-out}
+.sq.tgt.cap::after{width:92%;height:92%;background:transparent;border:4px solid rgba(239,68,68,.9);box-shadow:0 0 16px rgba(239,68,68,.6),inset 0 0 0 2px rgba(255,255,255,.4);border-radius:50%}
+.sq.hint::before{background:rgba(125,211,252,.18)}
+@keyframes tgtPop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+
+/* Pion Checkers */
+.ck-piece{
+  position:relative;z-index:2;
+  width:78%;height:78%;border-radius:50%;
+  display:grid;place-items:center;
+  box-shadow:
+    0 4px 8px rgba(0,0,0,.55),
+    inset 0 -3px 6px rgba(0,0,0,.35),
+    inset 0 2px 4px rgba(255,255,255,.25);
+  transition:transform .2s ease, filter .2s;
+  font:800 clamp(.55rem,2.4cqw,.95rem) var(--f-display);
+  color:rgba(255,255,255,.9);
+  text-shadow:0 1px 2px rgba(0,0,0,.6);
+  border:2px solid rgba(0,0,0,.3);
+}
+.ck-piece.red{
+  background:radial-gradient(circle at 35% 30%, #FCA5A5 0%, #EF4444 45%, #991B1B 100%);
+  border-color:rgba(127,29,29,.6);
+}
+.ck-piece.black{
+  background:radial-gradient(circle at 35% 30%, #6B7280 0%, #1C1917 45%, #000 100%);
+  border-color:rgba(0,0,0,.6);
+  color:rgba(253,230,138,.95);
+}
+.ck-piece.king::after{
+  content:"♛";
+  position:absolute;
+  font-size:clamp(1rem,4.4cqw,1.7rem);
+  color:#FDE68A;
+  text-shadow:0 2px 4px rgba(0,0,0,.7),0 0 8px rgba(253,230,138,.6);
+  line-height:1;
+}
+.ck-piece.king.red::after{color:#FEF3C7}
+.ck-piece.king.black::after{color:#FDE68A}
+.sq.tgt:not(.cap) .ck-piece{transform:scale(.85)}
+.sq:hover .ck-piece{transform:scale(1.05)}
+.sq.tgt .ck-piece{filter:brightness(1.15)}
+
+/* Koordinat */
+.cr,.cf{position:absolute;z-index:3;font:700 clamp(.5rem,1.6cqw,.7rem) var(--f-mono);font-style:normal;pointer-events:none;opacity:.85}
+.cr{left:3px;top:2px}
+.cf{right:3px;bottom:2px}
+.sq.l .cr,.sq.l .cf{color:#8B5A2B}
+.sq.d .cr,.sq.d .cf{color:#F5EBD8}
+
+/* Turn indicator */
+.turn-indicator{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 20px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.12);border-radius:999px;font:700 .92rem var(--f-body);color:#fff;backdrop-filter:blur(6px);flex-wrap:wrap;max-width:100%;text-align:center;transition:.3s}
+.turn-indicator.your-turn{background:linear-gradient(135deg,rgba(16,185,129,.25),rgba(16,185,129,.12));border-color:rgba(16,185,129,.5);box-shadow:0 0 20px -4px rgba(16,185,129,.4)}
+.turn-indicator.ai-turn{background:linear-gradient(135deg,rgba(239,68,68,.2),rgba(239,68,68,.08));border-color:rgba(239,68,68,.4)}
+.turn-dot{width:12px;height:12px;border-radius:50%;flex:none;border:2px solid #fff}
+.turn-dot.red{background:radial-gradient(circle at 35% 30%, #FCA5A5, #DC2626)}
+.turn-dot.black{background:radial-gradient(circle at 35% 30%, #4B5563, #1C1917)}
+.thinking .dot{display:inline-flex;gap:3px;align-items:center}
+.thinking .dot span{width:5px;height:5px;border-radius:50%;background:#FCA5A5;animation:thinkBounce .9s infinite}
+.thinking .dot span:nth-child(2){animation-delay:.15s}
+.thinking .dot span:nth-child(3){animation-delay:.3s}
+@keyframes thinkBounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}
+
+/* Forced capture notice */
+.capture-notice{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:linear-gradient(135deg,rgba(239,68,68,.25),rgba(239,68,68,.12));border:1px solid rgba(239,68,68,.5);color:#FCA5A5;font:700 .78rem var(--f-mono);letter-spacing:.03em;animation:pulseRed 1.6s infinite;max-width:100%}
+@keyframes pulseRed{50%{box-shadow:0 0 0 6px rgba(239,68,68,.15)}}
+.capture-notice[hidden]{display:none}
+
+/* ==================== SIDE PANEL ==================== */
+.panel{display:flex;flex-direction:column;gap:14px;min-width:0;position:sticky;top:80px}
+@media (max-width:1000px){.panel{position:static}}
+
+.card-panel{background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:16px 18px;backdrop-filter:blur(8px)}
+
+.status-big{display:flex;flex-direction:column;gap:6px;text-align:center}
+.status-big .label{font:600 .68rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.status-big .value{font:800 clamp(1.2rem,2.4vw,1.5rem) var(--f-display);color:#fff;line-height:1.2}
+.status-big .value.green{color:#6EE7B7}
+.status-big .value.red{color:#FCA5A5}
+.status-big .value.gold{color:#FDE68A}
+
+/* Piece count */
+.piece-counts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pc-box{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.pc-box .pc-label{font:600 .62rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:5px}
+.pc-box .pc-label .mini-dot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,.3)}
+.pc-box .pc-label .mini-dot.red{background:radial-gradient(circle at 35% 30%, #FCA5A5, #DC2626)}
+.pc-box .pc-label .mini-dot.black{background:radial-gradient(circle at 35% 30%, #4B5563, #1C1917)}
+.pc-box .pc-value{font:800 2rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.pc-box.red .pc-value{color:#FCA5A5}
+.pc-box.black .pc-value{color:#FDE68A}
+.pc-box .pc-sub{font:500 .68rem var(--f-body);color:rgba(255,255,255,.55);text-align:center}
+
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.score-box{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.score-box .sb-label{font:600 .62rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.score-box .sb-value{font:800 1.8rem/1 var(--f-display);color:#FDE68A;font-variant-numeric:tabular-nums}
+.score-box.ai .sb-value{color:#FCA5A5}
+.score-box.user .sb-value{color:#6EE7B7}
+
+.diff-row{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:rgba(0,0,0,.3);padding:4px;border-radius:12px}
+.diff-row button{border:0;background:transparent;font:700 .72rem var(--f-body);padding:8px 4px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,.6);transition:.2s}
+.diff-row button:hover{color:#FDE68A}
+.diff-row button.on{background:linear-gradient(160deg,#7DD3FC,#0369A1);color:#fff;box-shadow:0 4px 10px -4px rgba(125,211,252,.6)}
+
+.moves-panel{display:flex;flex-direction:column;gap:8px}
+.moves-title{font:600 .68rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55);display:flex;justify-content:space-between;align-items:center}
+.moves-list{max-height:200px;overflow-y:auto;font:500 .78rem/1.9 var(--f-mono);background:rgba(0,0,0,.3);border-radius:10px;padding:8px 12px;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.85)}
+.moves-list .mv-row{display:grid;grid-template-columns:26px 1fr 1fr;gap:6px;padding:2px 0;border-bottom:1px dashed rgba(255,255,255,.05)}
+.moves-list .mv-row:last-child{border-bottom:0}
+.moves-list .mv-num{color:rgba(255,255,255,.4)}
+.moves-list .empty{display:block;text-align:center;color:rgba(255,255,255,.4);padding:8px 0;font-style:italic}
+
+/* Buttons */
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font:700 .85rem var(--f-body);padding:11px 20px;border-radius:999px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;transition:.18s;min-width:100px;backdrop-filter:blur(6px)}
+.btn:hover:not(:disabled){background:rgba(255,255,255,.22);transform:translateY(-1px)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn.primary{background:linear-gradient(160deg,#7DD3FC,#0369A1);border-color:transparent;box-shadow:0 8px 20px -8px rgba(125,211,252,.6)}
+.btn.primary:hover:not(:disabled){background:linear-gradient(160deg,#BAE6FD,#075985);filter:brightness(1.1)}
+.btn.danger{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.4);color:#FCA5A5}
+.btn.danger:hover:not(:disabled){background:rgba(239,68,68,.35);color:#fff}
+.btn.ghost{background:transparent;border-color:rgba(255,255,255,.2)}
+
+/* ==================== MODAL ==================== */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:none;place-items:center;z-index:100;padding:20px;overflow-y:auto}
+.modal.open{display:grid;animation:fade .25s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal-card{background:linear-gradient(160deg,#FFF7ED,#FEE2E2);border-radius:22px;padding:clamp(22px,4vw,38px);max-width:520px;width:100%;text-align:center;box-shadow:0 40px 80px -20px rgba(0,0,0,.8);animation:pop .35s cubic-bezier(.2,.8,.2,1);color:var(--ink)}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.modal-card h2{font-size:1.7rem;margin-bottom:8px;font-family:var(--f-display);color:#991B1B}
+.modal-card p{color:var(--muted);font-size:.92rem;margin-bottom:16px;line-height:1.6}
+.modal-card .big{font:800 2.2rem/1.15 var(--f-display);color:#991B1B;margin:12px 0 20px}
+.modal-card .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+
+/* Help modal */
+.help-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:none;place-items:center;z-index:100;padding:20px;overflow-y:auto}
+.help-modal.open{display:grid;animation:fade .25s}
+.help-card{background:linear-gradient(160deg,#FFF7ED,#FEE2E2);border-radius:22px;padding:clamp(20px,3vw,32px);max-width:680px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px -20px rgba(0,0,0,.8);animation:pop .35s;color:var(--ink);text-align:left}
+.help-card h2{font-size:1.6rem;margin-bottom:8px;color:#991B1B;display:flex;align-items:center;gap:10px;font-family:var(--f-display)}
+.help-card .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+.help-card h3{font:700 .95rem var(--f-body);margin:18px 0 8px;color:#991B1B;display:flex;align-items:center;gap:8px}
+.help-card h3 .num{width:24px;height:24px;border-radius:50%;background:#991B1B;color:#fff;display:grid;place-items:center;font:700 .78rem var(--f-mono);flex:none}
+.help-card p,.help-card li{font-size:.9rem;line-height:1.55;color:var(--ink)}
+.help-card ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.help-card ul li{padding-left:18px;position:relative}
+.help-card ul li::before{content:"▸";position:absolute;left:2px;color:#991B1B;font-weight:800}
+.help-card .piece-row{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;align-items:center;margin-top:8px}
+.help-card .piece-row .p{font-size:2rem;text-align:center;min-width:48px;line-height:1}
+.help-card .piece-row .p-desc{font-size:.88rem;color:var(--muted);line-height:1.5}
+.help-card .close-help{display:flex;justify-content:center;margin-top:20px}
+.help-card .close-help .btn{background:#991B1B;border-color:#991B1B;color:#fff;padding:11px 24px;min-width:auto}
+.help-card .close-help .btn:hover{background:#7F1D1D}
+.help-card .tip{background:#FEF3C7;border-left:3px solid #F59E0B;padding:10px 14px;border-radius:8px;font-size:.85rem;margin-top:12px}
+
+/* Tema papan */
+body[data-theme="classic"]{--sq-light:#F5EBD8;--sq-dark:#8B5A2B;--board-border:#3E2723}
+body[data-theme="neon"]{--sq-light:#2A1B4A;--sq-dark:#0F0A1E;--board-border:#4C1D95}
+body[data-theme="neon"] .board-frame{background:linear-gradient(160deg,#2A1B4A,#4C1D95);box-shadow:0 20px 60px -20px rgba(139,92,246,.6),inset 0 0 0 2px rgba(167,139,250,.3),inset 0 0 40px rgba(139,92,246,.15)}
+body[data-theme="green"]{--sq-light:#DCFCE7;--sq-dark:#15803D;--board-border:#14532D}
+body[data-theme="green"] .board-frame{background:linear-gradient(160deg,#166534,#14532D);box-shadow:0 20px 60px -20px rgba(21,128,61,.6),inset 0 0 0 2px rgba(220,252,231,.3),inset 0 0 40px rgba(20,83,45,.5)}
+
+/* Responsif */
+@media (max-width:560px){
+  .wrap{padding:10px}
+  .board-frame{padding:6px}
+  .panel{gap:10px}
+  .card-panel{padding:12px 14px;border-radius:16px}
+  .pc-box .pc-value{font-size:1.6rem}
+  .score-box .sb-value{font-size:1.5rem}
+  .moves-list{max-height:140px}
+  .top{gap:6px;padding:8px}
+  .tag{font-size:.6rem;padding:3px 8px}
+  .diff-badge,.theme-badge{font-size:.6rem;padding:3px 9px}
+  .tbtn{font-size:.72rem;padding:6px 10px}
+  .btn{min-width:80px;padding:9px 14px;font-size:.78rem}
+}
+@media (prefers-reduced-motion:reduce){
+  .sq.tgt::after{animation:none}
+  .thinking .dot span{animation:none}
+  .capture-notice{animation:none}
+  .modal-card,.help-card,.modal.open,.help-modal.open{animation:none}
+  .ck-piece{transition:none}
+  .sq:hover .ck-piece{transform:none}
+}
+</style>
+</head>
+<body data-theme="classic">
+
+<header class="top">
+  <a class="brand" href="board.html" title="Kembali ke Board Games">
+    <span class="mark" aria-hidden="true">⚫</span>Checkers
+  </a>
+  <span class="tag">Dam</span>
+  <button class="diff-badge beginner" id="diffBadge" type="button" title="Ganti kesulitan">Beginner</button>
+  <button class="theme-badge" id="themeBadge" type="button" title="Ganti tema papan">Tema: Klasik</button>
+  <div class="top-actions">
+    <button class="tbtn help" id="btnHelp" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-1.5 2-2 2.5-.3.3-.5.7-.5 1.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+      Cara Bermain
+    </button>
+    <a class="tbtn" href="board.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      Keluar
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="board-area">
+    <div class="board-wrap">
+      <div class="board-frame">
+        <div class="board" id="board" role="grid" aria-label="Papan checkers 8 kali 8"></div>
+      </div>
+    </div>
+
+    <div class="turn-indicator your-turn" id="turnIndicator">
+      <span class="turn-dot red"></span>
+      <span id="turnText">Giliranmu — Merah</span>
+    </div>
+
+    <div class="capture-notice" id="captureNotice" hidden>
+      <span aria-hidden="true">⚠️</span>
+      <span id="captureNoticeText">Ada capture wajib — kamu harus lompat!</span>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="card-panel">
+      <div class="status-big">
+        <span class="label" id="statusLabel">Status</span>
+        <span class="value gold" id="statusValue">Siap bermain</span>
+      </div>
+    </div>
+
+    <div class="card-panel">
+      <span class="label" style="display:block;font:600 .68rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:8px">Jumlah Pion</span>
+      <div class="piece-counts">
+        <div class="pc-box red">
+          <span class="pc-label"><span class="mini-dot red"></span>Merah</span>
+          <span class="pc-value" id="countRed">12</span>
+          <span class="pc-sub" id="kingsRed">0 king</span>
+        </div>
+        <div class="pc-box black">
+          <span class="pc-label"><span class="mini-dot black"></span>Hitam</span>
+          <span class="pc-value" id="countBlack">12</span>
+          <span class="pc-sub" id="kingsBlack">0 king</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-panel">
+      <div class="score-grid">
+        <div class="score-box user">
+          <span class="sb-label">Kamu</span>
+          <span class="sb-value" id="scoreUser">0</span>
+        </div>
+        <div class="score-box ai">
+          <span class="sb-label">AI</span>
+          <span class="sb-value" id="scoreAI">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-panel">
+      <span class="label" style="display:block;font:600 .68rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:8px">Kesulitan AI</span>
+      <div class="diff-row" id="diffRow" role="group" aria-label="Tingkat kesulitan AI">
+        <button type="button" data-lv="beginner" class="on">Beginner</button>
+        <button type="button" data-lv="intermediate">Intermediate</button>
+        <button type="button" data-lv="advance">Advance</button>
+      </div>
+    </div>
+
+    <div class="card-panel moves-panel">
+      <div class="moves-title"><span>Riwayat Langkah</span><span id="movesCount">0</span></div>
+      <div class="moves-list" id="movesList">
+        <span class="empty">Belum ada langkah</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn danger" id="btnNew" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/></svg>
+        Game Baru
+      </button>
+      <button class="btn ghost" id="btnUndo" type="button" title="Batalkan langkah terakhir">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-5-5 5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>
+        Undo
+      </button>
+    </div>
+  </aside>
+</main>
+
+<!-- Modal Hasil -->
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <h2 id="mTitle">Hasil</h2>
+    <p id="mDesc"></p>
+    <div class="big" id="mBig"></div>
+    <div class="row">
+      <button class="btn primary" id="mNext" type="button">Main Lagi</button>
+      <button class="btn" id="mClose" type="button">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Bantuan -->
+<div class="help-modal" id="helpModal">
+  <div class="help-card">
+    <h2>⚫ Cara Bermain Checkers</h2>
+    <p class="sub">Dam internasional vs AI 3 tahap. Capture wajib, promosi King, animasi lompat.</p>
+
+    <h3><span class="num">1</span>Tujuan</h3>
+    <p>Habisi semua pion lawan, atau buat lawan tidak punya langkah legal. Kalau kamu kehabisan pion atau langkah, kamu kalah.</p>
+
+    <h3><span class="num">2</span>Cara Main</h3>
+    <ul>
+      <li>Kamu memegang <b>Merah</b> dan melangkah lebih dulu.</li>
+      <li>Klik pion merah untuk melihat langkah legal (titik hijau).</li>
+      <li>Pion biasa hanya bisa maju 1 kotak diagonal ke kotak kosong.</li>
+      <li>Untuk menangkap, <b>lompati</b> pion lawan ke kotak kosong di belakangnya.</li>
+      <li><b>Capture wajib</b> — kalau ada kesempatan lompat, kamu harus lompat (tidak boleh langkah biasa).</li>
+      <li>Bisa ada <b>multi-capture</b> — kalau setelah lompat masih ada lompat lain, lanjut lompat.</li>
+    </ul>
+
+    <h3><span class="num">3</span>Promosi King</h3>
+    <p>Kalau pionmu mencapai baris terakhir lawan (baris paling atas untuk Merah), pion menjadi <b>King</b> dan bisa mundur. King bisa bergerak dan menangkap ke segala arah diagonal.</p>
+
+    <h3><span class="num">4</span>Aturan Internasional</h3>
+    <ul>
+      <li>King bergerak 1 kotak diagonal (sama seperti pion biasa, tapi bisa mundur).</li>
+      <li>Capture wajib — tidak boleh menolak lompat.</li>
+      <li>Multi-capture — kalau bisa, harus lanjut sampai tidak ada lompat.</li>
+      <li>Capture tidak bisa dilakukan oleh King sejauh apapun (bukan flying king).</li>
+    </ul>
+
+    <h3><span class="num">5</span>AI 3 Tahap</h3>
+    <ul>
+      <li><b>Beginner</b> — langkah acak + capture sederhana.</li>
+      <li><b>Intermediate</b> — minimax depth 3 + evaluasi pion.</li>
+      <li><b>Advance</b> — minimax depth 5 + evaluasi pion + posisi + king.</li>
+    </ul>
+
+    <div class="tip">💡 Game tanpa uang nyata. Murni hiburan dan latihan strategi. Klik <b>Undo</b> untuk batalkan langkah terakhir.</div>
+
+    <div class="close-help">
+      <button class="btn" id="helpClose" type="button">Mengerti, Ayo Main!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCRIPT: tempel JS dari balasan 5 di sini
+     ============================================================ -->
+<script>
+  (function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ============================================================
+   STATE
+   ============================================================ */
+var G=null;
+var SCORE={ai:0,user:0};
+var LEVEL='beginner';
+var THEME='classic';
+var UNDO_STACK=[];
+
+try{
+  var saved=localStorage.getItem('checkers.settings');
+  if(saved){
+    var obj=JSON.parse(saved);
+    if(obj.level) LEVEL=obj.level;
+    if(obj.theme) THEME=obj.theme;
+  }
+}catch(e){}
+function saveSettings(){
+  try{ localStorage.setItem('checkers.settings',JSON.stringify({level:LEVEL,theme:THEME})) }catch(e){}
+}
+
+/* ============================================================
+   PION & PAPAN
+   ============================================================ */
+/* Representasi: G.b[r][c] = null | {color:'r'|'b', king:true|false}
+   r=0 baris paling atas, c=0 kolom paling kiri.
+   Pion merah ('r' = pemain) mulai di bawah, bergerak ke atas (-r).
+   Pion hitam ('b' = AI) mulai di atas, bergerak ke bawah (+r).
+   Merah promosi ke king saat mencapai r===0.
+   Hitam promosi ke king saat mencapai r===7. */
+
+function startBoard(){
+  var b=[];
+  for(var r=0;r<8;r++){
+    b.push([null,null,null,null,null,null,null,null]);
+  }
+  for(var r2=0;r2<8;r2++){
+    for(var c=0;c<8;c++){
+      if((r2+c)%2!==0) continue; // hanya kotak gelap
+      if(r2<3) b[r2][c]={color:'b',king:false};
+      else if(r2>4) b[r2][c]={color:'r',king:false};
+    }
+  }
+  return b;
+}
+
+function cloneBoard(b){
+  return b.map(function(row){
+    return row.map(function(p){
+      return p?{color:p.color,king:p.king}:null;
+    });
+  });
+}
+
+function inb(r,c){ return r>=0&&r<8&&c>=0&&c<8 }
+function colorName(c){ return c==='r'?'Merah':'Hitam' }
+function opp(c){ return c==='r'?'b':'r' }
+function sqName(r,c){ return 'abcdefgh'[c]+(8-r) }
+
+/* Arah maju pion */
+function forwardDirs(color, king){
+  if(king) return [[-1,-1],[-1,1],[1,-1],[1,1]];
+  if(color==='r') return [[-1,-1],[-1,1]]; // merah maju ke atas
+  return [[1,-1],[1,1]]; // hitam maju ke bawah
+}
+
+/* Cari langkah capture wajib untuk satu pion */
+function capturesForPiece(b, r, c){
+  var p=b[r][c];
+  if(!p) return [];
+  var dirs=forwardDirs(p.color, p.king);
+  var caps=[];
+  for(var i=0;i<dirs.length;i++){
+    var dr=dirs[i][0], dc=dirs[i][1];
+    var mr=r+dr, mc=c+dc;        // posisi pion lawan
+    var lr=r+2*dr, lc=c+2*dc;    // posisi mendarat
+    if(!inb(lr,lc)) continue;
+    var mid=b[mr][mc];
+    if(!mid) continue;
+    if(mid.color===p.color) continue;
+    if(b[lr][lc]) continue;
+    caps.push({
+      fr:r, fc:c, tr:lr, tc:lc,
+      captured:{r:mr,c:mc},
+      capturedPiece:{color:mid.color,king:mid.king},
+      isCapture:true
+    });
+  }
+  return caps;
+}
+
+/* Cari langkah biasa (non-capture) */
+function simpleMovesForPiece(b, r, c){
+  var p=b[r][c];
+  if(!p) return [];
+  var dirs=forwardDirs(p.color, p.king);
+  var out=[];
+  for(var i=0;i<dirs.length;i++){
+    var nr=r+dirs[i][0], nc=c+dirs[i][1];
+    if(!inb(nr,nc)) continue;
+    if(b[nr][nc]) continue;
+    out.push({fr:r, fc:c, tr:nr, tc:nc, isCapture:false});
+  }
+  return out;
+}
+
+/* Semua langkah legal untuk satu warna. Kalau ada capture, hanya capture yang dikembalikan. */
+function legalMoves(b, color){
+  var caps=[], simples=[];
+  for(var r=0;r<8;r++)for(var c=0;c<8;c++){
+    var p=b[r][c];
+    if(!p||p.color!==color) continue;
+    var cf=capturesForPiece(b,r,c);
+    if(cf.length){ caps=caps.concat(cf); continue; }
+    simples=simples.concat(simpleMovesForPiece(b,r,c));
+  }
+  return caps.length?caps:simples;
+}
+
+/* Apakah ada capture wajib dari pion tertentu */
+function mustCapture(b, color){
+  for(var r=0;r<8;r++)for(var c=0;c<8;c++){
+    var p=b[r][c];
+    if(!p||p.color!==color) continue;
+    if(capturesForPiece(b,r,c).length) return true;
+  }
+  return false;
+}
+
+function applyMove(b, m){
+  var nb=cloneBoard(b);
+  var p=nb[m.fr][m.fc];
+  nb[m.fr][m.fc]=null;
+  if(m.isCapture){
+    var cap=nb[m.captured.r][m.captured.c];
+    nb[m.captured.r][m.captured.c]=null;
+    // promosi
+    if(p.color==='r'&&m.tr===0) p.king=true;
+    if(p.color==='b'&&m.tr===7) p.king=true;
+  }else{
+    if(p.color==='r'&&m.tr===0) p.king=true;
+    if(p.color==='b'&&m.tr===7) p.king=true;
+  }
+  nb[m.tr][m.tc]=p;
+  return nb;
+}
+
+/* Cari kelanjutan multi-capture dari posisi setelah lompat */
+function multiCaptureContinuations(b, r, c, color, king, path){
+  var p={color:color,king:king};
+  var dirs=forwardDirs(color, king);
+  var found=[];
+  for(var i=0;i<dirs.length;i++){
+    var dr=dirs[i][0], dc=dirs[i][1];
+    var mr=r+dr, mc=c+dc;
+    var lr=r+2*dr, lc=c+2*dc;
+    if(!inb(lr,lc)) continue;
+    var mid=b[mr][mc];
+    if(!mid) continue;
+    if(mid.color===color) continue;
+    if(b[lr][lc]) continue;
+    var nb=cloneBoard(b);
+    nb[r][c]=null;
+    nb[mr][mc]=null;
+    var np={color:color,king:king};
+    if(color==='r'&&lr===0) np.king=true;
+    if(color==='b'&&lr===7) np.king=true;
+    nb[lr][lc]=np;
+    var newPath=path.concat([{from:{r:r,c:c},to:{r:lr,c:lc},captured:{r:mr,c:mc}}]);
+    var further=multiCaptureContinuations(nb, lr, lc, color, np.king, newPath);
+    if(further.length) found=found.concat(further);
+    else found.push(newPath);
+  }
+  return found;
+}
+
+/* Expand satu capture move menjadi semua kemungkinan multi-capture lengkap */
+function expandMultiCapture(b, m){
+  var p=b[m.fr][m.fc];
+  var kingAfterMove=p.king;
+  if(p.color==='r'&&m.tr===0) kingAfterMove=true;
+  if(p.color==='b'&&m.tr===7) kingAfterMove=true;
+  var nb=applyMove(b, m);
+  var more=multiCaptureContinuations(nb, m.tr, m.tc, p.color, kingAfterMove, []);
+  if(!more.length){
+    return [{
+      from:{r:m.fr,c:m.fc},
+      to:{r:m.tr,c:m.tc},
+      captures:[m.captured],
+      finalBoard:nb,
+      landedKing:kingAfterMove
+    }];
+  }
+  // gabungkan langkah pertama + kelanjutan
+  return more.map(function(path){
+    // Bangun board akhir dari awal, ikuti path
+    var cb=cloneBoard(b);
+    var color=p.color;
+    var king=p.king;
+    var cr=m.fr, cc=m.fc;
+    var caps=[m.captured];
+    var curBoard=cloneBoard(b);
+    curBoard[cr][cc]=null;
+    curBoard[m.captured.r][m.captured.c]=null;
+    var np={color:color,king:king};
+    if(color==='r'&&m.tr===0) np.king=true;
+    if(color==='b'&&m.tr===7) np.king=true;
+    curBoard[m.tr][m.tc]=np;
+    var lastR=m.tr, lastC=m.tc;
+    var lastKing=np.king;
+    for(var k=0;k<path.length;k++){
+      var seg=path[k];
+      caps.push(seg.captured);
+      curBoard[seg.from.r][seg.from.c]=null;
+      curBoard[seg.captured.r][seg.captured.c]=null;
+      var np2={color:color,king:lastKing};
+      if(color==='r'&&seg.to.r===0) np2.king=true;
+      if(color==='b'&&seg.to.r===7) np2.king=true;
+      curBoard[seg.to.r][seg.to.c]=np2;
+      lastR=seg.to.r; lastC=seg.to.c; lastKing=np2.king;
+    }
+    return {
+      from:{r:m.fr,c:m.fc},
+      to:{r:lastR,c:lastC},
+      captures:caps,
+      finalBoard:curBoard,
+      landedKing:lastKing
+    };
+  });
+}
+
+/* Expand semua langkah capture menjadi kemungkinan multi-capture lengkap */
+function expandAllCaptures(b, moves, color){
+  var out=[];
+  moves.forEach(function(m){
+    if(!m.isCapture){ out.push([m]); return; }
+    var exp=expandMultiCapture(b, m);
+    exp.forEach(function(seq){ out.push(seq); });
+  });
+  return out;
+}
+
+/* ============================================================
+   AI
+   ============================================================ */
+function pieceValue(p){
+  if(!p) return 0;
+  return p.king?180:100;
+}
+
+function evalBoard(b){
+  // evaluasi dari sudut pandang merah (player). 
+  // hitam = negatif.
+  var sc=0;
+  var redCount=0, blackCount=0;
+  var redKings=0, blackKings=0;
+  for(var r=0;r<8;r++)for(var c=0;c<8;c++){
+    var p=b[r][c];
+    if(!p) continue;
+    var v=pieceValue(p);
+    // posisi: pion lebih maju dihargai
+    if(p.color==='r'){
+      redCount++;
+      if(p.king) redKings++;
+      v+=(7-r)*3; // merah lebih baik kalau maju (r kecil)
+      sc+=v;
+    }else{
+      blackCount++;
+      if(p.king) blackKings++;
+      v+=r*3; // hitam lebih baik kalau maju (r besar)
+      sc-=v;
+    }
+  }
+  // edge bonus (pion di pinggir aman dari capture)
+  for(var r2=0;r2<8;r2++)for(var c2=0;c2<8;c2++){
+    var p2=b[r2][c2];
+    if(!p2) continue;
+    if(c2===0||c2===7){
+      if(p2.color==='r') sc+=5; else sc-=5;
+    }
+  }
+  return sc;
+}
+
+function getAIMoves(b){
+  var color='b';
+  var all=legalMoves(b, color);
+  var captures=all.filter(function(m){ return m.isCapture });
+  if(captures.length){
+    return expandAllCaptures(b, captures, color).map(function(seq){
+      return {seq:seq, isCapture:true};
+    });
+  }
+  // langkah biasa
+  return all.map(function(m){
+    return {seq:[{
+      from:{r:m.fr,c:m.fc},
+      to:{r:m.tr,c:m.tc},
+      captures:[],
+      finalBoard:applyMove(b, m),
+      landedKing:(function(){
+        var p=b[m.fr][m.fc];
+        var k=p.king;
+        if(p.color==='r'&&m.tr===0) k=true;
+        if(p.color==='b'&&m.tr===7) k=true;
+        return k;
+      })()
+    }], isCapture:false};
+  });
+}
+
+function negamax(b, depth, alpha, beta, side){
+  if(depth===0) return (side==='r'?1:-1)*evalBoard(b);
+  var moves=getAIMoves(b);
+  if(!moves.length) return side==='r'?90000:-90000;
+  var best=-Infinity;
+  for(var i=0;i<moves.length;i++){
+    var mv=moves[i];
+    var nb=mv.seq[mv.seq.length-1].finalBoard;
+    var sc=-negamax(nb, depth-1, -beta, -alpha, opp(side));
+    if(sc>best) best=sc;
+    if(sc>alpha) alpha=sc;
+    if(alpha>=beta) break;
+  }
+  return best;
+}
+
+function rnd(a){ return a[Math.floor(Math.random()*a.length)] }
+
+function pickAIMove(){
+  var moves=getAIMoves(G.b);
+  if(!moves.length) return null;
+  if(LEVEL==='beginner'){
+    var caps=moves.filter(function(m){ return m.isCapture });
+    if(caps.length&&Math.random()<.7) return rnd(caps);
+    return rnd(moves);
+  }
+  var depth=LEVEL==='intermediate'?3:5;
+  var tol=LEVEL==='intermediate'?15:0;
+  var scored=moves.map(function(mv){
+    var nb=mv.seq[mv.seq.length-1].finalBoard;
+    var sc=-negamax(nb, depth-1, -Infinity, Infinity, 'r');
+    return {mv:mv, s:sc};
+  });
+  var best=-Infinity;
+  scored.forEach(function(x){ if(x.s>best) best=x.s });
+  var pool=scored.filter(function(x){ return x.s>=best-tol }).map(function(x){ return x.mv });
+  return rnd(pool);
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render(){
+  var b=G.b;
+  var tg={};
+  G.targets.forEach(function(m){ tg[m.tr+','+m.tc]=m });
+  var bEl=$('#board');
+  if(!bEl) return;
+  bEl.innerHTML='';
+  for(var r=0;r<8;r++)for(var c=0;c<8;c++){
+    var p=b[r][c], btn=document.createElement('button');
+    btn.type='button';
+    btn.className='sq '+((r+c)%2===0?'l':'d');
+    btn.setAttribute('data-r',r);
+    btn.setAttribute('data-c',c);
+    var t=tg[r+','+c];
+    if(G.sel&&G.sel[0]===r&&G.sel[1]===c) btn.classList.add('sel');
+    if(t){ btn.classList.add('tgt'); if(t.isCapture) btn.classList.add('cap'); }
+    if(G.last&&((G.last.from.r===r&&G.last.from.c===c)||(G.last.to.r===r&&G.last.to.c===c))) btn.classList.add('last');
+    if(G.mustCaptureMode&&p&&p.color==='r'){
+      // cek apakah pion ini punya capture
+      var caps=capturesForPiece(b,r,c);
+      if(caps.length) btn.classList.add('must-capture');
+    }
+    var h='';
+    if(p){
+      var cls='ck-piece '+(p.color==='r'?'red':'black')+(p.king?' king':'');
+      h+='<span class="'+cls+'"></span>';
+    }
+    if(c===0) h+='<i class="cr">'+(8-r)+'</i>';
+    if(r===7) h+='<i class="cf">'+'abcdefgh'[c]+'</i>';
+    btn.innerHTML=h;
+    bEl.appendChild(btn);
+  }
+}
+
+function countPieces(color){
+  var n=0, k=0;
+  for(var r=0;r<8;r++)for(var c=0;c<8;c++){
+    var p=G.b[r][c];
+    if(p&&p.color===color){ n++; if(p.king) k++; }
+  }
+  return {n:n, kings:k};
+}
+
+function renderSide(){
+  $('#scoreAI').textContent=SCORE.ai;
+  $('#scoreUser').textContent=SCORE.user;
+
+  var red=countPieces('r');
+  var black=countPieces('b');
+  $('#countRed').textContent=red.n;
+  $('#countBlack').textContent=black.n;
+  $('#kingsRed').textContent=red.kings+' king';
+  $('#kingsBlack').textContent=black.kings+' king';
+
+  // Riwayat
+  var el=$('#movesList');
+  if(!G.hist.length){
+    el.innerHTML='<span class="empty">Belum ada langkah</span>';
+  }else{
+    var h='';
+    for(var i=0;i<G.hist.length;i+=2){
+      h+='<div class="mv-row"><span class="mv-num">'+(i/2+1)+'.</span><span>'+G.hist[i]+'</span><span>'+(G.hist[i+1]||'')+'</span></div>';
+    }
+    el.innerHTML=h;
+    el.scrollTop=el.scrollHeight;
+  }
+  $('#movesCount').textContent=G.hist.length;
+
+  // Turn
+  var ti=$('#turnIndicator'), tt=$('#turnText');
+  if(!ti||!tt) return;
+  ti.classList.remove('your-turn','ai-turn','thinking');
+  if(G.over){
+    ti.classList.add('ai-turn');
+    tt.textContent='Game selesai';
+  }else if(G.turn==='r'){
+    ti.classList.add('your-turn');
+    tt.textContent=(G.mustCaptureMode?'Capture wajib! ':'')+'Giliranmu — Merah';
+  }else{
+    ti.classList.add('ai-turn','thinking');
+    tt.textContent='AI (Hitam) berpikir';
+  }
+
+  // Status
+  var sv=$('#statusValue'), sl=$('#statusLabel');
+  if(sv&&sl){
+    if(G.over){
+      sl.textContent='Game Selesai';
+      sv.textContent=G.result||'Selesai';
+      sv.className='value gold';
+    }else if(G.turn==='r'){
+      sl.textContent='Status';
+      sv.textContent=G.mustCaptureMode?'CAPTURE WAJIB!':'Giliranmu';
+      sv.className='value '+(G.mustCaptureMode?'red':'green');
+    }else{
+      sl.textContent='Status';
+      sv.textContent='AI berpikir';
+      sv.className='value';
+    }
+  }
+
+  // Capture notice
+  var cn=$('#captureNotice');
+  if(cn){
+    if(G.mustCaptureMode&&!G.over&&G.turn==='r'){
+      cn.hidden=false;
+      $('#captureNoticeText').textContent='Ada capture wajib — kamu harus lompat!';
+    }else{
+      cn.hidden=true;
+    }
+  }
+
+  // Diff
+  var db=$('#diffBadge');
+  if(db){
+    db.textContent=LEVEL.charAt(0).toUpperCase()+LEVEL.slice(1);
+    db.className='diff-badge '+LEVEL;
+  }
+  $$('#diffRow button').forEach(function(bt){
+    bt.classList.toggle('on',bt.getAttribute('data-lv')===LEVEL);
+  });
+  var tb=$('#themeBadge');
+  if(tb){
+    tb.textContent='Tema: '+({classic:'Klasik',neon:'Neon',green:'Green'}[THEME]||'Klasik');
+  }
+  var ub=$('#btnUndo');
+  if(ub) ub.disabled=UNDO_STACK.length<2||G.busy;
+}
+
+/* ============================================================
+   LOGIKA TURN
+   ============================================================ */
+function newGame(){
+  G={
+    id:(G?G.id+1:1),
+    b:startBoard(),
+    turn:'r',
+    sel:null,
+    targets:[],   // {tr,tc,isCapture, path}
+    last:null,
+    over:false,
+    busy:false,
+    result:null,
+    hist:[],
+    mustCaptureMode:false
+  };
+  UNDO_STACK=[];
+  G.mustCaptureMode=mustCapture(G.b,'r');
+  saveUndo();
+  render();
+  renderSide();
+}
+
+function saveUndo(){
+  UNDO_STACK.push({
+    b:cloneBoard(G.b),
+    turn:G.turn,
+    last:G.last,
+    hist:G.hist.slice(),
+    over:G.over,
+    result:G.result,
+    mustCaptureMode:G.mustCaptureMode
+  });
+  if(UNDO_STACK.length>60) UNDO_STACK.shift();
+}
+
+function undoMove(){
+  if(G.busy) return;
+  if(UNDO_STACK.length<2) return;
+  UNDO_STACK.pop();
+  var snap=UNDO_STACK[UNDO_STACK.length-1];
+  G.b=cloneBoard(snap.b);
+  G.turn=snap.turn;
+  G.last=snap.last;
+  G.hist=snap.hist.slice();
+  G.over=snap.over;
+  G.result=snap.result;
+  G.mustCaptureMode=snap.mustCaptureMode;
+  G.sel=null;
+  G.targets=[];
+  render();
+  renderSide();
+}
+
+function endGame(result, desc){
+  G.over=true;
+  G.result=result;
+  G.busy=false;
+  renderSide();
+  $('#mTitle').textContent=result;
+  $('#mDesc').textContent=desc;
+  $('#mBig').textContent=result==='Kamu Menang!'?'🏆':(result==='Kamu Kalah'?'💀':'🤝');
+  $('#modal').classList.add('open');
+}
+
+function checkGameOver(){
+  // cek jumlah pion
+  var red=countPieces('r').n;
+  var black=countPieces('b').n;
+  if(red===0){ SCORE.ai++; endGame('Kamu Kalah','Semua pionmu habis.'); return true; }
+  if(black===0){ SCORE.user++; endGame('Kamu Menang!','Semua pion AI habis.'); return true; }
+  // cek langkah legal untuk giliran berikutnya
+  var next=G.turn;
+  var moves=legalMoves(G.b, next);
+  if(!moves.length){
+    if(next==='r'){ SCORE.ai++; endGame('Kamu Kalah','Tidak ada langkah legal untukmu.'); }
+    else{ SCORE.user++; endGame('Kamu Menang!','AI tidak punya langkah legal.'); }
+    return true;
+  }
+  return false;
+}
+
+function executeMove(move){
+  // move: {from:{r,c}, to:{r,c}, captures:[...], finalBoard, landedKing}
+  var fromR=move.from.r, fromC=move.from.c;
+  var toR=move.to.r, toC=move.to.c;
+
+  var p=G.b[fromR][fromC];
+  var wasKing=p.king;
+
+  // bangun deskripsi langkah
+  var capCount=move.captures.length;
+  var txt=sqName(fromR,fromC)+'→'+sqName(toR,toC);
+  if(capCount) txt+=' ×'+capCount;
+  if(!wasKing && move.landedKing){
+    txt+=(p.color==='r'?' (Promosi King)':' (Promosi King AI)');
+  }
+
+  // posisi sebelum
+  var bEl=$('#board');
+  var fromSq=bEl.children[fromR*8+fromC];
+  var toSq=bEl.children[toR*8+toC];
+  var fromPos=fromSq?fromSq.getBoundingClientRect():null;
+  var toPos=toSq?toSq.getBoundingClientRect():null;
+  var pieceEl=fromSq?fromSq.querySelector('.ck-piece'):null;
+
+  // update state
+  G.b=move.finalBoard;
+  G.last=move;
+  G.hist.push(txt);
+  G.sel=null;
+  G.targets=[];
+
+  // render
+  render();
+  renderSide();
+
+  // animasi
+  if(fromPos&&toPos&&pieceEl&&!RM){
+    var toEl=bEl.children[toR*8+toC];
+    var newPc=toEl?toEl.querySelector('.ck-piece'):null;
+    if(newPc&&newPc.animate){
+      var dx=fromPos.left-toPos.left;
+      var dy=fromPos.top-toPos.top;
+      newPc.style.zIndex=10;
+      var an=newPc.animate([
+        {transform:'translate('+dx+'px,'+dy+'px) scale(1.15)'},
+        {transform:'translate(0,0) scale(1)'}
+      ],{duration:300,easing:'cubic-bezier(.2,.8,.2,1)'});
+      an.onfinish=function(){ newPc.style.zIndex=''; };
+    }
+  }
+
+  // ganti turn
+  G.turn=opp(G.turn);
+  G.mustCaptureMode=mustCapture(G.b,G.turn);
+
+  // cek menang
+  if(checkGameOver()) return;
+
+  saveUndo();
+  renderSide();
+
+  // kalau giliran AI, jalankan
+  if(G.turn==='b' && !G.over){
+    aiTurn();
+  }
+}
+
+function aiTurn(){
+  if(G.over) return;
+  G.busy=true;
+  renderSide();
+  setTimeout(function(){
+    if(!G||G.over) return;
+    var pick=pickAIMove();
+    G.busy=false;
+    if(!pick){ checkGameOver(); return; }
+    // ambil langkah pertama dari seq (multi-capture sudah lengkap dalam satu seq move)
+    var seq=pick.seq;
+    var first=seq[0];
+    // Bangun objek move gabungan
+    var finalBoard=seq[seq.length-1].finalBoard;
+    var allCaptures=[];
+    seq.forEach(function(s){ allCaptures=allCaptures.concat(s.captures); });
+    var lastSeg=seq[seq.length-1];
+    var move={
+      from:first.from,
+      to:lastSeg.to,
+      captures:allCaptures,
+      finalBoard:finalBoard,
+      landedKing:lastSeg.landedKing
+    };
+    executeMove(move);
+  },Math.min(800,Math.max(280,300+Math.random()*200)));
+}
+
+/* ============================================================
+   INTERAKSI KLIK
+   ============================================================ */
+$('#board').addEventListener('click',function(e){
+  var btn=e.target.closest('.sq');
+  if(!btn||!G||G.over||G.busy||G.turn!=='r') return;
+  var r=+btn.getAttribute('data-r'), c=+btn.getAttribute('data-c');
+
+  // kalau sudah ada target, coba langkah
+  if(G.sel){
+    var mv=G.targets.filter(function(m){ return m.tr===r&&m.tc===c })[0];
+    if(mv){
+      executeMove(mv);
+      return;
+    }
+  }
+
+  var p=G.b[r][c];
+  if(p&&p.color==='r'){
+    // buat langkah legal untuk pion ini
+    var all=legalMoves(G.b,'r');
+    var caps=all.filter(function(m){ return m.isCapture });
+    var pool=(caps.length?caps:all).filter(function(m){ return m.fr===r&&m.fc===c });
+    if(!pool.length){
+      // coba dulu: kalau mustCaptureMode true dan pion ini tidak punya capture, kasih tahu
+      if(caps.length){
+        // pion ini tidak bisa bergerak karena ada capture wajib di pion lain
+        G.sel=null; G.targets=[]; render();
+        return;
+      }
+      G.sel=null; G.targets=[]; render();
+      return;
+    }
+    G.sel=[r,c];
+    if(caps.length){
+      // expand capture
+      var expanded=expandAllCaptures(G.b, pool, 'r');
+      G.targets=expanded.map(function(seq){
+        var lastSeg=seq[seq.length-1];
+        return {
+          fr:r, fc:c,
+          tr:lastSeg.to.r, tc:lastSeg.to.c,
+          isCapture:true,
+          move:{from:seq[0].from,to:lastSeg.to,captures:(function(){
+            var all=[]; seq.forEach(function(s){ all=all.concat(s.captures); }); return all;
+          })(), finalBoard:lastSeg.finalBoard, landedKing:lastSeg.landedKing}
+        };
+      });
+    }else{
+      G.targets=pool.map(function(m){
+        var nb=applyMove(G.b, m);
+        var p2=G.b[m.fr][m.fc];
+        var landedKing=p2.king;
+        if(p2.color==='r'&&m.tr===0) landedKing=true;
+        return {
+          fr:r, fc:c, tr:m.tr, tc:m.tc, isCapture:false,
+          move:{from:{r:m.fr,c:m.fc},to:{r:m.tr,c:m.tc},captures:[],finalBoard:nb,landedKing:landedKing}
+        };
+      });
+    }
+    render();
+  }else{
+    G.sel=null; G.targets=[]; render();
+  }
+});
+
+/* Klik pada target: gunakan .move */
+$('#board').addEventListener('click',function(e){
+  if(!G||!G.sel) return;
+  var btn=e.target.closest('.sq');
+  if(!btn) return;
+  var r=+btn.getAttribute('data-r'), c=+btn.getAttribute('data-c');
+  var mv=G.targets.filter(function(m){ return m.tr===r&&m.tc===c })[0];
+  if(mv&&mv.move){
+    executeMove(mv.move);
+  }
+});
+
+/* ============================================================
+   WIRE BUTTONS
+   ============================================================ */
+$('#btnNew').addEventListener('click',newGame);
+$('#btnUndo').addEventListener('click',undoMove);
+
+$('#diffBadge').addEventListener('click',function(){
+  var order=['beginner','intermediate','advance'];
+  LEVEL=order[(order.indexOf(LEVEL)+1)%3];
+  saveSettings();
+  renderSide();
+});
+$$('#diffRow button').forEach(function(b){
+  b.addEventListener('click',function(){
+    LEVEL=b.getAttribute('data-lv');
+    saveSettings();
+    renderSide();
+  });
+});
+$('#themeBadge').addEventListener('click',function(){
+  var order=['classic','neon','green'];
+  THEME=order[(order.indexOf(THEME)+1)%3];
+  document.body.setAttribute('data-theme',THEME);
+  saveSettings();
+  renderSide();
+});
+$('#btnHelp').addEventListener('click',function(){
+  $('#helpModal').classList.add('open');
+});
+$('#helpClose').addEventListener('click',function(){
+  $('#helpModal').classList.remove('open');
+});
+$('#mClose').addEventListener('click',function(){
+  $('#modal').classList.remove('open');
+});
+$('#mNext').addEventListener('click',function(){
+  $('#modal').classList.remove('open');
+  newGame();
+});
+
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape') return;
+  if($('#helpModal').classList.contains('open')){ $('#helpModal').classList.remove('open'); return; }
+  if($('#modal').classList.contains('open')){ $('#modal').classList.remove('open'); return; }
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.body.setAttribute('data-theme',THEME);
+newGame();
+})();
+</script>
+
+</body>
+</html>
