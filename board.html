@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Board Games — Syazani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400..700&family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..800&display=swap">
+<style>
+:root{
+  --ink:#1C1917;--muted:#78716C;--ice:#7DD3FC;--deep:#0369A1;--ice-soft:#E0F2FE;
+  --gold:#FDE68A;--gold-deep:#F59E0B;--green:#10B981;--red:#EF4444;--purple:#A78BFA;
+  --line:rgba(28,25,23,.1);
+  --f-display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+  --board-bg:#0B0F1A;
+  --board-bg-2:#070B14;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(125,211,252,.14) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 30%, rgba(253,230,138,.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 90%, rgba(167,139,250,.12) 0%, transparent 45%),
+    linear-gradient(160deg,var(--board-bg),var(--board-bg-2));
+  color:#fff;font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;min-height:100dvh
+}
+button{font-family:inherit}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* Lobby */
+.lobby{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.lobby::before{content:"";position:fixed;inset:0;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.015) 0 2px,transparent 2px 12px);pointer-events:none;z-index:0}
+.lobby-in{position:relative;z-index:1;max-width:1100px;margin-inline:auto;padding:clamp(24px,5vw,60px) clamp(16px,4vw,40px);width:100%}
+.lobby-head{text-align:center;margin-bottom:clamp(28px,5vw,48px)}
+.lobby-brand{display:inline-flex;align-items:center;gap:12px;font:800 clamp(1.6rem,4vw,2.4rem) var(--f-display);color:#fff;text-decoration:none;margin-bottom:8px}
+.lobby-brand .mark{width:clamp(44px,6vw,56px);height:clamp(44px,6vw,56px);border-radius:14px;background:linear-gradient(160deg,#7DD3FC,#0369A1);color:#fff;display:grid;place-items:center;font-size:1.6rem;box-shadow:0 12px 24px -10px rgba(125,211,252,.7)}
+.lobby-sub{color:rgba(255,247,237,.72);font-size:clamp(.92rem,1.6vw,1.05rem);max-width:60ch;margin:0 auto}
+.lobby-hint{display:inline-flex;align-items:center;gap:8px;font:600 .74rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#FDE68A;background:rgba(253,230,138,.14);padding:6px 14px;border-radius:999px;margin-top:14px;border:1px solid rgba(253,230,138,.3)}
+
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:32px}
+.game-card{position:relative;padding:22px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1.5px solid rgba(255,255,255,.14);cursor:pointer;transition:.25s;text-align:left;color:#fff;font-family:inherit;overflow:hidden;backdrop-filter:blur(8px);min-height:220px;display:flex;flex-direction:column;gap:10px}
+.game-card::before{content:"";position:absolute;top:0;right:0;width:160px;height:160px;background:radial-gradient(circle,rgba(253,230,138,.15) 0%,transparent 70%);pointer-events:none;opacity:0;transition:opacity .3s}
+.game-card:hover:not(.locked)::before{opacity:1}
+.game-card:hover:not(.locked){transform:translateY(-5px);border-color:rgba(253,230,138,.5);background:linear-gradient(160deg,rgba(253,230,138,.1),rgba(255,255,255,.03));box-shadow:0 24px 48px -24px rgba(0,0,0,.7)}
+.game-card.locked{cursor:not-allowed;opacity:.55}
+.game-card.active{border-color:#7DD3FC;background:linear-gradient(160deg,rgba(125,211,252,.15),rgba(125,211,252,.03));box-shadow:0 20px 40px -20px rgba(125,211,252,.4)}
+.game-card.active::after{content:"●";position:absolute;top:14px;right:16px;color:#10B981;font-size:.9rem;animation:pulseDot 1.6s infinite}
+@keyframes pulseDot{50%{opacity:.3}}
+.game-icon{width:64px;height:64px;border-radius:16px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:2rem;flex:none;transition:.3s;position:relative;z-index:1}
+.game-card:hover:not(.locked) .game-icon{background:rgba(253,230,138,.25);transform:scale(1.08) rotate(-4deg)}
+.game-card.active .game-icon{background:linear-gradient(160deg,#7DD3FC,#0369A1);color:#fff;box-shadow:0 8px 20px -8px rgba(125,211,252,.7)}
+.game-name{font:800 1.25rem var(--f-display);line-height:1.2}
+.game-desc{font-size:.85rem;color:rgba(255,247,237,.72);line-height:1.55}
+.game-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.game-tag{font:600 .62rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.1);color:rgba(255,247,237,.85)}
+.game-tag.ready{background:rgba(16,185,129,.25);color:#6EE7B7}
+.game-tag.sub{background:rgba(167,139,250,.2);color:#DDD6FE}
+.game-tag.soon{background:rgba(245,158,11,.2);color:#FDE68A}
+
+.lobby-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.lbtn{display:inline-flex;align-items:center;gap:8px;font:700 .9rem var(--f-body);padding:12px 22px;border-radius:999px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;transition:.2s;text-decoration:none;backdrop-filter:blur(6px)}
+.lbtn:hover{background:rgba(255,255,255,.16);transform:translateY(-1px)}
+.lbtn.primary{background:linear-gradient(160deg,#7DD3FC,#0369A1);color:#fff;border-color:transparent;box-shadow:0 8px 20px -8px rgba(125,211,252,.7)}
+.lbtn.primary:hover{background:linear-gradient(160deg,#BAE6FD,#075985);transform:translateY(-1px)}
+
+/* Hero card — Catur */
+.game-card.chess .game-icon{background:linear-gradient(160deg,#FFF7ED,#D6D3D1);color:#1C1917}
+.game-card.chess:hover .game-icon{background:linear-gradient(160deg,#FDE68A,#F59E0B);color:#1C1917}
+.game-card.chess.active .game-icon{background:linear-gradient(160deg,#FFF7ED,#1C1917);color:#FFF7ED}
+
+/* Checkers */
+.game-card.checkers .game-icon{background:linear-gradient(160deg,#FCA5A5,#DC2626);color:#fff}
+.game-card.checkers:hover .game-icon{background:linear-gradient(160deg,#FEE2E2,#991B1B)}
+.game-card.checkers.active .game-icon{background:linear-gradient(160deg,#1C1917,#EF4444);color:#fff}
+
+/* Monopoly */
+.game-card.monopoly .game-icon{background:linear-gradient(160deg,#FDE68A,#F59E0B);color:#1C1917}
+.game-card.monopoly:hover .game-icon{background:linear-gradient(160deg,#FEF3C7,#D97706)}
+.game-card.monopoly.active .game-icon{background:linear-gradient(160deg,#10B981,#065F46);color:#fff}
+
+/* Footer */
+.lobby-foot{margin-top:auto;padding-top:32px;border-top:1px solid rgba(255,255,255,.08);text-align:center;color:rgba(255,247,237,.5);font:500 .78rem var(--f-mono)}
+.lobby-foot a{color:rgba(253,230,138,.8);text-decoration:none}
+.lobby-foot a:hover{color:#FDE68A}
+
+/* Animasi masuk */
+.game-card{animation:cardIn .5s cubic-bezier(.2,.8,.2,1) both}
+.game-card:nth-child(1){animation-delay:.05s}
+.game-card:nth-child(2){animation-delay:.15s}
+.game-card:nth-child(3){animation-delay:.25s}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.game-card{animation:none}}
+
+@media (max-width:560px){
+  .game-grid{grid-template-columns:1fr}
+  .lobby-actions{flex-direction:column}
+  .lbtn{width:100%;justify-content:center}
+  .game-card{min-height:180px}
+}
+</style>
+</head>
+<body>
+
+<div class="lobby">
+  <div class="lobby-in">
+    <div class="lobby-head">
+      <a class="lobby-brand" href="index.html" title="Kembali ke portofolio">
+        <span class="mark" aria-hidden="true">♟</span>Board Games
+      </a>
+      <p class="lobby-sub">Tiga permainan papan klasik dengan AI 3 tahap, animasi halus, dan tampilan modern. Tanpa uang nyata, tanpa pembelian.</p>
+      <div class="lobby-hint">Pilih permainan</div>
+    </div>
+
+    <div class="game-grid">
+      <button class="game-card chess active" type="button" onclick="location.href='chess.html'">
+        <div class="game-icon" aria-hidden="true">♞</div>
+        <div class="game-name">Catur</div>
+        <div class="game-desc">Chess klasik vs AI 3 tahap. Semua aturan lengkap: castle, en passant, promotion, checkmate. Animasi bidak bergerak halus.</div>
+        <div class="game-meta">
+          <span class="game-tag ready">Siap</span>
+          <span class="game-tag sub">AI 3 Tahap</span>
+          <span class="game-tag sub">Animasi</span>
+        </div>
+      </button>
+
+      <button class="game-card checkers active" type="button" onclick="location.href='checkers.html'">
+        <div class="game-icon" aria-hidden="true">⚫</div>
+        <div class="game-name">Checkers</div>
+        <div class="game-desc">Dam internasional vs AI. Capture wajib, promosi ke King, highlight langkah legal, animasi lompat capture.</div>
+        <div class="game-meta">
+          <span class="game-tag ready">Siap</span>
+          <span class="game-tag sub">AI 3 Tahap</span>
+          <span class="game-tag sub">Animasi</span>
+        </div>
+      </button>
+
+      <button class="game-card monopoly active" type="button" onclick="location.href='monopoly.html'">
+        <div class="game-icon" aria-hidden="true">🎲</div>
+        <div class="game-name">Monopoly</div>
+        <div class="game-desc">Monopoli mini vs AI. Papan 40 kotak, beli properti, bangun rumah, penjara, kartu kesempatan. Uang fiktif.</div>
+        <div class="game-meta">
+          <span class="game-tag ready">Siap</span>
+          <span class="game-tag sub">AI 3 Tahap</span>
+          <span class="game-tag sub">Animasi</span>
+        </div>
+      </button>
+    </div>
+
+    <div class="lobby-actions">
+      <a class="lbtn" href="index.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        Kembali ke Portofolio
+      </a>
+      <a class="lbtn primary" href="poker.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="8" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8" cy="16" r="1" fill="currentColor"/><circle cx="16" cy="16" r="1" fill="currentColor"/></svg>
+        Card Game
+      </a>
+    </div>
+
+    <div class="lobby-foot">
+      <p>&copy; 2026 Syazani. Semua hak dilindungi.</p>
+      <p style="margin-top:6px">Board Games &middot; tanpa uang nyata &middot; <a href="index.html#projek">kembali ke portofolio</a></p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
