@@ -72,7 +72,6 @@ button{font-family:inherit}
 .tags li,.tags a{display:inline-flex;align-items:center;gap:8px;font:500 .8rem var(--f-mono);padding:7px 12px;border-radius:10px;background:var(--card);border:1px solid var(--line);text-decoration:none;color:var(--ink);transition:color .2s,border-color .2s}
 .tags a:hover{color:var(--deep);border-color:var(--deep)}
 .tags .ic{color:var(--deep)}
-/* STATS — 3 kolom (IQ dihapus) */
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:clamp(28px,5vw,48px)}
 .stat{padding:20px 22px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .stat b{font:800 clamp(2rem,4vw,2.9rem)/1.05 var(--f-display);color:var(--deep);font-variant-numeric:tabular-nums}
@@ -99,7 +98,6 @@ button{font-family:inherit}
 .chips li{font-weight:600;font-size:.9rem;padding:3px 12px;border-radius:999px;background:var(--peach-deep)}
 @media (max-width:860px){.about{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:420px){.traits{grid-template-columns:minmax(0,1fr)}}
-/* TAB PROJEK */
 .proj-tabs{display:flex;gap:6px;background:var(--ice-soft);padding:6px;border-radius:16px;width:fit-content;max-width:100%;margin-bottom:24px;flex-wrap:wrap}
 .proj-tabs button{font:700 .88rem var(--f-body);padding:10px 18px;border-radius:12px;border:0;background:transparent;color:var(--muted);cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:7px}
 .proj-tabs button:hover{color:var(--deep)}
@@ -114,7 +112,6 @@ button{font-family:inherit}
 .proj-head h3{font-size:1.4rem}
 .proj-head p{color:var(--muted);font-size:.92rem}
 @media (max-width:860px){.proj-grid{grid-template-columns:minmax(0,1fr)}}
-/* External Card Game */
 .proj.external{background:linear-gradient(160deg,#0E5A3A,#082E1E);color:#FFF7ED;border:1px solid rgba(125,211,252,.3);overflow:hidden;position:relative;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(18px,3vw,32px);align-items:center}
 .proj.external::before{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle at 85% 120%,rgba(255,255,255,.06) 0 2px,transparent 2px 9px);pointer-events:none}
 .proj.external>*{position:relative}
@@ -128,19 +125,34 @@ button{font-family:inherit}
 .proj.external .btn.primary{background:#FDE68A;border-color:#FDE68A;color:#78350F;font-weight:700}
 .proj.external .btn.primary:hover{background:#FCD34D;border-color:#FCD34D;color:#78350F}
 .proj.external .ext-note{font:500 .72rem/1.5 var(--f-mono);color:rgba(255,247,237,.55);text-align:center;margin-top:4px}
-.ext-preview{position:relative;display:flex;justify-content:center;align-items:center;min-height:160px}
-.ext-preview .felt-mini{position:absolute;width:100%;height:100%;border-radius:50%/46%;background:radial-gradient(ellipse at 50% 40%,#1C8A5A 0%,#127A4E 35%,#0B5D3B 70%,#08452B 100%);box-shadow:inset 0 0 0 4px #0A4A2F,inset 0 0 0 8px #063322,0 16px 30px -10px rgba(0,0,0,.7);max-width:320px;max-height:200px}
-.ext-preview .cards{position:relative;display:flex;gap:4px;z-index:2}
-.ext-preview .pcv{width:38px;height:54px;border-radius:6px;background:#fff;color:#1C1917;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;box-shadow:0 6px 12px -6px rgba(0,0,0,.6);animation:pvIn .6s cubic-bezier(.2,.8,.2,1) both}
-.ext-preview .pcv:nth-child(2){animation-delay:.08s;transform:rotate(-3deg)}
-.ext-preview .pcv:nth-child(3){animation-delay:.16s}
-.ext-preview .pcv:nth-child(4){animation-delay:.24s;transform:rotate(3deg)}
-.ext-preview .pcv .r{font-size:1rem;line-height:1}
-.ext-preview .pcv .s{font-size:.9rem;line-height:1;margin-top:2px}
-.ext-preview .pcv.red{color:#DC2626}
-@keyframes pvIn{from{transform:translateY(-14px) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
-@media (max-width:860px){.proj.external{grid-template-columns:minmax(0,1fr)}}
-/* In-web projects */
+.ext-preview{position:relative;display:flex;justify-content:center;align-items:center;min-height:200px;padding:14px 0}
+.ext-preview .cards{position:relative;display:flex;align-items:center;justify-content:center;z-index:2}
+.ext-preview .card-slot{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;margin-inline:-8px}
+.ext-preview .cg-card{position:relative;width:56px;height:80px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;line-height:1;box-shadow:0 10px 20px -8px rgba(0,0,0,.7),0 0 0 2px rgba(255,255,255,.9),0 0 0 3px rgba(0,0,0,.2);animation:cgIn .55s cubic-bezier(.2,.8,.2,1) both;transition:transform .25s ease}
+.ext-preview .card-slot:nth-child(1) .cg-card{transform:rotate(-14deg);z-index:1}
+.ext-preview .card-slot:nth-child(2) .cg-card{transform:rotate(-5deg);z-index:2;animation-delay:.08s}
+.ext-preview .card-slot:nth-child(3) .cg-card{transform:rotate(5deg);z-index:3;animation-delay:.16s}
+.ext-preview .card-slot:nth-child(4) .cg-card{transform:rotate(14deg);z-index:4;animation-delay:.24s}
+.ext-preview:hover .cg-card{transform:rotate(0deg) translateY(-6px)}
+@keyframes cgIn{from{transform:translateY(-16px) scale(.8);opacity:0}to{opacity:1}}
+.ext-preview .cg-card.remi{background:linear-gradient(160deg,#FFF7ED,#FDE68A);color:#1C1917}
+.ext-preview .cg-card.remi .cg-rank{font-size:1.3rem;color:#DC2626}
+.ext-preview .cg-card.remi .cg-suit{font-size:1rem;color:#DC2626;margin-top:2px}
+.ext-preview .cg-card.uno{background:linear-gradient(160deg,#F87171 0%,#EF4444 55%,#B91C1C 100%);color:#fff}
+.ext-preview .cg-card.uno .cg-rank{font-size:1.5rem;color:#fff;font-style:italic;transform:rotate(-8deg)}
+.ext-preview .cg-card.uno .cg-suit{font-size:.7rem;color:#fff;opacity:.85;margin-top:3px;letter-spacing:.06em;font-family:var(--f-mono)}
+.ext-preview .cg-card.flip{background:linear-gradient(160deg,#C084FC 0%,#A855F7 55%,#6B21A8 100%);color:#fff}
+.ext-preview .cg-card.flip .cg-rank{font-size:1.4rem;color:#fff;font-style:italic;transform:rotate(-8deg)}
+.ext-preview .cg-card.flip .cg-suit{font-size:.65rem;color:#fff;opacity:.9;margin-top:3px;letter-spacing:.06em;font-family:var(--f-mono)}
+.ext-preview .cg-card.ek{background:linear-gradient(160deg,#FB923C 0%,#F97316 55%,#DC2626 100%);color:#fff}
+.ext-preview .cg-card.ek .cg-emoji{font-size:1.6rem;line-height:1}
+.ext-preview .cg-card.ek .cg-suit{font-size:.55rem;color:#fff;opacity:.9;margin-top:4px;letter-spacing:.06em;font-family:var(--f-mono);text-align:center}
+.ext-preview .cg-label{font:700 .58rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(255,247,237,.85);background:rgba(0,0,0,.4);padding:3px 8px;border-radius:999px;white-space:nowrap;border:1px solid rgba(255,255,255,.15)}
+.ext-preview .cg-label.remi{color:#FDE68A}
+.ext-preview .cg-label.uno{color:#FCA5A5}
+.ext-preview .cg-label.flip{color:#DDD6FE}
+.ext-preview .cg-label.ek{color:#FDBA74}
+@media (max-width:860px){.proj.external{grid-template-columns:minmax(0,1fr)}.ext-preview .cg-card{width:48px;height:68px}.ext-preview .card-slot{margin-inline:-6px}}
 .calc{width:100%;max-width:340px;margin-inline:auto;outline:none}
 .c-out{background:var(--ink);color:#fff;border-radius:18px;padding:12px 16px;text-align:right;font-family:var(--f-mono);min-height:88px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
 .c-hist{color:var(--ice);font-size:.8rem;min-height:1.3em}
@@ -154,16 +166,19 @@ button{font-family:inherit}
 .key.op{background:var(--ice)}
 .key.op:hover,.key.eq{background:var(--deep);color:#fff}
 .key.eq:hover{background:var(--ink)}
+
+/* KOMPAS — versi perbaikan */
 .compass-ui{display:flex;flex-direction:column;gap:14px;align-items:center}
-.compass{position:relative;width:min(100%,260px);aspect-ratio:1}
+.compass{position:relative;width:min(100%,300px);aspect-ratio:1;margin:0 auto}
 .compass svg{position:absolute;inset:0;width:100%;height:100%}
-.dial{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
-.hub{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--deep);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.dial{transition:transform .15s ease-out;will-change:transform;filter:drop-shadow(0 6px 16px rgba(0,0,0,.15))}
+.hub{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--deep);border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);z-index:3}
 .c-read{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;justify-content:center}
 .c-read b{font:800 2rem var(--f-display);color:var(--deep);font-variant-numeric:tabular-nums}
 .c-read span{font-weight:600;color:var(--muted)}
-.c-state{font:600 .85rem var(--f-mono);padding:6px 12px;border-radius:999px;background:var(--peach-deep);transition:background .2s,color .2s;text-align:center}
-.c-state.ok{background:var(--deep);color:#fff}
+.c-state{font:600 .85rem var(--f-mono);padding:8px 16px;border-radius:999px;background:var(--peach-deep);transition:all .25s;text-align:center;min-height:2.4em;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.c-state.ok{background:linear-gradient(135deg,#10B981,#059669);color:#fff;box-shadow:0 4px 12px -4px rgba(16,185,129,.6);font-weight:700}
+
 .field{display:flex;flex-direction:column;gap:6px;width:100%;font:600 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .field select{font:500 .95rem var(--f-body);text-transform:none;letter-spacing:0;color:var(--ink);padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card)}
 .field input[type=range]{accent-color:var(--deep);width:100%}
@@ -461,7 +476,15 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
           <div class="compass-ui">
             <div class="compass">
               <svg class="dial" id="dial" viewBox="-100 -100 200 200" aria-hidden="true"></svg>
-              <svg viewBox="-100 -100 200 200" aria-hidden="true"><path d="M0 -99 L7 -86 L-7 -86 Z" fill="#0369A1"/></svg>
+              <svg viewBox="-100 -100 200 200" aria-hidden="true">
+                <defs>
+                  <linearGradient id="arrowGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#F59E0B"/>
+                    <stop offset="100%" stop-color="#D97706"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0 -100 L10 -82 L-10 -82 Z" fill="url(#arrowGrad)" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
               <div class="hub"></div>
             </div>
             <div class="c-read"><b id="qDeg">0&deg;</b><span id="qDir">-</span></div>
@@ -513,15 +536,40 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
             <p class="ext-note">Dibuka di halaman terpisah &middot; chip fiktif &middot; tanpa uang nyata</p>
           </div>
           <div class="ext-preview" aria-hidden="true">
-            <div class="felt-mini"></div>
             <div class="cards">
-              <div class="pcv red"><div class="r">A</div><div class="s">&#9829;</div></div>
-              <div class="pcv"><div class="r">K</div><div class="s">&#9824;</div></div>
-              <div class="pcv red"><div class="r">Q</div><div class="s">&#9830;</div></div>
-              <div class="pcv"><div class="r">J</div><div class="s">&#9827;</div></div>
+              <div class="card-slot">
+                <div class="cg-card remi">
+                  <div class="cg-rank">A</div>
+                  <div class="cg-suit">&#9829;</div>
+                </div>
+                <span class="cg-label remi">Remi</span>
+              </div>
+              <div class="card-slot">
+                <div class="cg-card uno">
+                  <div class="cg-rank">7</div>
+                  <div class="cg-suit">UNO</div>
+                </div>
+                <span class="cg-label uno">Uno</span>
+              </div>
+              <div class="card-slot">
+                <div class="cg-card flip">
+                  <div class="cg-rank">5</div>
+                  <div class="cg-suit">FLIP</div>
+                </div>
+                <span class="cg-label flip">Flip</span>
+              </div>
+              <div class="card-slot">
+                <div class="cg-card ek">
+                  <div class="cg-emoji">&#128008;&#128165;</div>
+                  <div class="cg-suit">EK</div>
+                </div>
+                <span class="cg-label ek">EK</span>
+              </div>
             </div>
           </div>
-          <article class="proj external wide" style="background:linear-gradient(160deg,#0F172A,#060B14);border-color:rgba(253,230,138,.3)">
+        </article>
+
+        <article class="proj external wide" style="background:linear-gradient(160deg,#0F172A,#060B14);border-color:rgba(253,230,138,.3)">
           <div>
             <div class="ext-head"><span class="ico c-amber"><svg class="ic"><use href="#i-dice"/></svg></span><div><h3>Board Games</h3></div></div>
             <span class="ext-badge" style="background:rgba(253,230,138,.16);color:#FDE68A"><svg class="ic" style="width:.9em;height:.9em"><use href="#i-external"/></svg>Projek Terpisah</span>
@@ -532,10 +580,10 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
             <p class="ext-note" style="color:rgba(255,247,237,.55)">Dibuka di halaman terpisah &middot; tanpa uang nyata</p>
           </div>
           <div class="ext-preview" aria-hidden="true">
-            <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-              <div style="font-size:2.4rem;filter:drop-shadow(0 6px 12px rgba(0,0,0,.5))">♞</div>
-              <div style="font-size:2.4rem;filter:drop-shadow(0 6px 12px rgba(0,0,0,.5))">⚫</div>
-              <div style="font-size:2.4rem;filter:drop-shadow(0 6px 12px rgba(0,0,0,.5))">🎲</div>
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+              <div style="font-size:2.6rem;filter:drop-shadow(0 6px 12px rgba(0,0,0,.6))">♞</div>
+              <div style="font-size:2.6rem;filter:drop-shadow(0 6px 12px rgba(0,0,0,.6))">⚫</div>
+              <div style="font-size:2.6rem;filter:drop-shadow(0 6px 12px rgba(0,0,0,.6))">🎲</div>
             </div>
           </div>
         </article>
@@ -935,86 +983,173 @@ $$('[data-count]').forEach(function(el){cntIO.observe(el)});
   draw();
 })();
 
-/* Kompas kiblat */
+/* ---------- KOMPAS KIBLAT (versi perbaikan) ---------- */
 (function(){
   var KAABA={lat:21.4225,lon:39.8262};
-  var CITIES=[['Depok',-6.4025,106.8186],['Bekasi',-6.2383,106.9756],['Jakarta',-6.2088,106.8456],['Jalancagak, Subang',-6.6833,107.6667],['Bandung',-6.9175,107.6191],['Surabaya',-7.2575,112.7521],['Palu',-0.9003,119.8779],['Makassar',-5.1477,119.4327],['Medan',3.5952,98.6722]];
-  var dial=$('#dial'),sel=$('#qCity'),head=$('#qHead'),msg=$('#qMsg');
-  var q=0,heading=0,rot=0,lat=CITIES[0][1],lon=CITIES[0][2];
-  sel.innerHTML=CITIES.map(function(c,i){return '<option value="'+i+'">'+c[0]+'</option>'}).join('');
-  var g='<circle r="96" fill="#fff" stroke="#1C1917" stroke-width="2"/><circle r="64" fill="#FFF7ED" stroke="#BAE6FD" stroke-width="2"/>';
-  for(var i=0;i<36;i++){var big=i%3===0;g+='<line x1="0" y1="-96" x2="0" y2="'+(big?-87:-91)+'" stroke="#1C1917" stroke-width="'+(big?2:1)+'" transform="rotate('+(i*10)+')"/>'}
-  [['U',0],['T',90],['S',180],['B',270]].forEach(function(l){
-    g+='<g transform="rotate('+l[1]+')"><text x="0" y="-48" transform="translate(0,0)" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono,monospace" font-weight="700" font-size="14" fill="'+(l[0]==='U'?'#0369A1':'#78716C')+'">'+l[0]+'</text></g>';
-  });
-  g+='<g id="kmark"><line x1="0" y1="-12" x2="0" y2="-66" stroke="#0369A1" stroke-width="2" stroke-dasharray="3 4"/><rect x="-8" y="-84" width="16" height="16" rx="2.5" fill="#1C1917"/><rect x="-8" y="-80" width="16" height="3" fill="#7DD3FC"/></g>';
-  dial.innerHTML=g;
-  var kmark=$('#kmark');
+  var CITIES=[
+    ['Depok',-6.4025,106.8186],
+    ['Bekasi',-6.2383,106.9756],
+    ['Jakarta',-6.2088,106.8456],
+    ['Jalancagak, Subang',-6.6833,107.6667],
+    ['Bandung',-6.9175,107.6191],
+    ['Surabaya',-7.2575,112.7521],
+    ['Palu',-0.9003,119.8779],
+    ['Makassar',-5.1477,119.4327],
+    ['Medan',3.5952,98.6722]
+  ];
+  var dial=document.getElementById('dial');
+  var sel=document.getElementById('qCity');
+  var head=document.getElementById('qHead');
+  var msg=document.getElementById('qMsg');
+  var stateEl=document.getElementById('qState');
+  var degEl=document.getElementById('qDeg');
+  var dirEl=document.getElementById('qDir');
+  var headValEl=document.getElementById('qHeadVal');
+
+  var q=0, heading=0, rot=0;
+  var lat=CITIES[0][1], lon=CITIES[0][2];
+
+  sel.innerHTML = CITIES.map(function(c,i){return '<option value="'+i+'">'+c[0]+'</option>'}).join('');
+
+  /* Bangun dial SVG sekali */
+  (function buildDial(){
+    var s='';
+    s+='<circle r="98" fill="#0F172A"/>';
+    s+='<circle r="95" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="0.5"/>';
+    s+='<defs><radialGradient id="face" cx="50%" cy="40%">';
+    s+='<stop offset="0%" stop-color="#FFF7ED"/>';
+    s+='<stop offset="100%" stop-color="#E0F2FE"/>';
+    s+='</radialGradient></defs>';
+    s+='<circle r="62" fill="url(#face)" stroke="#BAE6FD" stroke-width="1.5"/>';
+    for(var i=0;i<72;i++){
+      var ang=i*5;
+      if(ang%10!==0) continue;
+      var major=ang%30===0;
+      var cardinal=ang%90===0;
+      var r1=cardinal?76:(major?84:88);
+      var r2=94;
+      var w=cardinal?2.5:(major?1.5:0.7);
+      var col=cardinal?'#0F172A':(major?'#475569':'#94A3B8');
+      s+='<line x1="0" y1="-'+r1+'" x2="0" y2="-'+r2+'" stroke="'+col+'" stroke-width="'+w+'" transform="rotate('+ang+')" stroke-linecap="round"/>';
+    }
+    var dirs=[{l:'U',a:0,c:'#DC2626'},{l:'T',a:90,c:'#0369A1'},{l:'S',a:180,c:'#0369A1'},{l:'B',a:270,c:'#0369A1'}];
+    dirs.forEach(function(x){
+      s+='<g transform="rotate('+x.a+')"><text x="0" y="-68" text-anchor="middle" dominant-baseline="central" font-family="Bricolage Grotesque,system-ui,sans-serif" font-weight="800" font-size="13" fill="'+x.c+'">'+x.l+'</text></g>';
+    });
+    s+='<g id="kmark">';
+    s+='<line x1="0" y1="-10" x2="0" y2="-64" stroke="#DC2626" stroke-width="3" stroke-linecap="round"/>';
+    s+='<polygon points="0,-72 -7,-56 7,-56" fill="#DC2626" stroke="#7F1D1D" stroke-width="1"/>';
+    s+='<rect x="-8" y="-88" width="16" height="16" rx="2" fill="#0F172A" stroke="#FDE68A" stroke-width="1.5"/>';
+    s+='<rect x="-8" y="-83" width="16" height="3" fill="#FDE68A"/>';
+    s+='</g>';
+    dial.innerHTML=s;
+  })();
+
+  var kmark=document.getElementById('kmark');
+
   function qibla(la,lo){
-    var r=Math.PI/180,p1=la*r,p2=KAABA.lat*r,dl=(KAABA.lon-lo)*r;
-    var y=Math.sin(dl)*Math.cos(p2),x=Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl);
+    var r=Math.PI/180, p1=la*r, p2=KAABA.lat*r, dl=(KAABA.lon-lo)*r;
+    var y=Math.sin(dl)*Math.cos(p2);
+    var x=Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl);
     return (Math.atan2(y,x)/r+360)%360;
   }
   function distKm(la,lo){
-    var r=Math.PI/180,dp=(KAABA.lat-la)*r,dl=(KAABA.lon-lo)*r;
+    var r=Math.PI/180, dp=(KAABA.lat-la)*r, dl=(KAABA.lon-lo)*r;
     var a=Math.sin(dp/2)*Math.sin(dp/2)+Math.cos(la*r)*Math.cos(KAABA.lat*r)*Math.sin(dl/2)*Math.sin(dl/2);
     return 6371*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
   }
   var DIRS=['Utara','Timur Laut','Timur','Tenggara','Selatan','Barat Daya','Barat','Barat Laut'];
-  function dirName(a){return DIRS[Math.round(a/45)%8]}
+  function dirName(a){ return DIRS[Math.round(a/45)%8] }
+
   function paint(){
-    kmark.setAttribute('transform','rotate('+q.toFixed(1)+')');
-    $('#qDeg').textContent=q.toFixed(1).replace('.',',')+'°';
-    $('#qDir').textContent=dirName(q);
-    var target=-heading,d=((target-rot)%360+540)%360-180;rot+=d;
-    dial.style.transform='rotate('+rot+'deg)';
-    $('#qHeadVal').textContent=Math.round(heading)+'°';
-    var diff=((q-heading+540)%360)-180,st=$('#qState');
-    if(Math.abs(diff)<=3){st.textContent='Kamu menghadap kiblat';st.classList.add('ok')}
-    else{st.textContent='Putar '+(diff>0?'ke kanan ':'ke kiri ')+Math.round(Math.abs(diff))+'° lagi';st.classList.remove('ok')}
+    if(kmark) kmark.setAttribute('transform','rotate('+q.toFixed(1)+')');
+    var target=-heading;
+    var d=((target-rot)%360+540)%360-180;
+    rot+=d;
+    dial.style.transform='rotate('+rot.toFixed(1)+'deg)';
+    if(degEl) degEl.textContent=q.toFixed(1).replace('.',',')+'°';
+    if(dirEl) dirEl.textContent=dirName(q);
+    if(headValEl) headValEl.textContent=Math.round(heading)+'°';
+    var diff=((q-heading+540)%360)-180;
+    var aligned=Math.abs(diff)<=3;
+    if(stateEl){
+      if(aligned){
+        stateEl.textContent='✓ Kamu menghadap kiblat';
+        stateEl.classList.add('ok');
+      }else{
+        var dir=diff>0?'kanan':'kiri';
+        stateEl.textContent=(diff>0?'→ ':'← ')+'Putar '+Math.round(Math.abs(diff))+'° ke '+dir;
+        stateEl.classList.remove('ok');
+      }
+    }
   }
+
   function setLoc(la,lo,name){
-    lat=la;lon=lo;q=qibla(la,lo);
-    msg.textContent=name+' · Jarak ke Ka’bah ± '+Math.round(distKm(la,lo)).toLocaleString('id-ID')+' km';
+    lat=la; lon=lo;
+    q=qibla(la,lo);
+    if(msg) msg.textContent=name+' · Jarak ke Ka\'bah ± '+Math.round(distKm(la,lo)).toLocaleString('id-ID')+' km';
     paint();
   }
-  function setHeading(h){heading=((h%360)+360)%360;head.value=Math.round(heading)%360;paint()}
-  sel.addEventListener('change',function(){var c=CITIES[+sel.value];if(c)setLoc(c[1],c[2],c[0])});
-  head.addEventListener('input',function(){setHeading(+head.value)});
-  $('#qGeo').addEventListener('click',function(){
-    try{
-      if(!navigator.geolocation){msg.textContent='Lokasi tidak tersedia. Pilih kota dari daftar.';return}
-      msg.textContent='Mencari lokasi…';
-      navigator.geolocation.getCurrentPosition(function(p){
-        var o=document.createElement('option');o.value='me';o.textContent='Lokasi saya';
-        var old=$('option[value="me"]',sel);if(old)old.remove();
-        sel.appendChild(o);sel.value='me';
-        setLoc(p.coords.latitude,p.coords.longitude,'Lokasi saya');
-      },function(){msg.textContent='Lokasi tidak diizinkan di tampilan ini. Pilih kota dari daftar.'},{timeout:8000});
-    }catch(e){msg.textContent='Lokasi tidak tersedia. Pilih kota dari daftar.'}
+  function setHeading(h){
+    heading=((h%360)+360)%360;
+    if(head) head.value=Math.round(heading)%360;
+    paint();
+  }
+
+  sel.addEventListener('change',function(){
+    var c=CITIES[+sel.value];
+    if(c) setLoc(c[1],c[2],c[0]);
   });
+  head.addEventListener('input',function(){ setHeading(+head.value); });
+
+  document.getElementById('qGeo').addEventListener('click',function(){
+    try{
+      if(!navigator.geolocation){
+        if(msg) msg.textContent='Lokasi tidak tersedia. Pilih kota dari daftar.';
+        return;
+      }
+      if(msg) msg.textContent='Mencari lokasi…';
+      navigator.geolocation.getCurrentPosition(function(p){
+        var o=document.createElement('option');
+        o.value='me'; o.textContent='Lokasi saya';
+        var old=sel.querySelector('option[value="me"]');
+        if(old) old.remove();
+        sel.appendChild(o); sel.value='me';
+        setLoc(p.coords.latitude, p.coords.longitude, 'Lokasi saya');
+      },function(){
+        if(msg) msg.textContent='Lokasi tidak diizinkan. Pilih kota dari daftar.';
+      },{timeout:8000});
+    }catch(e){ if(msg) msg.textContent='Lokasi tidak tersedia.'; }
+  });
+
   var sensorOn=false;
-  $('#qSensor').addEventListener('click',function(){
-    if(sensorOn)return;
+  document.getElementById('qSensor').addEventListener('click',function(){
+    if(sensorOn) return;
     function start(){
       var got=false;
       var h=function(e){
         var hd=null;
-        if(typeof e.webkitCompassHeading==='number')hd=e.webkitCompassHeading;
-        else if(e.alpha!=null)hd=360-e.alpha;
-        if(hd!=null){got=true;setHeading(hd)}
+        if(typeof e.webkitCompassHeading==='number') hd=e.webkitCompassHeading;
+        else if(e.alpha!=null) hd=360-e.alpha;
+        if(hd!=null){ got=true; setHeading(hd); }
       };
       window.addEventListener('deviceorientationabsolute',h,true);
       window.addEventListener('deviceorientation',h,true);
       sensorOn=true;
-      setTimeout(function(){if(!got){msg.textContent='Sensor tidak tersedia di tampilan ini. Gunakan penggeser arah hadap.'}},1800);
+      setTimeout(function(){
+        if(!got&&msg) msg.textContent='Sensor tidak tersedia. Gunakan penggeser arah hadap.';
+      },1800);
     }
     try{
       if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function'){
-        DeviceOrientationEvent.requestPermission().then(function(r){if(r==='granted')start();else msg.textContent='Izin sensor ditolak.'}).catch(function(){msg.textContent='Sensor tidak tersedia.'});
+        DeviceOrientationEvent.requestPermission().then(function(r){
+          if(r==='granted') start();
+          else if(msg) msg.textContent='Izin sensor ditolak.';
+        }).catch(function(){ if(msg) msg.textContent='Sensor tidak tersedia.'; });
       }else start();
-    }catch(e){msg.textContent='Sensor tidak tersedia.'}
+    }catch(e){ if(msg) msg.textContent='Sensor tidak tersedia.'; }
   });
+
   setLoc(lat,lon,CITIES[0][0]);
 })();
 
@@ -1392,4 +1527,5 @@ updateNav();
 })();
 </script>
 
-</body></html>
+</body>
+</html>
