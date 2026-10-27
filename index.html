@@ -166,49 +166,22 @@ button{font-family:inherit}
 .key.op{background:var(--ice)}
 .key.op:hover,.key.eq{background:var(--deep);color:#fff}
 .key.eq:hover{background:var(--ink)}
-
-/* NAVIGATOR / KOMPAS KIBLAT */
-.compass-ui{display:flex;flex-direction:column;gap:14px;align-items:center;width:100%}
-.compass{position:relative;width:min(100%,330px);aspect-ratio:1;margin:0 auto}
+.compass-ui{display:flex;flex-direction:column;gap:14px;align-items:center}
+.compass{position:relative;width:min(100%,300px);aspect-ratio:1;margin:0 auto}
 .compass svg{position:absolute;inset:0;width:100%;height:100%}
-.dial{transition:transform .15s ease-out;will-change:transform;filter:drop-shadow(0 8px 18px rgba(3,105,161,.13))}
+.dial{transition:transform .15s ease-out;will-change:transform;filter:drop-shadow(0 6px 16px rgba(0,0,0,.15))}
 .hub{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--deep);border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);z-index:3}
 .c-read{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;justify-content:center}
 .c-read b{font:800 2rem var(--f-display);color:var(--deep);font-variant-numeric:tabular-nums}
-.c-read span{font-weight:700;color:var(--muted)}
-.c-state{font:600 .84rem var(--f-mono);padding:9px 14px;border-radius:14px;background:var(--ice-soft);border:1px solid var(--ice-mid);transition:all .25s;text-align:center;min-height:2.8em;width:100%;display:flex;align-items:center;justify-content:center;gap:6px}
-.c-state.ok{background:linear-gradient(135deg,#10B981,#059669);border-color:#059669;color:#fff;box-shadow:0 4px 12px -4px rgba(16,185,129,.6);font-weight:700}
-.nav-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(16px,3vw,28px);align-items:start;width:100%;margin-top:14px}
-.nav-compass-panel{padding:clamp(14px,2.5vw,22px);border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,var(--card),var(--ice-soft));min-width:0}
-.nav-panel-title{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-family:var(--f-display);font-weight:800;color:var(--ink)}
-.nav-north-tag{font:700 .68rem var(--f-mono);letter-spacing:.02em;color:var(--deep);background:#fff;border:1px solid var(--ice-mid);border-radius:999px;padding:5px 9px}
-.nav-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin-top:8px}
-.nav-legend span{display:inline-flex;align-items:center;gap:6px}
-.nav-dot{display:inline-block;width:9px;height:9px;border-radius:50%}
-.nav-dot.qibla{background:#DC2626}.nav-dot.device{background:#F59E0B}
-.nav-side{display:flex;flex-direction:column;gap:14px;min-width:0}
-.nav-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.nav-metric{padding:13px 14px;border:1px solid var(--line);border-radius:16px;background:var(--card);min-width:0;box-shadow:var(--shadow)}
-.nav-metric.loc{grid-column:1/-1}
-.nav-metric-label{display:block;font:700 .66rem var(--f-mono);letter-spacing:.07em;color:var(--muted);margin-bottom:5px}
-.nav-metric strong{display:block;font:800 clamp(1.15rem,2.2vw,1.55rem) var(--f-display);color:var(--deep);overflow-wrap:anywhere;line-height:1.2}
-.nav-metric small{display:block;color:var(--muted);font-size:.78rem;margin-top:4px;overflow-wrap:anywhere;line-height:1.4}
-.nav-control-panel{padding:15px;border-radius:18px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;gap:12px}
-.nav-control-head{font-family:var(--f-display);font-weight:800;font-size:1rem}
-.field{display:flex;flex-direction:column;gap:6px;width:100%;font:600 .76rem var(--f-mono);letter-spacing:.035em;color:var(--muted)}
-.field select,.field input[type=number]{font:500 .92rem var(--f-body);letter-spacing:0;color:var(--ink);padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);width:100%;min-width:0}
+.c-read span{font-weight:600;color:var(--muted)}
+.c-state{font:600 .85rem var(--f-mono);padding:8px 16px;border-radius:999px;background:var(--peach-deep);transition:all .25s;text-align:center;min-height:2.4em;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.c-state.ok{background:linear-gradient(135deg,#10B981,#059669);color:#fff;box-shadow:0 4px 12px -4px rgba(16,185,129,.6);font-weight:700}
+.field{display:flex;flex-direction:column;gap:6px;width:100%;font:600 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.field select{font:500 .95rem var(--f-body);text-transform:none;letter-spacing:0;color:var(--ink);padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card)}
 .field input[type=range]{accent-color:var(--deep);width:100%}
 .row{display:flex;flex-wrap:wrap;gap:8px;width:100%}
-.row .btn{padding:9px 12px;font-size:.82rem;flex:1 1 145px;justify-content:center}
-.nav-coord-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.nav-alt-panel{padding:15px;border:1px solid var(--ice-mid);border-radius:18px;background:var(--ice-soft);display:flex;flex-direction:column;gap:10px}
-.nav-alt-panel h4{font-family:var(--f-display);font-size:1rem}
-.nav-alt-panel p{font-size:.79rem;color:var(--muted);line-height:1.5;margin:0}
-.nav-alt-panel .btn{align-self:flex-start}
-.nav-manual{border:1px dashed var(--line);border-radius:14px;padding:12px}
-.nav-manual summary{cursor:pointer;color:var(--deep);font-weight:800;font-size:.84rem}
-.note{font-size:.8rem;color:var(--muted);text-align:left;line-height:1.55;min-height:1.2em;margin:0}
-@media(max-width:760px){.nav-layout{grid-template-columns:minmax(0,1fr)}.nav-compass-panel{padding:12px}.compass{width:min(100%,310px)}.nav-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.row .btn{padding:9px 14px;font-size:.85rem;flex:1 1 140px;justify-content:center}
+.note{font-size:.82rem;color:var(--muted);text-align:center;min-height:1.2em}
 .chess{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,330px);gap:clamp(18px,3vw,32px);align-items:start}
 @media (max-width:860px){.chess{grid-template-columns:minmax(0,1fr)}}
 .board-wrap{container-type:inline-size;width:100%;max-width:540px;margin-inline:auto}
@@ -495,72 +468,35 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
             <div class="keys" id="cKeys"></div>
           </div>
         </article>
-        <article class="proj wide card">
-          <div class="proj-head"><span class="ico c-teal"><svg class="ic"><use href="#i-compass"/></svg></span><div><h3 class="tw">Navigator</h3><p class="tw">Kompas arah perangkat dan penunjuk arah kiblat dari lokasimu secara real-time.</p></div></div>
-          <div class="nav-layout">
-            <section class="nav-compass-panel" aria-label="Kompas arah kiblat">
-              <div class="nav-panel-title"><span>Kompas langsung</span><span class="nav-north-tag">U selalu di atas</span></div>
-              <div class="compass-ui">
-                <div class="compass" role="img" aria-label="Kompas dengan penanda arah kiblat merah dan arah perangkat oranye">
-                  <svg class="dial" id="dial" viewBox="-100 -100 200 200" aria-hidden="true"></svg>
-                  <svg viewBox="-100 -100 200 200" aria-hidden="true">
-                    <defs>
-                      <linearGradient id="arrowGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#F59E0B"/>
-                        <stop offset="100%" stop-color="#D97706"/>
-                      </linearGradient>
-                    </defs>
-                    <g id="headingMarker" aria-label="Arah hadap HP" style="display:none">
-                      <path d="M0 -100 L10 -82 L-10 -82 Z" fill="url(#arrowGrad)" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"/>
-                    </g>
-                  </svg>
-                  <div class="hub"></div>
-                </div>
-                <div class="c-read"><b id="qDeg">--°</b><span id="qDir">Pilih lokasi</span></div>
-                <div class="c-state" id="qState" role="status">Deteksi lokasi atau pilih kota untuk menghitung arah kiblat.</div>
-              </div>
-              <div class="nav-legend"><span><i class="nav-dot qibla"></i>Arah kiblat</span><span><i class="nav-dot device"></i>Arah hadap HP</span></div>
-            </section>
-            <div class="nav-side">
-              <div class="nav-metrics">
-                <div class="nav-metric"><span class="nav-metric-label">ARAH KIBLAT</span><strong id="qBearingSummary">--°</strong><small id="qBearingDir">Menunggu lokasi</small></div>
-                <div class="nav-metric"><span class="nav-metric-label">ARAH PERANGKAT</span><strong id="qDeviceDeg">--°</strong><small id="qDeviceDir">Sensor belum aktif</small></div>
-                <div class="nav-metric loc"><span class="nav-metric-label">📍 LOKASI</span><strong id="qLocationShort">Belum terdeteksi</strong><small id="qCoordinates">Deteksi lokasi atau pilih kota</small></div>
-              </div>
-              <section class="nav-control-panel">
-                <div class="nav-control-head">Mulai navigasi</div>
-                <div class="row">
-                  <button class="btn" type="button" id="qSensor"><svg class="ic"><use href="#i-compass"/></svg>Aktifkan Kompas</button>
-                  <button class="btn" type="button" id="qGeo"><svg class="ic"><use href="#i-pin"/></svg>Deteksi Lokasi Saya</button>
-                </div>
-                <details class="nav-manual">
-                  <summary>Pengaturan arah manual</summary>
-                  <div style="padding-top:12px;display:flex;flex-direction:column;gap:12px">
-                    <label class="field" for="qHead">Arah hadap HP dari utara: <span id="qHeadVal">--°</span>
-                      <input type="range" id="qHead" min="0" max="359" value="0">
-                    </label>
-                    <p class="note">Gunakan penggeser ini hanya untuk simulasi atau saat sensor tidak tersedia. Untuk arah nyata, aktifkan sensor kompas HP.</p>
-                  </div>
-                </details>
-                <p class="note" id="qMsg">Tekan “Deteksi Lokasi Saya” atau pilih lokasi alternatif, lalu aktifkan kompas. Sensor arah memerlukan perangkat yang mendukung sensor dan situs HTTPS.</p>
-              </section>
-              <section class="nav-alt-panel">
-                <h4>📍 Lokasi Alternatif</h4>
-                <p>Jika izin lokasi tidak bisa digunakan, pilih kota atau masukkan koordinat. Kota memberikan perkiraan; koordinat yang tepat menghasilkan arah kiblat yang lebih sesuai dengan lokasimu.</p>
-                <label class="field" for="qCity">Pilih kota
-                  <select id="qCity"></select>
-                </label>
-                <div class="nav-coord-grid">
-                  <label class="field" for="qLat">Latitude
-                    <input id="qLat" type="number" step="any" min="-90" max="90" placeholder="-6.9175" inputmode="decimal">
-                  </label>
-                  <label class="field" for="qLon">Longitude
-                    <input id="qLon" type="number" step="any" min="-180" max="180" placeholder="107.6191" inputmode="decimal">
-                  </label>
-                </div>
-                <button class="btn" type="button" id="qUseCoords">Gunakan Lokasi Ini</button>
-              </section>
+        <article class="proj card">
+          <div class="proj-head"><span class="ico c-teal"><svg class="ic"><use href="#i-compass"/></svg></span><div><h3 class="tw">Kompas Kiblat</h3><p class="tw">Penanda Ka&rsquo;bah menunjuk arah kiblat dari lokasimu.</p></div></div>
+          <div class="compass-ui">
+            <div class="compass">
+              <svg class="dial" id="dial" viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+              <svg viewBox="-100 -100 200 200" aria-hidden="true">
+                <defs>
+                  <linearGradient id="arrowGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#F59E0B"/>
+                    <stop offset="100%" stop-color="#D97706"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0 -100 L10 -82 L-10 -82 Z" fill="url(#arrowGrad)" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              <div class="hub"></div>
             </div>
+            <div class="c-read"><b id="qDeg">0&deg;</b><span id="qDir">-</span></div>
+            <div class="c-state" id="qState">Putar penggeser sampai Ka&rsquo;bah di atas</div>
+            <label class="field" for="qCity">Lokasi
+              <select id="qCity"></select>
+            </label>
+            <label class="field" for="qHead">Arah hadap HP: <span id="qHeadVal">0&deg;</span>
+              <input type="range" id="qHead" min="0" max="359" value="0">
+            </label>
+            <div class="row">
+              <button class="btn" type="button" id="qGeo"><svg class="ic"><use href="#i-pin"/></svg>Lokasi saya</button>
+              <button class="btn" type="button" id="qSensor"><svg class="ic"><use href="#i-compass"/></svg>Sensor HP</button>
+            </div>
+            <p class="note" id="qMsg">Jarak ke Ka&rsquo;bah: -</p>
           </div>
         </article>
         <article class="proj wide card">
@@ -1044,7 +980,7 @@ $$('[data-count]').forEach(function(el){cntIO.observe(el)});
   draw();
 })();
 
-/* ---------- KOMPAS KIBLAT (versi perbaikan) ---------- */
+/* ---------- KOMPAS KIBLAT (ikuti arah kamera HP) ---------- */
 (function(){
   var KAABA={lat:21.4225,lon:39.8262};
   var CITIES=[
@@ -1066,22 +1002,16 @@ $$('[data-count]').forEach(function(el){cntIO.observe(el)});
   var degEl=document.getElementById('qDeg');
   var dirEl=document.getElementById('qDir');
   var headValEl=document.getElementById('qHeadVal');
-  var qBearingSummary=document.getElementById('qBearingSummary');
-  var qBearingDir=document.getElementById('qBearingDir');
-  var qDeviceDeg=document.getElementById('qDeviceDeg');
-  var qDeviceDir=document.getElementById('qDeviceDir');
-  var qLocationShort=document.getElementById('qLocationShort');
-  var qCoordinates=document.getElementById('qCoordinates');
-  var qLatInput=document.getElementById('qLat');
-  var qLonInput=document.getElementById('qLon');
-  var qUseCoords=document.getElementById('qUseCoords');
 
-  var q=null, heading=null;
-  var lat=null, lon=null, locName='Belum terdeteksi';
+  var q=0;
+  var heading=0;
+  var rot=0;
+  var lat=CITIES[0][1], lon=CITIES[0][2];
+  var sensorOn=false;
+  var hasHeading=false;
 
-  sel.innerHTML = '<option value="">Pilih kota…</option>'+CITIES.map(function(c,i){return '<option value="'+i+'">'+c[0]+'</option>'}).join('');
+  sel.innerHTML = CITIES.map(function(c,i){return '<option value="'+i+'">'+c[0]+'</option>'}).join('');
 
-  /* Bangun dial SVG sekali */
   (function buildDial(){
     var s='';
     s+='<circle r="98" fill="#0F172A"/>';
@@ -1116,7 +1046,6 @@ $$('[data-count]').forEach(function(el){cntIO.observe(el)});
   })();
 
   var kmark=document.getElementById('kmark');
-  var headingMarker=document.getElementById('headingMarker');
 
   function qibla(la,lo){
     var r=Math.PI/180, p1=la*r, p2=KAABA.lat*r, dl=(KAABA.lon-lo)*r;
@@ -1133,92 +1062,75 @@ $$('[data-count]').forEach(function(el){cntIO.observe(el)});
   function dirName(a){ return DIRS[Math.round(a/45)%8] }
 
   function paint(){
-    // Orientasi layar tidak memutar dial: Utara (U) selalu di atas.
-    // Azimut kiblat dan arah hadap perangkat dihitung terpisah dari utara.
-    if(kmark){
-      kmark.style.display=q===null?'none':'';
-      if(q!==null) kmark.setAttribute('transform','rotate('+q.toFixed(1)+')');
-    }
-    if(headingMarker){
-      headingMarker.style.display=heading===null?'none':'';
-      if(heading!==null) headingMarker.setAttribute('transform','rotate('+heading.toFixed(1)+')');
-    }
-    if(dial) dial.style.transform='rotate(0deg)';
-    var qText=q===null?'--°':q.toFixed(1).replace('.',',')+'°';
-    var qDirection=q===null?'Pilih lokasi':dirName(q);
-    var hText=heading===null?'--°':Math.round(heading)+'°';
-    if(degEl) degEl.textContent=qText;
-    if(dirEl) dirEl.textContent=qDirection;
-    if(headValEl) headValEl.textContent=hText;
-    if(qBearingSummary) qBearingSummary.textContent=qText;
-    if(qBearingDir) qBearingDir.textContent=q===null?'Menunggu lokasi':dirName(q)+' dari utara';
-    if(qDeviceDeg) qDeviceDeg.textContent=hText;
-    if(qDeviceDir) qDeviceDir.textContent=heading===null?'Sensor belum aktif':dirName(heading)+' dari utara';
-    if(qLocationShort) qLocationShort.textContent=locName;
-    if(qCoordinates){
-      qCoordinates.textContent=(lat===null||lon===null)?'Deteksi lokasi atau pilih kota':('Lat '+lat.toFixed(5)+' · Lon '+lon.toFixed(5));
-    }
+    if(kmark) kmark.setAttribute('transform','rotate('+q.toFixed(1)+')');
+    var target=-heading;
+    var d=((target-rot)%360+540)%360-180;
+    rot+=d;
+    dial.style.transform='rotate('+rot.toFixed(1)+'deg)';
+    if(degEl) degEl.textContent=q.toFixed(1).replace('.',',')+'°';
+    if(dirEl) dirEl.textContent=dirName(q);
+    if(headValEl) headValEl.textContent=Math.round(heading)+'°';
+    var diff=((q-heading+540)%360)-180;
+    var aligned=Math.abs(diff)<=5;
     if(stateEl){
-      stateEl.classList.remove('ok');
-      if(q===null){
-        stateEl.textContent='Deteksi lokasi atau pilih kota untuk menghitung arah kiblat.';
-      }else if(heading===null){
-        stateEl.textContent='Arah kiblat siap. Aktifkan kompas untuk mengetahui arah hadap HP.';
+      if(!hasHeading){
+        stateEl.textContent='Arahkan HP ke depan, lalu nyalakan Sensor';
+        stateEl.classList.remove('ok');
+      }else if(aligned){
+        stateEl.textContent='✓ Kamu menghadap kiblat';
+        stateEl.classList.add('ok');
       }else{
-        var diff=((q-heading+540)%360)-180;
-        var aligned=Math.abs(diff)<=3;
-        if(aligned){
-          stateEl.textContent='✓ Kamu menghadap kiblat';
-          stateEl.classList.add('ok');
-        }else{
-          var dir=diff>0?'kanan':'kiri';
-          stateEl.textContent=(diff>0?'→ ':'← ')+'Putar '+Math.round(Math.abs(diff))+'° ke '+dir+' untuk menghadap kiblat';
-        }
+        var dir=diff>0?'kanan':'kiri';
+        stateEl.textContent=(diff>0?'→ ':'← ')+'Putar '+Math.round(Math.abs(diff))+'° ke '+dir;
+        stateEl.classList.remove('ok');
       }
     }
   }
 
   function setLoc(la,lo,name){
-    if(!Number.isFinite(la)||!Number.isFinite(lo)||la < -90||la > 90||lo < -180||lo > 180){
-      if(msg) msg.textContent='Koordinat tidak valid. Latitude harus -90 sampai 90 dan longitude -180 sampai 180.';
-      return;
-    }
-    lat=la; lon=lo; locName=name;
+    lat=la; lon=lo;
     q=qibla(la,lo);
-    if(qLatInput) qLatInput.value=la.toFixed(5);
-    if(qLonInput) qLonInput.value=lo.toFixed(5);
-    if(msg) msg.textContent=name+' · Jarak ke Ka\'bah ± '+Math.round(distKm(la,lo)).toLocaleString('id-ID')+' km. Arah kiblat dihitung dari koordinat ini.';
-    paint();
-  }
-  function clearLoc(){
-    lat=null; lon=null; q=null; locName='Belum terdeteksi';
-    if(msg) msg.textContent='Belum ada lokasi. Deteksi lokasi atau pilih kota/koordinat.';
-    paint();
-  }
-  function setHeading(h){
-    if(!Number.isFinite(h)) return;
-    heading=((h%360)+360)%360;
-    if(head) head.value=Math.round(heading)%360;
+    if(msg) msg.textContent=name+' · Jarak ke Ka\'bah ± '+Math.round(distKm(la,lo)).toLocaleString('id-ID')+' km';
     paint();
   }
 
+  function handleOrientation(e){
+    var hd=null;
+    if(typeof e.webkitCompassHeading==='number' && e.webkitCompassHeading>=0){
+      hd=e.webkitCompassHeading;
+    }else if(e.alpha!=null){
+      hd=(360-e.alpha)%360;
+    }
+    if(hd!=null){
+      hasHeading=true;
+      heading=((hd%360)+360)%360;
+      if(head) head.value=Math.round(heading)%360;
+      paint();
+    }
+  }
+
+  function startSensor(){
+    if(sensorOn) return;
+    sensorOn=true;
+    window.addEventListener('deviceorientationabsolute',handleOrientation,true);
+    window.addEventListener('deviceorientation',handleOrientation,true);
+    if(msg) msg.textContent='Menunggu data sensor... arahkan HP menghadap depan.';
+    setTimeout(function(){
+      if(!hasHeading && msg){
+        msg.textContent='Sensor aktif tapi tidak mengirim data. Cek: (1) HP punya gyroscope? (2) Settings > Location/Motion diizinkan? (3) Coba browser lain (Chrome/Safari).';
+      }
+    },2000);
+  }
+
   sel.addEventListener('change',function(){
-    if(sel.value===''){clearLoc();return;}
-    var index=Number(sel.value);
-    var c=Number.isInteger(index)?CITIES[index]:null;
+    var c=CITIES[+sel.value];
     if(c) setLoc(c[1],c[2],c[0]);
   });
-  head.addEventListener('input',function(){ setHeading(+head.value); });
-  if(qUseCoords) qUseCoords.addEventListener('click',function(){
-    var la=parseFloat(qLatInput.value), lo=parseFloat(qLonInput.value);
-    if(!Number.isFinite(la)||!Number.isFinite(lo)||la < -90||la > 90||lo < -180||lo > 180){
-      if(msg) msg.textContent='Koordinat belum benar. Isi latitude (-90 hingga 90) dan longitude (-180 hingga 180).';
-      return;
-    }
-    var manual=sel.querySelector('option[value="manual"]');
-    if(!manual){manual=document.createElement('option');manual.value='manual';manual.textContent='Koordinat manual';sel.appendChild(manual);}
-    sel.value='manual';
-    setLoc(la,lo,'Koordinat manual');
+
+  head.addEventListener('input',function(){
+    if(hasHeading) return;
+    heading=+head.value;
+    paint();
   });
 
   document.getElementById('qGeo').addEventListener('click',function(){
@@ -1227,91 +1139,54 @@ $$('[data-count]').forEach(function(el){cntIO.observe(el)});
         if(msg) msg.textContent='Lokasi tidak tersedia. Pilih kota dari daftar.';
         return;
       }
-      if(msg) msg.textContent='Meminta lokasi perangkat…';
+      if(msg) msg.textContent='Mencari lokasi…';
       navigator.geolocation.getCurrentPosition(function(p){
         var o=document.createElement('option');
         o.value='me'; o.textContent='Lokasi saya';
         var old=sel.querySelector('option[value="me"]');
         if(old) old.remove();
         sel.appendChild(o); sel.value='me';
-        setLoc(p.coords.latitude, p.coords.longitude, 'Lokasi saya');
-      },function(err){
-        if(msg) msg.textContent=err&&err.code===1?'Izin lokasi ditolak. Pilih kota atau masukkan koordinat.':'Lokasi tidak terbaca. Coba lagi atau pilih kota/koordinat.';
-      },{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
+        setLoc(p.coords.latitude,p.coords.longitude,'Lokasi saya');
+      },function(){
+        if(msg) msg.textContent='Lokasi tidak diizinkan. Pilih kota dari daftar.';
+      },{timeout:8000});
     }catch(e){ if(msg) msg.textContent='Lokasi tidak tersedia.'; }
   });
 
-  var sensorOn=false, orientationHandler=null, sensorTimer=null;
-  var sensorButton=document.getElementById('qSensor');
-  function screenAngle(){
-    var a=(screen.orientation&&typeof screen.orientation.angle==='number')
-      ? screen.orientation.angle
-      : (typeof window.orientation==='number' ? window.orientation : 0);
-    return ((a%360)+360)%360;
-  }
-  function startCompassSensor(){
-    if(sensorOn) return;
-    var got=false, gotAbsolute=false, gotWebkit=false, sawRelative=false;
-    orientationHandler=function(e){
-      var hd=null;
-      // Heading dari Safari/iOS sudah berupa kompas (derajat dari utara).
-      if(typeof e.webkitCompassHeading==='number' && isFinite(e.webkitCompassHeading)){
-        hd=e.webkitCompassHeading;
-        gotWebkit=true;
-      }else if(e.alpha!=null && isFinite(e.alpha)){
-        // Alpha relatif saja tidak cukup untuk menunjukkan utara secara benar.
-        if(e.absolute===true || e.type==='deviceorientationabsolute'){
-          gotAbsolute=true;
-          hd=360-e.alpha+screenAngle();
-        }else{
-          sawRelative=true;
-        }
-      }
-      if(hd!==null&&Number.isFinite(hd)){
-        got=true;
-        setHeading(hd);
-        if(msg) msg.textContent='Sensor kompas aktif. Jauhkan HP dari magnet dan benda logam; arah tetap bergantung pada kalibrasi sensor.';
-      }
-    };
-    window.addEventListener('deviceorientationabsolute',orientationHandler,true);
-    window.addEventListener('deviceorientation',orientationHandler,true);
-    sensorOn=true;
-    if(sensorButton) sensorButton.textContent='Kompas aktif';
-    if(sensorTimer) clearTimeout(sensorTimer);
-    sensorTimer=setTimeout(function(){
-      if(!got){
-        sensorOn=false;
-        window.removeEventListener('deviceorientationabsolute',orientationHandler,true);
-        window.removeEventListener('deviceorientation',orientationHandler,true);
-        if(sensorButton) sensorButton.textContent='Aktifkan Kompas';
-        if(msg) msg.textContent=sawRelative
-          ? 'Browser hanya memberi arah relatif, bukan utara kompas. Coba browser/perangkat lain yang mendukung heading absolut.'
-          : 'Sensor tidak terbaca. Pastikan memakai HTTPS, izinkan sensor, lalu coba lagi.';
-      }else if(!gotAbsolute&&!gotWebkit&&msg){
-        msg.textContent='Arah sensor belum dipastikan absolut. Kalibrasikan HP dan cocokkan dengan kompas tepercaya sebelum digunakan.';
-      }
-    },3000);
-  }
-
-  sensorButton.addEventListener('click',function(){
-    if(sensorOn) return;
-    if(!window.isSecureContext && location.hostname!=='localhost'){
-      if(msg) msg.textContent='Sensor kompas memerlukan HTTPS. Buka situs melalui koneksi HTTPS.';
+  document.getElementById('qSensor').addEventListener('click',function(){
+    if(!window.DeviceOrientationEvent){
+      if(msg) msg.textContent='Browser tidak mendukung sensor orientasi. Gunakan penggeser manual di bawah.';
       return;
     }
-    try{
-      if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function'){
-        DeviceOrientationEvent.requestPermission().then(function(r){
-          if(r==='granted') startCompassSensor();
-          else if(msg) msg.textContent='Izin sensor ditolak. Izinkan Motion & Orientation di pengaturan browser.';
-        }).catch(function(){ if(msg) msg.textContent='Sensor tidak tersedia atau izin ditolak.'; });
-      } else if(window.DeviceOrientationEvent) {
-        startCompassSensor();
-      } else if(msg) msg.textContent='Browser/perangkat ini tidak mendukung sensor arah. Gunakan penggeser atau kompas HP.';
-    }catch(e){ if(msg) msg.textContent='Sensor tidak tersedia. Coba browser lain atau gunakan penggeser.'; }
+    var isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    if(!isSecure){
+      if(msg) msg.textContent='Sensor butuh HTTPS. Buka portofolio lewat GitHub Pages (https://...) atau localhost.';
+      return;
+    }
+    if(typeof DeviceOrientationEvent.requestPermission === 'function'){
+      if(msg) msg.textContent='Menunggu izin sensor...';
+      DeviceOrientationEvent.requestPermission().then(function(r){
+        if(r === 'granted'){
+          startSensor();
+        }else if(r === 'denied'){
+          if(msg) msg.textContent='Izin sensor ditolak. Aktifkan di Settings > Safari > Motion & Orientation Access, lalu refresh.';
+        }else{
+          if(msg) msg.textContent='Izin sensor tidak diberikan. Gunakan penggeser manual.';
+        }
+      }).catch(function(err){
+        if(msg) msg.textContent='Gagal minta izin sensor: '+err.message+'. Gunakan penggeser manual.';
+      });
+      return;
+    }
+    startSensor();
+    setTimeout(function(){
+      if(!hasHeading && msg){
+        msg.textContent='Sensor tidak mengirim data. Perangkat mungkin tidak punya gyroscope, atau sensor dimatikan. Gunakan penggeser manual.';
+      }
+    },1500);
   });
 
-  paint();
+  setLoc(lat,lon,CITIES[0][0]);
 })();
 
 /* Catur AI */
