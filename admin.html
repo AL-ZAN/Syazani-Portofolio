@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin Blog — Syazani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400..700&family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..800&display=swap">
+<style>
+:root{
+  --bg:#FFFFFF;--card:#FFFFFF;--ink:#1C1917;--muted:#78716C;
+  --ice:#7DD3FC;--deep:#0369A1;--ice-soft:#E0F2FE;--ice-mid:#BAE6FD;
+  --green:#10B981;--red:#EF4444;--amber:#F59E0B;
+  --line:rgba(28,25,23,.1);
+  --f-display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r-lg:20px;
+  --shadow:0 1px 0 rgba(28,25,23,.04),0 14px 30px -20px rgba(28,25,23,.35);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:linear-gradient(160deg,#F0F9FF,#E0F2FE 60%,#F0FDFA);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;min-height:100dvh}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;margin:0;letter-spacing:-.01em}
+p{margin:0}
+button{font-family:inherit}
+input,textarea,select{font-family:inherit;font-size:inherit}
+a{color:var(--deep)}
+
+/* ==================== LOGIN ==================== */
+.login-wrap{
+  min-height:100vh;min-height:100dvh;
+  display:grid;place-items:center;padding:20px;
+}
+.login-card{
+  background:#fff;border-radius:24px;padding:clamp(28px,5vw,44px);
+  width:100%;max-width:420px;
+  box-shadow:0 40px 80px -30px rgba(3,105,161,.35),0 1px 0 rgba(0,0,0,.03);
+  border:1px solid var(--line);
+  text-align:center;
+}
+.login-card .brand{
+  display:inline-flex;align-items:center;gap:10px;
+  font:700 1.1rem var(--f-display);color:var(--ink);
+  margin-bottom:20px;
+}
+.login-card .brand .mark{
+  width:42px;height:42px;border-radius:12px;
+  background:linear-gradient(160deg,#7DD3FC,#0369A1);
+  color:#fff;display:grid;place-items:center;
+  font-size:1.3rem;box-shadow:0 8px 20px -8px rgba(125,211,252,.7);
+}
+.login-card h1{font-size:1.5rem;font-weight:800;margin-bottom:6px}
+.login-card .sub{color:var(--muted);font-size:.9rem;margin-bottom:24px}
+.login-card label{
+  display:block;text-align:left;
+  font:600 .78rem var(--f-mono);letter-spacing:.05em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;
+}
+.login-card input[type=password]{
+  width:100%;padding:13px 16px;
+  border-radius:12px;border:1.5px solid var(--line);
+  background:#fff;color:var(--ink);font-size:1rem;
+  transition:border-color .2s;
+}
+.login-card input[type=password]:focus{
+  outline:none;border-color:var(--deep);
+  box-shadow:0 0 0 3px rgba(125,211,252,.3);
+}
+.login-card .btn{
+  width:100%;padding:13px 20px;margin-top:16px;
+  border-radius:12px;border:0;
+  background:linear-gradient(160deg,#7DD3FC,#0369A1);
+  color:#fff;font:700 .95rem var(--f-body);
+  cursor:pointer;transition:.2s;
+}
+.login-card .btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.login-card .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.login-error{
+  color:var(--red);font:500 .85rem var(--f-body);
+  margin-top:10px;min-height:1.2em;
+}
+.login-back{
+  display:inline-block;margin-top:20px;
+  color:var(--muted);font-size:.85rem;text-decoration:none;
+}
+.login-back:hover{color:var(--deep)}
+
+/* ==================== ADMIN PANEL ==================== */
+.admin-wrap{display:none;max-width:1160px;margin-inline:auto;padding:24px 16px 60px}
+.admin-wrap.on{display:block}
+
+.admin-top{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:16px 20px;background:#fff;border-radius:var(--r-lg);
+  border:1px solid var(--line);box-shadow:var(--shadow);
+  margin-bottom:20px;flex-wrap:wrap;
+}
+.admin-top .brand{
+  display:flex;align-items:center;gap:10px;
+  font:700 1rem var(--f-display);
+}
+.admin-top .brand .mark{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(160deg,#7DD3FC,#0369A1);
+  color:#fff;display:grid;place-items:center;font-size:1.1rem;
+}
+.admin-top .actions{display:flex;gap:8px;flex-wrap:wrap}
+.admin-top .actions button,.admin-top .actions a{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 14px;border-radius:10px;
+  border:1px solid var(--line);background:#fff;
+  font:600 .82rem var(--f-body);color:var(--ink);
+  cursor:pointer;transition:.2s;text-decoration:none;
+}
+.admin-top .actions button:hover,.admin-top .actions a:hover{
+  border-color:var(--deep);color:var(--deep);background:var(--ice-soft);
+}
+.admin-top .actions .danger{color:var(--red);border-color:rgba(239,68,68,.3)}
+.admin-top .actions .danger:hover{background:#FEE2E2;border-color:var(--red);color:var(--red)}
+
+.admin-grid{display:grid;grid-template-columns:380px minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:900px){.admin-grid{grid-template-columns:1fr}}
+
+.panel{
+  background:#fff;border-radius:var(--r-lg);
+  border:1px solid var(--line);box-shadow:var(--shadow);
+  padding:22px;
+}
+.panel h2{font-size:1.15rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.panel h2 .icon{color:var(--deep)}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{
+  font:600 .75rem var(--f-mono);letter-spacing:.05em;text-transform:uppercase;
+  color:var(--muted);
+}
+.field input,.field textarea{
+  width:100%;padding:11px 14px;
+  border-radius:10px;border:1.5px solid var(--line);
+  background:#fff;color:var(--ink);font-size:.95rem;
+  transition:border-color .2s;
+  font-family:inherit;
+}
+.field textarea{resize:vertical;min-height:80px;line-height:1.55}
+.field input:focus,.field textarea:focus{
+  outline:none;border-color:var(--deep);
+  box-shadow:0 0 0 3px rgba(125,211,252,.25);
+}
+.field .hint{font-size:.72rem;color:var(--muted);font-family:var(--f-body);text-transform:none;letter-spacing:0;font-weight:500}
+
+.slug-preview{
+  font:500 .78rem var(--f-mono);
+  color:var(--deep);background:var(--ice-soft);
+  padding:6px 10px;border-radius:8px;
+  word-break:break-all;
+}
+
+.btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:13px 20px;
+  border-radius:10px;border:0;
+  background:linear-gradient(160deg,#7DD3FC,#0369A1);
+  color:#fff;font:700 .92rem var(--f-body);
+  cursor:pointer;transition:.2s;
+}
+.btn-primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.btn-ghost{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 18px;border-radius:10px;
+  border:1.5px solid var(--line);background:#fff;
+  color:var(--ink);font:600 .88rem var(--f-body);
+  cursor:pointer;transition:.2s;
+}
+.btn-ghost:hover{border-color:var(--deep);color:var(--deep);background:var(--ice-soft)}
+
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.btn-row .btn-ghost{flex:1}
+
+/* Artikel list */
+.art-list{display:flex;flex-direction:column;gap:10px}
+.art-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:14px 16px;border-radius:12px;
+  border:1px solid var(--line);background:#fff;
+  transition:.2s;
+}
+.art-item:hover{border-color:var(--deep);background:var(--ice-soft)}
+.art-item .ai-info{flex:1;min-width:0}
+.art-item .ai-title{font:700 .95rem var(--f-body);color:var(--ink);margin-bottom:3px;word-break:break-word}
+.art-item .ai-meta{font:500 .74rem var(--f-mono);color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}
+.art-item .ai-actions{display:flex;gap:6px;flex-shrink:0}
+.art-item .ai-actions button{
+  padding:6px 10px;border-radius:8px;border:1px solid var(--line);
+  background:#fff;cursor:pointer;font:600 .78rem var(--f-body);color:var(--ink);
+  transition:.2s;
+}
+.art-item .ai-actions button:hover{background:var(--ice-soft);color:var(--deep);border-color:var(--deep)}
+.art-item .ai-actions .del{color:var(--red);border-color:rgba(239,68,68,.3)}
+.art-item .ai-actions .del:hover{background:#FEE2E2;border-color:var(--red);color:var(--red)}
+
+.empty-state{
+  text-align:center;padding:40px 20px;color:var(--muted);
+  background:var(--ice-soft);border-radius:12px;border:1px dashed var(--line);
+  font-size:.9rem;
+}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
+  padding:12px 24px;border-radius:12px;
+  background:var(--ink);color:#fff;
+  font:600 .9rem var(--f-body);
+  box-shadow:0 20px 40px -20px rgba(0,0,0,.6);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1);
+  z-index:100;max-width:calc(100% - 32px);
+  opacity:0;pointer-events:none;
+}
+.toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.success{background:linear-gradient(160deg,#10B981,#059669)}
+.toast.error{background:linear-gradient(160deg,#EF4444,#B91C1C)}
+
+/* Footer note */
+.admin-note{
+  margin-top:20px;padding:14px 18px;
+  background:rgba(255,255,255,.6);border-radius:12px;
+  border:1px dashed var(--line);
+  font:500 .82rem var(--f-body);color:var(--muted);
+  line-height:1.6;
+}
+.admin-note b{color:var(--ink)}
+.admin-note code{
+  font:500 .8rem var(--f-mono);background:var(--ice-soft);
+  padding:2px 6px;border-radius:4px;color:var(--deep);
+}
+
+@media (max-width:560px){
+  .admin-top{padding:14px}
+  .admin-top .brand span{font-size:.92rem}
+  .panel{padding:18px}
+  .art-item{flex-direction:column;align-items:stretch}
+  .art-item .ai-actions{justify-content:flex-end}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== LOGIN ==================== -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">✍</span>
+      <span>Admin Blog</span>
+    </div>
+    <h1>Login Admin</h1>
+    <p class="sub">Masukkan password untuk mengelola artikel blog.</p>
+    <label for="passInput">Password</label>
+    <input type="password" id="passInput" autocomplete="current-password" placeholder="••••••••" autofocus>
+    <button class="btn" id="loginBtn" type="button">Masuk</button>
+    <div class="login-error" id="loginError"></div>
+    <a class="login-back" href="index.html">← Kembali ke portofolio</a>
+  </div>
+</div>
+
+<!-- ==================== ADMIN PANEL ==================== -->
+<div class="admin-wrap" id="adminWrap">
+  <div class="admin-top">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">✍</span>
+      <span>Admin Blog — Syazani</span>
+    </div>
+    <div class="actions">
+      <a href="index.html#blog" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6"/></svg>
+        Lihat Blog
+      </a>
+      <button type="button" class="danger" id="logoutBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <div class="admin-grid">
+    <!-- FORM EDITOR -->
+    <div class="panel">
+      <h2><span class="icon">✏</span> <span id="editorTitle">Tulis Artikel Baru</span></h2>
+      <input type="hidden" id="editingSlug" value="">
+      <div class="field">
+        <label for="fTitle">Judul</label>
+        <input type="text" id="fTitle" placeholder="Judul artikel" maxlength="120">
+      </div>
+      <div class="field">
+        <label for="fExcerpt">Ringkasan</label>
+        <textarea id="fExcerpt" rows="2" placeholder="Ringkasan singkat (tampil di daftar blog)" maxlength="300"></textarea>
+      </div>
+      <div class="field">
+        <label for="fDate">Tanggal</label>
+        <input type="date" id="fDate">
+      </div>
+      <div class="field">
+        <label for="fAuthor">Penulis</label>
+        <input type="text" id="fAuthor" value="Syazani" maxlength="60">
+      </div>
+      <div class="field">
+        <label>URL Artikel (slug)</label>
+        <div class="slug-preview" id="slugPreview">—</div>
+        <div class="hint">Otomatis dari judul. Dipakai di URL <code style="font-family:var(--f-mono);background:var(--ice-soft);padding:1px 5px;border-radius:3px">#post/slug</code></div>
+      </div>
+      <div class="field">
+        <label for="fContent">Isi Artikel</label>
+        <textarea id="fContent" rows="14" placeholder="Tulis isi artikel di sini.&#10;&#10;Format Markdown didukung:&#10;# Judul&#10;## Sub Judul&#10;**Tebal** *miring*&#10;`kode`&#10;- list&#10;> kutipan&#10;[teks](https://link)"></textarea>
+        <div class="hint">Markdown dasar: # heading, **tebal**, *miring*, `kode`, - list, &gt; kutipan, [link](url)</div>
+      </div>
+      <button type="button" class="btn-primary" id="saveBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+        Simpan Artikel
+      </button>
+      <div class="btn-row">
+        <button type="button" class="btn-ghost" id="clearBtn">Kosongkan Form</button>
+      </div>
+      <div class="admin-note" style="margin-top:16px">
+        <b>Cara kerja:</b> setelah klik Simpan, artikel dikirim ke API Vercel → disimpan ke repo GitHub → Vercel rebuild (~1 menit) → muncul di blog.
+        <br><br>
+        <b>Belum tersambung ke API?</b> Isi token & repo di <code>api/config.js</code> (dijelaskan di balasan 3).
+      </div>
+    </div>
+
+    <!-- ARTIKEL LIST -->
+    <div class="panel">
+      <h2><span class="icon">📚</span> Artikel Tersimpan</h2>
+      <div class="art-list" id="artList">
+        <div class="empty-state">Memuat daftar artikel…</div>
+      </div>
+      <div style="margin-top:16px;display:flex;justify-content:flex-end">
+        <button type="button" class="btn-ghost" id="refreshBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/></svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TOAST ==================== -->
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+var $ = function(s,r){ return (r||document).querySelector(s) };
+
+/* ============================================================
+   KONFIGURASI
+   ============================================================
+   GANTI password di bawah ini dengan password yang Anda inginkan.
+   Password ini HANYA untuk login admin di sisi browser.
+   Validasi sebenarnya tetap di API (balasan 3).
+   ============================================================ */
+var ADMIN_PASSWORD = 'syazani2026';
+
+/* Penyimpanan sesi */
+var SESSION_KEY = 'admin_blog_session';
+var SESSION_HOURS = 2;
+
+/* ============================================================
+   UTIL
+   ============================================================ */
+function slugify(s){
+  return String(s||'')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g,'')
+    .trim()
+    .replace(/\s+/g,'-')
+    .replace(/-+/g,'-')
+    .slice(0,60);
+}
+function fmtDate(iso){
+  if(!iso) return '';
+  var d = new Date(iso + 'T00:00:00');
+  if(isNaN(d)) return iso;
+  var bulan = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  return d.getDate() + ' ' + bulan[d.getMonth()] + ' ' + d.getFullYear();
+}
+function todayISO(){
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function showToast(msg, type){
+  var el = $('#toast');
+  if(!el) return;
+  el.textContent = msg;
+  el.className = 'toast on ' + (type||'');
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.classList.remove('on'); }, 3500);
+}
+
+/* ============================================================
+   SESSION
+   ============================================================ */
+function saveSession(){
+  try{
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ t: Date.now() }));
+  }catch(e){}
+}
+function hasSession(){
+  try{
+    var s = localStorage.getItem(SESSION_KEY);
+    if(!s) return false;
+    var obj = JSON.parse(s);
+    if(!obj || !obj.t) return false;
+    return (Date.now() - obj.t) < SESSION_HOURS * 3600 * 1000;
+  }catch(e){ return false; }
+}
+function clearSession(){
+  try{ localStorage.removeItem(SESSION_KEY); }catch(e){}
+}
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+var loginWrap = $('#loginWrap'), adminWrap = $('#adminWrap');
+var passInput = $('#passInput'), loginBtn = $('#loginBtn'), loginError = $('#loginError');
+
+function showAdmin(){
+  loginWrap.style.display = 'none';
+  adminWrap.classList.add('on');
+  initFormDefaults();
+  loadList();
+}
+function showLogin(){
+  loginWrap.style.display = '';
+  adminWrap.classList.remove('on');
+}
+
+function doLogin(){
+  var val = (passInput.value||'').trim();
+  loginError.textContent = '';
+  if(!val){ loginError.textContent = 'Password wajib diisi.'; return; }
+  if(val !== ADMIN_PASSWORD){
+    loginError.textContent = 'Password salah. Coba lagi.';
+    passInput.value = '';
+    passInput.focus();
+    return;
+  }
+  saveSession();
+  showAdmin();
+}
+
+loginBtn.addEventListener('click', doLogin);
+passInput.addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){ e.preventDefault(); doLogin(); }
+});
+
+$('#logoutBtn').addEventListener('click', function(){
+  clearSession();
+  passInput.value = '';
+  loginError.textContent = '';
+  showLogin();
+});
+
+/* ============================================================
+   FORM EDITOR
+   ============================================================ */
+var fTitle = $('#fTitle'), fExcerpt = $('#fExcerpt'), fDate = $('#fDate');
+var fAuthor = $('#fAuthor'), fContent = $('#fContent');
+var editingSlug = $('#editingSlug'), slugPreview = $('#slugPreview');
+var editorTitle = $('#editorTitle');
+var saveBtn = $('#saveBtn'), clearBtn = $('#clearBtn');
+
+function initFormDefaults(){
+  if(!fDate.value) fDate.value = todayISO();
+  if(!fAuthor.value) fAuthor.value = 'Syazani';
+  updateSlugPreview();
+}
+function updateSlugPreview(){
+  var s = slugify(fTitle.value);
+  slugPreview.textContent = s || '—';
+  editingSlug.value = editingSlug.dataset.mode === 'edit' ? editingSlug.value : s;
+}
+fTitle.addEventListener('input', function(){
+  if(editingSlug.dataset.mode !== 'edit'){
+    editingSlug.value = slugify(fTitle.value);
+  }
+  updateSlugPreview();
+});
+
+function clearForm(){
+  fTitle.value = '';
+  fExcerpt.value = '';
+  fContent.value = '';
+  fDate.value = todayISO();
+  fAuthor.value = 'Syazani';
+  editingSlug.value = '';
+  delete editingSlug.dataset.mode;
+  editorTitle.textContent = 'Tulis Artikel Baru';
+  updateSlugPreview();
+  saveBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> Simpan Artikel';
+  fTitle.focus();
+}
+clearBtn.addEventListener('click', clearForm);
+
+/* ============================================================
+   SIMPAN ARTIKEL
+   ============================================================ */
+saveBtn.addEventListener('click', function(){
+  var title = (fTitle.value||'').trim();
+  var excerpt = (fExcerpt.value||'').trim();
+  var content = (fContent.value||'').trim();
+  var date = (fDate.value||'').trim();
+  var author = (fAuthor.value||'').trim() || 'Syazani';
+
+  if(!title){ showToast('Judul wajib diisi.', 'error'); fTitle.focus(); return; }
+  if(!content){ showToast('Isi artikel wajib diisi.', 'error'); fContent.focus(); return; }
+  if(!date){ showToast('Tanggal wajib diisi.', 'error'); fDate.focus(); return; }
+
+  var slug = editingSlug.dataset.mode === 'edit'
+    ? editingSlug.value
+    : slugify(title);
+
+  if(!slug){ showToast('Judul menghasilkan slug kosong. Ubah judul.', 'error'); return; }
+
+  var payload = {
+    slug: slug,
+    title: title,
+    excerpt: excerpt,
+    content: content,
+    date: date,
+    author: author,
+    password: ADMIN_PASSWORD
+  };
+
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'Menyimpan…';
+
+  fetch('/api/save-post', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function(r){
+    return r.json().then(function(data){ return { ok: r.ok, status: r.status, data: data }; });
+  })
+  .then(function(res){
+    if(res.ok && res.data && res.data.success){
+      showToast('Artikel tersimpan. Vercel sedang rebuild (~1 menit).', 'success');
+      clearForm();
+      loadList();
+    }else{
+      var msg = (res.data && res.data.error) || ('Gagal menyimpan (HTTP ' + res.status + ')');
+      showToast(msg, 'error');
+    }
+  })
+  .catch(function(err){
+    showToast('Tidak bisa terhubung ke API. Pastikan /api/save-post sudah terpasang di Vercel. ' + err.message, 'error');
+  })
+  .then(function(){
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> Simpan Artikel';
+  });
+});
+
+/* ============================================================
+   DAFTAR ARTIKEL
+   ============================================================ */
+var artList = $('#artList');
+
+function renderList(posts){
+  if(!artList) return;
+  if(!posts || !posts.length){
+    artList.innerHTML = '<div class="empty-state">Belum ada artikel. Tulis artikel pertama Anda di form sebelah kiri.</div>';
+    return;
+  }
+  artList.innerHTML = posts.map(function(p){
+    var slug = p.slug || '';
+    return '<div class="art-item" data-slug="' + slug + '">' +
+      '<div class="ai-info">' +
+        '<div class="ai-title">' + escapeHtml(p.title || 'Tanpa Judul') + '</div>' +
+        '<div class="ai-meta">' +
+          '<span>' + escapeHtml(fmtDate(p.date)) + '</span>' +
+          '<span>·</span>' +
+          '<span>' + escapeHtml(p.author || 'Syazani') + '</span>' +
+          '<span>·</span>' +
+          '<span>slug: ' + escapeHtml(slug) + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ai-actions">' +
+        '<button type="button" class="edit" data-act="edit">Edit</button>' +
+        '<button type="button" class="del" data-act="delete">Hapus</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+function loadList(){
+  artList.innerHTML = '<div class="empty-state">Memuat daftar artikel…</div>';
+  fetch('/api/list-posts', { cache: 'no-store' })
+  .then(function(r){
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  })
+  .then(function(data){
+    var posts = Array.isArray(data) ? data : (data.posts || []);
+    posts.sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
+    renderList(posts);
+    window.__postsCache = posts;
+  })
+  .catch(function(err){
+    artList.innerHTML = '<div class="empty-state">Tidak bisa memuat daftar artikel.<br>API belum terpasang, atau ada error.<br><small style="opacity:.7">' + escapeHtml(err.message) + '</small></div>';
+  });
+}
+
+artList.addEventListener('click', function(e){
+  var btn = e.target.closest('button[data-act]');
+  if(!btn) return;
+  var item = btn.closest('.art-item');
+  if(!item) return;
+  var slug = item.getAttribute('data-slug');
+  var act = btn.getAttribute('data-act');
+  var posts = window.__postsCache || [];
+  var post = posts.filter(function(p){ return p.slug === slug; })[0];
+  if(!post) return;
+
+  if(act === 'edit'){
+    fTitle.value = post.title || '';
+    fExcerpt.value = post.excerpt || '';
+    fDate.value = post.date || todayISO();
+    fAuthor.value = post.author || 'Syazani';
+    fContent.value = post.content || '';
+    editingSlug.value = slug;
+    editingSlug.dataset.mode = 'edit';
+    editorTitle.textContent = 'Edit Artikel';
+    saveBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> Perbarui Artikel';
+    updateSlugPreview();
+    fTitle.focus();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else if(act === 'delete'){
+    if(!confirm('Hapus artikel "' + (post.title||slug) + '"? Tidak bisa dibatalkan.')) return;
+    deletePost(slug, post.title);
+  }
+});
+
+function deletePost(slug, title){
+  var payload = { slug: slug, password: ADMIN_PASSWORD };
+  showToast('Menghapus…', '');
+  fetch('/api/save-post', {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function(r){ return r.json().then(function(d){ return { ok: r.ok, status: r.status, data: d }; }); })
+  .then(function(res){
+    if(res.ok && res.data && res.data.success){
+      showToast('Artikel "' + title + '" dihapus. Vercel sedang rebuild.', 'success');
+      loadList();
+    }else{
+      showToast((res.data && res.data.error) || 'Gagal menghapus', 'error');
+    }
+  })
+  .catch(function(err){
+    showToast('Tidak bisa terhubung ke API: ' + err.message, 'error');
+  });
+}
+
+$('#refreshBtn').addEventListener('click', loadList);
+
+/* ============================================================
+   INIT
+   ============================================================ */
+if(hasSession()){
+  showAdmin();
+}else{
+  showLogin();
+  setTimeout(function(){ passInput.focus(); }, 100);
+}
+})();
+</script>
+
+</body>
+</html>
