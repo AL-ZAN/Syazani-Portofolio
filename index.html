@@ -1,1522 +1,1392 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Portofolio Muhammad Syazani Al Taftazani — Siswa SMP dengan minat tinggi di teknologi, koding, dan strategi.">
-<title>Muhammad Syazani Al Taftazani — Portofolio</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Syazani · Portofolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   DESIGN SYSTEM
-============================================================ */
+   DESIGN SYSTEM (dari Master Prompt)
+   ============================================================ */
 :root{
-  --bg:#FFFFFF;--ink:#1C1917;--muted:#78716C;
-  --ice:#7DD3FC;--deep:#0369A1;--ice-soft:#E0F2FE;
+  --bg:#FFFFFF;
+  --ink:#1C1917;
+  --muted:#78716C;
+  --ice:#7DD3FC;
+  --deep:#0369A1;
+  --ice-soft:#E0F2FE;
   --line:rgba(28,25,23,.1);
-  --shadow:0 1px 0 rgba(28,25,23,.04), 0 14px 30px -20px rgba(28,25,23,.35);
-  --font-display:'Bricolage Grotesque',sans-serif;
-  --font-body:'Plus Jakarta Sans',sans-serif;
-  --font-mono:'JetBrains Mono',monospace;
-  --font-hero:'Inter',sans-serif;
-  --r-lg:24px;--r-md:16px;--r-sm:12px;
+  --shadow:0 1px 0 rgba(28,25,23,.04),0 14px 30px -20px rgba(28,25,23,.35);
+  --r-lg:24px;
+  --r-md:16px;
+  --r-sm:10px;
+
+  --f-display:'Bricolage Grotesque',sans-serif;
+  --f-body:'Plus Jakarta Sans',sans-serif;
+  --f-mono:'JetBrains Mono',monospace;
+  --f-hero:'Inter',sans-serif;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{font-family:var(--font-body);background:var(--bg);color:var(--ink);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--f-body);
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.65;
+  min-height:100vh;
+  overflow-x:hidden;
+}
 img{max-width:100%;display:block}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-::selection{background:var(--ice);color:var(--ink)}
-.container{max-width:1200px;margin:0 auto;padding:0 24px}
-.section{padding:96px 0}
-.section-head{margin-bottom:48px;max-width:640px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--deep);background:var(--ice-soft);padding:6px 14px;border-radius:999px;margin-bottom:16px}
-.section-head h2{font-family:var(--font-display);font-size:clamp(28px,4vw,42px);line-height:1.15;font-weight:700;letter-spacing:-.02em;margin-bottom:12px}
-.section-head p{color:var(--muted);font-size:16px;max-width:560px}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--deep);text-decoration:none}
+a:hover{text-decoration:underline}
 
-/* NAVBAR */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.72);backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);border-bottom:1px solid var(--line);transition:all .3s ease}
-.nav-inner{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:-.01em}
-.logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--ice) 0%,var(--deep) 100%);display:grid;place-items:center;color:#fff;font-size:20px;box-shadow:0 4px 14px rgba(3,105,161,.3)}
-.nav-menu{display:flex;gap:4px;list-style:none;align-items:center}
-.nav-menu a{padding:8px 14px;border-radius:10px;font-size:14px;font-weight:500;color:var(--muted);transition:all .2s ease}
-.nav-menu a:hover,.nav-menu a.active{color:var(--ink);background:var(--ice-soft)}
-.nav-btn{background:var(--ink)!important;color:#fff!important;padding:10px 18px!important;border-radius:999px!important;font-weight:600!important;font-size:14px!important;transition:all .2s!important}
-.nav-btn:hover{background:var(--deep)!important;transform:translateY(-1px)}
-.hamburger{display:none;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);align-items:center;justify-content:center;flex-direction:column;gap:5px}
-.hamburger span{width:18px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s}
-.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.hamburger.open span:nth-child(2){opacity:0}
-.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:1140px;margin:0 auto;padding:14px 24px;
+  display:flex;align-items:center;gap:20px;
+}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:1.15rem;color:var(--ink)}
+.logo-mark{
+  width:38px;height:38px;border-radius:12px;
+  background:linear-gradient(135deg,var(--ice),var(--deep));
+  display:grid;place-items:center;color:#fff;font-size:1.15rem;
+  box-shadow:0 6px 16px -8px var(--deep);
+}
+.nav-links{display:flex;gap:4px;margin-left:auto}
+.nav-links a{
+  padding:8px 14px;border-radius:999px;font-weight:600;font-size:.9rem;color:var(--muted);
+  transition:.2s;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--ink);background:var(--ice-soft);text-decoration:none}
+.nav-cta{
+  margin-left:8px;padding:9px 20px;border-radius:999px;
+  background:var(--ink);color:#fff;font-weight:700;font-size:.85rem;
+  border:none;transition:.2s;
+}
+.nav-cta:hover{background:var(--deep);text-decoration:none;color:#fff}
+.hamburger{display:none;background:none;border:none;font-size:1.5rem;color:var(--ink)}
 
-/* VIEW */
-.view{animation:slideIn .5s cubic-bezier(.22,1,.36,1);min-height:100vh;padding-top:80px}
-@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.view[hidden]{display:none}
+/* ============================================================
+   VIEWS
+   ============================================================ */
+.view{display:none;animation:fadeView .35s ease}
+.view.active{display:block}
+@keyframes fadeView{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* HERO */
-.hero{padding:60px 0 80px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(125,211,252,.28) 0%,rgba(125,211,252,0) 65%);pointer-events:none;z-index:0}
-.hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 24px}
-.greeting-pill{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);padding:8px 18px;border-radius:999px;font-size:13px;font-weight:500;color:var(--muted);box-shadow:var(--shadow);margin-bottom:28px}
-.pulse-dot{width:8px;height:8px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:pulse 2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}70%{box-shadow:0 0 0 10px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
-.hero-title{font-family:var(--font-hero);font-size:clamp(32px,6vw,64px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:20px;min-height:1.1em}
-.hero-title .cursor{color:var(--deep);font-weight:300;animation:blink 1s steps(2) infinite}
+.container{max-width:1140px;margin:0 auto;padding:0 24px}
+section{padding:56px 0}
+.eyebrow{
+  display:inline-block;padding:6px 14px;border-radius:999px;
+  background:var(--ice-soft);color:var(--deep);
+  font-family:var(--f-mono);font-weight:600;font-size:.72rem;
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px;
+}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:700;line-height:1.2;letter-spacing:-.02em}
+h2.section-title{font-size:clamp(1.6rem,3vw,2.4rem);margin-bottom:8px}
+.section-sub{color:var(--muted);margin-bottom:36px;font-size:1rem;max-width:640px}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  padding:64px 0 48px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-120px;right:-120px;
+  width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,var(--ice-soft) 0%,transparent 70%);
+  z-index:0;
+}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero-greet{color:var(--muted);font-weight:600;margin-bottom:12px;font-size:.95rem}
+.hero h1{
+  font-family:var(--f-hero);font-weight:700;
+  font-size:clamp(2.2rem,5vw,3.6rem);
+  margin-bottom:18px;letter-spacing:-.03em;
+}
+.hero h1 .typed{
+  background:linear-gradient(135deg,var(--deep),var(--ice));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.cursor{display:inline-block;width:3px;height:1em;background:var(--deep);margin-left:4px;vertical-align:text-bottom;animation:blink 1s step-end infinite}
 @keyframes blink{50%{opacity:0}}
-.hero-desc{font-size:clamp(15px,2vw,18px);color:var(--muted);max-width:640px;margin:0 auto 32px;line-height:1.7}
-.hero-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:36px}
-.tag{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:500;color:var(--ink);transition:all .25s ease;box-shadow:var(--shadow)}
-.tag:hover{border-color:var(--ice);background:var(--ice-soft);transform:translateY(-2px)}
-.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:999px;background:var(--ink);color:#fff;font-weight:600;font-size:15px;transition:all .25s ease;box-shadow:0 8px 24px rgba(28,25,23,.2)}
-.btn-primary:hover{background:var(--deep);transform:translateY(-2px)}
-.btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:999px;background:#fff;border:1.5px solid var(--line);color:var(--ink);font-weight:600;font-size:15px;transition:all .25s ease}
-.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
-
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:760px;margin:64px auto 0;padding:0 24px}
-.stat-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px 20px;text-align:center;transition:all .3s ease;box-shadow:var(--shadow)}
-.stat-card:hover{transform:translateY(-4px);border-color:var(--ice)}
-.stat-num{font-family:var(--font-display);font-size:clamp(32px,5vw,44px);font-weight:800;color:var(--deep);line-height:1;letter-spacing:-.03em;margin-bottom:8px}
-.stat-num::after{content:'+';color:var(--ice)}
-.stat-label{font-size:13px;font-weight:500;color:var(--muted)}
-
-/* PROFIL */
-.profil-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:start}
-.profil-text h3{font-family:var(--font-display);font-size:24px;font-weight:700;margin-bottom:16px;letter-spacing:-.02em}
-.profil-text p{color:var(--muted);font-size:16px;margin-bottom:16px;line-height:1.75}
-.profil-text strong{color:var(--ink);font-weight:600}
-.traits-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.trait-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:20px;transition:all .25s ease}
-.trait-card:hover{border-color:var(--ice);transform:translateY(-3px);box-shadow:var(--shadow)}
-.trait-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:20px;margin-bottom:12px}
-.trait-card:nth-child(1) .trait-icon{background:#DBEAFE;color:#2563EB}
-.trait-card:nth-child(2) .trait-icon{background:#FEF3C7;color:#D97706}
-.trait-card:nth-child(3) .trait-icon{background:#DCFCE7;color:#16A34A}
-.trait-card:nth-child(4) .trait-icon{background:#FCE7F3;color:#DB2777}
-.trait-title{font-weight:700;font-size:14px;margin-bottom:4px;font-family:var(--font-display)}
-.trait-desc{font-size:13px;color:var(--muted);line-height:1.55}
-
-/* PROJEK */
-.tabs{display:inline-flex;gap:4px;padding:5px;background:var(--ice-soft);border-radius:14px;margin-bottom:32px}
-.tab-btn{padding:10px 22px;border-radius:10px;font-size:14px;font-weight:600;color:var(--muted);transition:all .25s ease}
-.tab-btn.active{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.tab-panel{display:none;animation:slideIn .4s ease}
-.tab-panel.active{display:block}
-.web-projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
-.project-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;transition:all .3s ease;overflow:hidden}
-.project-card:hover{border-color:var(--ice);box-shadow:var(--shadow)}
-.project-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.project-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--ice),var(--deep));display:grid;place-items:center;color:#fff;font-size:20px}
-.project-title{font-family:var(--font-display);font-weight:700;font-size:17px}
-.project-subtitle{font-size:12px;color:var(--muted);font-family:var(--font-mono)}
-
-/* KALKULATOR */
-.calc{background:var(--ice-soft);border-radius:18px;padding:16px;font-family:var(--font-mono)}
-.calc-display{background:#fff;border-radius:12px;padding:20px 18px;text-align:right;font-size:26px;font-weight:600;letter-spacing:-.02em;margin-bottom:12px;min-height:66px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
-.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.calc-btn{background:#fff;border-radius:10px;padding:14px 0;font-size:16px;font-weight:600;transition:all .15s ease;color:var(--ink);font-family:var(--font-mono)}
-.calc-btn:hover{background:var(--ice);transform:scale(1.03)}
-.calc-btn:active{transform:scale(.97)}
-.calc-btn.op{background:var(--deep);color:#fff}
-.calc-btn.op:hover{background:#075985}
-.calc-btn.eq{background:var(--ink);color:#fff;grid-column:span 2}
-.calc-btn.eq:hover{background:var(--deep)}
-.calc-btn.zero{grid-column:span 2}
-  
-/* KOMPAS KIBLAT */
-.compass-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;padding:8px 0}
-.compass-status{width:100%;text-align:center;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:600;font-family:var(--font-mono);background:var(--ice-soft);color:var(--deep);transition:all .3s ease;line-height:1.5}
-.compass-status.aligned{background:#DCFCE7;color:#16A34A}
-.compass-status.warn{background:#FEF3C7;color:#B45309}
-.compass-status.error{background:#FEE2E2;color:#DC2626}
-.compass-dial{width:210px;height:210px;position:relative;border-radius:50%;background:radial-gradient(circle at 50% 30%,#fff,var(--ice-soft));border:2px solid var(--line);box-shadow:inset 0 4px 20px rgba(3,105,161,.08);display:grid;place-items:center;will-change:transform}
-.compass-face{position:absolute;inset:0;border-radius:50%;transition:transform .08s linear;will-change:transform}
-.compass-needle-qibla{position:absolute;inset:0;pointer-events:none;transition:transform .15s linear;will-change:transform}
-.compass-needle-qibla::before{content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:82px solid var(--deep);filter:drop-shadow(0 2px 6px rgba(3,105,161,.5))}
-.compass-needle-qibla::after{content:'';position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:66px solid var(--ice)}
-.compass-center{width:16px;height:16px;border-radius:50%;background:var(--ink);border:3px solid #fff;position:absolute;z-index:3;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-.compass-labels{position:absolute;inset:0;pointer-events:none}
-.compass-labels span{position:absolute;font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--muted)}
-.compass-labels .n{top:6px;left:50%;transform:translateX(-50%);color:var(--deep)}
-.compass-labels .e{right:8px;top:50%;transform:translateY(-50%)}
-.compass-labels .s{bottom:6px;left:50%;transform:translateX(-50%)}
-.compass-labels .w{left:8px;top:50%;transform:translateY(-50%)}
-.compass-info{text-align:center;font-size:13px;color:var(--muted);font-family:var(--font-mono);line-height:1.5}
-.compass-info strong{color:var(--deep);font-size:18px}
-.compass-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;width:100%}
-.compass-btn{padding:9px 14px;border-radius:8px;background:var(--deep);color:#fff;font-size:12px;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:4px}
-.compass-btn:hover:not(:disabled){background:#075985}
-.compass-btn:disabled{opacity:.5;cursor:not-allowed}
-.compass-btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--line)}
-.compass-btn.secondary:hover:not(:disabled){border-color:var(--ink)}
-.compass-note{font-size:11px;color:var(--muted);text-align:center;line-height:1.5;max-width:300px;font-family:var(--font-mono)}
-.compass-meta{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--muted);font-family:var(--font-mono);width:100%;padding:6px 10px;background:#FAFAF9;border-radius:8px;border:1px solid var(--line)}
-
-/* CHESS PREVIEW */
-.chess-preview{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border-radius:12px;overflow:hidden;border:2px solid var(--ink);max-width:280px;margin:0 auto}
-.chess-sq{aspect-ratio:1}
-.chess-sq.light{background:#F5F5F4}
-.chess-sq.dark{background:#57534E}
-.chess-sq.piece{display:grid;place-items:center;font-size:clamp(14px,3.5vw,22px)}
-
-/* OFF-WEB */
-.offweb-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.offweb-card{position:relative;overflow:hidden;border-radius:var(--r-lg);padding:40px 32px;background:linear-gradient(135deg,#064E3B 0%,#022C22 100%);color:#fff;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;transition:all .4s ease}
-.offweb-card::before{content:'';position:absolute;top:-40%;right:-20%;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(125,211,252,.35) 0%,rgba(125,211,252,0) 70%);pointer-events:none;transition:all .6s}
-.offweb-card:hover::before{transform:scale(1.3)}
-.offweb-card:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(6,78,59,.4)}
-.offweb-title{font-family:var(--font-display);font-size:26px;font-weight:700;margin-bottom:8px;letter-spacing:-.02em;position:relative;z-index:1}
-.offweb-desc{font-size:14px;opacity:.85;margin-bottom:24px;line-height:1.6;position:relative;z-index:1}
-.offweb-visual{position:relative;height:160px;perspective:800px}
-.card-3d{position:absolute;width:100px;height:140px;border-radius:12px;background:linear-gradient(145deg,#F8FAFC 0%,#E2E8F0 100%);box-shadow:0 12px 30px rgba(0,0,0,.4);transition:all .5s cubic-bezier(.34,1.56,.64,1);display:grid;place-items:center;font-size:42px;animation:floatCard 3s ease-in-out infinite}
-.card-3d:nth-child(1){left:8%;top:10px;transform:rotate(-18deg);animation-delay:0s}
-.card-3d:nth-child(2){left:35%;top:0;transform:rotate(-4deg);animation-delay:.4s}
-.card-3d:nth-child(3){left:62%;top:14px;transform:rotate(12deg);animation-delay:.8s}
-@keyframes floatCard{0%,100%{translate:0 0}50%{translate:0 -8px}}
-.dice-3d{position:absolute;width:110px;height:110px;border-radius:20px;background:linear-gradient(145deg,#F8FAFC,#CBD5E1);box-shadow:0 12px 30px rgba(0,0,0,.4);transition:all .6s cubic-bezier(.34,1.56,.64,1);display:grid;place-items:center;font-size:56px;animation:floatCard 3.4s ease-in-out infinite}
-.dice-3d:nth-child(1){left:15%;top:10px;transform:rotate(-12deg);animation-delay:.2s}
-.dice-3d:nth-child(2){left:55%;top:30px;transform:rotate(8deg);animation-delay:.7s}
-
-/* PENGALAMAN */
-.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
-.exp-block{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px}
-.exp-block-title{display:flex;align-items:center;gap:12px;margin-bottom:20px;font-family:var(--font-display);font-size:20px;font-weight:700}
-.exp-block-title .icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:20px}
-.exp-block:nth-child(1) .exp-block-title .icon{background:#DBEAFE;color:#2563EB}
-.exp-block:nth-child(2) .exp-block-title .icon{background:#FEF3C7;color:#D97706}
-.exp-list{display:flex;flex-direction:column;gap:12px;list-style:none}
-.exp-item{display:flex;gap:12px;padding:12px;border-radius:12px;transition:all .2s}
-.exp-item:hover{background:var(--ice-soft)}
-.exp-item-icon{width:32px;height:32px;border-radius:8px;background:var(--ice-soft);display:grid;place-items:center;font-size:14px;flex-shrink:0}
-.exp-item-text{font-size:14px;font-weight:500;color:var(--ink)}
-.exp-item-sub{font-size:12px;color:var(--muted);font-family:var(--font-mono)}
-
-/* SISI LAIN */
-.ktp{background:linear-gradient(135deg,#0369A1 0%,#075985 60%,#0C4A6E 100%);border-radius:var(--r-lg);padding:32px;color:#fff;position:relative;overflow:hidden;max-width:720px;margin:0 auto;box-shadow:0 24px 60px rgba(3,105,161,.35)}
-.ktp::before{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;border-radius:50%;background:rgba(125,211,252,.2);pointer-events:none}
-.ktp::after{content:'';position:absolute;bottom:-80px;left:-80px;width:200px;height:200px;border-radius:50%;background:rgba(125,211,252,.1);pointer-events:none}
-.ktp-header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:16px;margin-bottom:24px;position:relative;z-index:1}
-.ktp-header-text{font-family:var(--font-display);font-size:18px;font-weight:700}
-.ktp-header-sub{font-size:11px;opacity:.8;font-family:var(--font-mono);letter-spacing:.05em;margin-top:2px}
-.ktp-flag{font-size:32px}
-.ktp-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;position:relative;z-index:1}
-.ktp-row{font-size:14px}
-.ktp-label{font-size:11px;opacity:.7;text-transform:uppercase;letter-spacing:.08em;font-family:var(--font-mono);margin-bottom:2px}
-.ktp-value{font-weight:600;font-size:15px}
-.ktp-full{grid-column:1/-1}
-.akademik-table-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
-.akademik-table-scroll{max-height:480px;overflow-y:auto;overflow-x:auto}
-.akademik-table{width:100%;border-collapse:collapse;font-size:14px;min-width:500px}
-.akademik-table thead{position:sticky;top:0;z-index:2;background:var(--ice-soft)}
-.akademik-table th{text-align:left;padding:14px 18px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--deep);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line)}
-.akademik-table td{padding:14px 18px;border-bottom:1px solid var(--line)}
-.akademik-table tr:last-child td{border-bottom:none}
-.akademik-table tbody tr:hover{background:rgba(224,242,254,.4)}
-.akademik-table .subject{font-weight:600;color:var(--ink)}
-.akademik-table .grade{font-family:var(--font-mono);font-weight:600;color:var(--deep);text-align:right}
-.tahfidz-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.tahfidz-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:24px;transition:all .25s ease}
-.tahfidz-card:hover{border-color:var(--ice);transform:translateY(-3px);box-shadow:var(--shadow)}
-.tahfidz-card .label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-family:var(--font-mono);margin-bottom:6px}
-.tahfidz-card .value{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:4px}
-.tahfidz-card .sub{font-size:12px;color:var(--muted)}
-
-/* TIMELINE */
-.timeline-wrap{background:linear-gradient(180deg,#fff 0%,var(--ice-soft) 100%);min-height:calc(100vh - 80px);padding:60px 0;position:relative}
-.timeline-header{text-align:center;margin-bottom:60px}
-.timeline-scroll{display:flex;gap:32px;overflow-x:auto;padding:32px 40px 80px;scroll-snap-type:x mandatory;position:relative;scrollbar-width:thin;scrollbar-color:var(--ice) transparent}
-.timeline-scroll::-webkit-scrollbar{height:8px}
-.timeline-scroll::-webkit-scrollbar-track{background:rgba(125,211,252,.1);border-radius:4px}
-.timeline-scroll::-webkit-scrollbar-thumb{background:var(--ice);border-radius:4px}
-.timeline-path{position:absolute;top:50%;left:0;height:4px;border-top:3px dashed var(--deep);width:calc(100% - 80px);z-index:0;pointer-events:none;opacity:.4}
-.timeline-card{flex-shrink:0;width:280px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px 24px;scroll-snap-align:center;position:relative;z-index:1;transition:all .3s ease;box-shadow:var(--shadow)}
-.timeline-card:hover{border-color:var(--deep);transform:translateY(-6px);box-shadow:0 20px 50px rgba(3,105,161,.2)}
-.timeline-island{font-size:32px;margin-bottom:8px}
-.timeline-year{font-family:var(--font-display);font-size:36px;font-weight:800;color:var(--deep);line-height:1;margin-bottom:10px}
-.timeline-title{font-weight:700;font-size:16px;margin-bottom:6px;font-family:var(--font-display)}
-.timeline-desc{font-size:13px;color:var(--muted);line-height:1.6}
-.ship-svg{position:absolute;top:calc(50% - 60px);left:20px;z-index:2;transition:transform 1.2s cubic-bezier(.34,1.56,.64,1);pointer-events:none;filter:drop-shadow(0 4px 8px rgba(3,105,161,.3))}
-
-/* BLOG */
-.blog-hero{padding:40px 0 32px;text-align:center}
-.blog-hero h1{font-family:var(--font-display);font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-.03em;margin-bottom:10px;line-height:1.1}
-.blog-hero h1 span{color:var(--deep)}
-.blog-hero p{color:var(--muted);font-size:16px;max-width:560px;margin:0 auto}
-.blog-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1000px;margin:40px auto 48px;padding:0 24px}
-.blog-stat-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);transition:all .25s}
-.blog-stat-card:hover{border-color:var(--ice);transform:translateY(-3px)}
-.blog-stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-family:var(--font-mono);margin-bottom:8px}
-.blog-stat-value{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--ink);line-height:1.2}
-.blog-stat-value.small{font-size:14px;font-weight:600}
-.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;max-width:1200px;margin:0 auto;padding:0 24px 80px}
-.blog-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;transition:all .3s;cursor:pointer;display:flex;flex-direction:column;gap:10px}
-.blog-card:hover{border-color:var(--deep);transform:translateY(-4px);box-shadow:0 20px 50px rgba(3,105,161,.15)}
-.blog-card-meta{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);font-family:var(--font-mono)}
-.blog-card-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--muted)}
-.blog-card-title{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.3;color:var(--ink)}
-.blog-card-excerpt{font-size:14px;color:var(--muted);line-height:1.6;flex-grow:1}
-.blog-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--deep);font-weight:600}
-.blog-empty{grid-column:1/-1;text-align:center;padding:80px 24px;background:#fff;border:1px dashed var(--line);border-radius:var(--r-lg)}
-.blog-empty-icon{font-size:48px;margin-bottom:16px;opacity:.4}
-.blog-empty h3{font-family:var(--font-display);font-size:20px;margin-bottom:8px}
-.blog-empty p{color:var(--muted);font-size:14px}
-
-/* POST */
-.post-wrap{max-width:760px;margin:0 auto;padding:40px 24px 80px}
-.post-back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:14px;font-weight:500;margin-bottom:24px;transition:all .2s;padding:8px 14px;border-radius:10px;border:1px solid var(--line)}
-.post-back:hover{color:var(--ink);background:var(--ice-soft)}
-.post-meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:13px;color:var(--muted);font-family:var(--font-mono);margin-bottom:16px}
-.post-title{font-family:var(--font-display);font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:24px}
-.post-content{font-size:16px;line-height:1.8;color:var(--ink)}
-.post-content h1,.post-content h2,.post-content h3,.post-content h4{font-family:var(--font-display);font-weight:700;line-height:1.25;letter-spacing:-.01em;margin:32px 0 16px}
-.post-content h1{font-size:28px}.post-content h2{font-size:24px}.post-content h3{font-size:20px}
-.post-content p{margin-bottom:16px;color:#44403C}
-.post-content a{color:var(--deep);text-decoration:underline;text-underline-offset:3px}
-.post-content strong{font-weight:700;color:var(--ink)}
-.post-content em{font-style:italic;color:var(--ink)}
-.post-content ul,.post-content ol{margin:12px 0 16px 22px}
-.post-content li{margin-bottom:6px;color:#44403C}
-.post-content code{background:var(--ice-soft);color:var(--deep);padding:2px 6px;border-radius:6px;font-family:var(--font-mono);font-size:.9em}
-.post-content pre{background:var(--ink);color:#E7E5E4;padding:16px;border-radius:12px;overflow-x:auto;margin:16px 0}
-.post-content pre code{background:transparent;color:inherit;padding:0;font-size:13px}
-.post-content blockquote{border-left:4px solid var(--ice);padding:8px 16px;margin:16px 0;color:var(--muted);font-style:italic;background:var(--ice-soft);border-radius:0 8px 8px 0}
-.post-content hr{border:none;border-top:1px solid var(--line);margin:24px 0}
-.post-comments{margin-top:48px;padding-top:32px;border-top:1px solid var(--line)}
-.post-comments h3{font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:16px}
-.post-comments .note{font-size:13px;color:var(--muted);margin-bottom:16px}
-.giscus-wrap{margin-top:16px}
-.post-loading{text-align:center;padding:80px 24px;color:var(--muted)}
-.spinner{width:32px;height:32px;border:3px solid var(--ice-soft);border-top-color:var(--deep);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* FOOTER */
-.footer{background:var(--ink);color:#E7E5E4;padding:64px 0 32px;margin-top:80px}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
-.footer-slogan{font-family:var(--font-display);font-size:22px;font-weight:700;line-height:1.35;margin-bottom:16px;letter-spacing:-.01em}
-.footer-slogan span{color:var(--ice)}
-.footer h4{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:var(--font-mono);margin-bottom:16px;font-weight:600}
-.footer ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-.footer ul a{font-size:14px;color:#D6D3D1;transition:color .2s}
-.footer ul a:hover{color:var(--ice)}
-.footer-quote{font-size:14px;line-height:1.7;color:#A8A29E;font-style:italic;border-left:3px solid var(--ice);padding-left:14px}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);flex-wrap:wrap;gap:12px}
-.footer-bottom .clock{font-family:var(--font-mono);color:var(--ice)}
-
-/* FLOATING CLOCK */
-.floating-clock{position:fixed;bottom:20px;right:20px;z-index:99;background:var(--ink);color:#fff;padding:12px 16px;border-radius:14px;font-family:var(--font-mono);font-size:12px;box-shadow:0 8px 30px rgba(28,25,23,.3);display:flex;align-items:center;gap:10px;transition:all .25s}
-.floating-clock:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(28,25,23,.4)}
-.floating-clock .dot{width:6px;height:6px;border-radius:50%;background:var(--ice);animation:pulse 2s infinite}
-.floating-clock .time{font-weight:600;font-size:14px;letter-spacing:.02em}
-.floating-clock .tz{opacity:.6;font-size:10px}
-
-/* RESPONSIVE */
-@media (max-width:900px){
-  .profil-grid{grid-template-columns:1fr;gap:32px}
-  .offweb-grid,.exp-grid{grid-template-columns:1fr}
-  .tahfidz-grid{grid-template-columns:repeat(2,1fr)}
-  .ktp-grid{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr;gap:32px}
-  .blog-stats{grid-template-columns:repeat(2,1fr)}
+.hero p.lead{color:var(--muted);font-size:1.05rem;margin-bottom:24px;max-width:520px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 24px;border-radius:999px;font-weight:700;font-size:.9rem;
+  border:none;transition:.2s;
 }
-@media (max-width:768px){
-  .section{padding:64px 0}
-  .hero{padding:40px 0 60px}
-  .nav-menu{position:fixed;top:70px;left:16px;right:16px;flex-direction:column;align-items:stretch;background:#fff;border-radius:20px;padding:16px;box-shadow:0 20px 60px rgba(28,25,23,.15);border:1px solid var(--line);transform:translateY(-16px);opacity:0;pointer-events:none;transition:all .3s ease}
-  .nav-menu.open{transform:translateY(0);opacity:1;pointer-events:auto}
-  .nav-menu a{text-align:center}
-  .hamburger{display:flex}
-  .stats-row{grid-template-columns:1fr;max-width:400px}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{background:var(--deep);text-decoration:none;color:#fff}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--deep);color:var(--deep);text-decoration:none}
+.hero-visual{position:relative;display:flex;justify-content:center}
+.hero-avatar{
+  width:min(320px,80%);aspect-ratio:1/1;border-radius:32px;
+  background:linear-gradient(135deg,var(--ice-soft),var(--ice));
+  display:grid;place-items:center;font-size:7rem;
+  box-shadow:var(--shadow);position:relative;
+}
+.hero-avatar::after{
+  content:'';position:absolute;inset:14px;border-radius:24px;
+  border:2px dashed rgba(255,255,255,.6);
+}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.stat-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
+  padding:20px;box-shadow:var(--shadow);
+}
+.stat-num{font-family:var(--f-display);font-weight:800;font-size:2rem;color:var(--deep);line-height:1}
+.stat-label{color:var(--muted);font-size:.8rem;margin-top:6px;font-weight:600}
+
+/* ============================================================
+   PROFILE
+   ============================================================ */
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.profile-text{font-size:1.02rem;color:var(--ink)}
+.profile-text p{margin-bottom:14px;color:var(--muted)}
+.traits-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.trait-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
+  padding:16px 18px;box-shadow:var(--shadow);transition:.2s;
+}
+.trait-card:hover{transform:translateY(-3px);border-color:var(--ice)}
+.trait-title{font-family:var(--f-mono);font-size:.68rem;font-weight:600;color:var(--deep);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.trait-body{font-weight:600;font-size:.9rem;color:var(--ink)}
+
+/* ============================================================
+   PROJECTS (TABS)
+   ============================================================ */
+.tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.tab-btn{
+  padding:10px 22px;border-radius:999px;border:1.5px solid var(--line);
+  background:#fff;color:var(--muted);font-weight:700;font-size:.85rem;
+  transition:.2s;
+}
+.tab-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tab-btn:hover:not(.active){border-color:var(--deep);color:var(--deep)}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:fadeView .3s ease}
+
+/* === PROJEK DI WEB — Card row === */
+.web-tools{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:900px){.web-tools{grid-template-columns:1fr}}
+.tool-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.tool-card-header{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.tool-card-icon{
+  width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+  background:var(--ice-soft);font-size:1.3rem;
+}
+.tool-card-title{font-family:var(--f-display);font-weight:700;font-size:1.05rem}
+.tool-card-desc{color:var(--muted);font-size:.82rem}
+.tool-card-body{padding:22px}
+
+/* === KALKULATOR === */
+.calc-wrap{max-width:340px;margin:0 auto}
+.calc-display{
+  background:var(--ink);color:#fff;border-radius:14px;
+  padding:18px 20px;margin-bottom:14px;text-align:right;
+  min-height:92px;display:flex;flex-direction:column;justify-content:flex-end;
+}
+.calc-history{font-family:var(--f-mono);font-size:.8rem;color:rgba(255,255,255,.5);min-height:1em;margin-bottom:4px}
+.calc-current{font-family:var(--f-display);font-weight:700;font-size:1.9rem;line-height:1.15;word-break:break-all}
+.calc-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.calc-btn{
+  aspect-ratio:1.15/1;border:1px solid var(--line);border-radius:12px;
+  background:#fff;color:var(--ink);font-family:var(--f-display);
+  font-weight:700;font-size:1.05rem;transition:.15s;
+}
+.calc-btn:hover{background:var(--ice-soft);border-color:var(--ice)}
+.calc-btn.op{background:var(--ice-soft);color:var(--deep)}
+.calc-btn.eq{background:var(--deep);color:#fff;border-color:var(--deep)}
+.calc-btn.eq:hover{background:var(--ink)}
+.calc-btn.clr{color:#dc2626}
+.calc-btn.zero{grid-column:span 2;aspect-ratio:auto}
+.calc-btn.pressed{background:var(--ink)!important;color:#fff!important;transform:scale(.95)}
+
+/* === KOMPAS KIBLAT (DIPERTAHANKAN DARI FILE ASLI) === */
+.qibla-wrapper{display:flex;flex-direction:column;align-items:center;gap:16px}
+.qibla-info-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}
+.qibla-info-box{
+  background:var(--ice-soft);border-radius:var(--r-sm);padding:10px 8px;
+  text-align:center;
+}
+.qibla-info-label{font-family:var(--f-mono);font-size:.6rem;color:var(--deep);letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
+.qibla-info-value{font-family:var(--f-display);font-weight:800;font-size:.95rem;color:var(--ink)}
+.qibla-info-value.small{font-size:.72rem}
+.qibla-compass-wrap{position:relative;width:min(280px,72vw);aspect-ratio:1/1;margin:8px auto}
+.qibla-compass{
+  position:relative;width:100%;height:100%;border-radius:50%;
+  background:radial-gradient(circle,#fff 0%,#f1f9ff 70%,#e0f2fe 100%);
+  border:3px solid var(--deep);
+  box-shadow:0 10px 30px -12px rgba(3,105,161,.45);
+  overflow:hidden;
+}
+.qibla-compass::before{content:'';position:absolute;inset:12%;border-radius:50%;border:2px dashed rgba(3,105,161,.25)}
+.qibla-compass::after{content:'';position:absolute;inset:25%;border-radius:50%;border:1px solid rgba(3,105,161,.15)}
+.qibla-needle{
+  position:absolute;top:11%;left:50%;width:5px;height:39%;
+  transform-origin:50% 100%;transform:translateX(-50%) rotate(0deg);
+  transition:transform .25s ease;z-index:5;
+}
+.qibla-needle::before{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;
+  border-bottom:calc(100% - 8px) solid var(--deep);
+  filter:drop-shadow(0 0 8px rgba(3,105,161,.5));
+}
+.qibla-needle::after{
+  content:'🕋';position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  font-size:1.25rem;
+}
+.qibla-needle-tail{
+  position:absolute;top:50%;left:50%;width:3px;height:20%;
+  transform-origin:50% 0;transform:translateX(-50%) rotate(180deg);
+  background:linear-gradient(180deg,rgba(220,38,38,.8),transparent);
+  transition:transform .25s ease;z-index:4;
+}
+.qibla-center{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:14px;height:14px;border-radius:50%;
+  background:var(--deep);border:2px solid #fff;box-shadow:0 0 12px var(--deep);z-index:6;
+}
+.qibla-dial{position:absolute;inset:0;transition:transform .25s ease;z-index:3;pointer-events:none;will-change:transform}
+.qibla-mark{position:absolute;z-index:3;font-family:var(--f-display);font-weight:800;color:var(--deep);font-size:.8rem;pointer-events:none}
+.qibla-mark.n{top:8%;left:50%;transform:translate(-50%,-50%);color:#dc2626}
+.qibla-mark.e{left:92%;top:50%;transform:translate(-50%,-50%)}
+.qibla-mark.s{top:92%;left:50%;transform:translate(-50%,-50%)}
+.qibla-mark.w{left:8%;top:50%;transform:translate(-50%,-50%)}
+.qibla-degree-display{
+  position:absolute;bottom:12%;left:50%;transform:translateX(-50%);
+  font-family:var(--f-mono);font-size:.68rem;font-weight:600;
+  color:var(--deep);background:#fff;padding:5px 10px;border-radius:999px;
+  border:1px solid var(--line);white-space:nowrap;z-index:7;
+}
+.qibla-status{
+  width:100%;font-size:.85rem;font-weight:600;text-align:center;
+  color:var(--muted);padding:10px 14px;
+  background:var(--ice-soft);border-radius:var(--r-sm);min-height:44px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.qibla-status.aligned{color:var(--deep);background:#dcfce7}
+.qibla-status.warn{color:#92400e;background:#fef3c7}
+.qibla-status.error{color:#b91c1c;background:#fee2e2}
+.qibla-buttons{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:100%}
+.qibla-btn{
+  background:var(--ink);color:#fff;border:none;
+  padding:10px 18px;border-radius:999px;
+  font-family:var(--f-display);font-weight:700;font-size:.78rem;
+  display:inline-flex;align-items:center;gap:6px;transition:.2s;
+}
+.qibla-btn:hover{background:var(--deep)}
+.qibla-btn.secondary{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.qibla-btn.secondary:hover{border-color:var(--deep);color:var(--deep);background:#fff}
+.qibla-btn:disabled{opacity:.55;cursor:wait}
+.qibla-manual-card{
+  width:100%;padding:14px;background:#fff;
+  border:1px solid var(--line);border-radius:var(--r-md);
+}
+.qibla-manual-card h3{font-family:var(--f-display);font-size:.9rem;margin-bottom:6px}
+.qibla-manual-card p{font-size:.78rem;color:var(--muted);margin-bottom:10px}
+.qibla-manual-grid{display:grid;grid-template-columns:minmax(80px,110px) 1fr;gap:8px 10px;align-items:center}
+.qibla-manual-grid label{font-weight:600;font-size:.8rem;color:var(--muted)}
+.qibla-manual-grid input,.qibla-manual-grid select{
+  width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;
+  background:#fff;color:var(--ink);font-family:var(--f-body);font-size:.85rem;
+}
+.qibla-manual-grid input:focus,.qibla-manual-grid select:focus{outline:2px solid var(--ice);outline-offset:1px}
+.qibla-manual-grid .qibla-city-search-status{grid-column:1/-1;font-size:.72rem;color:var(--muted);margin-top:-3px}
+.qibla-manual-grid .qibla-city-search-results{
+  grid-column:1/-1;display:flex;flex-direction:column;gap:4px;max-height:200px;
+  overflow-y:auto;padding:6px;background:#fff;border:1px solid var(--line);
+  border-radius:8px;
+}
+.qibla-manual-grid .qibla-city-search-results[hidden]{display:none}
+.qibla-city-result{
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  padding:6px 9px;border:1px solid var(--line);border-radius:6px;
+  background:#fff;color:var(--ink);text-align:left;font-size:.82rem;font-weight:600;
+}
+.qibla-city-result:hover{background:var(--ice-soft);border-color:var(--ice)}
+.qibla-city-result small{color:var(--muted);font-size:.7rem}
+.qibla-manual-grid button{grid-column:1/-1;width:100%;margin-top:2px}
+.qibla-note{text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6}
+.qibla-note strong{color:var(--deep)}
+
+/* ============================================================
+   EXPERIENCE
+   ============================================================ */
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.exp-col h3{font-family:var(--f-display);font-size:1.1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.exp-list{display:flex;flex-direction:column;gap:10px}
+.exp-item{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
+  padding:16px 18px;box-shadow:var(--shadow);transition:.2s;
+}
+.exp-item:hover{transform:translateX(4px);border-color:var(--ice)}
+.exp-item h4{font-size:.95rem;margin-bottom:2px}
+.exp-item .meta{font-family:var(--f-mono);font-size:.72rem;color:var(--deep);font-weight:600}
+.exp-item p{color:var(--muted);font-size:.85rem;margin-top:6px}
+
+/* ============================================================
+   SISI LAIN
+   ============================================================ */
+.ktp-card{
+  background:linear-gradient(135deg,#0369A1,#7DD3FC);
+  border-radius:var(--r-lg);padding:28px;color:#fff;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.ktp-card::before{content:'';position:absolute;top:-40%;right:-10%;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.12)}
+.ktp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;position:relative;z-index:1}
+.ktp-title{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+.ktp-name{font-family:var(--f-display);font-size:1.5rem;font-weight:800;margin-top:4px}
+.ktp-rows{display:flex;flex-direction:column;gap:8px;position:relative;z-index:1}
+.ktp-row{display:grid;grid-template-columns:110px 1fr;font-size:.88rem;gap:8px}
+.ktp-row span:first-child{opacity:.75}
+.ktp-row span:last-child{font-weight:600}
+.ktp-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
+@media(max-width:800px){.ktp-grid{grid-template-columns:1fr}}
+
+.akademik-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow)}
+.akademik-card h3{font-family:var(--f-display);font-size:1.05rem;margin-bottom:14px}
+.grade-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.grade-table th,.grade-table td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line)}
+.grade-table th{font-family:var(--f-mono);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.grade-table td{font-weight:600}
+.grade-table tr:hover td{background:var(--ice-soft)}
+.grade-badge{display:inline-block;padding:2px 10px;border-radius:999px;font-family:var(--f-mono);font-weight:700;font-size:.72rem}
+.grade-a{background:#dcfce7;color:#166534}
+.grade-b{background:#dbeafe;color:#1e40af}
+.grade-c{background:#fef3c7;color:#92400e}
+
+.tahfidz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:20px}
+.tahfidz-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:18px;box-shadow:var(--shadow)}
+.tahfidz-card h4{font-family:var(--f-mono);font-size:.72rem;color:var(--deep);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.tahfidz-card .val{font-family:var(--f-display);font-size:1.3rem;font-weight:800}
+
+/* ============================================================
+   TIMELINE (KAPAL & PULAU)
+   ============================================================ */
+.timeline-wrap{position:relative;overflow-x:auto;padding:40px 20px 30px}
+.timeline-track{
+  position:relative;display:flex;gap:80px;min-width:max-content;
+  padding-bottom:20px;
+}
+.timeline-track::before{
+  content:'';position:absolute;top:120px;left:0;right:0;height:4px;
+  background:repeating-linear-gradient(90deg,var(--ice) 0 12px,transparent 12px 24px);
+  z-index:0;
+}
+.tl-node{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;min-width:140px}
+.tl-island{
+  width:100px;height:60px;border-radius:50% 50% 40% 40%;
+  background:linear-gradient(180deg,var(--ice-soft),var(--ice));
+  box-shadow:0 6px 0 -2px var(--deep),0 10px 20px -10px var(--deep);
+  display:grid;place-items:center;position:relative;margin-top:60px;
+  transition:.3s;
+}
+.tl-island::before{
+  content:'';position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
+  width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;
+  border-bottom:14px solid #16a34a;
+}
+.tl-island .year{font-family:var(--f-display);font-weight:800;font-size:1rem;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.tl-label{margin-top:12px;text-align:center;font-size:.82rem;color:var(--muted);max-width:140px;font-weight:600}
+.tl-node.highlight .tl-island{transform:scale(1.15);box-shadow:0 8px 0 -2px var(--deep),0 16px 30px -12px var(--deep)}
+.ship{
+  position:sticky;left:20px;bottom:0;font-size:2.2rem;z-index:5;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.25));
+  animation:shipBob 3s ease-in-out infinite;
+}
+@keyframes shipBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+
+/* ============================================================
+   BLOG
+   ============================================================ */
+.blog-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px}
+@media(max-width:800px){.blog-stats{grid-template-columns:repeat(2,1fr)}}
+.blog-stat{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:18px;box-shadow:var(--shadow)}
+.blog-stat .num{font-family:var(--f-display);font-weight:800;font-size:1.5rem;color:var(--deep)}
+.blog-stat .lbl{font-family:var(--f-mono);font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px;font-weight:600}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.blog-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow);padding:22px;transition:.25s;cursor:pointer;
+  display:flex;flex-direction:column;
+}
+.blog-card:hover{transform:translateY(-4px);border-color:var(--ice)}
+.blog-card .cat{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--ice-soft);color:var(--deep);font-family:var(--f-mono);font-size:.65rem;font-weight:700;text-transform:uppercase;margin-bottom:10px;align-self:flex-start}
+.blog-card h3{font-size:1.05rem;margin-bottom:8px}
+.blog-card .excerpt{color:var(--muted);font-size:.85rem;flex:1;margin-bottom:12px}
+.blog-card .meta{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px}
+
+.post-article{max-width:760px;margin:0 auto;padding:32px}
+.post-article .back{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;border:1.5px solid var(--line);font-weight:700;font-size:.82rem;margin-bottom:24px;background:none;color:var(--ink)}
+.post-article .back:hover{border-color:var(--deep);color:var(--deep)}
+.post-article h1{font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:12px}
+.post-article .post-meta{color:var(--muted);font-family:var(--f-mono);font-size:.78rem;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.post-content{font-size:1.02rem;line-height:1.8;color:var(--ink);white-space:pre-wrap;word-wrap:break-word}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{
+  border-top:1px solid var(--line);padding:36px 0;margin-top:40px;
+  text-align:center;color:var(--muted);font-size:.85rem;
+}
+footer .slogan{font-family:var(--f-display);font-weight:700;color:var(--ink);font-size:1rem;margin-bottom:6px}
+footer .quote{font-style:italic;max-width:560px;margin:14px auto 0;font-size:.85rem;line-height:1.6}
+footer .copy{margin-top:18px;font-family:var(--f-mono);font-size:.72rem}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:900px){
+  .hero-inner,.profile-grid,.exp-grid{grid-template-columns:1fr}
+  .hero-visual{order:-1}
+  .stats-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:680px){
+  .nav-links{
+    position:fixed;top:66px;left:0;right:0;background:#fff;
+    flex-direction:column;padding:16px;border-bottom:1px solid var(--line);
+    transform:translateY(-120%);transition:.3s;box-shadow:var(--shadow);
+  }
+  .nav-links.open{transform:translateY(0)}
+  .hamburger{display:block;margin-left:auto}
+  .nav-cta{margin-left:0}
+  .stats-grid{grid-template-columns:1fr}
   .traits-grid{grid-template-columns:1fr}
-  .timeline-card{width:240px}
-  .floating-clock{font-size:11px;padding:10px 12px}
-  .floating-clock .time{font-size:12px}
-}
-@media (max-width:480px){
-  .blog-stats{grid-template-columns:1fr}
-  .tahfidz-grid{grid-template-columns:1fr}
+  .qibla-manual-grid{grid-template-columns:1fr}
+  .qibla-manual-grid label{margin-top:4px}
+  .qibla-manual-grid button{grid-column:auto}
+  .post-article{padding:20px}
+  .blog-stats{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     NAVBAR
-============================================================ -->
-<nav class="nav">
+<!-- ========================= NAVBAR ========================= -->
+<nav class="navbar">
   <div class="nav-inner">
-    <a href="#" data-go="home" class="logo">
-      <span class="logo-mark">♞</span>
+    <a href="#" class="logo" data-view="home" style="text-decoration:none">
+      <div class="logo-mark">♞</div>
       <span>Syazani</span>
     </a>
-    <ul class="nav-menu" id="nav-menu">
-      <li><a href="#" data-go="home" class="active">Beranda</a></li>
-      <li><a href="#" data-go="home#profil">Profil</a></li>
-      <li><a href="#" data-go="home#projek">Projek</a></li>
-      <li><a href="#" data-go="home#pengalaman">Pengalaman</a></li>
-      <li><a href="#" data-go="blog">Blog</a></li>
-      <li><a href="#" data-go="other" class="nav-btn">Sisi Lain</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
+    <div class="nav-links" id="nav-links">
+      <a href="#" data-view="home" data-scroll="home">Beranda</a>
+      <a href="#" data-view="home" data-scroll="profil">Profil</a>
+      <a href="#" data-view="home" data-scroll="projek">Projek</a>
+      <a href="#" data-view="home" data-scroll="pengalaman">Pengalaman</a>
+      <a href="#" data-view="blog">Blog</a>
+      <a href="#" data-view="timeline">Timeline</a>
+      <button class="nav-cta" data-view="other">Sisi Lain →</button>
+    </div>
   </div>
 </nav>
 
-<!-- ============================================================
-     VIEW: HOME
-============================================================ -->
-<div class="view" id="view-home">
+<!-- ========================= VIEW: HOME ========================= -->
+<div class="view active" id="view-home">
 
   <!-- HERO -->
   <section class="hero" id="home">
-    <div class="hero-inner">
-      <div class="greeting-pill">
-        <span class="pulse-dot"></span>
-        <span id="greeting">Selamat Datang</span>
-        <span style="color:var(--line)">•</span>
-        <span>Semoga harimu menyenangkan</span>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-greet">👋 Assalamu'alaikum, saya</div>
+        <h1>Muhammad Syazani<br><span class="typed" id="typed-text"></span><span class="cursor"></span></h1>
+        <p class="lead">Siswa SMP yang memiliki minat tinggi di bidang teknologi, koding, dan strategi. Suka belajar hal baru, memecahkan masalah, disiplin, dan beradab.</p>
+        <div class="hero-actions">
+          <a href="#projek" class="btn btn-primary" data-scroll="projek">Lihat Projek →</a>
+          <a href="#kontak" class="btn btn-ghost" data-scroll="kontak">Hubungi Saya</a>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-num" data-count="90">0</div><div class="stat-label">Nilai Pelajaran</div></div>
+          <div class="stat-card"><div class="stat-num" data-count="1">0</div><div class="stat-label">Prestasi</div></div>
+          <div class="stat-card"><div class="stat-num" data-count="3">0</div><div class="stat-label">Projek</div></div>
+        </div>
       </div>
-      <h1 class="hero-title">
-        <span id="typing"></span><span class="cursor">|</span>
-      </h1>
-      <p class="hero-desc">Siswa SMP yang memiliki minat tinggi di bidang teknologi, koding, dan strategi.</p>
-      <div class="hero-tags">
-        <a href="tel:0816641946" class="tag">📱 0816641946</a>
-        <a href="https://instagram.com/Al_ZANI." target="_blank" rel="noopener" class="tag">📸 @Al_ZANI.</a>
-        <a href="mailto:altaftazanisyazani@gmail.com" class="tag">✉️ altaftazanisyazani@gmail.com</a>
-      </div>
-      <div class="hero-cta">
-        <button data-go="home#profil" class="btn-primary">Kenali Saya →</button>
-        <button data-go="home#projek" class="btn-ghost">Lihat Projek</button>
+      <div class="hero-visual">
+        <div class="hero-avatar">♞</div>
       </div>
     </div>
   </section>
 
-  <!-- STATS -->
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-num" data-target="90">0</div><div class="stat-label">Nilai Pelajaran</div></div>
-    <div class="stat-card"><div class="stat-num" data-target="1">0</div><div class="stat-label">Prestasi</div></div>
-    <div class="stat-card"><div class="stat-num" data-target="3">0</div><div class="stat-label">Projek</div></div>
-  </div>
-
   <!-- PROFIL -->
-  <section class="section" id="profil">
+  <section id="profil">
     <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Profil</span>
-        <h2>Tentang Saya</h2>
-        <p>Siapa di balik nama ini, dan apa yang membuat saya terus bergerak.</p>
-      </div>
-      <div class="profil-grid">
-        <div class="profil-text">
-          <h3>Belajar, Memecahkan Masalah, dan Beradab.</h3>
-          <p>Saya <strong>Muhammad Syazani Al Taftazani</strong>, seorang siswa SMP yang percaya bahwa rasa ingin tahu adalah bahan bakar utama untuk tumbuh. Saya senang <strong>mempelajari hal-hal baru</strong>, dari logika kode hingga strategi di atas papan catur.</p>
-          <p>Dalam keseharian, saya berusaha untuk <strong>disiplin</strong> dalam ibadah maupun belajar, serta <strong>beradab</strong> kepada siapa pun. Kecerdasan tanpa adab akan kehilangan arah.</p>
-          <p>Ketika menemukan masalah, saya lebih suka membedahnya perlahan sampai paham, lalu mencari solusi paling sederhana yang bekerja. Itulah cara saya belajar koding dan memandang kehidupan.</p>
+      <div class="eyebrow">Tentang Saya</div>
+      <h2 class="section-title">Profil Singkat</h2>
+      <p class="section-sub">Kenalan lebih dekat dengan saya.</p>
+      <div class="profile-grid">
+        <div class="profile-text">
+          <p>Halo! Nama saya <strong>Muhammad Syazani Al Taftazani</strong>. Saya seorang siswa SMPIT As-Syifa Boarding School yang memiliki minat tinggi di bidang <strong>teknologi, koding, dan strategi</strong>.</p>
+          <p>Saya suka belajar hal baru, memecahkan masalah, dan selalu berusaha untuk disiplin serta beradab dalam setiap aktivitas.</p>
+          <p>Keahlian utama saya adalah <strong>Koding</strong> dan <strong>Bahasa Inggris</strong>.</p>
         </div>
         <div class="traits-grid">
-          <div class="trait-card"><div class="trait-icon">💻</div><div class="trait-title">Keahlian</div><div class="trait-desc">Koding &amp; Bahasa Inggris</div></div>
-          <div class="trait-card"><div class="trait-icon">🌟</div><div class="trait-title">Kelebihan</div><div class="trait-desc">Pintar, Kreatif, Disiplin</div></div>
-          <div class="trait-card"><div class="trait-icon">🎮</div><div class="trait-title">Hobi</div><div class="trait-desc">Bermain Game, Koding, Membaca</div></div>
-          <div class="trait-card"><div class="trait-icon">🤝</div><div class="trait-title">Kepribadian</div><div class="trait-desc">Sopan, Murah Senyum, Beradab</div></div>
+          <div class="trait-card"><div class="trait-title">Kelebihan</div><div class="trait-body">Pintar · Kreatif · Disiplin</div></div>
+          <div class="trait-card"><div class="trait-title">Hobi</div><div class="trait-body">Game · Koding · Membaca</div></div>
+          <div class="trait-card"><div class="trait-title">Kepribadian</div><div class="trait-body">Sopan · Murah Senyum · Beradab</div></div>
+          <div class="trait-card"><div class="trait-title">Keahlian</div><div class="trait-body">Koding · Bahasa Inggris</div></div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- PROJEK -->
-  <section class="section" id="projek" style="background:linear-gradient(180deg,#fff 0%,#FAFAF9 100%)">
+  <section id="projek">
     <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Projek</span>
-        <h2>Yang Sedang Saya Bangun</h2>
-        <p>Karya yang saya kerjakan di web, dan permainan yang saya nikmati di dunia nyata.</p>
-      </div>
+      <div class="eyebrow">Projek</div>
+      <h2 class="section-title">Projek & Alat</h2>
+      <p class="section-sub">Beberapa alat interaktif dan karya yang bisa kamu coba.</p>
       <div class="tabs">
-        <button class="tab-btn active" data-tab="web">Projek di Web</button>
-        <button class="tab-btn" data-tab="offweb">Projek di Luar Web</button>
+        <button class="tab-btn active" data-tab="web">🌐 Projek di Web</button>
+        <button class="tab-btn" data-tab="luar">🎴 Projek di Luar Web</button>
       </div>
 
       <!-- TAB: WEB -->
       <div class="tab-panel active" id="tab-web">
-        <div class="web-projects-grid">
+        <div class="web-tools">
 
           <!-- KALKULATOR -->
-          <div class="project-card">
-            <div class="project-head">
-              <div class="project-icon">🧮</div>
-              <div>
-                <div class="project-title">Kalkulator</div>
-                <div class="project-subtitle">Vanilla JS • Keyboard support</div>
+          <div class="tool-card">
+            <div class="tool-card-header">
+              <div class="tool-card-icon">🧮</div>
+              <div><div class="tool-card-title">Kalkulator</div><div class="tool-card-desc">Hitung cepat dengan keyboard support</div></div>
+            </div>
+            <div class="tool-card-body">
+              <div class="calc-wrap">
+                <div class="calc-display">
+                  <div class="calc-history" id="calc-history"></div>
+                  <div class="calc-current" id="calc-current">0</div>
+                </div>
+                <div class="calc-buttons">
+                  <button class="calc-btn clr" data-act="clear">C</button>
+                  <button class="calc-btn" data-act="delete">⌫</button>
+                  <button class="calc-btn op" data-act="percent">%</button>
+                  <button class="calc-btn op" data-act="op" data-op="÷">÷</button>
+                  <button class="calc-btn" data-act="num" data-num="7">7</button>
+                  <button class="calc-btn" data-act="num" data-num="8">8</button>
+                  <button class="calc-btn" data-act="num" data-num="9">9</button>
+                  <button class="calc-btn op" data-act="op" data-op="×">×</button>
+                  <button class="calc-btn" data-act="num" data-num="4">4</button>
+                  <button class="calc-btn" data-act="num" data-num="5">5</button>
+                  <button class="calc-btn" data-act="num" data-num="6">6</button>
+                  <button class="calc-btn op" data-act="op" data-op="-">−</button>
+                  <button class="calc-btn" data-act="num" data-num="1">1</button>
+                  <button class="calc-btn" data-act="num" data-num="2">2</button>
+                  <button class="calc-btn" data-act="num" data-num="3">3</button>
+                  <button class="calc-btn op" data-act="op" data-op="+">+</button>
+                  <button class="calc-btn zero" data-act="num" data-num="0">0</button>
+                  <button class="calc-btn" data-act="decimal">.</button>
+                  <button class="calc-btn eq" data-act="equals">=</button>
+                </div>
               </div>
             </div>
-            <div class="calc">
-              <div class="calc-display" id="calc-display">0</div>
-              <div class="calc-grid">
-                <button class="calc-btn" data-val="C">C</button>
-                <button class="calc-btn" data-val="±">±</button>
-                <button class="calc-btn" data-val="%">%</button>
-                <button class="calc-btn op" data-val="÷">÷</button>
-                <button class="calc-btn" data-val="7">7</button>
-                <button class="calc-btn" data-val="8">8</button>
-                <button class="calc-btn" data-val="9">9</button>
-                <button class="calc-btn op" data-val="×">×</button>
-                <button class="calc-btn" data-val="4">4</button>
-                <button class="calc-btn" data-val="5">5</button>
-                <button class="calc-btn" data-val="6">6</button>
-                <button class="calc-btn op" data-val="−">−</button>
-                <button class="calc-btn" data-val="1">1</button>
-                <button class="calc-btn" data-val="2">2</button>
-                <button class="calc-btn" data-val="3">3</button>
-                <button class="calc-btn op" data-val="+">+</button>
-                <button class="calc-btn zero" data-val="0">0</button>
-                <button class="calc-btn" data-val=".">.</button>
-                <button class="calc-btn eq" data-val="=">=</button>
-              </div>
-            </div>
-            <p style="text-align:center;font-size:11px;color:var(--muted);margin-top:12px;font-family:var(--font-mono)">
-              ⌨️ Bisa juga pakai keyboard: 0-9, + − * /, Enter, Esc, Backspace
-            </p>
           </div>
 
-          <!-- KOMPAS KIBLAT (stabil + kontrol) -->
-        <div class="project-card" id="compass-card">
-  <div class="project-head">
-    <div class="project-icon">🧭</div>
-    <div>
-      <div class="project-title">Kompas Kiblat</div>
-      <div class="project-subtitle">Qibla Finder Style</div>
-    </div>
-  </div>
-  <div class="compass-wrap">
-    <div class="compass-status" id="compass-status">Klik "Aktifkan Sensor" untuk mulai</div>
+          <!-- KOMPAS KIBLAT (DIPERTAHANKAN) -->
+          <div class="tool-card">
+            <div class="tool-card-header">
+              <div class="tool-card-icon">🧭</div>
+              <div><div class="tool-card-title">Kompas Kiblat</div><div class="tool-card-desc">Deteksi sensor HP & hitung jarak ke Ka'bah</div></div>
+            </div>
+            <div class="tool-card-body">
+              <div class="qibla-wrapper">
+                <div class="qibla-info-bar">
+                  <div class="qibla-info-box"><div class="qibla-info-label">Arah Kiblat</div><div class="qibla-info-value" id="qibla-bearing">--°</div></div>
+                  <div class="qibla-info-box"><div class="qibla-info-label">Arah HP</div><div class="qibla-info-value" id="qibla-heading">--°</div></div>
+                  <div class="qibla-info-box"><div class="qibla-info-label">Lokasi</div><div class="qibla-info-value small" id="qibla-location">Belum</div></div>
+                </div>
+                <div class="qibla-compass-wrap">
+                  <div class="qibla-compass" id="qibla-compass">
+                    <div class="qibla-dial" id="qibla-dial">
+                      <span class="qibla-mark n">U</span>
+                      <span class="qibla-mark e">T</span>
+                      <span class="qibla-mark s">S</span>
+                      <span class="qibla-mark w">B</span>
+                    </div>
+                    <div class="qibla-needle-tail" id="qibla-needle-tail"></div>
+                    <div class="qibla-needle" id="qibla-needle"></div>
+                    <div class="qibla-center"></div>
+                    <div class="qibla-degree-display">Qiblat <span id="qibla-deg-val">--°</span></div>
+                  </div>
+                </div>
+                <div class="qibla-status" id="qibla-status"><span id="qibla-status-text">Tekan "Aktifkan Kompas" untuk mulai</span></div>
+                <div class="qibla-buttons">
+                  <button class="qibla-btn" id="qibla-activate" type="button">🧭 Aktifkan Kompas</button>
+                  <button class="qibla-btn secondary" id="qibla-locate" type="button">📍 Deteksi Lokasi</button>
+                </div>
+                <div class="qibla-manual-card">
+                  <h3>📍 Lokasi Alternatif</h3>
+                  <p>Jika GPS tidak tersedia, pilih kota atau isi koordinat.</p>
+                  <div class="qibla-manual-grid">
+                    <label for="qibla-city-search">Cari kota</label>
+                    <input id="qibla-city-search" type="search" placeholder="Ketik nama kota" autocomplete="off">
+                    <div class="qibla-city-search-status" id="qibla-city-search-status" aria-live="polite">Ketik nama kota untuk mencari.</div>
+                    <div class="qibla-city-search-results" id="qibla-city-search-results" role="listbox" hidden></div>
+                    <label for="qibla-city">Pilih kota</label>
+                    <select id="qibla-city">
+                      <option value="">Pilih kota (opsional)</option>
+                      <optgroup label="Jawa & Jabodetabek">
+                        <option value="-6.2088,106.8456,Jakarta (perkiraan)">Jakarta</option>
+                        <option value="-6.5950,106.8166,Bogor (perkiraan)">Bogor</option>
+                        <option value="-6.9175,107.6191,Bandung (perkiraan)">Bandung</option>
+                      </optgroup>
+                      <optgroup label="Sumatra">
+                        <option value="3.5952,98.6722,Medan (perkiraan)">Medan</option>
+                        <option value="-0.9471,100.4172,Padang (perkiraan)">Padang</option>
+                      </optgroup>
+                      <optgroup label="Sulawesi">
+                        <option value="-0.8917,119.8707,Palu (perkiraan)">Palu</option>
+                        <option value="-5.1477,119.4327,Makassar (perkiraan)">Makassar</option>
+                      </optgroup>
+                    </select>
+                    <label for="qibla-lat-input">Latitude</label>
+                    <input id="qibla-lat-input" type="number" step="any" min="-90" max="90" placeholder="-6.2088" inputmode="decimal">
+                    <label for="qibla-lon-input">Longitude</label>
+                    <input id="qibla-lon-input" type="number" step="any" min="-180" max="180" placeholder="106.8456" inputmode="decimal">
+                    <button class="qibla-btn" id="qibla-manual-apply" type="button">Gunakan Lokasi Ini</button>
+                  </div>
+                </div>
+                <div class="qibla-note">💡 <strong>Tips:</strong> Letakkan HP datar, jauhkan dari logam. Putar hingga jarum 🕋 sejajar kiblat.</div>
+              </div>
+            </div>
+          </div>
 
-    <div class="compass-dial" id="compass-dial">
-      <div class="compass-face" id="compass-face">
-        <div class="compass-labels">
-          <span class="n">N</span><span class="e">E</span>
-          <span class="s">S</span><span class="w">W</span>
         </div>
       </div>
-      <div class="compass-needle-qibla" id="compass-needle"></div>
-      <div class="compass-center"></div>
-    </div>
 
-    <div class="compass-info">Arah Kiblat: <strong id="qibla-deg">—</strong></div>
-
-    <div class="compass-meta">
-      <span>Hdg: <span id="hdg-val">—</span></span>
-      <span>📍 <span id="loc-val">—</span></span>
-    </div>
-
-    <div class="compass-actions">
-      <button class="compass-btn" id="compass-enable">🧭 Aktifkan Sensor</button>
-      <button class="compass-btn secondary" id="compass-location">📍 Lokasi Saya</button>
-      <button class="compass-btn secondary" id="compass-calibrate">🎯 Kalibrasi</button>
-      <button class="compass-btn secondary" id="compass-reset">↺ Reset</button>
-    </div>
-
-    <div class="compass-note" id="compass-note">
-      Kompas fisik butuh HP dengan magnetometer. Di desktop, arah kiblat dari Utara tetap ditampilkan.
-    </div>
-  </div>
-</div>
-
-      <!-- TAB: OFF-WEB -->
-      <div class="tab-panel" id="tab-offweb">
-        <div class="offweb-grid">
-          <div class="offweb-card">
-            <div>
-              <h3 class="offweb-title">Card Game</h3>
-              <p class="offweb-desc">Remi, Uno, Flip, dan EK — permainan kartu strategi yang mengasah logika dan membaca lawan.</p>
-            </div>
-            <div class="offweb-visual">
-              <div class="card-3d">🂡</div>
-              <div class="card-3d">🃏</div>
-              <div class="card-3d">🂢</div>
-            </div>
+      <!-- TAB: LUAR WEB -->
+      <div class="tab-panel" id="tab-luar">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px">
+          <div class="tool-card" style="text-align:center;padding:28px">
+            <div style="font-size:3.5rem;margin-bottom:10px">🃏</div>
+            <h4 style="font-family:var(--f-display)">Card Game: Remi</h4>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:6px">Preview visual (tidak bisa diklik)</p>
           </div>
-          <div class="offweb-card">
-            <div>
-              <h3 class="offweb-title">Board Games</h3>
-              <p class="offweb-desc">Dari catur hingga monopoli — setiap langkah adalah pelajaran tentang perencanaan dan kesabaran.</p>
-            </div>
-            <div class="offweb-visual">
-              <div class="dice-3d">🎲</div>
-              <div class="dice-3d">♟️</div>
-            </div>
+          <div class="tool-card" style="text-align:center;padding:28px">
+            <div style="font-size:3.5rem;margin-bottom:10px">🎴</div>
+            <h4 style="font-family:var(--f-display)">Card Game: Uno</h4>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:6px">Preview visual (tidak bisa diklik)</p>
+          </div>
+          <div class="tool-card" style="text-align:center;padding:28px">
+            <div style="font-size:3.5rem;margin-bottom:10px">🃏</div>
+            <h4 style="font-family:var(--f-display)">Card Game: Flip</h4>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:6px">Preview visual (tidak bisa diklik)</p>
+          </div>
+          <div class="tool-card" style="text-align:center;padding:28px">
+            <div style="font-size:3.5rem;margin-bottom:10px">🎴</div>
+            <h4 style="font-family:var(--f-display)">Card Game: EK</h4>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:6px">Preview visual (tidak bisa diklik)</p>
           </div>
         </div>
+        <p style="text-align:center;margin-top:24px;color:var(--muted);font-size:.85rem">🔗 Tautan ke file game eksternal tersedia di <code style="font-family:var(--f-mono);background:var(--ice-soft);padding:2px 6px;border-radius:4px">/games/</code></p>
       </div>
 
     </div>
   </section>
 
   <!-- PENGALAMAN -->
-  <section class="section" id="pengalaman">
+  <section id="pengalaman">
     <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Pengalaman</span>
-        <h2>Jejak Langkah</h2>
-        <p>Organisasi dan prestasi yang membentuk cara saya belajar dan bekerja.</p>
-      </div>
+      <div class="eyebrow">Pengalaman</div>
+      <h2 class="section-title">Organisasi & Prestasi</h2>
+      <p class="section-sub">Perjalanan saya di sekolah.</p>
       <div class="exp-grid">
-        <div class="exp-block">
-          <div class="exp-block-title"><span class="icon">🏛️</span>Organisasi</div>
-          <ul class="exp-list">
-            <li class="exp-item"><div class="exp-item-icon">📚</div><div><div class="exp-item-text">Komunitas Literasi Sekolah</div><div class="exp-item-sub">2025 / 2026</div></div></li>
-            <li class="exp-item"><div class="exp-item-icon">🗣️</div><div><div class="exp-item-text">Duta Bahasa</div><div class="exp-item-sub">2025 / 2026</div></div></li>
-            <li class="exp-item"><div class="exp-item-icon">🧹</div><div><div class="exp-item-text">PJ Kebersihan</div><div class="exp-item-sub">2026 / 2027</div></div></li>
-            <li class="exp-item"><div class="exp-item-icon">🎪</div><div><div class="exp-item-text">Panitia ASFERA</div><div class="exp-item-sub">2026 / 2027</div></div></li>
-          </ul>
+        <div class="exp-col">
+          <h3>🏛️ Organisasi</h3>
+          <div class="exp-list">
+            <div class="exp-item"><h4>Komunitas Literasi Sekolah</h4><div class="meta">2025/26</div></div>
+            <div class="exp-item"><h4>Duta Bahasa</h4><div class="meta">2025/26</div></div>
+            <div class="exp-item"><h4>PJ Kebersihan</h4><div class="meta">2026/27</div></div>
+            <div class="exp-item"><h4>Panitia ASFERA</h4><div class="meta">2026/27</div></div>
+          </div>
         </div>
-        <div class="exp-block">
-          <div class="exp-block-title"><span class="icon">🏆</span>Prestasi</div>
-          <ul class="exp-list">
-            <li class="exp-item"><div class="exp-item-icon">🥈</div><div><div class="exp-item-text">Juara 2 Catur PPA</div><div class="exp-item-sub">2025</div></div></li>
-            <li class="exp-item"><div class="exp-item-icon">♟️</div><div><div class="exp-item-text">Peserta Catur ASFERA</div><div class="exp-item-sub">2026</div></div></li>
-            <li class="exp-item"><div class="exp-item-icon">♜</div><div><div class="exp-item-text">Catur Antar As-syifa</div><div class="exp-item-sub">2025</div></div></li>
-            <li class="exp-item"><div class="exp-item-icon">⭐</div><div><div class="exp-item-text">Mutabaah Terbaik</div><div class="exp-item-sub">2026</div></div></li>
-          </ul>
+        <div class="exp-col">
+          <h3>🏆 Prestasi</h3>
+          <div class="exp-list">
+            <div class="exp-item"><h4>Juara 2 Catur PPA</h4><div class="meta">2025</div></div>
+            <div class="exp-item"><h4>Peserta Catur ASFERA</h4><div class="meta">2026</div></div>
+            <div class="exp-item"><h4>Catur Antar As-Syifa</h4><div class="meta">2025</div></div>
+            <div class="exp-item"><h4>Mutabaah Terbaik</h4><div class="meta">2026</div></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-</div><!-- /view-home -->
-
-<!-- ============================================================
-     VIEW: OTHER (Sisi Lain)
-============================================================ -->
-<div class="view" id="view-other" hidden>
-  <section class="section">
+  <!-- KONTAK -->
+  <section id="kontak">
     <div class="container">
-      <div class="section-head" style="text-align:center;margin-left:auto;margin-right:auto">
-        <span class="eyebrow">Sisi Lain</span>
-        <h2>Data Diri &amp; Akademik</h2>
-        <p>Informasi singkat tentang identitas, capaian akademik, dan hafalan.</p>
-      </div>
-
-      <div class="ktp">
-        <div class="ktp-header">
-          <div>
-            <div class="ktp-header-text">Kartu Identitas</div>
-            <div class="ktp-header-sub">REPUBLIK INDONESIA · PELAJAR</div>
-          </div>
-          <div class="ktp-flag">🇮🇩</div>
-        </div>
-        <div class="ktp-grid">
-          <div class="ktp-row ktp-full"><div class="ktp-label">Nama Lengkap</div><div class="ktp-value">Muhammad Syazani Al Taftazani</div></div>
-          <div class="ktp-row"><div class="ktp-label">Tempat / Tanggal Lahir</div><div class="ktp-value">Palu, 14 September 2012</div></div>
-          <div class="ktp-row"><div class="ktp-label">Jenis Kelamin</div><div class="ktp-value">Laki-laki</div></div>
-          <div class="ktp-row ktp-full"><div class="ktp-label">Alamat</div><div class="ktp-value">Jalan Kopo, Beji, Depok</div></div>
-        </div>
-      </div>
-
-      <div style="margin-top:64px">
-        <h3 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:20px;letter-spacing:-.01em">Nilai Akademik</h3>
-        <div class="akademik-table-wrap">
-          <div class="akademik-table-scroll">
-            <table class="akademik-table">
-              <thead><tr><th>Mata Pelajaran</th><th style="text-align:right">Kategori</th></tr></thead>
-              <tbody>
-                <tr><td class="subject">PAI — Aqidah</td><td class="grade">A</td></tr>
-                <tr><td class="subject">PAI — Fiqh</td><td class="grade">A</td></tr>
-                <tr><td class="subject">PAI — Siroh</td><td class="grade">A</td></tr>
-                <tr><td class="subject">IPA</td><td class="grade">A</td></tr>
-                <tr><td class="subject">IPS</td><td class="grade">A</td></tr>
-                <tr><td class="subject">Bahasa Indonesia</td><td class="grade">A</td></tr>
-                <tr><td class="subject">Bahasa Inggris</td><td class="grade">A</td></tr>
-                <tr><td class="subject">Bahasa Arab</td><td class="grade">A</td></tr>
-                <tr><td class="subject">Matematika</td><td class="grade">A</td></tr>
-                <tr><td class="subject">TIK</td><td class="grade">A</td></tr>
-                <tr><td class="subject">PJOK</td><td class="grade">A</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div style="margin-top:64px">
-        <h3 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:20px;letter-spacing:-.01em">Tahfidz &amp; Ekskul</h3>
-        <div class="tahfidz-grid">
-          <div class="tahfidz-card"><div class="label">Kelas 7</div><div class="value">10 Halaman</div><div class="sub">Hafalan reguler</div></div>
-          <div class="tahfidz-card"><div class="label">Kelas 7</div><div class="value">1 Juz 3 Hal</div><div class="sub">Capaian juz</div></div>
-          <div class="tahfidz-card"><div class="label">Kelas 8</div><div class="value">1 Juz 19 Hal</div><div class="sub">Capaian juz</div></div>
-          <div class="tahfidz-card"><div class="label">Ekskul</div><div class="value">Koding &amp; IT</div><div class="sub">Predikat A</div></div>
-        </div>
-      </div>
-
-      <div style="text-align:center;margin-top:56px">
-        <button class="btn-primary" data-go="timeline">Lihat Perjalanan Hidup →</button>
+      <div class="eyebrow">Kontak</div>
+      <h2 class="section-title">Hubungi Saya</h2>
+      <p class="section-sub">Terbuka untuk kolaborasi & obrolan seputar teknologi.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:720px">
+        <div class="stat-card"><div class="trait-title">📱 WhatsApp</div><div class="trait-body" style="margin-top:4px">0816-641-946</div></div>
+        <div class="stat-card"><div class="trait-title">📸 Instagram</div><div class="trait-body" style="margin-top:4px">@Al_ZANI.</div></div>
+        <div class="stat-card"><div class="trait-title">✉️ Email</div><div class="trait-body" style="margin-top:4px;font-size:.8rem;word-break:break-all">altaftazanisyazani@gmail.com</div></div>
       </div>
     </div>
   </section>
-</div>
 
-<!-- ============================================================
-     VIEW: TIMELINE (Kapal + Pulau)
-============================================================ -->
-<div class="view" id="view-timeline" hidden>
-  <div class="timeline-wrap">
+  <footer>
     <div class="container">
-      <div class="timeline-header">
-        <span class="eyebrow">Timeline</span>
-        <h2 style="font-family:var(--font-display);font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-.02em;margin-bottom:12px">Perjalanan Hidup</h2>
-        <p style="color:var(--muted);max-width:560px;margin:0 auto">Gulir ke samping — kapal akan berlayar dari pulau ke pulau.</p>
-      </div>
+      <div class="slogan">"The greater the mass, the greater the force of attraction"</div>
+      <div class="quote">"Di sekolah anda diberi pelajaran lalu ujian, di kehidupan anda diberi ujian untuk memberi pelajaran"</div>
+      <div class="copy">© 2026 Muhammad Syazani Al Taftazani · Dibuat dengan semangat</div>
     </div>
-    <div class="timeline-scroll" id="timeline-scroll">
-      <svg class="ship-svg" id="ship-svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
-        <path d="M8 34 L44 34 L38 44 L14 44 Z" fill="#0369A1"/>
-        <path d="M24 34 L24 12 L26 12 L26 34 Z" fill="#075985"/>
-        <path d="M26 14 L26 30 L38 30 Z" fill="#7DD3FC"/>
-        <path d="M24 14 L24 30 L14 30 Z" fill="#E0F2FE"/>
-        <circle cx="26" cy="10" r="2" fill="#FBBF24"/>
-        <path d="M4 44 Q14 40 26 44 Q38 48 48 44" stroke="#7DD3FC" stroke-width="2" fill="none" opacity=".6"/>
-      </svg>
-
-      <div class="timeline-card">
-        <div class="timeline-island">🏝️</div>
-        <div class="timeline-year">2012</div>
-        <div class="timeline-title">Awal Mula</div>
-        <div class="timeline-desc">Lahir di Palu, Sulawesi Tengah. Babak pertama dimulai.</div>
-      </div>
-      <div class="timeline-card">
-        <div class="timeline-island">🏫</div>
-        <div class="timeline-year">2019</div>
-        <div class="timeline-title">Al-Azhar Palu</div>
-        <div class="timeline-desc">Kelas 1–2 di Al-Azhar Palu, membangun dasar pendidikan.</div>
-      </div>
-      <div class="timeline-card">
-        <div class="timeline-island">📚</div>
-        <div class="timeline-year">2021</div>
-        <div class="timeline-title">Homeschooling Kak Seto</div>
-        <div class="timeline-desc">Pindah ke Bekasi, kelas 3–6 via Homeschooling Kak Seto.</div>
-      </div>
-      <div class="timeline-card">
-        <div class="timeline-island">🕌</div>
-        <div class="timeline-year">2025</div>
-        <div class="timeline-title">SMPIT As-Syifa</div>
-        <div class="timeline-desc">Memulai jenjang SMP di SMPIT As-Syifa Boarding School.</div>
-      </div>
-      <div class="timeline-card">
-        <div class="timeline-island">🎓</div>
-        <div class="timeline-year">2028</div>
-        <div class="timeline-title">Lulus &amp; Melangkah</div>
-        <div class="timeline-desc">Menuntaskan pendidikan menengah, siap ke babak berikutnya.</div>
-      </div>
-    </div>
-    <div style="text-align:center;padding:0 24px">
-      <button class="btn-ghost" data-go="other">← Kembali ke Data Diri</button>
-      <button class="btn-primary" data-go="home" style="margin-left:12px">Beranda</button>
-    </div>
-  </div>
+  </footer>
 </div>
 
-<!-- ============================================================
-     VIEW: BLOG
-============================================================ -->
-<div class="view" id="view-blog" hidden>
-  <div class="blog-hero">
+<!-- ========================= VIEW: OTHER ========================= -->
+<div class="view" id="view-other">
+  <section>
     <div class="container">
-      <span class="eyebrow">Blog</span>
-      <h1>Dashboard <span>Tulisan</span></h1>
-      <p>Catatan, cerita, dan pelajaran yang saya tuangkan dalam bentuk tulisan.</p>
+      <button class="btn btn-ghost" data-view="home" style="margin-bottom:24px">← Kembali</button>
+      <div class="eyebrow">Sisi Lain</div>
+      <h2 class="section-title">Data Diri & Akademik</h2>
+      <p class="section-sub">Informasi pribadi, akademik, dan pencapaian.</p>
+
+      <div class="ktp-grid">
+        <!-- KTP -->
+        <div class="ktp-card">
+          <div class="ktp-header">
+            <div>
+              <div class="ktp-title">Kartu Identitas</div>
+              <div class="ktp-name">M. Syazani A. T.</div>
+            </div>
+            <div style="font-size:2rem">♞</div>
+          </div>
+          <div class="ktp-rows">
+            <div class="ktp-row"><span>Tempat, Tgl Lahir</span><span>Palu, 14 September 2012</span></div>
+            <div class="ktp-row"><span>Jenis Kelamin</span><span>Laki-laki</span></div>
+            <div class="ktp-row"><span>Alamat</span><span>Jalan Kopo, Beji, Depok</span></div>
+            <div class="ktp-row"><span>Sekolah</span><span>SMPIT As-Syifa</span></div>
+            <div class="ktp-row"><span>Kelas</span><span>8 (Delapan)</span></div>
+          </div>
+        </div>
+
+        <!-- AKADEMIK -->
+        <div class="akademik-card">
+          <h3>📚 Nilai Akademik</h3>
+          <table class="grade-table">
+            <thead><tr><th>Mata Pelajaran</th><th>Nilai</th></tr></thead>
+            <tbody>
+              <tr><td>PAI (Aqidah)</td><td><span class="grade-badge grade-a">A</span></td></tr>
+              <tr><td>PAI (Fiqh)</td><td><span class="grade-badge grade-a">A</span></td></tr>
+              <tr><td>PAI (Siroh)</td><td><span class="grade-badge grade-a">A</span></td></tr>
+              <tr><td>Matematika</td><td><span class="grade-badge grade-a">A</span></td></tr>
+              <tr><td>IPA</td><td><span class="grade-badge grade-a">A</span></td></tr>
+              <tr><td>IPS</td><td><span class="grade-badge grade-b">B+</span></td></tr>
+              <tr><td>B. Indonesia</td><td><span class="grade-badge grade-a">A</span></td></tr>
+              <tr><td>B. Inggris</td><td><span class="grade-badge grade-a">A</span></td></tr>
+              <tr><td>B. Arab</td><td><span class="grade-badge grade-b">B+</span></td></tr>
+              <tr><td>TIK</td><td><span class="grade-badge grade-a">A</span></td></tr>
+              <tr><td>PJOK</td><td><span class="grade-badge grade-b">B+</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAHFIDZ & EKSKUL -->
+      <h3 style="font-family:var(--f-display);font-size:1.15rem;margin:32px 0 6px">📖 Tahfidz & Ekskul</h3>
+      <p style="color:var(--muted);font-size:.9rem;margin-bottom:8px">Pencapaian non-akademik.</p>
+      <div class="tahfidz-grid">
+        <div class="tahfidz-card"><h4>Kelas 7 · Tahfidz</h4><div class="val">10 hal + 1 Juz 3 hal</div></div>
+        <div class="tahfidz-card"><h4>Kelas 8 · Tahfidz</h4><div class="val">1 Juz 19 hal</div></div>
+        <div class="tahfidz-card"><h4>Ekskul Koding & IT</h4><div class="val">Predikat A</div></div>
+      </div>
     </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="copy">© 2026 Muhammad Syazani Al Taftazani</div>
+    </div>
+  </footer>
+</div>
+
+<!-- ========================= VIEW: TIMELINE ========================= -->
+<div class="view" id="view-timeline">
+  <section>
+    <div class="container">
+      <button class="btn btn-ghost" data-view="home" style="margin-bottom:24px">← Kembali</button>
+      <div class="eyebrow">Perjalanan</div>
+      <h2 class="section-title">Timeline Hidup</h2>
+      <p class="section-sub">Perjalanan dari lahir hingga sekarang — ditandai dengan pulau-pulau kecil.</p>
+    </div>
+    <div class="timeline-wrap">
+      <div class="timeline-track">
+        <div class="tl-node"><div class="tl-island"><span class="year">2012</span></div><div class="tl-label">Lahir di Palu</div></div>
+        <div class="tl-node"><div class="tl-island"><span class="year">2019</span></div><div class="tl-label">Masuk SD Al-Azhar Palu (Kelas 1)</div></div>
+        <div class="tl-node"><div class="tl-island"><span class="year">2021</span></div><div class="tl-label">Homeschooling Kak Seto Bekasi</div></div>
+        <div class="tl-node"><div class="tl-island"><span class="year">2025</span></div><div class="tl-label">Masuk SMPIT As-Syifa</div></div>
+        <div class="tl-node highlight"><div class="tl-island"><span class="year">2028</span></div><div class="tl-label">Lulus SMP (target)</div></div>
+      </div>
+      <div class="ship">⛵</div>
+    </div>
+  </section>
+  <footer><div class="container"><div class="copy">© 2026 Muhammad Syazani Al Taftazani</div></div></footer>
+</div>
+
+<!-- ========================= VIEW: BLOG ========================= -->
+<div class="view" id="view-blog">
+  <section>
+    <div class="container">
+      <button class="btn btn-ghost" data-view="home" style="margin-bottom:24px">← Kembali</button>
+      <div class="eyebrow">Dashboard Tulisan</div>
+      <h2 class="section-title">Blog</h2>
+      <p class="section-sub">Catatan, cerita, dan pemikiran.</p>
+
+      <div class="blog-stats">
+        <div class="blog-stat"><div class="num" id="stat-total">0</div><div class="lbl">Total Artikel</div></div>
+        <div class="blog-stat"><div class="num" id="stat-last">—</div><div class="lbl">Update Terakhir</div></div>
+        <div class="blog-stat"><div class="num" id="stat-author">Syazani</div><div class="lbl">Penulis</div></div>
+        <div class="blog-stat"><div class="num" style="color:#16a34a">Aktif</div><div class="lbl">Status</div></div>
+      </div>
+
+      <div class="blog-grid" id="blog-grid"></div>
+      <p id="blog-empty" style="text-align:center;padding:40px;color:var(--muted);display:none">Belum ada artikel.</p>
+    </div>
+  </section>
+  <footer><div class="container"><div class="copy">© 2026 Muhammad Syazani Al Taftazani</div></div></footer>
+</div>
+
+<!-- ========================= VIEW: POST ========================= -->
+<div class="view" id="view-post">
+  <div class="post-article">
+    <button class="back" data-view="blog">← Kembali ke Blog</button>
+    <article id="post-content"></article>
   </div>
-  <div class="blog-stats" id="blog-stats">
-    <div class="blog-stat-card"><div class="blog-stat-label">Total Artikel</div><div class="blog-stat-value" id="stat-total">—</div></div>
-    <div class="blog-stat-card"><div class="blog-stat-label">Update Terakhir</div><div class="blog-stat-value small" id="stat-update">—</div></div>
-    <div class="blog-stat-card"><div class="blog-stat-label">Penulis</div><div class="blog-stat-value small">Syazani</div></div>
-    <div class="blog-stat-card"><div class="blog-stat-label">Status</div><div class="blog-stat-value small" style="color:#16A34A">● Aktif</div></div>
-  </div>
-  <div class="blog-grid" id="blog-grid">
-    <div class="blog-empty"><div class="blog-empty-icon">⏳</div><h3>Memuat artikel...</h3><p>Menghubungkan ke database tulisan.</p></div>
-  </div>
-  <div style="text-align:center;padding:0 24px 60px">
-    <button class="btn-ghost" data-go="home">← Kembali ke Beranda</button>
-  </div>
+  <footer><div class="container"><div class="copy">© 2026 Muhammad Syazani Al Taftazani</div></div></footer>
 </div>
 
 <!-- ============================================================
-     VIEW: POST
-============================================================ -->
-<div class="view" id="view-post" hidden>
-  <div class="post-wrap">
-    <button class="post-back" data-go="blog">← Kembali ke Blog</button>
-    <div id="post-body">
-      <div class="post-loading"><div class="spinner"></div><p>Memuat artikel...</p></div>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================
-     FOOTER
-============================================================ -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-slogan">"The greater the mass,<br>the greater the force of <span>attraction</span>"</div>
-        <p style="font-size:14px;color:#A8A29E;line-height:1.7">Muhammad Syazani Al Taftazani — Siswa SMP dengan minat tinggi di teknologi, koding, dan strategi.</p>
-      </div>
-      <div>
-        <h4>Navigasi</h4>
-        <ul>
-          <li><a href="#" data-go="home">Beranda</a></li>
-          <li><a href="#" data-go="home#profil">Profil</a></li>
-          <li><a href="#" data-go="home#projek">Projek</a></li>
-          <li><a href="#" data-go="blog">Blog</a></li>
-          <li><a href="#" data-go="other">Sisi Lain</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Quote</h4>
-        <div class="footer-quote">"Di sekolah anda diberi pelajaran lalu ujian, di kehidupan anda diberi ujian untuk memberi pelajaran."</div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div>© <span id="year">2026</span> Muhammad Syazani Al Taftazani.</div>
-      <div class="clock">Waktu WIB: <span id="footer-clock">--:--:--</span></div>
-    </div>
-  </div>
-</footer>
-
-<!-- FLOATING CLOCK -->
-<div class="floating-clock" title="Waktu Indonesia Barat">
-  <span class="dot"></span>
-  <span class="time" id="float-time">--:--:--</span>
-  <span class="tz">WIB</span>
-</div>
-
-<!-- ============================================================
-     SCRIPT
-============================================================ -->
-<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+     JAVASCRIPT
+     ============================================================ -->
 <script>
 /* ============================================================
-   1. SPA ROUTER
-============================================================ */
-const views = ['home', 'other', 'timeline', 'blog', 'post'];
-const navMenu = document.getElementById('nav-menu');
-const hamburger = document.getElementById('hamburger');
+   1. ROUTING SPA
+   ============================================================ */
+const views = {
+  home: document.getElementById('view-home'),
+  other: document.getElementById('view-other'),
+  timeline: document.getElementById('view-timeline'),
+  blog: document.getElementById('view-blog'),
+  post: document.getElementById('view-post'),
+};
 
-function show(viewId, sectionId) {
-  if (!views.includes(viewId)) viewId = 'home';
-  views.forEach(v => {
-    const el = document.getElementById('view-' + v);
-    if (el) el.hidden = (v !== viewId);
+function show(viewId){
+  Object.values(views).forEach(v => v && v.classList.remove('active'));
+  if(views[viewId]) views[viewId].classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  // update nav highlight
+  document.querySelectorAll('.nav-links a, .nav-cta').forEach(a=>{
+    a.classList.toggle('active', a.dataset.view === viewId);
   });
-  setTimeout(() => {
-    if (sectionId) {
-      const target = document.getElementById(sectionId);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  // close mobile menu
+  document.getElementById('nav-links').classList.remove('open');
+  // trigger view-specific init
+  if(viewId === 'blog') initBlog();
+}
+
+document.querySelectorAll('[data-view]').forEach(el=>{
+  el.addEventListener('click', e=>{
+    e.preventDefault();
+    const target = el.dataset.view;
+    const scroll = el.dataset.scroll;
+    show(target);
+    if(scroll){
+      setTimeout(()=>{
+        const section = document.getElementById(scroll);
+        if(section) section.scrollIntoView({behavior:'smooth'});
+      }, 200);
     }
-  }, 60);
-  navMenu.classList.remove('open');
-  hamburger.classList.remove('open');
-  const hash = sectionId ? `#/${viewId}/${sectionId}` : `#/${viewId}`;
-  if (location.hash !== hash) history.pushState(null, '', hash);
-  if (viewId === 'blog') loadPosts();
-}
-
-document.addEventListener('click', (e) => {
-  const trigger = e.target.closest('[data-go]');
-  if (!trigger) return;
-  e.preventDefault();
-  const route = trigger.getAttribute('data-go');
-  const [view, section] = route.split('#');
-  show(view, section || null);
+  });
 });
 
-window.addEventListener('popstate', () => {
-  const route = (location.hash || '#/home').replace('#/', '') || 'home';
-  const [view, section] = route.split('/');
-  show(view, section || null);
+// hamburger
+document.getElementById('hamburger').addEventListener('click', ()=>{
+  document.getElementById('nav-links').classList.toggle('open');
 });
 
-window.addEventListener('load', () => {
-  if (location.hash && location.hash.startsWith('#/')) {
-    const route = location.hash.replace('#/', '');
-    const [view, section] = route.split('/');
-    show(view, section || null);
-  } else {
-    show('home');
-  }
-});
-
-/* ============================================================
-   2. HAMBURGER
-============================================================ */
-hamburger.addEventListener('click', () => {
-  navMenu.classList.toggle('open');
-  hamburger.classList.toggle('open');
-});
-
-/* ============================================================
-   3. GREETING
-============================================================ */
-function updateGreeting() {
-  const h = new Date().getHours();
-  let greet = 'Selamat Malam';
-  if (h >= 4 && h < 11) greet = 'Selamat Pagi';
-  else if (h >= 11 && h < 15) greet = 'Selamat Siang';
-  else if (h >= 15 && h < 18) greet = 'Selamat Sore';
-  const el = document.getElementById('greeting');
-  if (el) el.textContent = greet;
-}
-updateGreeting();
-setInterval(updateGreeting, 60000);
-
-/* ============================================================
-   4. TYPING EFFECT
-============================================================ */
-const typingTarget = document.getElementById('typing');
-const typingText = 'Halo, Namaku Muhammad Syazani...';
-let typerIndex = 0;
-function typeEffect() {
-  if (!typingTarget) return;
-  if (typerIndex < typingText.length) {
-    typingTarget.textContent += typingText.charAt(typerIndex);
-    typerIndex++;
-    setTimeout(typeEffect, 70);
-  } else {
-    setTimeout(() => {
-      typingTarget.textContent = '';
-      typerIndex = 0;
-      typeEffect();
-    }, 4500);
-  }
-}
-typeEffect();
-
-/* ============================================================
-   5. COUNTER
-============================================================ */
-function animateCounter(el, target, duration = 1600) {
-  const startTime = performance.now();
-  function step(now) {
-    const p = Math.min((now - startTime) / duration, 1);
-    const eased = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.floor(target * eased);
-    if (p < 1) requestAnimationFrame(step);
-    else el.textContent = target;
-  }
-  requestAnimationFrame(step);
-}
-if ('IntersectionObserver' in window) {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const t = parseInt(e.target.dataset.target, 10);
-        if (!isNaN(t)) animateCounter(e.target, t);
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('.stat-num').forEach(el => obs.observe(el));
-}
-
-/* ============================================================
-   6. SCROLL SPY
-============================================================ */
-if ('IntersectionObserver' in window) {
-  const sections = document.querySelectorAll('#view-home section[id], #view-home [id="home"]');
-  const navLinks = document.querySelectorAll('.nav-menu a[data-go]');
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const id = e.target.id;
-        navLinks.forEach(l => {
-          const route = l.getAttribute('data-go');
-          l.classList.toggle('active', route === `home#${id}` || (route === 'home' && id === 'home'));
-        });
-      }
-    });
-  }, { rootMargin: '-40% 0px -55% 0px' });
-  sections.forEach(s => spy.observe(s));
-}
-
-/* ============================================================
-   7. TAB PROJEK
-============================================================ */
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tab = btn.dataset.tab;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-' + tab).classList.add('active');
+// smooth scroll for internal links
+document.querySelectorAll('[data-scroll]').forEach(el=>{
+  el.addEventListener('click', e=>{
+    e.preventDefault();
+    const target = document.getElementById(el.dataset.scroll);
+    if(target) target.scrollIntoView({behavior:'smooth'});
   });
 });
 
 /* ============================================================
-   8. KALKULATOR (+ keyboard support)
-============================================================ */
-const calcDisplay = document.getElementById('calc-display');
-let calcCurrent = '0', calcPrev = null, calcOp = null, calcShouldReset = false;
-
-function updateCalc() {
-  if (!calcDisplay) return;
-  if (calcCurrent === 'Error') { calcDisplay.textContent = 'Error'; return; }
-  const num = parseFloat(calcCurrent);
-  if (!isNaN(num) && Math.abs(num) >= 1e12) calcDisplay.textContent = num.toExponential(6);
-  else if (calcCurrent.length > 13) calcDisplay.textContent = calcCurrent.slice(0, 13) + '…';
-  else calcDisplay.textContent = calcCurrent;
-}
-function calcCompute(a, op, b) {
-  const x = parseFloat(a), y = parseFloat(b);
-  let r;
-  switch (op) {
-    case '+': r = x + y; break;
-    case '−': r = x - y; break;
-    case '×': r = x * y; break;
-    case '÷': r = y === 0 ? NaN : x / y; break;
-    default: return y;
-  }
-  if (!isFinite(r) || isNaN(r)) return 'Error';
-  return String(Number(r.toFixed(10)));
-}
-function calcInput(val) {
-  if (val === 'C') { calcCurrent = '0'; calcPrev = null; calcOp = null; calcShouldReset = false; }
-  else if (val === '±') { if (calcCurrent !== 'Error') calcCurrent = calcCurrent.startsWith('-') ? calcCurrent.slice(1) : (calcCurrent === '0' ? '0' : '-' + calcCurrent); }
-  else if (val === '%') { if (calcCurrent !== 'Error') calcCurrent = String(parseFloat(calcCurrent) / 100); }
-  else if (['+','−','×','÷'].includes(val)) {
-    if (calcOp !== null && calcPrev !== null && !calcShouldReset) {
-      const r = calcCompute(calcPrev, calcOp, calcCurrent);
-      calcCurrent = r;
-      if (r === 'Error') { calcOp = null; calcPrev = null; calcShouldReset = true; updateCalc(); return; }
-    }
-    calcPrev = calcCurrent; calcOp = val; calcShouldReset = true;
-  }
-  else if (val === '=') {
-    if (calcOp !== null && calcPrev !== null) {
-      calcCurrent = calcCompute(calcPrev, calcOp, calcCurrent);
-      calcPrev = null; calcOp = null; calcShouldReset = true;
-    }
-  }
-  else if (val === '.') {
-    if (calcShouldReset) { calcCurrent = '0'; calcShouldReset = false; }
-    if (!calcCurrent.includes('.')) calcCurrent += '.';
-  }
-  else {
-    if (calcCurrent === 'Error') calcCurrent = '0';
-    if (calcShouldReset) { calcCurrent = val; calcShouldReset = false; }
-    else if (calcCurrent === '0') calcCurrent = val;
-    else calcCurrent += val;
-  }
-  updateCalc();
-}
-document.querySelectorAll('.calc-btn').forEach(btn => {
-  btn.addEventListener('click', () => calcInput(btn.dataset.val));
-});
-document.addEventListener('keydown', (e) => {
-  if (document.getElementById('view-home').hidden) return;
-  const k = e.key;
-  if (/^[0-9.]$/.test(k)) { calcInput(k); e.preventDefault(); }
-  else if (k === '+') { calcInput('+'); e.preventDefault(); }
-  else if (k === '-') { calcInput('−'); e.preventDefault(); }
-  else if (k === '*') { calcInput('×'); e.preventDefault(); }
-  else if (k === '/') { calcInput('÷'); e.preventDefault(); }
-  else if (k === 'Enter' || k === '=') { calcInput('='); e.preventDefault(); }
-  else if (k === 'Escape' || k === 'c' || k === 'C') { calcInput('C'); e.preventDefault(); }
-  else if (k === 'Backspace') {
-    calcCurrent = calcCurrent.length > 1 ? calcCurrent.slice(0, -1) : '0';
-    updateCalc(); e.preventDefault();
-  }
-});
-
-/* ============================================================
-   9. KOMPAS KIBLAT — QIBLA FINDER STYLE
-   - Great-circle bearing (true north)
-   - Smoothing low-pass + circular angle
-   - Kalibrasi manual (offset)
-   - Fallback desktop
-============================================================ */
-const KAABA_LAT = 21.4225;
-const KAABA_LON = 39.8262;
-
-const compassStatus = document.getElementById('compass-status');
-const compassFace   = document.getElementById('compass-face');
-const compassNeedle = document.getElementById('compass-needle');
-const qiblaDegEl    = document.getElementById('qibla-deg');
-const hdgValEl      = document.getElementById('hdg-val');
-const locValEl      = document.getElementById('loc-val');
-const btnEnable     = document.getElementById('compass-enable');
-const btnLocation   = document.getElementById('compass-location');
-const btnCalibrate  = document.getElementById('compass-calibrate');
-const btnReset      = document.getElementById('compass-reset');
-const compassNote   = document.getElementById('compass-note');
-
-let qiblaBearing = null;
-let sensorActive = false;
-let smoothHeading = null;
-let lastRawHeading = null;
-let calibrationOffset = 0;      // dalam derajat; ditambahkan ke heading mentah
-let isCalibrating = false;
-let calibrationStartHeading = null;
-
-const rad = d => d * Math.PI / 180;
-const deg = r => r * 180 / Math.PI;
-
-function setStatus(text, cls = '') {
-  if (!compassStatus) return;
-  compassStatus.textContent = text;
-  compassStatus.className = 'compass-status ' + cls;
-}
-
-/* ---------- Rumus bearing great-circle (true north) ---------- */
-function computeQibla(lat, lon) {
-  const φ1 = rad(lat), φ2 = rad(KAABA_LAT);
-  const Δλ = rad(KAABA_LON - lon);
-  const y = Math.sin(Δλ) * Math.cos(φ2);
-  const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
-  let bearing = deg(Math.atan2(y, x));
-  return (bearing + 360) % 360;
-}
-
-/* ---------- Normalisasi sudut ---------- */
-function normalizeDiff(a) {
-  while (a > 180) a -= 360;
-  while (a < -180) a += 360;
-  return a;
-}
-
-/* ---------- Smoothing sudut (low-pass filter) ---------- */
-function smoothAngle(newVal) {
-  if (smoothHeading === null) {
-    smoothHeading = newVal;
-    return newVal;
-  }
-  const delta = normalizeDiff(newVal - smoothHeading);
-  // Faktor 0.15–0.25: semakin kecil semakin halus, tetapi semakin lambat
-  smoothHeading = (smoothHeading + delta * 0.20 + 360) % 360;
-  return smoothHeading;
-}
-
-/* ---------- Render kompas ---------- */
-function renderCompass() {
-  if (qiblaBearing === null) return;
-
-  const rawHeading = lastRawHeading !== null ? lastRawHeading : 0;
-  const correctedHeading = (rawHeading + calibrationOffset + 360) % 360;
-  const heading = smoothHeading !== null ? smoothHeading : correctedHeading;
-
-  // Dial berputar agar N selalu menunjuk Utara dunia
-  if (compassFace) {
-    compassFace.style.transform = `rotate(${-heading}deg)`;
-  }
-
-  // Jarum kiblat: relatif terhadap arah hadap HP
-  const relativeQibla = (qiblaBearing - heading + 360) % 360;
-  if (compassNeedle) {
-    compassNeedle.style.transform = `rotate(${relativeQibla}deg)`;
-  }
-
-  if (qiblaDegEl) qiblaDegEl.textContent = qiblaBearing.toFixed(1) + '°';
-  if (hdgValEl) {
-    hdgValEl.textContent = sensorActive && lastRawHeading !== null
-      ? correctedHeading.toFixed(0) + '°'
-      : '—';
-  }
-
-  // Status
-  if (isCalibrating) {
-    setStatus('🎯 Kalibrasi: putar HP perlahan ke kiri/kanan, lalu klik "Simpan Kalibrasi".', 'warn');
-    return;
-  }
-
-  if (!sensorActive) {
-    setStatus('Sensor belum aktif. Arah kiblat dari Utara: ' + qiblaBearing.toFixed(1) + '°', 'warn');
-    return;
-  }
-
-  const diff = Math.abs(normalizeDiff(relativeQibla));
-  if (diff < 5) {
-    setStatus('✓ Menghadap Kiblat', 'aligned');
-  } else if (diff < 15) {
-    setStatus('Hampir menghadap — putar ' + diff.toFixed(0) + '°', '');
-  } else {
-    const direction = normalizeDiff(relativeQibla) > 0 ? 'kanan' : 'kiri';
-    setStatus('Putar ' + diff.toFixed(0) + '° ke ' + direction, '');
-  }
-}
-
-/* ---------- Update lokasi & bearing ---------- */
-function updateQiblaFromCoords(lat, lon) {
-  qiblaBearing = computeQibla(lat, lon);
-  if (locValEl) locValEl.textContent = lat.toFixed(3) + ', ' + lon.toFixed(3);
-  renderCompass();
-}
-
-/* ---------- Geolocation ---------- */
-function requestLocation() {
-  if (!navigator.geolocation) {
-    setStatus('Browser tidak mendukung geolocation.', 'error');
-    return;
-  }
-  if (btnLocation) btnLocation.disabled = true;
-  setStatus('📡 Mengambil lokasi...', 'warn');
-
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      updateQiblaFromCoords(pos.coords.latitude, pos.coords.longitude);
-      if (btnLocation) btnLocation.disabled = false;
-    },
-    (err) => {
-      setStatus('Gagal ambil lokasi: ' + err.message + '. Menggunakan Depok sebagai default.', 'error');
-      updateQiblaFromCoords(-6.3675, 106.8250); // fallback Depok
-      if (btnLocation) btnLocation.disabled = false;
-    },
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
-  );
-}
-
-/* ---------- Handler orientasi perangkat ---------- */
-function handleOrientation(e) {
-  let heading = null;
-
-  // iOS Safari: webkitCompassHeading
-  if (typeof e.webkitCompassHeading === 'number' && !isNaN(e.webkitCompassHeading)) {
-    heading = e.webkitCompassHeading;
-  }
-  // Android Chrome: alpha dari deviceorientationabsolute
-  else if (typeof e.alpha === 'number' && e.alpha !== null) {
-    heading = (360 - e.alpha) % 360;
-  }
-
-  if (heading === null || isNaN(heading)) return;
-
-  lastRawHeading = heading;
-
-  if (!isCalibrating) {
-    smoothHeading = smoothAngle((heading + calibrationOffset + 360) % 360);
-  }
-
-  renderCompass();
-}
-
-/* ---------- Aktifkan / matikan sensor ---------- */
-async function enableSensor() {
-  if (sensorActive) {
-    window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
-    window.removeEventListener('deviceorientation', handleOrientation, true);
-    sensorActive = false;
-    smoothHeading = null;
-    lastRawHeading = null;
-    if (btnEnable) btnEnable.textContent = '🧭 Aktifkan Sensor';
-    setStatus('Sensor kompas dimatikan.', 'warn');
-    if (hdgValEl) hdgValEl.textContent = '—';
-    renderCompass();
-    return;
-  }
-
-  // iOS 13+ butuh izin eksplisit
-  if (typeof DeviceOrientationEvent !== 'undefined' &&
-      typeof DeviceOrientationEvent.requestPermission === 'function') {
-    try {
-      const perm = await DeviceOrientationEvent.requestPermission();
-      if (perm !== 'granted') {
-        setStatus('Izin sensor ditolak. Kompas tidak bisa digunakan.', 'error');
-        return;
-      }
-    } catch (err) {
-      setStatus('Gagal minta izin: ' + err.message, 'error');
-      return;
-    }
-  }
-
-  // Dengarkan kedua event untuk kompatibilitas maksimal
-  window.addEventListener('deviceorientationabsolute', handleOrientation, true);
-  window.addEventListener('deviceorientation', handleOrientation, true);
-
-  sensorActive = true;
-  if (btnEnable) btnEnable.textContent = '🔇 Matikan Sensor';
-
-  // Cek apakah sensor benar-benar mengirim data
-  setTimeout(() => {
-    if (lastRawHeading === null) {
-      setStatus('Sensor kompas tidak tersedia di perangkat ini. Arah kiblat tetap dari Utara.', 'warn');
-      sensorActive = false;
-      if (btnEnable) btnEnable.textContent = '🧭 Aktifkan Sensor';
+   2. TYPED TEXT EFFECT
+   ============================================================ */
+(function typedHero(){
+  const phrases = ['Web Developer', 'Problem Solver', 'Koding Enthusiast', 'Strategi & Catur'];
+  const el = document.getElementById('typed-text');
+  let pi = 0, ci = 0, deleting = false;
+  function tick(){
+    const phrase = phrases[pi];
+    if(!deleting){
+      el.textContent = phrase.slice(0, ++ci);
+      if(ci === phrase.length){ deleting = true; setTimeout(tick, 1800); return; }
     } else {
-      setStatus('Sensor aktif. Putar HP perlahan sampai sejajar.', '');
+      el.textContent = phrase.slice(0, --ci);
+      if(ci === 0){ deleting = false; pi = (pi+1) % phrases.length; }
     }
-  }, 1500);
-}
-
-/* ---------- Kalibrasi manual ---------- */
-function startCalibration() {
-  if (!sensorActive) {
-    setStatus('Aktifkan sensor terlebih dahulu sebelum kalibrasi.', 'warn');
-    return;
+    setTimeout(tick, deleting ? 45 : 90);
   }
-  isCalibrating = true;
-  calibrationStartHeading = lastRawHeading;
-  if (btnCalibrate) btnCalibrate.textContent = '💾 Simpan Kalibrasi';
-  setStatus('🎯 Kalibrasi: arahkan HP ke arah yang Anda yakini sebagai kiblat, lalu klik "Simpan".', 'warn');
-  renderCompass();
-}
-
-function finishCalibration() {
-  if (!isCalibrating) return;
-
-  // Ambil heading mentah saat ini, lalu sesuaikan offset agar heading terkoreksi = qiblaBearing
-  if (lastRawHeading !== null && qiblaBearing !== null) {
-    calibrationOffset = normalizeDiff(qiblaBearing - lastRawHeading);
-    smoothHeading = (lastRawHeading + calibrationOffset + 360) % 360;
-  }
-
-  isCalibrating = false;
-  if (btnCalibrate) btnCalibrate.textContent = '🎯 Kalibrasi';
-  renderCompass();
-  setStatus('Kalibrasi disimpan. Arah kiblat disesuaikan dengan posisi HP saat ini.', 'aligned');
-}
-
-/* ---------- Reset ---------- */
-function resetCompass() {
-  smoothHeading = null;
-  lastRawHeading = null;
-  calibrationOffset = 0;
-  isCalibrating = false;
-  if (btnCalibrate) btnCalibrate.textContent = '🎯 Kalibrasi';
-  if (btnEnable && sensorActive) {
-    window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
-    window.removeEventListener('deviceorientation', handleOrientation, true);
-    sensorActive = false;
-    btnEnable.textContent = '🧭 Aktifkan Sensor';
-  }
-  if (qiblaBearing !== null) renderCompass();
-  setStatus('Reset. Klik "Lokasi Saya" untuk menghitung ulang arah kiblat.', 'warn');
-  if (hdgValEl) hdgValEl.textContent = '—';
-}
-
-/* ---------- Event listener tombol ---------- */
-if (btnEnable)    btnEnable.addEventListener('click', enableSensor);
-if (btnLocation)  btnLocation.addEventListener('click', requestLocation);
-if (btnReset)     btnReset.addEventListener('click', resetCompass);
-
-if (btnCalibrate) {
-  btnCalibrate.addEventListener('click', () => {
-    if (isCalibrating) {
-      finishCalibration();
-    } else {
-      startCalibration();
-    }
-  });
-}
-
-/* ---------- Inisialisasi awal ---------- */
-updateQiblaFromCoords(-6.3675, 106.8250); // Depok default
-setStatus('Klik "Lokasi Saya" untuk arah kiblat akurat.', '');
-/* ============================================================
-   10. JAM WIB
-============================================================ */
-function updateClock() {
-  const now = new Date();
-  const wibMs = now.getTime() + (now.getTimezoneOffset() * 60000) + (7 * 3600000);
-  const wib = new Date(wibMs);
-  const timeStr = [wib.getHours(), wib.getMinutes(), wib.getSeconds()]
-    .map(n => String(n).padStart(2, '0')).join(':');
-  const fc = document.getElementById('footer-clock');
-  const ft = document.getElementById('float-time');
-  if (fc) fc.textContent = timeStr;
-  if (ft) ft.textContent = timeStr;
-}
-updateClock();
-setInterval(updateClock, 1000);
-const yearEl = document.getElementById('year');
-if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-/* ============================================================
-   11. TIMELINE — Kapal berlayar
-============================================================ */
-(function initShip() {
-  const scroll = document.getElementById('timeline-scroll');
-  const ship = document.getElementById('ship-svg');
-  if (!scroll || !ship) return;
-  function move() {
-    const maxScroll = scroll.scrollWidth - scroll.clientWidth;
-    if (maxScroll <= 0) return;
-    const p = Math.max(0, Math.min(1, scroll.scrollLeft / maxScroll));
-    const travel = scroll.scrollWidth - 120;
-    const leftPx = p * travel + 20;
-    const bob = Math.sin(p * Math.PI * 8) * 6; // ombak
-    ship.style.transform = `translateX(${leftPx}px) translateY(${bob}px) rotate(${Math.sin(p * Math.PI * 6) * 4}deg)`;
-  }
-  ship.style.left = '0';
-  ship.style.top = 'calc(50% - 20px)';
-  scroll.addEventListener('scroll', move, { passive: true });
-  setTimeout(move, 200);
+  tick();
 })();
 
 /* ============================================================
-   12. BLOG — fetch /api/list-posts
-============================================================ */
-let allPosts = [], postsLoaded = false;
+   3. COUNT UP ANIMATION
+   ============================================================ */
+(function countUp(){
+  const els = document.querySelectorAll('[data-count]');
+  els.forEach(el=>{
+    const target = parseInt(el.dataset.count, 10);
+    let current = 0;
+    const step = Math.max(1, Math.floor(target / 40));
+    const t = setInterval(()=>{
+      current += step;
+      if(current >= target){ current = target; clearInterval(t); }
+      el.textContent = current + (target > 10 ? '+' : '');
+    }, 30);
+  });
+})();
 
-async function loadPosts(force = false) {
-  if (postsLoaded && !force) return;
+/* ============================================================
+   4. TABS (PROJEK)
+   ============================================================ */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    const panel = document.getElementById('tab-' + btn.dataset.tab);
+    if(panel) panel.classList.add('active');
+  });
+});
+
+/* ============================================================
+   5. KALKULATOR (DIPERTAHANKAN & DIINTEGRASI)
+   ============================================================ */
+(function calculator(){
+  const cur = document.getElementById('calc-current');
+  const hist = document.getElementById('calc-history');
+  let input = '0', prev = null, op = null, wait = false;
+  const sym = {'+':'+','-':'−','×':'×','÷':'÷'};
+
+  function upd(){ cur.textContent = input; }
+  function err(msg){ cur.textContent = msg; input='0'; prev=null; op=null; wait=false; hist.textContent=''; }
+
+  function num(n){
+    if(wait){ input = n; wait = false; }
+    else { input = input === '0' ? n : input + n; }
+    if(input.replace('.','').replace('-','').length > 12) input = input.slice(0,13);
+    upd();
+  }
+  function dec(){ if(wait){ input='0.'; wait=false; } else if(!input.includes('.')) input += '.'; upd(); }
+  function opH(o){
+    const iv = input;
+    if(op !== null && !wait){
+      const r = calc(prev, op, iv);
+      if(typeof r !== 'number' || !isFinite(r)){ err('❌ Error'); return; }
+      input = fmt(r); prev = input;
+    } else prev = iv;
+    op = o; wait = true; hist.textContent = `${prev} ${sym[o]}`; upd();
+  }
+  function calc(a,o,b){
+    const na = parseFloat(a), nb = parseFloat(b);
+    if(isNaN(na)||isNaN(nb)) return 0;
+    switch(o){
+      case '+': return na+nb;
+      case '-': return na-nb;
+      case '×': return na*nb;
+      case '÷': return nb === 0 ? '÷0' : na/nb;
+      default: return nb;
+    }
+  }
+  function fmt(n){
+    if(n === '÷0') return 'Error';
+    if(!isFinite(n)) return 'Error';
+    if(Number.isInteger(n) && Math.abs(n) < 1e15) return String(n);
+    return parseFloat(n.toFixed(10)).toString();
+  }
+  function eq(){
+    if(op === null){ hist.textContent = `${input} =`; return; }
+    const a = prev, b = input;
+    const r = calc(a, op, b);
+    if(r === '÷0'){ err('❌ ÷ 0'); return; }
+    if(typeof r !== 'number' || !isFinite(r)){ err('❌ Error'); return; }
+    hist.textContent = `${a} ${sym[op]} ${b} =`;
+    input = fmt(r); prev = null; op = null; wait = true; upd();
+  }
+  function clr(){ input='0'; prev=null; op=null; wait=false; hist.textContent=''; upd(); }
+  function del(){
+    if(wait) return;
+    if(input.length === 1 || (input.length === 2 && input.startsWith('-'))) input = '0';
+    else input = input.slice(0,-1);
+    upd();
+  }
+  function pct(){ const v = parseFloat(input); if(isNaN(v)) return; input = fmt(v/100); upd(); }
+
+  document.querySelectorAll('.calc-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const act = btn.dataset.act;
+      switch(act){
+        case 'num': num(btn.dataset.num); break;
+        case 'decimal': dec(); break;
+        case 'op': opH(btn.dataset.op); break;
+        case 'equals': eq(); break;
+        case 'clear': clr(); break;
+        case 'delete': del(); break;
+        case 'percent': pct(); break;
+      }
+    });
+  });
+
+  document.addEventListener('keydown', e=>{
+    if(!views.home.classList.contains('active')) return;
+    if(!document.getElementById('tab-web').classList.contains('active')) return;
+    const k = e.key;
+    if(/^[0-9]$/.test(k)){ num(k); hk(`[data-num="${k}"]`); }
+    else if(k === '.'){ dec(); hk('[data-act="decimal"]'); }
+    else if(k === '+'){ opH('+'); hk('[data-op="+"]'); }
+    else if(k === '-'){ opH('-'); hk('[data-op="-"]'); }
+    else if(k === '*'){ opH('×'); hk('[data-op="×"]'); }
+    else if(k === '/'){ e.preventDefault(); opH('÷'); hk('[data-op="÷"]'); }
+    else if(k === 'Enter' || k === '='){ e.preventDefault(); eq(); hk('[data-act="equals"]'); }
+    else if(k === 'Backspace'){ del(); hk('[data-act="delete"]'); }
+    else if(k === 'Escape' || k.toLowerCase() === 'c'){ clr(); hk('[data-act="clear"]'); }
+    else if(k === '%'){ pct(); hk('[data-act="percent"]'); }
+  });
+  function hk(sel){ const el = document.querySelector(sel); if(!el) return; el.classList.add('pressed'); setTimeout(()=>el.classList.remove('pressed'), 120); }
+
+  upd();
+})();
+
+/* ============================================================
+   6. KOMPAS KIBLAT (DIPERTAHANKAN DARI FILE ASLI)
+   ============================================================ */
+(function qibla(){
+  if(window.__qiblaInitDone) return;
+  window.__qiblaInitDone = true;
+
+  const KAABA_LAT = 21.4224779, KAABA_LON = 39.8251832;
+  const $ = id => document.getElementById(id);
+  const dial = $('qibla-dial'), needle = $('qibla-needle'), needleTail = $('qibla-needle-tail');
+  const bearingEl = $('qibla-bearing'), headingEl = $('qibla-heading'), locationEl = $('qibla-location');
+  const statusEl = $('qibla-status'), statusText = $('qibla-status-text');
+  const degVal = $('qibla-deg-val');
+  const activateBtn = $('qibla-activate'), locateBtn = $('qibla-locate');
+  const citySelect = $('qibla-city'), citySearchInput = $('qibla-city-search');
+  const citySearchStatus = $('qibla-city-search-status'), citySearchResults = $('qibla-city-search-results');
+  const latInput = $('qibla-lat-input'), lonInput = $('qibla-lon-input');
+  const manualApplyBtn = $('qibla-manual-apply');
+
+  let qiblaBearing = null, currentHeading = 0, sensorHeadingReceived = false, orientationActive = false, sensorCheckTimer = null;
+
+  const cityEntries = Array.from(citySelect.querySelectorAll('optgroup option')).map(option => ({
+    value: option.value, name: option.textContent.trim(),
+    group: option.parentElement ? option.parentElement.label : '',
+    lat: option.value.split(',')[0], lon: option.value.split(',')[1],
+    chosenLabel: (option.value.split(',')[2] || option.textContent.trim()).replace(/\s*\(perkiraan\)\s*$/i, '')
+  }));
+
+  function normalizeCityText(v){
+    return String(v||'').toLocaleLowerCase('id').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\b(kabupaten|kab\.?|kota administrasi|kota)\b/g,' ').replace(/[^a-z0-9]+/g,' ').trim();
+  }
+
+  function renderCitySearch(){
+    const rawQuery = citySearchInput.value.trim();
+    const query = normalizeCityText(rawQuery);
+    citySearchResults.replaceChildren();
+    if(!query){
+      citySearchResults.hidden = true;
+      citySearchStatus.textContent = `${cityEntries.length} kota tersedia. Ketik nama kota.`;
+      citySearchInput.setAttribute('aria-expanded','false');
+      return;
+    }
+    const terms = query.split(/\s+/).filter(Boolean);
+    const matches = cityEntries.filter(c => {
+      const txt = normalizeCityText(`${c.name} ${c.chosenLabel}`);
+      return terms.every(t => txt.includes(t));
+    });
+    citySearchStatus.textContent = matches.length ? `${matches.length} kota ditemukan.` : `Kota "${rawQuery}" tidak ditemukan.`;
+    if(!matches.length){ citySearchResults.hidden = true; citySearchInput.setAttribute('aria-expanded','false'); return; }
+    matches.slice(0,20).forEach(city => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qibla-city-result';
+      btn.setAttribute('role','option');
+      const name = document.createElement('span');
+      name.textContent = city.name;
+      const region = document.createElement('small');
+      region.textContent = city.group.replace(/\s+—.*$/,'');
+      btn.appendChild(name); btn.appendChild(region);
+      btn.addEventListener('click', ()=>{
+        citySelect.value = city.value;
+        citySelect.dispatchEvent(new Event('change', {bubbles:true}));
+        citySearchInput.value = city.name;
+        citySearchResults.hidden = true;
+        citySearchInput.setAttribute('aria-expanded','false');
+        citySearchStatus.textContent = `Dipilih: ${city.name}. Tekan "Gunakan Lokasi Ini".`;
+      });
+      citySearchResults.appendChild(btn);
+    });
+    citySearchResults.hidden = false;
+    citySearchInput.setAttribute('aria-expanded','true');
+  }
+
+  citySearchInput.setAttribute('aria-expanded','false');
+  citySearchInput.addEventListener('input', renderCitySearch);
+  citySearchInput.addEventListener('keydown', e=>{
+    if(e.key === 'Escape'){ citySearchResults.hidden = true; citySearchInput.setAttribute('aria-expanded','false'); }
+  });
+  renderCitySearch();
+
+  const normalize360 = n => ((n % 360) + 360) % 360;
+  const normalizeDiff = n => ((n + 540) % 360) - 180;
+
+  function calculateQiblaBearing(lat, lon){
+    const toRad = Math.PI / 180;
+    const phi1 = lat * toRad, phi2 = KAABA_LAT * toRad;
+    const dL = (KAABA_LON - lon) * toRad;
+    const y = Math.sin(dL) * Math.cos(phi2);
+    const x = Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(dL);
+    return normalize360(Math.atan2(y, x) / toRad);
+  }
+  function formatDirection(deg){
+    const dirs = ['Utara','Timur Laut','Timur','Tenggara','Selatan','Barat Daya','Barat','Barat Laut'];
+    return dirs[Math.round(normalize360(deg) / 45) % 8];
+  }
+  function setStatus(msg, kind=''){
+    statusText.textContent = msg;
+    statusEl.classList.remove('aligned','warn','error');
+    if(kind) statusEl.classList.add(kind);
+  }
+  function updateCompass(){
+    if(qiblaBearing === null) return;
+    const heading = sensorHeadingReceived ? currentHeading : 0;
+    const relative = normalizeDiff(qiblaBearing - heading);
+    if(dial) dial.style.transform = `rotate(${-heading}deg)`;
+    needle.style.transform = `translateX(-50%) rotate(${relative}deg)`;
+    needleTail.style.transform = `translateX(-50%) rotate(${normalize360(relative + 180)}deg)`;
+    degVal.textContent = `${qiblaBearing.toFixed(1)}°`;
+    headingEl.textContent = sensorHeadingReceived ? `${currentHeading.toFixed(0)}°` : 'Belum aktif';
+    if(sensorHeadingReceived){
+      const abs = Math.abs(relative);
+      if(abs < 5) setStatus('✅ Kamu sudah menghadap kiblat!', 'aligned');
+      else if(abs < 20) setStatus(`🎯 Hampir! Putar sedikit ${relative > 0 ? 'ke kanan' : 'ke kiri'}`);
+      else setStatus(`↩️ Putar ${abs.toFixed(0)}° ${relative > 0 ? 'ke kanan' : 'ke kiri'}`, 'warn');
+    }
+  }
+  function applyLocation(lat, lon, label){
+    if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat < -90||lat > 90||lon < -180||lon > 180){
+      setStatus('Koordinat tidak valid.', 'error'); return;
+    }
+    qiblaBearing = calculateQiblaBearing(lat, lon);
+    bearingEl.textContent = `${qiblaBearing.toFixed(1)}°`;
+    locationEl.textContent = label || `${lat.toFixed(4)}°, ${lon.toFixed(4)}°`;
+    latInput.value = lat.toFixed(6); lonInput.value = lon.toFixed(6);
+    updateCompass();
+    if(!sensorHeadingReceived) setStatus(`Arah kiblat ${qiblaBearing.toFixed(1)}° (${formatDirection(qiblaBearing)}).`, 'warn');
+  }
+  function detectLocation(){
+    if(!navigator.geolocation){ setStatus('Browser tidak mendukung geolokasi.', 'warn'); return; }
+    locateBtn.disabled = true;
+    setStatus('📡 Meminta lokasi GPS…');
+    navigator.geolocation.getCurrentPosition(pos => {
+      locateBtn.disabled = false;
+      const {latitude, longitude, accuracy} = pos.coords;
+      applyLocation(latitude, longitude, `${latitude.toFixed(4)}°, ${longitude.toFixed(4)}°`);
+      if(accuracy && accuracy > 1000) setStatus('Lokasi ditemukan, akurasi rendah.', 'warn');
+    }, err => {
+      locateBtn.disabled = false;
+      let msg = 'Lokasi gagal dideteksi.';
+      if(err.code === 1) msg = 'Izin lokasi ditolak.';
+      else if(err.code === 2) msg = 'Lokasi belum tersedia.';
+      else if(err.code === 3) msg = 'Waktu habis.';
+      setStatus(msg, 'warn');
+    }, {enableHighAccuracy:true, timeout:20000, maximumAge:60000});
+  }
+  function getScreenAngle(){
+    if(screen.orientation && Number.isFinite(screen.orientation.angle)) return screen.orientation.angle;
+    if(typeof window.orientation === 'number' && Number.isFinite(window.orientation)) return window.orientation;
+    return 0;
+  }
+  function onOrientation(e){
+    let heading = null;
+    if(typeof e.webkitCompassHeading === 'number' && Number.isFinite(e.webkitCompassHeading)) heading = e.webkitCompassHeading;
+    else if((e.absolute === true || e.type === 'deviceorientationabsolute') && typeof e.alpha === 'number' && Number.isFinite(e.alpha)){
+      heading = 360 - e.alpha - getScreenAngle();
+    }
+    if(heading === null) return;
+    sensorHeadingReceived = true;
+    currentHeading = normalize360(heading);
+    updateCompass();
+  }
+  function stopOrientation(){
+    window.removeEventListener('deviceorientationabsolute', onOrientation, true);
+    window.removeEventListener('deviceorientation', onOrientation, true);
+    orientationActive = false; sensorHeadingReceived = false; currentHeading = 0;
+    clearTimeout(sensorCheckTimer);
+    activateBtn.innerHTML = '🧭 Aktifkan Kompas';
+    activateBtn.setAttribute('aria-pressed','false');
+    if(dial) dial.style.transform = 'rotate(0deg)';
+    headingEl.textContent = 'Belum aktif';
+    if(qiblaBearing !== null){
+      needle.style.transform = `translateX(-50%) rotate(${qiblaBearing}deg)`;
+      needleTail.style.transform = `translateX(-50%) rotate(${normalize360(qiblaBearing + 180)}deg)`;
+      setStatus(`Arah kiblat ${qiblaBearing.toFixed(1)}° (${formatDirection(qiblaBearing)}).`, 'warn');
+    }
+  }
+  function startOrientation(){
+    if(!window.isSecureContext){ setStatus('Kompas butuh HTTPS.', 'error'); return; }
+    if(!('DeviceOrientationEvent' in window)){ setStatus('Perangkat tidak mendukung sensor.', 'warn'); return; }
+    window.addEventListener('deviceorientationabsolute', onOrientation, true);
+    window.addEventListener('deviceorientation', onOrientation, true);
+    orientationActive = true;
+    activateBtn.innerHTML = '⏹ Matikan Kompas';
+    activateBtn.setAttribute('aria-pressed','true');
+    setStatus('Menunggu sensor… pegang HP datar.', 'warn');
+    if(qiblaBearing === null) detectLocation();
+    clearTimeout(sensorCheckTimer);
+    sensorCheckTimer = setTimeout(()=>{
+      if(!sensorHeadingReceived) setStatus('Sensor belum memberi heading. Pastikan HTTPS & izin aktif.', 'warn');
+    }, 6000);
+  }
+  async function activateCompass(){
+    if(orientationActive){ stopOrientation(); return; }
+    if(!window.isSecureContext){ setStatus('Buka via HTTPS.', 'error'); return; }
+    try{
+      if(typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
+        const p = await DeviceOrientationEvent.requestPermission();
+        if(p !== 'granted'){ setStatus('Izin sensor ditolak.', 'error'); return; }
+      }
+      startOrientation();
+    } catch(err){
+      setStatus(`Sensor gagal: ${err.message || 'izin tidak tersedia'}.`, 'warn');
+    }
+  }
+
+  citySelect.addEventListener('change', ()=>{
+    if(!citySelect.value) return;
+    const parts = citySelect.value.split(',');
+    latInput.value = parts[0]; lonInput.value = parts[1];
+  });
+  manualApplyBtn.addEventListener('click', ()=>{
+    if(latInput.value.trim() === '' || lonInput.value.trim() === ''){
+      setStatus('Pilih kota atau isi latitude & longitude.', 'error'); return;
+    }
+    const lat = Number(latInput.value), lon = Number(lonInput.value);
+    const chosen = citySelect.value ? citySelect.value.split(',')[2] : 'Koordinat manual';
+    applyLocation(lat, lon, chosen);
+  });
+  activateBtn.addEventListener('click', activateCompass);
+  locateBtn.addEventListener('click', detectLocation);
+  headingEl.textContent = 'Belum aktif';
+  if(!window.isSecureContext) setStatus('Gunakan HTTPS untuk GPS/sensor. Jika lokal, pilih kota manual.', 'warn');
+  else setStatus('Tekan "Deteksi Lokasi" lalu "Aktifkan Kompas".', 'warn');
+})();
+
+/* ============================================================
+   7. BLOG (dengan fallback demo lokal)
+   ============================================================ */
+const BLOG_DEMO = [
+  { title:'Selamat Datang di Blog Syazani', category:'Cerita', excerpt:'Blog ini akan jadi tempat saya berbagi cerita, tips, dan pengalaman seputar koding dan sekolah.', date:'2026-01-15', slug:'welcome', content:'Halo! Selamat datang di blog pribadi saya.\n\nDi sini saya akan menulis tentang:\n\n- Pengalaman belajar koding\n- Tips & trik seputar teknologi\n- Cerita di sekolah\n- Dan masih banyak lagi.\n\nTerima kasih sudah berkunjung!' },
+  { title:'Belajar Koding untuk Pemula', category:'Tips', excerpt:'Langkah awal belajar koding dari nol: HTML, CSS, JavaScript, lalu proyek kecil.', date:'2026-02-10', slug:'koding-pemula', content:'Belajar koding itu menyenangkan!\n\nLangkah awal:\n\n1. Pelajari HTML & CSS\n2. Lanjut ke JavaScript\n3. Buat proyek kecil\n4. Latihan setiap hari\n\nKonsisten lebih penting daripada cepat.' },
+  { title:'Strategi Catur: Opening Sederhana', category:'Strategi', excerpt:'Beberapa opening catur sederhana yang bisa dipelajari pemula.', date:'2026-03-05', slug:'catur-opening', content:'Catur adalah permainan strategi yang luar biasa.\n\nOpening yang saya rekomendasikan untuk pemula:\n\n- Italian Game\n- London System\n- Scandinavian Defense\n\nKunci: kontrol tengah papan dan kembangkan bidak.' },
+];
+let blogLoaded = false;
+
+async function initBlog(){
+  if(blogLoaded) return;
+  blogLoaded = true;
   const grid = document.getElementById('blog-grid');
-  if (!grid) return;
-  grid.innerHTML = '<div class="blog-empty"><div class="blog-empty-icon">⏳</div><h3>Memuat artikel...</h3><p>Menghubungkan ke database tulisan.</p></div>';
+  const empty = document.getElementById('blog-empty');
+  let posts = [];
+
   try {
-    const res = await fetch('/api/list-posts', { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    allPosts = Array.isArray(data.posts) ? data.posts : [];
-    postsLoaded = true;
-    renderBlogPosts(allPosts);
-    updateBlogStats();
-  } catch (err) {
-    grid.innerHTML = '<div class="blog-empty"><div class="blog-empty-icon">📭</div><h3>Belum ada artikel</h3><p>Server belum mengembalikan data. Coba lagi nanti.</p></div>';
+    const res = await fetch('/api/list-posts');
+    if(res.ok) posts = await res.json();
+  } catch(e){
+    // fallback demo
+    posts = BLOG_DEMO;
   }
-}
 
-function renderBlogPosts(posts) {
-  const grid = document.getElementById('blog-grid');
-  if (!grid) return;
-  if (!posts.length) {
-    grid.innerHTML = '<div class="blog-empty"><div class="blog-empty-icon">📝</div><h3>Belum ada tulisan</h3><p>Tulisan pertama akan segera hadir.</p></div>';
-    return;
+  if(!posts || posts.length === 0){
+    posts = BLOG_DEMO;
   }
-  grid.innerHTML = posts.map(p => `
-    <article class="blog-card" data-slug="${escapeHtml(p.slug)}">
-      <div class="blog-card-meta">
-        <span>📅 ${escapeHtml(p.date || 'Tanpa tanggal')}</span>
-        <span class="dot"></span>
-        <span>✍️ ${escapeHtml(p.author || 'Syazani')}</span>
-      </div>
-      <h3 class="blog-card-title">${escapeHtml(p.title || p.slug)}</h3>
-      <p class="blog-card-excerpt">${escapeHtml(p.excerpt || 'Klik untuk membaca selengkapnya.')}</p>
-      <div class="blog-card-footer"><span>Baca artikel</span><span>→</span></div>
-    </article>
-  `).join('');
-  grid.querySelectorAll('.blog-card').forEach(c => {
-    c.addEventListener('click', () => openPost(c.dataset.slug));
+
+  // stats
+  document.getElementById('stat-total').textContent = posts.length;
+  const last = posts.reduce((a,b)=> (a.date||'') > (b.date||'') ? a : b, posts[0]);
+  document.getElementById('stat-last').textContent = last ? formatDate(last.date) : '—';
+
+  // grid
+  grid.innerHTML = '';
+  posts.slice().sort((a,b)=> (b.date||'').localeCompare(a.date||'')).forEach(post => {
+    const card = document.createElement('div');
+    card.className = 'blog-card';
+    card.innerHTML = `
+      <span class="cat">${escapeHtml(post.category || 'Umum')}</span>
+      <h3>${escapeHtml(post.title)}</h3>
+      <p class="excerpt">${escapeHtml((post.excerpt || post.content || '').slice(0,130))}…</p>
+      <div class="meta"><span>📅 ${formatDate(post.date)}</span><span>→ Baca</span></div>
+    `;
+    card.addEventListener('click', ()=> openPost(post));
+    grid.appendChild(card);
   });
 }
 
-function updateBlogStats() {
-  const t = document.getElementById('stat-total');
-  if (t) t.textContent = allPosts.length;
-  const u = document.getElementById('stat-update');
-  if (u) {
-    if (allPosts.length) {
-      const dates = allPosts.map(p => p.date || p.updated || '').filter(Boolean).sort();
-      u.textContent = dates[dates.length - 1] || '—';
-    } else u.textContent = '—';
-  }
-}
-
-/* ============================================================
-   13. POST — render markdown + Giscus
-============================================================ */
-let currentGiscusSlug = null;
-
-async function openPost(slug) {
-  if (!slug) return;
+function openPost(post){
+  const article = document.getElementById('post-content');
+  article.innerHTML = `
+    <h1>${escapeHtml(post.title)}</h1>
+    <div class="post-meta">📅 ${formatDate(post.date)} · ${escapeHtml(post.category || 'Umum')}</div>
+    <div class="post-content">${escapeHtml(post.content || post.excerpt || '')}</div>
+  `;
   show('post');
-  const postBody = document.getElementById('post-body');
-  if (!postBody) return;
-  postBody.innerHTML = '<div class="post-loading"><div class="spinner"></div><p>Memuat artikel...</p></div>';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function formatDate(d){
+  if(!d) return '—';
   try {
-    const res = await fetch(`/api/get-post?slug=${encodeURIComponent(slug)}`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    const html = window.marked ? marked.parse(data.content || '') : '<p>' + escapeHtml(data.content || '') + '</p>';
-    postBody.innerHTML = `
-      <div class="post-meta">
-        <span>📅 ${escapeHtml(data.date || '')}</span>
-        <span class="dot"></span>
-        <span>✍️ ${escapeHtml(data.author || 'Syazani')}</span>
-        <span class="dot"></span>
-        <span>🏷️ ${escapeHtml(slug)}</span>
-      </div>
-      <h1 class="post-title">${escapeHtml(data.title || slug)}</h1>
-      <div class="post-content">${html}</div>
-      <div class="post-comments">
-        <h3>💬 Diskusi</h3>
-        <p class="note"><strong>Masuk dengan akun GitHub</strong> untuk ikut berkomentar.</p>
-        <div class="giscus-wrap"><div class="giscus" id="giscus-container"></div></div>
-      </div>
-    `;
-    loadGiscus(slug);
-    history.pushState(null, '', `#/post/${slug}`);
-  } catch (err) {
-    postBody.innerHTML = `<div class="blog-empty"><div class="blog-empty-icon">⚠️</div><h3>Artikel tidak bisa dibuka</h3><p>${escapeHtml(err.message)}</p><button class="btn-ghost" data-go="blog" style="margin-top:16px">← Kembali ke Blog</button></div>`;
-  }
+    return new Date(d).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'});
+  } catch(e){ return d; }
 }
-
-const GISCUS_CONFIG = {
-  repo: 'USERNAME/REPO',
-  repoId: 'R_xxxxxxxxxxxxxxxx',
-  category: 'Announcements',
-  categoryId: 'DIC_xxxxxxxxxxxxxx',
-  mapping: 'specific',
-  lang: 'id'
-};
-
-function loadGiscus(slug) {
-  const container = document.getElementById('giscus-container');
-  if (!container) return;
-  if (currentGiscusSlug === slug && container.querySelector('iframe.giscus-frame')) return;
-  currentGiscusSlug = slug;
-  container.innerHTML = '';
-  if (GISCUS_CONFIG.repo === 'USERNAME/REPO' || GISCUS_CONFIG.repoId.startsWith('R_xxx')) {
-    container.innerHTML = `<div style="padding:20px;background:var(--ice-soft);border-radius:12px;border:1px dashed var(--deep);color:var(--deep);font-size:13px;text-align:center">⚙️ <strong>Komentar belum aktif.</strong><br>Isi <code>GISCUS_CONFIG</code> di file <code>index.html</code>. <a href="https://giscus.app" target="_blank" rel="noopener" style="color:var(--deep);font-weight:600;text-decoration:underline">Setup →</a></div>`;
-    return;
-  }
-  const s = document.createElement('script');
-  s.src = 'https://giscus.app/client.js';
-  s.async = true;
-  s.crossOrigin = 'anonymous';
-  s.setAttribute('data-repo', GISCUS_CONFIG.repo);
-  s.setAttribute('data-repo-id', GISCUS_CONFIG.repoId);
-  s.setAttribute('data-category', GISCUS_CONFIG.category);
-  s.setAttribute('data-category-id', GISCUS_CONFIG.categoryId);
-  s.setAttribute('data-mapping', GISCUS_CONFIG.mapping);
-  s.setAttribute('data-term', slug);
-  s.setAttribute('data-strict', '1');
-  s.setAttribute('data-reactions-enabled', '1');
-  s.setAttribute('data-emit-metadata', '0');
-  s.setAttribute('data-input-position', 'top');
-  s.setAttribute('data-theme', 'light');
-  s.setAttribute('data-lang', GISCUS_CONFIG.lang);
-  s.setAttribute('data-loading', 'lazy');
-  container.appendChild(s);
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
 /* ============================================================
-   14. UTILITY
-============================================================ */
-function escapeHtml(str) {
-  return String(str == null ? '' : str).replace(/[&<>"']/g, s => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[s]));
-}
-
-/* ============================================================
-   15. INIT blog saat load langsung ke #/blog
-============================================================ */
-window.addEventListener('load', () => {
-  const route = (location.hash || '').replace('#/', '');
-  if (route.startsWith('blog')) loadPosts();
-  else if (route.startsWith('post/')) {
-    const slug = route.split('/')[1];
-    if (slug) openPost(slug);
-  }
-});
+   8. INIT
+   ============================================================ */
+show('home');
 </script>
 </body>
 </html>
