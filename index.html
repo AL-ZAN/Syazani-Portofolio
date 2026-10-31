@@ -486,49 +486,47 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           </div>
 
           <!-- KOMPAS KIBLAT (stabil + kontrol) -->
-          <div class="project-card" id="compass-card">
-            <div class="project-head">
-              <div class="project-icon">🧭</div>
-              <div>
-                <div class="project-title">Kompas Kiblat</div>
-                <div class="project-subtitle">Sensor + Geolocation</div>
-              </div>
-            </div>
-            <div class="compass-wrap">
-              <div class="compass-status" id="compass-status">Klik "Aktifkan Sensor" untuk mulai</div>
+        <div class="project-card" id="compass-card">
+  <div class="project-head">
+    <div class="project-icon">🧭</div>
+    <div>
+      <div class="project-title">Kompas Kiblat</div>
+      <div class="project-subtitle">Qibla Finder Style</div>
+    </div>
+  </div>
+  <div class="compass-wrap">
+    <div class="compass-status" id="compass-status">Klik "Aktifkan Sensor" untuk mulai</div>
 
-              <div class="compass-dial" id="compass-dial">
-                <div class="compass-face" id="compass-face">
-                  <div class="compass-labels">
-                    <span class="n">N</span><span class="e">E</span>
-                    <span class="s">S</span><span class="w">W</span>
-                  </div>
-                </div>
-                <div class="compass-needle-qibla" id="compass-needle"></div>
-                <div class="compass-center"></div>
-              </div>
-
-              <div class="compass-info">Arah Kiblat: <strong id="qibla-deg">—</strong></div>
-
-              <div class="compass-meta">
-                <span>Hdg: <span id="hdg-val">—</span></span>
-                <span>📍 <span id="loc-val">—</span></span>
-              </div>
-
-              <div class="compass-actions">
-                <button class="compass-btn" id="compass-enable">🧭 Aktifkan Sensor</button>
-                <button class="compass-btn secondary" id="compass-location">📍 Lokasi Saya</button>
-                <button class="compass-btn secondary" id="compass-reset">↺ Reset</button>
-              </div>
-
-              <div class="compass-note">
-                Kompas fisik butuh HP dengan magnetometer. Di desktop, arah kiblat dari Utara tetap ditampilkan.
-              </div>
-            </div>
-          </div>
-
+    <div class="compass-dial" id="compass-dial">
+      <div class="compass-face" id="compass-face">
+        <div class="compass-labels">
+          <span class="n">N</span><span class="e">E</span>
+          <span class="s">S</span><span class="w">W</span>
         </div>
       </div>
+      <div class="compass-needle-qibla" id="compass-needle"></div>
+      <div class="compass-center"></div>
+    </div>
+
+    <div class="compass-info">Arah Kiblat: <strong id="qibla-deg">—</strong></div>
+
+    <div class="compass-meta">
+      <span>Hdg: <span id="hdg-val">—</span></span>
+      <span>📍 <span id="loc-val">—</span></span>
+    </div>
+
+    <div class="compass-actions">
+      <button class="compass-btn" id="compass-enable">🧭 Aktifkan Sensor</button>
+      <button class="compass-btn secondary" id="compass-location">📍 Lokasi Saya</button>
+      <button class="compass-btn secondary" id="compass-calibrate">🎯 Kalibrasi</button>
+      <button class="compass-btn secondary" id="compass-reset">↺ Reset</button>
+    </div>
+
+    <div class="compass-note" id="compass-note">
+      Kompas fisik butuh HP dengan magnetometer. Di desktop, arah kiblat dari Utara tetap ditampilkan.
+    </div>
+  </div>
+</div>
 
       <!-- TAB: OFF-WEB -->
       <div class="tab-panel" id="tab-offweb">
@@ -1038,25 +1036,37 @@ document.addEventListener('keydown', (e) => {
 });
 
 /* ============================================================
-   9. KOMPAS KIBLAT — STABIL (low-pass filter + deviceorientationabsolute)
+   9. KOMPAS KIBLAT — QIBLA FINDER STYLE
+   - Great-circle bearing (true north)
+   - Smoothing low-pass + circular angle
+   - Kalibrasi manual (offset)
+   - Fallback desktop
 ============================================================ */
-const KAABA_LAT = 21.4225, KAABA_LON = 39.8262;
+const KAABA_LAT = 21.4225;
+const KAABA_LON = 39.8262;
 
 const compassStatus = document.getElementById('compass-status');
 const compassFace   = document.getElementById('compass-face');
 const compassNeedle = document.getElementById('compass-needle');
-const qiblaDeg      = document.getElementById('qibla-deg');
-const hdgVal        = document.getElementById('hdg-val');
-const locVal        = document.getElementById('loc-val');
+const qiblaDegEl    = document.getElementById('qibla-deg');
+const hdgValEl      = document.getElementById('hdg-val');
+const locValEl      = document.getElementById('loc-val');
 const btnEnable     = document.getElementById('compass-enable');
 const btnLocation   = document.getElementById('compass-location');
+const btnCalibrate  = document.getElementById('compass-calibrate');
 const btnReset      = document.getElementById('compass-reset');
+const compassNote   = document.getElementById('compass-note');
 
-let qiblaBearing = null;   // arah kiblat dari Utara
-let userLat = null, userLon = null;
+let qiblaBearing = null;
 let sensorActive = false;
-let smoothHeading = null;  // heading yang sudah difilter
-let lastHeadingRaw = null;
+let smoothHeading = null;
+let lastRawHeading = null;
+let calibrationOffset = 0;      // dalam derajat; ditambahkan ke heading mentah
+let isCalibrating = false;
+let calibrationStartHeading = null;
+
+const rad = d => d * Math.PI / 180;
+const deg = r => r * 180 / Math.PI;
 
 function setStatus(text, cls = '') {
   if (!compassStatus) return;
@@ -1064,64 +1074,91 @@ function setStatus(text, cls = '') {
   compassStatus.className = 'compass-status ' + cls;
 }
 
-function toRad(d) { return d * Math.PI / 180; }
-function toDeg(r) { return r * 180 / Math.PI; }
-
+/* ---------- Rumus bearing great-circle (true north) ---------- */
 function computeQibla(lat, lon) {
-  const φ1 = toRad(lat), φ2 = toRad(KAABA_LAT), Δλ = toRad(KAABA_LON - lon);
-  const y = Math.sin(Δλ);
-  const x = Math.cos(φ1) * Math.tan(φ2) - Math.sin(φ1) * Math.cos(Δλ);
-  let bearing = toDeg(Math.atan2(y, x));
+  const φ1 = rad(lat), φ2 = rad(KAABA_LAT);
+  const Δλ = rad(KAABA_LON - lon);
+  const y = Math.sin(Δλ) * Math.cos(φ2);
+  const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+  let bearing = deg(Math.atan2(y, x));
   return (bearing + 360) % 360;
 }
 
+/* ---------- Normalisasi sudut ---------- */
 function normalizeDiff(a) {
   while (a > 180) a -= 360;
   while (a < -180) a += 360;
   return a;
 }
 
+/* ---------- Smoothing sudut (low-pass filter) ---------- */
 function smoothAngle(newVal) {
-  if (smoothHeading === null) { smoothHeading = newVal; return newVal; }
+  if (smoothHeading === null) {
+    smoothHeading = newVal;
+    return newVal;
+  }
   const delta = normalizeDiff(newVal - smoothHeading);
+  // Faktor 0.15–0.25: semakin kecil semakin halus, tetapi semakin lambat
   smoothHeading = (smoothHeading + delta * 0.20 + 360) % 360;
   return smoothHeading;
 }
 
+/* ---------- Render kompas ---------- */
 function renderCompass() {
   if (qiblaBearing === null) return;
-  const heading = smoothHeading !== null ? smoothHeading : 0;
 
-  // Kompas fisik: dial berputar agar N selalu menunjukkan utara dunia
-  if (compassFace) compassFace.style.transform = `rotate(${-heading}deg)`;
+  const rawHeading = lastRawHeading !== null ? lastRawHeading : 0;
+  const correctedHeading = (rawHeading + calibrationOffset + 360) % 360;
+  const heading = smoothHeading !== null ? smoothHeading : correctedHeading;
 
-  // Jarum kiblat: menunjuk arah Ka'bah relatif terhadap arah HP
-  const relativeAngle = qiblaBearing - heading;
-  if (compassNeedle) compassNeedle.style.transform = `rotate(${relativeAngle}deg)`;
+  // Dial berputar agar N selalu menunjuk Utara dunia
+  if (compassFace) {
+    compassFace.style.transform = `rotate(${-heading}deg)`;
+  }
 
-  // Info
-  if (qiblaDeg) qiblaDeg.textContent = qiblaBearing.toFixed(1) + '°';
-  if (hdgVal) hdgVal.textContent = sensorActive ? heading.toFixed(0) + '°' : '—';
+  // Jarum kiblat: relatif terhadap arah hadap HP
+  const relativeQibla = (qiblaBearing - heading + 360) % 360;
+  if (compassNeedle) {
+    compassNeedle.style.transform = `rotate(${relativeQibla}deg)`;
+  }
+
+  if (qiblaDegEl) qiblaDegEl.textContent = qiblaBearing.toFixed(1) + '°';
+  if (hdgValEl) {
+    hdgValEl.textContent = sensorActive && lastRawHeading !== null
+      ? correctedHeading.toFixed(0) + '°'
+      : '—';
+  }
 
   // Status
+  if (isCalibrating) {
+    setStatus('🎯 Kalibrasi: putar HP perlahan ke kiri/kanan, lalu klik "Simpan Kalibrasi".', 'warn');
+    return;
+  }
+
   if (!sensorActive) {
-    setStatus('Sensor belum aktif. Arah kiblat ditampilkan dari Utara: ' + qiblaBearing.toFixed(1) + '°', 'warn');
+    setStatus('Sensor belum aktif. Arah kiblat dari Utara: ' + qiblaBearing.toFixed(1) + '°', 'warn');
+    return;
+  }
+
+  const diff = Math.abs(normalizeDiff(relativeQibla));
+  if (diff < 5) {
+    setStatus('✓ Menghadap Kiblat', 'aligned');
+  } else if (diff < 15) {
+    setStatus('Hampir menghadap — putar ' + diff.toFixed(0) + '°', '');
   } else {
-    const diff = Math.abs(normalizeDiff(relativeAngle));
-    if (diff < 5) setStatus('✓ Menghadap Kiblat', 'aligned');
-    else if (diff < 30) setStatus('Hampir menghadap — putar ' + diff.toFixed(0) + '°', '');
-    else setStatus('Putar ' + diff.toFixed(0) + '° ke ' + (relativeAngle > 0 ? 'kanan' : 'kiri'), '');
+    const direction = normalizeDiff(relativeQibla) > 0 ? 'kanan' : 'kiri';
+    setStatus('Putar ' + diff.toFixed(0) + '° ke ' + direction, '');
   }
 }
 
+/* ---------- Update lokasi & bearing ---------- */
 function updateQiblaFromCoords(lat, lon) {
-  userLat = lat; userLon = lon;
   qiblaBearing = computeQibla(lat, lon);
-  if (locVal) locVal.textContent = lat.toFixed(3) + ', ' + lon.toFixed(3);
+  if (locValEl) locValEl.textContent = lat.toFixed(3) + ', ' + lon.toFixed(3);
   renderCompass();
 }
 
-// ---- Geolocation ----
+/* ---------- Geolocation ---------- */
 function requestLocation() {
   if (!navigator.geolocation) {
     setStatus('Browser tidak mendukung geolocation.', 'error');
@@ -1129,6 +1166,7 @@ function requestLocation() {
   }
   if (btnLocation) btnLocation.disabled = true;
   setStatus('📡 Mengambil lokasi...', 'warn');
+
   navigator.geolocation.getCurrentPosition(
     (pos) => {
       updateQiblaFromCoords(pos.coords.latitude, pos.coords.longitude);
@@ -1136,50 +1174,59 @@ function requestLocation() {
     },
     (err) => {
       setStatus('Gagal ambil lokasi: ' + err.message + '. Menggunakan Depok sebagai default.', 'error');
-      // fallback Depok
-      updateQiblaFromCoords(-6.3675, 106.8250);
+      updateQiblaFromCoords(-6.3675, 106.8250); // fallback Depok
       if (btnLocation) btnLocation.disabled = false;
     },
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
   );
 }
 
-// ---- Sensor kompas ----
+/* ---------- Handler orientasi perangkat ---------- */
 function handleOrientation(e) {
   let heading = null;
+
+  // iOS Safari: webkitCompassHeading
   if (typeof e.webkitCompassHeading === 'number' && !isNaN(e.webkitCompassHeading)) {
-    heading = e.webkitCompassHeading; // iOS
-  } else if (typeof e.alpha === 'number' && e.alpha !== null) {
-    heading = (360 - e.alpha) % 360; // Android (absolute)
+    heading = e.webkitCompassHeading;
   }
+  // Android Chrome: alpha dari deviceorientationabsolute
+  else if (typeof e.alpha === 'number' && e.alpha !== null) {
+    heading = (360 - e.alpha) % 360;
+  }
+
   if (heading === null || isNaN(heading)) return;
 
-  lastHeadingRaw = heading;
-  smoothHeading = smoothAngle(heading);
+  lastRawHeading = heading;
+
+  if (!isCalibrating) {
+    smoothHeading = smoothAngle((heading + calibrationOffset + 360) % 360);
+  }
+
   renderCompass();
 }
 
+/* ---------- Aktifkan / matikan sensor ---------- */
 async function enableSensor() {
   if (sensorActive) {
-    // toggle off
     window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
     window.removeEventListener('deviceorientation', handleOrientation, true);
     sensorActive = false;
     smoothHeading = null;
+    lastRawHeading = null;
     if (btnEnable) btnEnable.textContent = '🧭 Aktifkan Sensor';
     setStatus('Sensor kompas dimatikan.', 'warn');
-    if (hdgVal) hdgVal.textContent = '—';
+    if (hdgValEl) hdgValEl.textContent = '—';
     renderCompass();
     return;
   }
 
-  // iOS 13+ butuh izin
+  // iOS 13+ butuh izin eksplisit
   if (typeof DeviceOrientationEvent !== 'undefined' &&
       typeof DeviceOrientationEvent.requestPermission === 'function') {
     try {
       const perm = await DeviceOrientationEvent.requestPermission();
       if (perm !== 'granted') {
-        setStatus('Izin sensor ditolak.', 'error');
+        setStatus('Izin sensor ditolak. Kompas tidak bisa digunakan.', 'error');
         return;
       }
     } catch (err) {
@@ -1188,16 +1235,17 @@ async function enableSensor() {
     }
   }
 
-  // Coba event absolute dulu (paling stabil di Android Chrome)
+  // Dengarkan kedua event untuk kompatibilitas maksimal
   window.addEventListener('deviceorientationabsolute', handleOrientation, true);
   window.addEventListener('deviceorientation', handleOrientation, true);
+
   sensorActive = true;
   if (btnEnable) btnEnable.textContent = '🔇 Matikan Sensor';
 
-  // Cek apakah benar-benar ada data sensor setelah 1.5 detik
+  // Cek apakah sensor benar-benar mengirim data
   setTimeout(() => {
-    if (lastHeadingRaw === null) {
-      setStatus('Sensor kompas tidak tersedia di perangkat ini. Arah kiblat tetap ditampilkan dari Utara.', 'warn');
+    if (lastRawHeading === null) {
+      setStatus('Sensor kompas tidak tersedia di perangkat ini. Arah kiblat tetap dari Utara.', 'warn');
       sensorActive = false;
       if (btnEnable) btnEnable.textContent = '🧭 Aktifkan Sensor';
     } else {
@@ -1206,11 +1254,41 @@ async function enableSensor() {
   }, 1500);
 }
 
-if (btnEnable) btnEnable.addEventListener('click', enableSensor);
-if (btnLocation) btnLocation.addEventListener('click', requestLocation);
-if (btnReset) btnReset.addEventListener('click', () => {
+/* ---------- Kalibrasi manual ---------- */
+function startCalibration() {
+  if (!sensorActive) {
+    setStatus('Aktifkan sensor terlebih dahulu sebelum kalibrasi.', 'warn');
+    return;
+  }
+  isCalibrating = true;
+  calibrationStartHeading = lastRawHeading;
+  if (btnCalibrate) btnCalibrate.textContent = '💾 Simpan Kalibrasi';
+  setStatus('🎯 Kalibrasi: arahkan HP ke arah yang Anda yakini sebagai kiblat, lalu klik "Simpan".', 'warn');
+  renderCompass();
+}
+
+function finishCalibration() {
+  if (!isCalibrating) return;
+
+  // Ambil heading mentah saat ini, lalu sesuaikan offset agar heading terkoreksi = qiblaBearing
+  if (lastRawHeading !== null && qiblaBearing !== null) {
+    calibrationOffset = normalizeDiff(qiblaBearing - lastRawHeading);
+    smoothHeading = (lastRawHeading + calibrationOffset + 360) % 360;
+  }
+
+  isCalibrating = false;
+  if (btnCalibrate) btnCalibrate.textContent = '🎯 Kalibrasi';
+  renderCompass();
+  setStatus('Kalibrasi disimpan. Arah kiblat disesuaikan dengan posisi HP saat ini.', 'aligned');
+}
+
+/* ---------- Reset ---------- */
+function resetCompass() {
   smoothHeading = null;
-  lastHeadingRaw = null;
+  lastRawHeading = null;
+  calibrationOffset = 0;
+  isCalibrating = false;
+  if (btnCalibrate) btnCalibrate.textContent = '🎯 Kalibrasi';
   if (btnEnable && sensorActive) {
     window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
     window.removeEventListener('deviceorientation', handleOrientation, true);
@@ -1219,12 +1297,27 @@ if (btnReset) btnReset.addEventListener('click', () => {
   }
   if (qiblaBearing !== null) renderCompass();
   setStatus('Reset. Klik "Lokasi Saya" untuk menghitung ulang arah kiblat.', 'warn');
-});
+  if (hdgValEl) hdgValEl.textContent = '—';
+}
 
-// ---- Init: hitung arah kiblat dengan Depok default ----
-updateQiblaFromCoords(-6.3675, 106.8250);
+/* ---------- Event listener tombol ---------- */
+if (btnEnable)    btnEnable.addEventListener('click', enableSensor);
+if (btnLocation)  btnLocation.addEventListener('click', requestLocation);
+if (btnReset)     btnReset.addEventListener('click', resetCompass);
+
+if (btnCalibrate) {
+  btnCalibrate.addEventListener('click', () => {
+    if (isCalibrating) {
+      finishCalibration();
+    } else {
+      startCalibration();
+    }
+  });
+}
+
+/* ---------- Inisialisasi awal ---------- */
+updateQiblaFromCoords(-6.3675, 106.8250); // Depok default
 setStatus('Klik "Lokasi Saya" untuk arah kiblat akurat.', '');
-
 /* ============================================================
    10. JAM WIB
 ============================================================ */
