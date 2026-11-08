@@ -78,9 +78,6 @@ button{font-family:inherit}
 .stat span{color:var(--muted);font-weight:600;font-size:.9rem}
 @media (max-width:860px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .page-head h1 .hico{width:clamp(44px,6vw,60px);height:clamp(44px,6vw,60px)}
-.ktp-top b{display:inline-flex;align-items:center;gap:8px}
-.ktp dt{display:flex;align-items:center;gap:6px}
-.ktp dt .ic{width:1rem;height:1rem;color:var(--deep)}
 .about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,4vw,48px);align-items:start}
 .about-text{font-size:1.08rem;max-width:58ch}
 .traits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
@@ -112,17 +109,14 @@ button{font-family:inherit}
 .proj-head h3{font-size:1.4rem}
 .proj-head p{color:var(--muted);font-size:.92rem}
 @media (max-width:860px){.proj-grid{grid-template-columns:minmax(0,1fr)}}
-
-/* PROJEK LUAR WEB */
 .proj.external{background:linear-gradient(155deg,#0E5A3A 0%,#082E1E 100%);color:#FFF7ED;border:1px solid rgba(125,211,252,.25);overflow:hidden;position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(18px,3vw,36px);align-items:center;padding:clamp(22px,3.5vw,36px);box-shadow:0 20px 40px -24px rgba(3,105,161,.55),0 4px 12px -4px rgba(0,0,0,.2);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
 .proj.external:hover{transform:translateY(-4px);box-shadow:0 28px 52px -28px rgba(3,105,161,.7),0 8px 20px -8px rgba(0,0,0,.3)}
 .proj.external::before{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle at 88% 115%,rgba(255,255,255,.06) 0 2px,transparent 2px 10px);pointer-events:none}
-.proj.external::after{content:"";position:absolute;top:-40%;right:-15%;width:min(400px,60%);height:min(400px,60%);background:radial-gradient(circle,rgba(253,230,138,.18) 0%,transparent 70%);pointer-events:none}
 .proj.external>*{position:relative;z-index:1}
 .proj.external h3{color:#FDE68A;font-size:clamp(1.6rem,3.2vw,2.3rem);font-weight:800;letter-spacing:-.02em}
 .proj.external p{color:rgba(255,247,237,.85);font-size:.95rem;max-width:56ch;line-height:1.55}
 .proj.external .ext-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
-.proj.external .ext-head .ico{width:48px;height:48px;background:linear-gradient(135deg,rgba(253,230,138,.25),rgba(253,230,138,.1));color:#FDE68A;border:1px solid rgba(253,230,138,.35);box-shadow:0 6px 16px -6px rgba(253,230,138,.5)}
+.proj.external .ext-head .ico{width:48px;height:48px;background:linear-gradient(135deg,rgba(253,230,138,.25),rgba(253,230,138,.1));color:#FDE68A;border:1px solid rgba(253,230,138,.35)}
 .proj.external .ext-badge{display:inline-flex;align-items:center;gap:6px;font:700 .68rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#FDE68A;background:rgba(253,230,138,.16);border:1px solid rgba(253,230,138,.35);padding:6px 12px;border-radius:999px;margin-bottom:14px}
 .proj.external .btn.primary{background:linear-gradient(135deg,#FDE68A,#FCD34D);border-color:#FDE68A;color:#78350F;font-weight:700;width:100%;justify-content:center;padding:15px 22px;font-size:.95rem;box-shadow:0 8px 20px -8px rgba(253,230,138,.6);transition:transform .25s,box-shadow .25s}
 .proj.external .btn.primary:hover{background:linear-gradient(135deg,#FCD34D,#FBBF24);color:#78350F;transform:translateY(-2px);box-shadow:0 14px 28px -10px rgba(253,230,138,.8)}
@@ -132,12 +126,12 @@ button{font-family:inherit}
 .ext-preview .cards{position:relative;display:flex;align-items:center;justify-content:center;z-index:2;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .proj.external:hover .ext-preview .cards{transform:translateY(-6px) rotateY(-6deg)}
 .ext-preview .card-slot{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;margin-inline:-12px}
-.ext-preview .cg-card{position:relative;width:72px;height:104px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;line-height:1;box-shadow:0 12px 24px -10px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.95),0 0 0 4px rgba(0,0,0,.25),0 20px 40px -20px rgba(253,230,138,.3);animation:cgIn .65s cubic-bezier(.2,.8,.2,1) both;transition:transform .3s ease,box-shadow .3s}
+.ext-preview .cg-card{position:relative;width:72px;height:104px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;line-height:1;box-shadow:0 12px 24px -10px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.95),0 0 0 4px rgba(0,0,0,.25);animation:cgIn .65s cubic-bezier(.2,.8,.2,1) both;transition:transform .3s ease,box-shadow .3s}
 .ext-preview .card-slot:nth-child(1) .cg-card{transform:rotate(-18deg) translateY(4px);z-index:1}
 .ext-preview .card-slot:nth-child(2) .cg-card{transform:rotate(-6deg);z-index:2;animation-delay:.1s}
 .ext-preview .card-slot:nth-child(3) .cg-card{transform:rotate(6deg);z-index:3;animation-delay:.2s}
 .ext-preview .card-slot:nth-child(4) .cg-card{transform:rotate(18deg) translateY(4px);z-index:4;animation-delay:.3s}
-.proj.external:hover .cg-card{transform:rotate(0deg) translateY(-10px);box-shadow:0 20px 40px -12px rgba(0,0,0,.9),0 0 0 2px rgba(255,255,255,.95),0 0 0 4px rgba(0,0,0,.25),0 0 30px rgba(253,230,138,.6)}
+.proj.external:hover .cg-card{transform:rotate(0deg) translateY(-10px);box-shadow:0 20px 40px -12px rgba(0,0,0,.9),0 0 0 2px rgba(255,255,255,.95),0 0 30px rgba(253,230,138,.6)}
 @keyframes cgIn{from{transform:translateY(-24px) scale(.7) rotateY(45deg);opacity:0}to{opacity:1}}
 .ext-preview .cg-card.remi{background:linear-gradient(160deg,#FFF7ED,#FDE68A);color:#1C1917}
 .ext-preview .cg-card.remi .cg-rank{font-size:1.5rem;color:#DC2626;font-weight:900}
@@ -157,8 +151,6 @@ button{font-family:inherit}
 .ext-preview .cg-label.flip{color:#DDD6FE;border-color:rgba(221,214,254,.4)}
 .ext-preview .cg-label.ek{color:#FDBA74;border-color:rgba(253,186,116,.4)}
 @media (max-width:860px){.proj.external{grid-template-columns:minmax(0,1fr)}.ext-preview{min-height:180px}.ext-preview .cg-card{width:60px;height:86px}.ext-preview .card-slot{margin-inline:-8px}}
-
-/* KALKULATOR */
 .calc{width:100%;max-width:340px;margin-inline:auto;outline:none}
 .calc-modes{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--peach-deep);padding:4px;border-radius:12px;margin-bottom:10px}
 .calc-modes button{padding:8px;border:none;background:transparent;border-radius:8px;font:700 .8rem var(--f-body);color:var(--muted);cursor:pointer;transition:.2s}
@@ -182,8 +174,6 @@ button{font-family:inherit}
 .key.sc:hover{background:var(--ice-soft);color:var(--deep)}
 .key.sc.const{background:#FFF9E5;color:#92400E}
 .key.sc.const:hover{background:#FEF3C7}
-
-/* KOMPAS KIBLAT */
 .qibla-wrapper{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%}
 .qibla-info-bar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%}
 .qibla-info-box{background:var(--ice-soft);border-radius:12px;padding:10px 8px;text-align:center;border:1px solid var(--line)}
@@ -233,8 +223,6 @@ button{font-family:inherit}
 .qibla-note{text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6}
 .qibla-note strong{color:var(--deep)}
 @media (max-width:520px){.qibla-manual-grid{grid-template-columns:1fr;gap:6px}.qibla-manual-grid button{grid-column:auto}.qibla-compass-wrap{width:min(240px,78vw)}}
-
-/* EXPERIENCE */
 .xp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
 .xp-card{padding:clamp(20px,3vw,30px)}
 .xp-card h3{font-size:1.45rem;margin-bottom:18px;display:flex;align-items:center;gap:12px}
@@ -245,8 +233,6 @@ button{font-family:inherit}
 .xp b{display:block;font-weight:700;line-height:1.35}
 .xp small{color:var(--muted);font:500 .78rem var(--f-mono)}
 @media (max-width:860px){.xp-grid{grid-template-columns:minmax(0,1fr)}}
-
-/* KTP / AKADEMIK */
 .page-head{padding-block:clamp(36px,6vw,64px) 0}
 .page-head h1{font-size:clamp(2rem,4.6vw,3.4rem);font-weight:800;display:flex;align-items:center;gap:12px}
 .ktp-sec{padding-top:28px}
@@ -254,12 +240,13 @@ button{font-family:inherit}
 .ktp::before{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle at 85% 120%,rgba(255,255,255,.28) 0 2px,transparent 2px 9px);pointer-events:none}
 .ktp>*{position:relative}
 .ktp-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
-.ktp-top b{font:700 .95rem var(--f-mono);letter-spacing:.14em}
+.ktp-top b{font:700 .95rem var(--f-mono);letter-spacing:.14em;display:inline-flex;align-items:center;gap:8px}
 .ktp-chip{width:46px;height:34px;border-radius:8px;background:linear-gradient(135deg,#FFEDD5,#FDE6C4);border:1px solid rgba(28,25,23,.25);display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4px}
 .ktp-chip i{border:1px solid rgba(28,25,23,.25);border-radius:2px}
 .ktp-body{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:20px;align-items:start}
 .ktp dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-family:var(--f-mono)}
-.ktp dt{font-weight:500;font-size:.78rem;letter-spacing:.08em;padding-top:2px}
+.ktp dt{font-weight:500;font-size:.78rem;letter-spacing:.08em;padding-top:2px;display:flex;align-items:center;gap:6px}
+.ktp dt .ic{width:1rem;height:1rem;color:var(--deep)}
 .ktp dd{margin:0;font-weight:700;font-size:.95rem;text-transform:uppercase;overflow-wrap:anywhere}
 .ktp dd::before{content:": ";font-weight:500}
 .photo{aspect-ratio:3/4;border-radius:14px;background:repeating-conic-gradient(rgba(255,255,255,.55) 0 25%,rgba(255,255,255,.2) 0 50%) 0 0/22px 22px;border:2px solid #fff;display:grid;place-items:center;font:800 2rem var(--f-display);color:var(--deep)}
@@ -284,8 +271,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 .tah-item b{font:700 1.2rem/1.25 var(--f-display)}
 @media (max-width:900px){.tah-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:420px){.tah-grid{grid-template-columns:minmax(0,1fr)}}
-
-/* TIMELINE (KAPAL & PULAU) */
 #view-timeline{background:var(--card);border-bottom:1px solid var(--line);padding-bottom:36px}
 .tl-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-block:clamp(28px,5vw,48px) 14px}
 .tl-head h1{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:800;display:flex;align-items:center;gap:14px}
@@ -343,8 +328,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 .xrow b{display:block;font-size:.86rem;line-height:1.25}
 .xrow small{display:block;font:500 .7rem var(--f-mono);color:var(--muted)}
 @media (prefers-reduced-motion:reduce){.view.enter,.yr.in,.yr.on .node,.ship-bob,.node::before{animation:none}.ship-svg{transition:none}}
-
-/* BLOG */
 .blog-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:28px}
 @media (max-width:820px){.blog-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .blog-stat{padding:16px 18px;display:flex;flex-direction:column;gap:2px}
@@ -364,8 +347,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 .blog-empty .ico{width:60px;height:60px;margin:0 auto 14px;background:var(--ice-soft);color:var(--deep);border-radius:20px;display:grid;place-items:center;font-size:1.8rem}
 .blog-loading{text-align:center;padding:40px;color:var(--muted);font-family:var(--f-mono);font-size:.85rem}
 .local-badge{display:inline-block;padding:2px 8px;border-radius:6px;background:#FEF3C7;color:#92400E;font-size:.6rem;font-family:var(--f-mono);font-weight:700;letter-spacing:.04em;margin-left:6px;text-transform:uppercase;vertical-align:middle}
-
-/* Post */
 .post-wrap{max-width:780px;margin:0 auto;padding:clamp(24px,5vw,48px) 0}
 .post-back{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);font:600 .85rem var(--f-body);color:var(--ink);cursor:pointer;margin-bottom:24px;transition:.2s}
 .post-back:hover{border-color:var(--deep);color:var(--deep)}
@@ -374,25 +355,33 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 .post-meta .pill{padding:3px 10px;border-radius:999px;background:var(--ice-soft);color:var(--deep);font-size:.7rem;letter-spacing:.05em}
 .post-body{font-size:1.05rem;line-height:1.8;color:var(--ink);white-space:pre-wrap;word-wrap:break-word}
 .post-body p{margin-bottom:1em}
-
-/* BLOG UNLOCK MODAL */
-.blog-unlock-overlay{position:fixed;inset:0;background:rgba(28,25,23,.68);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
-.blog-unlock-overlay.open{display:flex}
-.blog-unlock-modal{background:var(--card);border-radius:var(--r-lg);box-shadow:0 30px 60px -20px rgba(28,25,23,.55);max-width:560px;width:100%;padding:clamp(22px,3vw,32px);position:relative;animation:blogUnlockIn .35s cubic-bezier(.2,.8,.2,1);max-height:90vh;overflow-y:auto}
-@keyframes blogUnlockIn{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:none}}
-.blog-unlock-close{position:absolute;top:14px;right:16px;width:36px;height:36px;border-radius:50%;background:var(--ice-soft);border:none;color:var(--deep);font-size:1.3rem;cursor:pointer;display:grid;place-items:center;transition:.2s;line-height:1}
-.blog-unlock-close:hover{background:var(--deep);color:#fff;transform:rotate(90deg)}
-.blog-unlock-modal h2{font-family:var(--f-display);font-size:1.5rem;margin-bottom:4px;color:var(--ink)}
-.blog-unlock-sub{color:var(--muted);font-size:.88rem;margin-bottom:20px}
-.blog-unlock-modal label{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;font:600 .78rem var(--f-mono);color:var(--deep);letter-spacing:.04em;text-transform:uppercase}
-.blog-unlock-modal input,.blog-unlock-modal select,.blog-unlock-modal textarea{font:500 .95rem var(--f-body);color:var(--ink);padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;text-transform:none;letter-spacing:0;transition:.2s;width:100%;font-family:var(--f-body)}
-.blog-unlock-modal input:focus,.blog-unlock-modal select:focus,.blog-unlock-modal textarea:focus{outline:none;border-color:var(--deep);box-shadow:0 0 0 3px var(--ice-soft)}
-.blog-unlock-modal textarea{min-height:180px;resize:vertical;line-height:1.6}
-.blog-unlock-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+/* ADMIN SPA */
+.admin-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:24px;align-items:start}
+@media (max-width:900px){.admin-grid{grid-template-columns:1fr}}
+.admin-card{padding:clamp(20px,3vw,28px)}
+.admin-card-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.admin-card-head h2{font-family:var(--f-display);font-size:1.15rem;color:var(--ink);font-weight:800}
+.admin-card-head .hico{width:38px;height:38px}
+.admin-form{display:flex;flex-direction:column;gap:14px}
+.admin-form label{display:flex;flex-direction:column;gap:6px;font:600 .78rem var(--f-mono);color:var(--deep);letter-spacing:.04em;text-transform:uppercase}
+.admin-form input,.admin-form select,.admin-form textarea{font:500 .95rem var(--f-body);color:var(--ink);padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;text-transform:none;letter-spacing:0;transition:.2s;width:100%;font-family:var(--f-body);outline:none}
+.admin-form input:focus,.admin-form select:focus,.admin-form textarea:focus{border-color:var(--deep);box-shadow:0 0 0 3px var(--ice-soft)}
+.admin-form textarea{min-height:200px;resize:vertical;line-height:1.6}
+.admin-save{align-self:flex-start;padding:12px 22px}
+.admin-list{display:flex;flex-direction:column;gap:10px;max-height:580px;overflow-y:auto;padding-right:4px}
+.admin-item{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;transition:.2s;animation:blogIn .35s ease both}
+.admin-item:hover{border-color:var(--ice);background:#f9fdff}
+.admin-item-body{flex:1;min-width:0}
+.admin-item-body .cat-mini{display:inline-block;padding:2px 8px;border-radius:6px;background:var(--ice-soft);color:var(--deep);font-size:.6rem;font-family:var(--f-mono);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.admin-item-body h3{font-size:.92rem;color:var(--ink);font-weight:700;line-height:1.3;margin-bottom:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.admin-item-body .date{font-size:.68rem;color:var(--muted);font-family:var(--f-mono)}
+.admin-item-actions{display:flex;gap:6px;flex-shrink:0;align-self:center}
+.admin-item-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;display:grid;place-items:center;transition:.2s;font-size:.9rem;padding:0;line-height:1}
+.admin-item-btn:hover{background:var(--ice-soft);color:var(--deep);border-color:var(--ice);transform:scale(1.1)}
+.admin-item-btn.del:hover{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
+.admin-empty{text-align:center;padding:36px 16px;color:var(--muted);font-size:.85rem;font-family:var(--f-mono);line-height:1.7}
 .blog-toast{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(20px);background:#0a5f3e;color:#fff;padding:12px 22px;border-radius:999px;font:600 .9rem var(--f-body);box-shadow:0 20px 40px -12px rgba(0,0,0,.4);opacity:0;transition:.3s;z-index:300;pointer-events:none}
 .blog-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* FOOTER */
 .foot{background:var(--ink);color:#FFF7ED;margin-top:clamp(40px,6vw,72px);padding-block:clamp(36px,5vw,56px) clamp(84px,9vw,96px)}
 .foot-grid{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;gap:clamp(24px,4vw,48px)}
 .foot h4{font:600 .74rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ice);margin-bottom:12px;display:flex;align-items:center;gap:8px}
@@ -461,7 +450,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
   <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
   <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/></symbol>
   <symbol id="i-ship" viewBox="0 0 24 24"><path d="M3 15h18l-3 5H6z"/><path d="M6 15V9h12v6M12 9V3M12 6h5v3"/></symbol>
-  <symbol id="i-island" viewBox="0 0 24 24"><path d="M3 18c2-1 4-1 6 0s4 1 6 0 4-1 6 0"/><circle cx="12" cy="11" r="4"/></symbol>
   <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6l-12 12"/></symbol>
 </svg>
 
@@ -482,7 +470,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 
 <main>
 <div id="view-home" class="view">
-
   <section id="beranda" class="hero wrap">
     <div class="hero-copy">
       <div class="g-pill" id="greet" data-p="siang"><span class="tw" id="gTitle">Selamat Siang, Pengunjung!</span><span class="wave" aria-hidden="true">&#128075;</span></div>
@@ -538,7 +525,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
     <div class="proj-tab-panel on" id="panelWeb" role="tabpanel" aria-labelledby="tabWeb">
       <div class="proj-grid">
 
-        <!-- KALKULATOR (Biasa + Sains + Password 14092012) -->
+        <!-- KALKULATOR -->
         <article class="proj card">
           <div class="proj-head">
             <span class="ico c-orange"><svg class="ic"><use href="#i-calc"/></svg></span>
@@ -911,22 +898,16 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
         <span class="ship-tag" id="tlYear">2012</span>
         <div class="ship-bob">
           <svg class="ship-svg" id="tlShipSvg" viewBox="0 0 68 44" aria-hidden="true">
-            <!-- Layar depan -->
             <path d="M34 4 L34 28 L18 28 Z" fill="#FFFFFF" stroke="#1C1917" stroke-width="1.8" stroke-linejoin="round"/>
-            <!-- Layar belakang -->
             <path d="M34 4 L34 28 L50 28 Z" fill="#7DD3FC" stroke="#1C1917" stroke-width="1.8" stroke-linejoin="round"/>
-            <!-- Tiang -->
             <line x1="34" y1="2" x2="34" y2="32" stroke="#1C1917" stroke-width="2"/>
-            <!-- Bendera -->
             <path d="M34 2 L42 5 L34 8 Z" fill="#DC2626" stroke="#1C1917" stroke-width="1"/>
-            <!-- Lambung kapal -->
             <path d="M6 32 L62 32 L54 40 L14 40 Z" fill="#F59E0B" stroke="#1C1917" stroke-width="2" stroke-linejoin="round"/>
             <line x1="12" y1="35" x2="56" y2="35" stroke="#92400E" stroke-width="1" opacity=".5"/>
             <circle cx="20" cy="37.5" r="1.4" fill="#1C1917"/>
             <circle cx="30" cy="37.5" r="1.4" fill="#1C1917"/>
             <circle cx="40" cy="37.5" r="1.4" fill="#1C1917"/>
             <circle cx="50" cy="37.5" r="1.4" fill="#1C1917"/>
-            <!-- Riak air -->
             <path d="M2 42 Q8 39 14 42 T26 42 T38 42 T50 42 T62 42" fill="none" stroke="#7DD3FC" stroke-width="1.6" stroke-linecap="round" opacity=".7"/>
           </svg>
         </div>
@@ -995,6 +976,70 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 </div>
 <!-- END #view-post -->
 
+<!-- ========================= VIEW: ADMIN (Blog SPA) ========================= -->
+<div id="view-admin" class="view" hidden>
+  <div class="wrap">
+    <div class="tl-head" style="padding-block:clamp(28px,5vw,48px) 14px">
+      <div>
+        <p class="eyebrow tw">// admin</p>
+        <h1>
+          <span class="hico c-amber"><svg class="ic"><use href="#i-pen"/></svg></span>
+          <span class="tw">Admin Blog</span>
+        </h1>
+      </div>
+      <div class="tl-ctl">
+        <button class="btn" type="button" data-go="blog"><svg class="ic"><use href="#i-monitor"/></svg>Lihat Blog</button>
+        <button class="btn" type="button" data-go="home"><svg class="ic"><use href="#i-left"/></svg>Beranda</button>
+      </div>
+    </div>
+    <p class="tl-hint" style="margin-bottom:20px">
+      🔓 Kamu berhasil masuk lewat password kalkulator. Tulis dan kelola artikel di sini — data tersimpan di browser ini (localStorage).
+    </p>
+
+    <div class="admin-grid">
+
+      <!-- Panel Kiri: Form Tulis -->
+      <div class="admin-card card">
+        <div class="admin-card-head">
+          <span class="hico c-blue"><svg class="ic"><use href="#i-pen"/></svg></span>
+          <h2>Tulis Artikel Baru</h2>
+        </div>
+        <div class="admin-form">
+          <label>Judul
+            <input type="text" id="adminTitle" placeholder="Judul artikel…" maxlength="120">
+          </label>
+          <label>Kategori
+            <select id="adminCategory">
+              <option value="Cerita">Cerita</option>
+              <option value="Tips">Tips</option>
+              <option value="Pengalaman">Pengalaman</option>
+              <option value="Koding">Koding</option>
+              <option value="Sekolah">Sekolah</option>
+              <option value="Strategi">Strategi</option>
+              <option value="Umum" selected>Umum</option>
+            </select>
+          </label>
+          <label>Isi Artikel
+            <textarea id="adminContent" placeholder="Tulis isi artikel di sini…" maxlength="8000"></textarea>
+          </label>
+          <button class="btn primary admin-save" id="adminSave" type="button">💾 Simpan Artikel</button>
+        </div>
+      </div>
+
+      <!-- Panel Kanan: List Artikel -->
+      <div class="admin-card card">
+        <div class="admin-card-head">
+          <span class="hico c-green"><svg class="ic"><use href="#i-folder"/></svg></span>
+          <h2>Artikel Saya (<span id="adminCount">0</span>)</h2>
+        </div>
+        <div id="adminList" class="admin-list"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- END #view-admin -->
+
 </main>
 
 <!-- ========================= FOOTER ========================= -->
@@ -1055,36 +1100,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
   <div><b id="lClock">--:--:--</b><small id="lZone">Waktu lokalmu</small></div>
 </div>
 
-<!-- ========================= MODAL BLOG UNLOCK ========================= -->
-<div class="blog-unlock-overlay" id="blogUnlockOverlay" aria-hidden="true">
-  <div class="blog-unlock-modal" role="dialog" aria-labelledby="buTitle">
-    <button class="blog-unlock-close" id="buClose" type="button" aria-label="Tutup">×</button>
-    <h2 id="buTitle">✍️ Tulis Artikel Baru</h2>
-    <p class="blog-unlock-sub">🔓 Password benar — silakan tulis ceritamu.</p>
-    <label>Judul
-      <input type="text" id="buTitleInput" placeholder="Judul artikel…" maxlength="120">
-    </label>
-    <label>Kategori
-      <select id="buCategory">
-        <option value="Cerita">Cerita</option>
-        <option value="Tips">Tips</option>
-        <option value="Pengalaman">Pengalaman</option>
-        <option value="Koding">Koding</option>
-        <option value="Sekolah">Sekolah</option>
-        <option value="Strategi">Strategi</option>
-        <option value="Umum" selected>Umum</option>
-      </select>
-    </label>
-    <label>Isi Artikel
-      <textarea id="buContent" placeholder="Tulis isi artikel di sini…" maxlength="8000"></textarea>
-    </label>
-    <div class="blog-unlock-actions">
-      <button class="btn" id="buCancel" type="button">Batal</button>
-      <button class="btn primary" id="buSave" type="button">💾 Simpan Artikel</button>
-    </div>
-  </div>
-</div>
-
 <script>
 (function(){
 'use strict';
@@ -1096,7 +1111,14 @@ var pad=function(n){return String(n).padStart(2,'0')};
 /* ============================================================
    1. NAVIGASI SPA
    ============================================================ */
-var views={home:$('#view-home'),other:$('#view-other'),timeline:$('#view-timeline'),blog:$('#view-blog'),post:$('#view-post')};
+var views={
+  home:$('#view-home'),
+  other:$('#view-other'),
+  timeline:$('#view-timeline'),
+  blog:$('#view-blog'),
+  post:$('#view-post'),
+  admin:$('#view-admin')
+};
 var cur='home';
 var menu=$('#menu'), navTgl=$('#navTgl'), switchBtn=$('#switchBtn');
 
@@ -1117,12 +1139,13 @@ function updateNav(){
 function show(v,sec){
   var changed=v!==cur;
   if(changed){
-    Object.keys(views).forEach(function(k){views[k].hidden=(k!==v)});
+    Object.keys(views).forEach(function(k){ if(views[k]) views[k].hidden=(k!==v) });
     cur=v;
     var el=views[v];
     if(el){el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter');}
     if(v==='timeline')tlLayout();
     if(v==='blog')loadBlog();
+    if(v==='admin')renderAdmin();
   }
   updateNav();closeMenu();
   var t=sec?document.getElementById(sec):null;
@@ -1287,7 +1310,7 @@ var cntIO=new IntersectionObserver(function(es){
 $$('[data-count]').forEach(function(el){cntIO.observe(el)});
 
 /* ============================================================
-   8. HELPERS BLOG (localStorage + modal + toast)
+   8. HELPERS BLOG + ADMIN SPA (localStorage + toast)
    ============================================================ */
 var BLOG_LOCAL_KEY = 'syazani_blog_local_v1';
 
@@ -1301,9 +1324,10 @@ function saveLocalPosts(arr){
   try{ localStorage.setItem(BLOG_LOCAL_KEY, JSON.stringify(arr)) }
   catch(e){ alert('Gagal menyimpan. Storage browser mungkin penuh.') }
 }
-function showToast(msg){
+function showToast(msg, isRed){
   var t = document.createElement('div');
   t.className = 'blog-toast';
+  if(isRed) t.style.background = '#b91c1c';
   t.textContent = msg;
   document.body.appendChild(t);
   requestAnimationFrame(function(){ t.classList.add('show') });
@@ -1312,37 +1336,80 @@ function showToast(msg){
     setTimeout(function(){ t.remove() }, 350);
   }, 2400);
 }
+function escapeHtml(s){
+  return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function formatDate(d){
+  if(!d)return '—';
+  try{return new Date(d).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}
+  catch(e){return d}
+}
 
-function triggerBlogUnlock(){
-  var overlay = document.getElementById('blogUnlockOverlay');
-  if(!overlay) return;
-  var t = document.getElementById('buTitleInput');
-  var c = document.getElementById('buContent');
-  var cat = document.getElementById('buCategory');
+/* ---- Admin SPA ---- */
+function openAdmin(){
+  show('admin');
+}
+
+function renderAdmin(){
+  var t = $('#adminTitle');
+  var c = $('#adminCategory');
+  var m = $('#adminContent');
   if(t) t.value = '';
-  if(c) c.value = '';
-  if(cat) cat.value = 'Umum';
-  overlay.classList.add('open');
-  overlay.setAttribute('aria-hidden','false');
-  document.body.style.overflow = 'hidden';
-  setTimeout(function(){ if(t) t.focus(); }, 180);
+  if(c) c.value = 'Umum';
+  if(m) m.value = '';
+  renderAdminList();
 }
-function closeBlogUnlock(){
-  var overlay = document.getElementById('blogUnlockOverlay');
-  if(!overlay) return;
-  overlay.classList.remove('open');
-  overlay.setAttribute('aria-hidden','true');
-  document.body.style.overflow = '';
+
+function renderAdminList(){
+  var list = $('#adminList');
+  var count = $('#adminCount');
+  if(!list) return;
+  var arr = getLocalPosts();
+  if(count) count.textContent = arr.length;
+
+  if(!arr.length){
+    list.innerHTML = '<div class="admin-empty">Belum ada artikel.<br>Tulis artikel pertamamu di form sebelah 👈</div>';
+    return;
+  }
+
+  list.innerHTML = arr.map(function(p){
+    var slug = escapeHtml(p.slug);
+    return '<div class="admin-item" data-slug="'+slug+'">'
+      + '<div class="admin-item-body">'
+      +   '<span class="cat-mini">'+escapeHtml(p.category||'Umum')+'</span>'
+      +   '<h3>'+escapeHtml(p.title||'Tanpa Judul')+'</h3>'
+      +   '<span class="date">📅 '+formatDate(p.date)+'</span>'
+      + '</div>'
+      + '<div class="admin-item-actions">'
+      +   '<button class="admin-item-btn" data-action="view" data-slug="'+slug+'" title="Lihat artikel">👁️</button>'
+      +   '<button class="admin-item-btn del" data-action="delete" data-slug="'+slug+'" title="Hapus artikel">🗑️</button>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+
+  list.querySelectorAll('.admin-item-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var slug = btn.getAttribute('data-slug');
+      var act  = btn.getAttribute('data-action');
+      if(act === 'view'){
+        viewPostFromAdmin(slug);
+      } else if(act === 'delete'){
+        deleteLocalPost(slug);
+      }
+    });
+  });
 }
-function saveBlogFromEditor(){
-  var titleEl = document.getElementById('buTitleInput');
-  var catEl   = document.getElementById('buCategory');
-  var contEl  = document.getElementById('buContent');
+
+function saveFromAdmin(){
+  var titleEl = $('#adminTitle');
+  var catEl   = $('#adminCategory');
+  var contEl  = $('#adminContent');
   var title   = titleEl.value.trim();
   var category= catEl.value;
   var content = contEl.value.trim();
   if(!title){ alert('Judul tidak boleh kosong!'); titleEl.focus(); return; }
   if(!content){ alert('Isi artikel tidak boleh kosong!'); contEl.focus(); return; }
+
   var now = new Date();
   var post = {
     slug: 'local-' + now.getTime() + '-' + Math.random().toString(36).slice(2,6),
@@ -1356,25 +1423,41 @@ function saveBlogFromEditor(){
   var arr = getLocalPosts();
   arr.unshift(post);
   saveLocalPosts(arr);
-  closeBlogUnlock();
-  showToast('✅ Artikel berhasil disimpan!');
+
+  titleEl.value = '';
+  contEl.value = '';
+  catEl.value = 'Umum';
+
+  renderAdminList();
+  blogState.loaded = false;
+  showToast('✅ Artikel "'+title+'" tersimpan');
+}
+
+function deleteLocalPost(slug){
+  var arr = getLocalPosts();
+  var post = arr.find(function(p){return p.slug === slug});
+  if(!post){ return; }
+  if(!confirm('Yakin ingin menghapus artikel:\n\n"' + post.title + '"\n\nArtikel akan hilang permanen dari browser ini.')) return;
+
+  arr = arr.filter(function(p){ return p.slug !== slug });
+  saveLocalPosts(arr);
+  renderAdminList();
+  blogState.loaded = false;
+  showToast('🗑️ "' + post.title + '" dihapus', true);
+}
+
+function viewPostFromAdmin(slug){
   blogState.loaded = false;
   show('blog');
-}
-function initBlogUnlockUI(){
-  var close = document.getElementById('buClose');
-  var cancel= document.getElementById('buCancel');
-  var save  = document.getElementById('buSave');
-  var ov    = document.getElementById('blogUnlockOverlay');
-  if(close) close.addEventListener('click', closeBlogUnlock);
-  if(cancel) cancel.addEventListener('click', closeBlogUnlock);
-  if(save) save.addEventListener('click', saveBlogFromEditor);
-  if(ov) ov.addEventListener('click', function(e){
-    if(e.target === ov) closeBlogUnlock();
-  });
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && ov && ov.classList.contains('open')) closeBlogUnlock();
-  });
+  var tries = 0;
+  var check = setInterval(function(){
+    tries++;
+    if(blogState.loaded){
+      clearInterval(check);
+      openPost(slug);
+    }
+    if(tries > 50){ clearInterval(check); }
+  }, 100);
 }
 
 /* ============================================================
@@ -1436,7 +1519,7 @@ function initBlogUnlockUI(){
       if(checkSecretSeq(v)){
         reset();
         draw();
-        triggerBlogUnlock();
+        openAdmin();
         return;
       }
       if(S.fresh){S.cur=v;S.fresh=false}
@@ -1943,15 +2026,6 @@ var BLOG_FALLBACK=[
   {slug:'catur-strategi',title:'Strategi Catur untuk Pemula',category:'Strategi',date:'2026-03-05',excerpt:'Opening catur sederhana yang cocok dipelajari pemula agar tidak bingung di awal permainan.',content:'Catur adalah permainan strategi yang luar biasa.\n\nOpening yang saya rekomendasikan untuk pemula:\n\n- Italian Game\n- London System\n- Scandinavian Defense\n\nKunci utama:\n\n- Kontrol tengah papan\n- Kembangkan bidak (kuda, gajah)\n- Amankan raja dengan castle\n- Jangan gerakkan bidak yang sama dua kali tanpa alasan\n\nSelamat berlatih!'}
 ];
 
-function escapeHtml(s){
-  return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-function formatDate(d){
-  if(!d)return '—';
-  try{return new Date(d).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}
-  catch(e){return d}
-}
-
 async function loadBlog(){
   if(blogState.loaded||blogState.loading)return;
   blogState.loading=true;
@@ -1959,7 +2033,6 @@ async function loadBlog(){
   loading.hidden=false;grid.hidden=true;empty.hidden=true;
   var posts=[];
 
-  // 1) Coba API serverless
   try{
     var res=await fetch('/api/list-posts',{cache:'no-cache'});
     if(res.ok){
@@ -1969,7 +2042,6 @@ async function loadBlog(){
     }
   }catch(e){}
 
-  // 2) Coba posts.json lokal
   if(!posts.length){
     try{
       var r2=await fetch('posts.json',{cache:'no-cache'});
@@ -1980,14 +2052,11 @@ async function loadBlog(){
     }catch(e){}
   }
 
-  // 3) Fallback demo
   if(!posts.length) posts=BLOG_FALLBACK;
 
-  // 4) Gabungkan artikel dari localStorage (ditulis via password kalkulator)
   var localPosts = getLocalPosts();
   posts = localPosts.concat(posts);
 
-  // Normalisasi
   posts=posts.map(function(p){
     return {
       slug:p.slug||p.id||String(p.title||'').toLowerCase().replace(/\s+/g,'-'),
@@ -2002,11 +2071,9 @@ async function loadBlog(){
   blogState.posts=posts;
   blogState.loaded=true;blogState.loading=false;
 
-  // Stats
   $('#statTotal').textContent=posts.length;
   $('#statLast').textContent=posts[0]?formatDate(posts[0].date):'—';
 
-  // Render
   loading.hidden=true;
   if(!posts.length){
     empty.hidden=false;grid.hidden=true;return;
@@ -2040,7 +2107,8 @@ function openPost(slug){
    14. INIT
    ============================================================ */
 initTyping();
-initBlogUnlockUI();
+var adminSaveBtn = $('#adminSave');
+if(adminSaveBtn) adminSaveBtn.addEventListener('click', saveFromAdmin);
 updateNav();
 if(location.hash==='#blog')show('blog');
 
