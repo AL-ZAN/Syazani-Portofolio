@@ -355,7 +355,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 .post-meta .pill{padding:3px 10px;border-radius:999px;background:var(--ice-soft);color:var(--deep);font-size:.7rem;letter-spacing:.05em}
 .post-body{font-size:1.05rem;line-height:1.8;color:var(--ink);white-space:pre-wrap;word-wrap:break-word}
 .post-body p{margin-bottom:1em}
-/* ADMIN SPA */
 .admin-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:24px;align-items:start}
 @media (max-width:900px){.admin-grid{grid-template-columns:1fr}}
 .admin-card{padding:clamp(20px,3vw,28px)}
@@ -402,10 +401,291 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 .f-clock small{color:var(--ice);font-weight:600}
 .f-copy{margin-top:34px;padding-top:18px;border-top:1px solid rgba(255,247,237,.15);font:500 .78rem var(--f-mono);color:rgba(255,247,237,.6)}
 @media (max-width:900px){.foot-grid{grid-template-columns:minmax(0,1fr)}.f-clock{align-self:flex-start}}
-.floatclock{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 12px 28px -12px rgba(28,25,23,.45);font-family:var(--f-mono)}
+.floatclock{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 12px 28px -12px rgba(28,25,23,.45);font-family:var(--f-mono);cursor:pointer;transition:.25s ease}
+.floatclock:hover{border-color:var(--deep);box-shadow:0 12px 28px -12px rgba(28,25,23,.45),0 0 0 4px var(--ice-soft);transform:translateY(-2px)}
 .floatclock .ic{color:var(--deep)}
 .floatclock b{font-size:.92rem;font-variant-numeric:tabular-nums}
 .floatclock small{display:block;color:var(--muted);font-size:.64rem;line-height:1.2;letter-spacing:.04em}
+
+/* ==== KING'S REPRESENTATIVE (chess piece trigger) ==== */
+.king-peek{
+  position:fixed;
+  right:calc(28px + env(safe-area-inset-right,0px));
+  bottom:calc(72px + env(safe-area-inset-bottom,0px));
+  z-index:71;
+  width:54px;height:54px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#FFF7ED,#FDE68A 55%,#B45309 100%);
+  color:#78350F;
+  border:3px solid #FFF7ED;
+  box-shadow:0 8px 24px -6px rgba(120,53,15,.5),0 0 0 2px rgba(120,53,15,.3);
+  cursor:pointer;
+  display:grid;place-items:center;
+  font-size:1.7rem;
+  opacity:0;
+  transform:translateY(10px) scale(.7);
+  pointer-events:none;
+  transition:opacity .28s cubic-bezier(.2,.8,.2,1),transform .28s cubic-bezier(.2,.8,.2,1);
+  font-family:'Segoe UI Symbol','Noto Sans Symbols 2','DejaVu Sans',serif;
+  line-height:1;
+}
+.king-peek.show{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
+}
+.king-peek:hover{
+  transform:translateY(-3px) scale(1.12) rotate(-8deg);
+  box-shadow:0 14px 32px -6px rgba(120,53,15,.7),0 0 0 4px rgba(253,230,138,.5);
+}
+.king-peek:active{transform:scale(.95)}
+.king-peek::before{
+  content:'';
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:2px dashed rgba(180,83,9,.5);
+  animation:kingSpin 14s linear infinite;
+  pointer-events:none;
+}
+@keyframes kingSpin{to{transform:rotate(360deg)}}
+.king-peek-tip{
+  position:absolute;
+  right:calc(100% + 10px);
+  top:50%;
+  transform:translateY(-50%);
+  background:var(--ink);
+  color:#FFF7ED;
+  padding:6px 12px;
+  border-radius:10px;
+  font:600 .72rem var(--f-mono);
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+  letter-spacing:.03em;
+}
+.king-peek:hover .king-peek-tip{opacity:1;transform:translateY(-50%) translateX(-3px)}
+.king-peek-tip::after{
+  content:'';
+  position:absolute;
+  left:100%;top:50%;
+  transform:translateY(-50%);
+  border:5px solid transparent;
+  border-left-color:var(--ink);
+}
+@media (max-width:480px){
+  .king-peek{width:48px;height:48px;font-size:1.45rem;right:calc(22px + env(safe-area-inset-right,0px));bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  .king-peek-tip{display:none}
+}
+
+/* ==== CHAT SPA (Perwakilan Sang Raja) ==== */
+.chat-wrap{max-width:820px;margin:0 auto;padding:clamp(24px,5vw,48px) 0}
+.chat-shell{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  height:min(640px,calc(100vh - 220px));
+}
+.chat-shell-header{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;
+  background:linear-gradient(135deg,#78350F,#B45309 50%,#D97706 100%);
+  color:#FFF7ED;
+  position:relative;
+  overflow:hidden;
+}
+.chat-shell-header::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 8px,transparent 8px 16px);
+  pointer-events:none;
+}
+.chat-shell-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#FFF7ED,#FDE68A 55%,#B45309 100%);
+  color:#78350F;
+  display:grid;place-items:center;
+  font-size:1.7rem;
+  border:3px solid rgba(255,255,255,.7);
+  box-shadow:0 6px 16px -4px rgba(0,0,0,.4);
+  flex-shrink:0;
+  font-family:'Segoe UI Symbol','Noto Sans Symbols 2','DejaVu Sans',serif;
+  position:relative;
+  z-index:1;
+  animation:kingAvatarPulse 3s ease-in-out infinite;
+}
+@keyframes kingAvatarPulse{0%,100%{box-shadow:0 6px 16px -4px rgba(0,0,0,.4),0 0 0 0 rgba(253,230,138,.5)}50%{box-shadow:0 6px 16px -4px rgba(0,0,0,.4),0 0 0 8px rgba(253,230,138,0)}}
+.chat-shell-info{flex:1;min-width:0;position:relative;z-index:1}
+.chat-shell-info h3{font-family:var(--f-display);font-size:1.15rem;font-weight:800;letter-spacing:.01em;color:#FFF7ED;line-height:1.15}
+.chat-shell-info .chat-shell-sub{
+  font:600 .74rem var(--f-mono);opacity:.85;
+  display:flex;align-items:center;gap:6px;margin-top:3px;
+}
+.chat-shell-dot{
+  width:7px;height:7px;border-radius:50%;background:#4ADE80;
+  box-shadow:0 0 0 3px rgba(74,222,128,.35);
+  animation:chatDotPulse 1.6s ease-in-out infinite;
+}
+@keyframes chatDotPulse{0%,100%{opacity:1}50%{opacity:.5}}
+.chat-shell-back{
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  color:#FFF7ED;
+  padding:7px 14px;border-radius:999px;
+  font:700 .74rem var(--f-mono);
+  cursor:pointer;transition:.2s;
+  display:inline-flex;align-items:center;gap:6px;
+  position:relative;z-index:1;
+  flex-shrink:0;
+}
+.chat-shell-back:hover{background:rgba(255,255,255,.28);transform:translateX(-2px)}
+
+.chat-shell-body{
+  flex:1;
+  display:flex;flex-direction:column;
+  background:linear-gradient(180deg,#f8fbfd,#EFF8FF);
+  min-height:0;
+}
+.chat-shell-messages{
+  flex:1;
+  overflow-y:auto;
+  padding:18px 18px 8px;
+  display:flex;flex-direction:column;gap:14px;
+  scroll-behavior:smooth;
+}
+.chat-shell-messages::-webkit-scrollbar{width:8px}
+.chat-shell-messages::-webkit-scrollbar-track{background:transparent}
+.chat-shell-messages::-webkit-scrollbar-thumb{background:var(--ice-mid);border-radius:4px}
+
+.chat-s-msg{display:flex;gap:10px;max-width:82%;animation:chatMsgIn .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes chatMsgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.chat-s-msg.bot{align-self:flex-start}
+.chat-s-msg.user{align-self:flex-end;flex-direction:row-reverse}
+.chat-s-avatar{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:grid;place-items:center;font-size:1rem;
+  font-family:'Segoe UI Symbol','Noto Sans Symbols 2','DejaVu Sans',serif;
+}
+.chat-s-msg.bot .chat-s-avatar{
+  background:radial-gradient(circle at 35% 30%,#FFF7ED,#FDE68A 55%,#B45309 100%);
+  color:#78350F;
+  border:2px solid #fff;
+  box-shadow:0 3px 10px -3px rgba(120,53,15,.5);
+}
+.chat-s-msg.user .chat-s-avatar{background:var(--ice-soft);color:var(--deep);border:2px solid var(--ice)}
+.chat-s-bubble{
+  padding:11px 15px;
+  border-radius:16px;
+  font-size:.92rem;line-height:1.55;
+  word-wrap:break-word;white-space:pre-wrap;
+}
+.chat-s-msg.bot .chat-s-bubble{
+  background:#fff;color:var(--ink);
+  border:1px solid var(--line);
+  border-top-left-radius:4px;
+  box-shadow:0 2px 8px -4px rgba(28,25,23,.1);
+}
+.chat-s-msg.user .chat-s-bubble{
+  background:var(--deep);color:#fff;
+  border-top-right-radius:4px;
+}
+.chat-s-bubble strong{color:#B45309;font-weight:700}
+.chat-s-msg.user .chat-s-bubble strong{color:#fff}
+.chat-s-bubble a{color:var(--deep);text-decoration:underline;font-weight:600}
+.chat-s-bubble ul{margin:6px 0 0;padding-left:18px;list-style:disc}
+.chat-s-bubble li{margin-bottom:3px}
+.chat-s-bubble em{color:var(--muted);font-style:italic}
+
+.chat-s-typing{display:inline-flex;gap:5px;align-items:center;padding:13px 16px}
+.chat-s-typing span{
+  width:8px;height:8px;border-radius:50%;
+  background:#B45309;opacity:.5;
+  animation:chatTyping 1.2s ease-in-out infinite;
+}
+.chat-s-typing span:nth-child(2){animation-delay:.15s}
+.chat-s-typing span:nth-child(3){animation-delay:.3s}
+@keyframes chatTyping{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-7px);opacity:1}}
+
+.chat-faq-bar{
+  padding:10px 16px;
+  background:#fff;
+  border-top:1px solid var(--line);
+}
+.chat-faq-label{
+  display:block;
+  font:600 .65rem var(--f-mono);
+  color:#B45309;letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+  padding-left:2px;
+}
+.chat-faq-chips{
+  display:flex;flex-wrap:wrap;gap:6px;
+  max-height:96px;overflow-y:auto;
+}
+.chat-faq-chip{
+  padding:7px 13px;
+  background:linear-gradient(135deg,#FFF7ED,#FEF3C7);
+  border:1px solid #FDE68A;
+  color:#78350F;
+  border-radius:999px;
+  font:600 .74rem var(--f-body);
+  cursor:pointer;transition:.18s;
+  white-space:nowrap;
+}
+.chat-faq-chip:hover{
+  background:linear-gradient(135deg,#B45309,#D97706);
+  color:#fff;border-color:#B45309;
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px -4px rgba(180,83,9,.5);
+}
+
+.chat-shell-input{
+  display:flex;gap:10px;align-items:center;
+  padding:12px 16px 16px;
+  background:#fff;
+  border-top:1px solid var(--line);
+}
+.chat-shell-input input{
+  flex:1;min-width:0;
+  padding:12px 18px;
+  border-radius:999px;
+  border:1.5px solid var(--line);
+  background:#f8fbfd;
+  font:500 .92rem var(--f-body);
+  color:var(--ink);outline:none;
+  transition:.2s;
+}
+.chat-shell-input input:focus{border-color:#B45309;background:#fff;box-shadow:0 0 0 4px rgba(253,230,138,.4)}
+.chat-shell-input input::placeholder{color:var(--muted)}
+.chat-shell-send{
+  width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,#B45309,#D97706);
+  color:#fff;border:none;cursor:pointer;
+  display:grid;place-items:center;flex-shrink:0;
+  transition:.2s;
+  box-shadow:0 6px 16px -4px rgba(180,83,9,.55);
+}
+.chat-shell-send:hover{transform:scale(1.08);box-shadow:0 10px 22px -6px rgba(180,83,9,.7)}
+.chat-shell-send:active{transform:scale(.94)}
+.chat-shell-send:disabled{opacity:.5;cursor:not-allowed}
+.chat-shell-send .ic{width:20px;height:20px}
+
+@media (max-width:640px){
+  .chat-shell{height:calc(100vh - 180px);border-radius:20px}
+  .chat-shell-avatar{width:44px;height:44px;font-size:1.4rem}
+  .chat-shell-info h3{font-size:1rem}
+  .chat-shell-back span{display:none}
+  .chat-s-bubble{font-size:.86rem;padding:9px 12px}
+  .chat-faq-chip{font-size:.68rem;padding:6px 10px}
+  .chat-faq-chips{max-height:80px}
+}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -451,6 +731,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
   <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/></symbol>
   <symbol id="i-ship" viewBox="0 0 24 24"><path d="M3 15h18l-3 5H6z"/><path d="M6 15V9h12v6M12 9V3M12 6h5v3"/></symbol>
   <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6l-12 12"/></symbol>
+  <symbol id="i-crown" viewBox="0 0 24 24"><path d="M3 8l4 3 5-6 5 6 4-3-2 11H5z"/><circle cx="3" cy="6" r="1.3" fill="currentColor"/><circle cx="21" cy="6" r="1.3" fill="currentColor"/><circle cx="12" cy="3" r="1.3" fill="currentColor"/></symbol>
 </svg>
 
 <header class="nav">
@@ -463,6 +744,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
       <a href="#projek" data-go="home#projek" data-sec="projek">Projek</a>
       <a href="#pengalaman" data-go="home#pengalaman" data-sec="pengalaman">Pengalaman</a>
       <button data-go="blog" type="button">Blog</button>
+      <button data-go="chat" type="button">Chat</button>
       <button class="switch" id="switchBtn" type="button">Sisi Lain</button>
     </nav>
   </div>
@@ -470,6 +752,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 
 <main>
 <div id="view-home" class="view">
+
   <section id="beranda" class="hero wrap">
     <div class="hero-copy">
       <div class="g-pill" id="greet" data-p="siang"><span class="tw" id="gTitle">Selamat Siang, Pengunjung!</span><span class="wave" aria-hidden="true">&#128075;</span></div>
@@ -521,7 +804,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
       <button type="button" role="tab" id="tabExternal" aria-selected="false"><svg class="ic"><use href="#i-external"/></svg>Projek di Luar Web</button>
     </div>
 
-    <!-- PANEL: PROJEK DI WEB -->
     <div class="proj-tab-panel on" id="panelWeb" role="tabpanel" aria-labelledby="tabWeb">
       <div class="proj-grid">
 
@@ -664,11 +946,9 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
       </div>
     </div>
 
-    <!-- PANEL: PROJEK DI LUAR WEB -->
     <div class="proj-tab-panel" id="panelExternal" role="tabpanel" aria-labelledby="tabExternal">
       <div class="proj-grid">
 
-        <!-- CARD GAME -->
         <article class="proj external wide">
           <div>
             <div class="ext-head">
@@ -678,37 +958,24 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
             <span class="ext-badge">
               <svg class="ic" style="width:.9em;height:.9em"><use href="#i-external"/></svg>Projek Terpisah
             </span>
-            <p>Kumpulan permainan kartu lengkap dalam satu pintu masuk: <b>Poker</b> (Texas Hold'em), <b>Catfish</b> (Go Fish + Book), <b>BS</b> (Bullshit / bluff), <b>Uno</b> dengan 4 sub-mode (Express, Flip, No Mercy, Flip No Mercy Express), dan <b>Exploding Kittens</b>. Semua dengan AI 3 tahap, jumlah pemain 4&ndash;6, arah giliran bisa dibalik, dan waktu berpikir player tak terbatas. Chip fiktif, tanpa uang sungguhan.</p>
+            <p>Kumpulan permainan kartu lengkap dalam satu pintu masuk: <b>Poker</b>, <b>Catfish</b>, <b>BS</b>, <b>Uno</b> (4 mode), dan <b>Exploding Kittens</b>. AI 3 tahap, pemain 4&ndash;6, chip fiktif. Tanpa uang nyata.</p>
             <div class="ext-actions">
               <a class="btn primary" href="poker.html" target="_blank" rel="noopener">
                 <svg class="ic"><use href="#i-external"/></svg>Buka Card Game (Tab Baru)
               </a>
             </div>
-            <p class="ext-note">Dibuka di halaman terpisah &middot; chip fiktif &middot; tanpa uang nyata</p>
+            <p class="ext-note">Dibuka di halaman terpisah</p>
           </div>
           <div class="ext-preview" aria-hidden="true">
             <div class="cards">
-              <div class="card-slot">
-                <div class="cg-card remi"><div class="cg-rank">A</div><div class="cg-suit">&#9829;</div></div>
-                <span class="cg-label remi">Remi</span>
-              </div>
-              <div class="card-slot">
-                <div class="cg-card uno"><div class="cg-rank">7</div><div class="cg-suit">UNO</div></div>
-                <span class="cg-label uno">Uno</span>
-              </div>
-              <div class="card-slot">
-                <div class="cg-card flip"><div class="cg-rank">5</div><div class="cg-suit">FLIP</div></div>
-                <span class="cg-label flip">Flip</span>
-              </div>
-              <div class="card-slot">
-                <div class="cg-card ek"><div class="cg-emoji">&#128008;&#128165;</div><div class="cg-suit">EK</div></div>
-                <span class="cg-label ek">EK</span>
-              </div>
+              <div class="card-slot"><div class="cg-card remi"><div class="cg-rank">A</div><div class="cg-suit">&#9829;</div></div><span class="cg-label remi">Remi</span></div>
+              <div class="card-slot"><div class="cg-card uno"><div class="cg-rank">7</div><div class="cg-suit">UNO</div></div><span class="cg-label uno">Uno</span></div>
+              <div class="card-slot"><div class="cg-card flip"><div class="cg-rank">5</div><div class="cg-suit">FLIP</div></div><span class="cg-label flip">Flip</span></div>
+              <div class="card-slot"><div class="cg-card ek"><div class="cg-emoji">&#128008;&#128165;</div><div class="cg-suit">EK</div></div><span class="cg-label ek">EK</span></div>
             </div>
           </div>
         </article>
 
-        <!-- BOARD GAMES -->
         <article class="proj external wide" style="background:linear-gradient(155deg,#0F172A 0%,#060B14 100%);border-color:rgba(253,230,138,.3)">
           <div>
             <div class="ext-head">
@@ -718,17 +985,17 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
             <span class="ext-badge" style="background:rgba(253,230,138,.16);color:#FDE68A">
               <svg class="ic" style="width:.9em;height:.9em"><use href="#i-external"/></svg>Projek Terpisah
             </span>
-            <p style="color:rgba(255,247,237,.82)">Tiga permainan papan klasik dalam satu pintu masuk: <b>Catur</b> (lengkap dengan castle, en passant, promotion), <b>Checkers</b> (dam internasional dengan capture wajib), dan <b>Monopoly</b> (beli properti, bangun rumah, penjara, kartu kesempatan). Semua vs AI 3 tahap, animasi halus, tampilan modern. Tanpa uang nyata.</p>
+            <p style="color:rgba(255,247,237,.82)">Tiga permainan papan klasik: <b>Catur</b>, <b>Checkers</b>, dan <b>Monopoly</b>. vs AI 3 tahap, animasi halus. Tanpa uang nyata.</p>
             <div class="ext-actions">
               <a class="btn primary" href="board.html" target="_blank" rel="noopener">
                 <svg class="ic"><use href="#i-external"/></svg>Buka Board Games (Tab Baru)
               </a>
             </div>
-            <p class="ext-note" style="color:rgba(255,247,237,.55)">Dibuka di halaman terpisah &middot; tanpa uang nyata</p>
+            <p class="ext-note" style="color:rgba(255,247,237,.55)">Dibuka di halaman terpisah</p>
           </div>
           <div class="ext-preview" aria-hidden="true">
             <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px;border-radius:12px;background:#1a1a1a;box-shadow:0 12px 30px -12px rgba(0,0,0,.8),0 0 0 2px rgba(253,230,138,.35),0 0 0 4px rgba(0,0,0,.4);transform:rotate(-4deg);transition:transform .35s">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px;border-radius:12px;background:#1a1a1a;box-shadow:0 12px 30px -12px rgba(0,0,0,.8),0 0 0 2px rgba(253,230,138,.35),0 0 0 4px rgba(0,0,0,.4);transform:rotate(-4deg)">
                 <div style="width:42px;height:42px;background:#f0d9b5;display:grid;place-items:center;font-size:1.5rem;color:#000;border-radius:4px">♜</div>
                 <div style="width:42px;height:42px;background:#b58863;display:grid;place-items:center;font-size:1.5rem;color:#fff;border-radius:4px">♞</div>
                 <div style="width:42px;height:42px;background:#f0d9b5;display:grid;place-items:center;font-size:1.5rem;color:#000;border-radius:4px">♝</div>
@@ -739,9 +1006,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
                 <div style="width:42px;height:42px;background:#f0d9b5;display:grid;place-items:center;font-size:1.5rem;color:#000;border-radius:4px">♖</div>
                 <div style="width:42px;height:42px;background:#b58863;display:grid;place-items:center;font-size:1.5rem;color:#fff;border-radius:4px">♘</div>
               </div>
-              <div style="display:flex;gap:16px;font-size:2rem;filter:drop-shadow(0 4px 10px rgba(253,230,138,.4))">
-                <span>⚫</span><span>🎲</span><span>⚪</span>
-              </div>
+              <div style="display:flex;gap:16px;font-size:2rem;filter:drop-shadow(0 4px 10px rgba(253,230,138,.4))"><span>⚫</span><span>🎲</span><span>⚪</span></div>
             </div>
           </div>
         </article>
@@ -790,7 +1055,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
     <h1><span class="hico c-blue"><svg class="ic"><use href="#i-book"/></svg></span><span class="tw">Data, Nilai, dan Hafalan</span></h1>
   </div>
 
-  <!-- DATA DIRI -->
   <section id="data-diri" class="ktp-sec wrap">
     <div class="sec-head" style="margin-top:22px">
       <h2 style="font-size:1.6rem">
@@ -815,7 +1079,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
     </div>
   </section>
 
-  <!-- AKADEMIK -->
   <section id="akademik" class="sec wrap">
     <div class="sec-head">
       <p class="eyebrow tw">// akademik</p>
@@ -835,7 +1098,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
     </div>
   </section>
 
-  <!-- TAHFIDZ -->
   <section id="tahfidz" class="sec wrap" style="padding-top:0">
     <div class="tahfidz card">
       <div class="sec-head" style="margin-bottom:18px">
@@ -864,7 +1126,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 </div>
 <!-- END #view-other -->
 
-<!-- ========================= VIEW: TIMELINE (Kapal & Pulau) ========================= -->
+<!-- ========================= VIEW: TIMELINE ========================= -->
 <div id="view-timeline" class="view" hidden>
   <div class="wrap">
     <div class="tl-head">
@@ -881,19 +1143,15 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
         <button class="btn primary" type="button" id="tlNext" aria-label="Geser ke kanan"><svg class="ic"><use href="#i-right"/></svg></button>
       </div>
     </div>
-    <p class="tl-hint">Geser ke kanan (drag, scroll, atau tombol panah) untuk mengarungi perjalanan dari 2012 hingga sekarang. Kapal akan berlayar menuju tiap pulau (tahap pendidikan), melewati jalur air yang berkelok.</p>
+    <p class="tl-hint">Geser ke kanan untuk mengarungi perjalanan dari 2012 hingga sekarang. Kapal berlayar menuju tiap pulau (tahap pendidikan), melewati jalur air yang berkelok.</p>
   </div>
   <div class="tl-scroll" id="tlScroll" tabindex="0" aria-label="Timeline horizontal">
     <div class="tl-track" id="tlTrack">
       <svg class="tl-path" id="tlSvg" aria-hidden="true">
-        <defs>
-          <clipPath id="tlClip"><rect id="tlClipRect" x="0" y="0" width="0" height="200"/></clipPath>
-        </defs>
+        <defs><clipPath id="tlClip"><rect id="tlClipRect" x="0" y="0" width="0" height="200"/></clipPath></defs>
         <path class="base" id="tlBase"/>
         <path class="prog" id="tlProg" clip-path="url(#tlClip)"/>
       </svg>
-
-      <!-- KAPAL -->
       <div class="ship" id="tlShip">
         <span class="ship-tag" id="tlYear">2012</span>
         <div class="ship-bob">
@@ -912,15 +1170,12 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
           </svg>
         </div>
       </div>
-
-      <!-- Ombak dekoratif -->
       <div class="tl-waves" aria-hidden="true">
         <svg viewBox="0 0 800 40" preserveAspectRatio="none">
           <path d="M0 20 Q50 5 100 20 T200 20 T300 20 T400 20 T500 20 T600 20 T700 20 T800 20" fill="none" stroke="#7DD3FC" stroke-width="2" opacity=".4"/>
           <path d="M0 28 Q50 13 100 28 T200 28 T300 28 T400 28 T500 28 T600 28 T700 28 T800 28" fill="none" stroke="#BAE6FD" stroke-width="1.5" opacity=".3"/>
         </svg>
       </div>
-
       <div class="years" id="tlYears"></div>
     </div>
   </div>
@@ -976,7 +1231,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 </div>
 <!-- END #view-post -->
 
-<!-- ========================= VIEW: ADMIN (Blog SPA) ========================= -->
+<!-- ========================= VIEW: ADMIN ========================= -->
 <div id="view-admin" class="view" hidden>
   <div class="wrap">
     <div class="tl-head" style="padding-block:clamp(28px,5vw,48px) 14px">
@@ -995,10 +1250,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
     <p class="tl-hint" style="margin-bottom:20px">
       🔓 Kamu berhasil masuk lewat password kalkulator. Tulis dan kelola artikel di sini — data tersimpan di browser ini (localStorage).
     </p>
-
     <div class="admin-grid">
-
-      <!-- Panel Kiri: Form Tulis -->
       <div class="admin-card card">
         <div class="admin-card-head">
           <span class="hico c-blue"><svg class="ic"><use href="#i-pen"/></svg></span>
@@ -1025,8 +1277,6 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
           <button class="btn primary admin-save" id="adminSave" type="button">💾 Simpan Artikel</button>
         </div>
       </div>
-
-      <!-- Panel Kanan: List Artikel -->
       <div class="admin-card card">
         <div class="admin-card-head">
           <span class="hico c-green"><svg class="ic"><use href="#i-folder"/></svg></span>
@@ -1034,11 +1284,48 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
         </div>
         <div id="adminList" class="admin-list"></div>
       </div>
-
     </div>
   </div>
 </div>
 <!-- END #view-admin -->
+
+<!-- ========================= VIEW: CHAT (Perwakilan Sang Raja) ========================= -->
+<div id="view-chat" class="view" hidden>
+  <div class="wrap">
+    <div class="chat-wrap">
+      <div class="chat-shell">
+        <div class="chat-shell-header">
+          <div class="chat-shell-avatar" aria-hidden="true">♞</div>
+          <div class="chat-shell-info">
+            <h3>Perwakilan Sang Raja</h3>
+            <div class="chat-shell-sub">
+              <span class="chat-shell-dot"></span>
+              <span>Utusan catur portofolio — siap membantu</span>
+            </div>
+          </div>
+          <button class="chat-shell-back" type="button" data-go="home">
+            <svg class="ic" style="width:.9em;height:.9em"><use href="#i-left"/></svg>
+            <span>Beranda</span>
+          </button>
+        </div>
+        <div class="chat-shell-body">
+          <div class="chat-shell-messages" id="chatMessages" role="log" aria-live="polite"></div>
+          <div class="chat-faq-bar">
+            <span class="chat-faq-label">💡 Pertanyaan umum</span>
+            <div class="chat-faq-chips" id="chatFaqChips"></div>
+          </div>
+          <form class="chat-shell-input" id="chatForm" autocomplete="off">
+            <input type="text" id="chatInput" placeholder="Tanya tentang Syazani…" maxlength="300" aria-label="Ketik pertanyaan">
+            <button type="submit" class="chat-shell-send" id="chatSend" aria-label="Kirim">
+              <svg class="ic"><use href="#i-right"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END #view-chat -->
 
 </main>
 
@@ -1063,6 +1350,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
             <li><a data-go="home#projek">Projek</a></li>
             <li><a data-go="home#pengalaman">Pengalaman</a></li>
             <li><a data-go="blog">Blog</a></li>
+            <li><a data-go="chat">Perwakilan Sang Raja</a></li>
             <li><a data-go="timeline">Timeline</a></li>
           </ul>
         </div>
@@ -1094,11 +1382,16 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
   </div>
 </footer>
 
-<!-- Jam lokal floating -->
-<div class="floatclock" aria-label="Jam lokal">
+<!-- ========================= FLOATING CLOCK + KING PEEK ========================= -->
+<div class="floatclock" id="floatclock" aria-label="Jam lokal (hover untuk panggil Perwakilan Sang Raja)">
   <svg class="ic"><use href="#i-clock"/></svg>
   <div><b id="lClock">--:--:--</b><small id="lZone">Waktu lokalmu</small></div>
 </div>
+
+<button class="king-peek" id="kingPeek" type="button" aria-label="Panggil Perwakilan Sang Raja" title="Perwakilan Sang Raja">
+  <span aria-hidden="true">♞</span>
+  <span class="king-peek-tip">Perwakilan Sang Raja</span>
+</button>
 
 <script>
 (function(){
@@ -1117,7 +1410,8 @@ var views={
   timeline:$('#view-timeline'),
   blog:$('#view-blog'),
   post:$('#view-post'),
-  admin:$('#view-admin')
+  admin:$('#view-admin'),
+  chat:$('#view-chat')
 };
 var cur='home';
 var menu=$('#menu'), navTgl=$('#navTgl'), switchBtn=$('#switchBtn');
@@ -1198,7 +1492,7 @@ function spyUpdate(){
 }
 
 /* ============================================================
-   4. JAM (lokal + WIB)
+   4. JAM
    ============================================================ */
 var fLocal=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
 var fWib=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jakarta',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
@@ -1291,7 +1585,7 @@ function initTyping(){
 }
 
 /* ============================================================
-   7. HITUNG ANGKA (stats hero)
+   7. HITUNG ANGKA
    ============================================================ */
 var cntIO=new IntersectionObserver(function(es){
   es.forEach(function(en){
@@ -1310,7 +1604,7 @@ var cntIO=new IntersectionObserver(function(es){
 $$('[data-count]').forEach(function(el){cntIO.observe(el)});
 
 /* ============================================================
-   8. HELPERS BLOG + ADMIN SPA (localStorage + toast)
+   8. HELPERS BLOG + ADMIN
    ============================================================ */
 var BLOG_LOCAL_KEY = 'syazani_blog_local_v1';
 
@@ -1346,9 +1640,7 @@ function formatDate(d){
 }
 
 /* ---- Admin SPA ---- */
-function openAdmin(){
-  show('admin');
-}
+function openAdmin(){ show('admin'); }
 
 function renderAdmin(){
   var t = $('#adminTitle');
@@ -1366,12 +1658,10 @@ function renderAdminList(){
   if(!list) return;
   var arr = getLocalPosts();
   if(count) count.textContent = arr.length;
-
   if(!arr.length){
     list.innerHTML = '<div class="admin-empty">Belum ada artikel.<br>Tulis artikel pertamamu di form sebelah 👈</div>';
     return;
   }
-
   list.innerHTML = arr.map(function(p){
     var slug = escapeHtml(p.slug);
     return '<div class="admin-item" data-slug="'+slug+'">'
@@ -1391,11 +1681,8 @@ function renderAdminList(){
     btn.addEventListener('click', function(){
       var slug = btn.getAttribute('data-slug');
       var act  = btn.getAttribute('data-action');
-      if(act === 'view'){
-        viewPostFromAdmin(slug);
-      } else if(act === 'delete'){
-        deleteLocalPost(slug);
-      }
+      if(act === 'view') viewPostFromAdmin(slug);
+      else if(act === 'delete') deleteLocalPost(slug);
     });
   });
 }
@@ -1409,7 +1696,6 @@ function saveFromAdmin(){
   var content = contEl.value.trim();
   if(!title){ alert('Judul tidak boleh kosong!'); titleEl.focus(); return; }
   if(!content){ alert('Isi artikel tidak boleh kosong!'); contEl.focus(); return; }
-
   var now = new Date();
   var post = {
     slug: 'local-' + now.getTime() + '-' + Math.random().toString(36).slice(2,6),
@@ -1423,11 +1709,9 @@ function saveFromAdmin(){
   var arr = getLocalPosts();
   arr.unshift(post);
   saveLocalPosts(arr);
-
   titleEl.value = '';
   contEl.value = '';
   catEl.value = 'Umum';
-
   renderAdminList();
   blogState.loaded = false;
   showToast('✅ Artikel "'+title+'" tersimpan');
@@ -1438,7 +1722,6 @@ function deleteLocalPost(slug){
   var post = arr.find(function(p){return p.slug === slug});
   if(!post){ return; }
   if(!confirm('Yakin ingin menghapus artikel:\n\n"' + post.title + '"\n\nArtikel akan hilang permanen dari browser ini.')) return;
-
   arr = arr.filter(function(p){ return p.slug !== slug });
   saveLocalPosts(arr);
   renderAdminList();
@@ -1461,7 +1744,7 @@ function viewPostFromAdmin(slug){
 }
 
 /* ============================================================
-   9. KALKULATOR (Biasa + Sains + Password 14092012)
+   9. KALKULATOR
    ============================================================ */
 (function(){
   var SYM={'+':'+','-':'−','*':'×','/':'÷','^':'^'};
@@ -1494,17 +1777,13 @@ function viewPostFromAdmin(slug){
   }
   function isSci(){return !sciKeys.hidden}
 
-  /* Password detector 14092012 */
   var SECRET_CODE = '14092012';
   var secretSeq = '';
   function checkSecretSeq(digit){
     var next = secretSeq + digit;
     if(SECRET_CODE.indexOf(next) === 0){
       secretSeq = next;
-      if(secretSeq === SECRET_CODE){
-        secretSeq = '';
-        return true;
-      }
+      if(secretSeq === SECRET_CODE){ secretSeq=''; return true; }
       return false;
     }
     secretSeq = (SECRET_CODE.indexOf(digit) === 0) ? digit : '';
@@ -1514,21 +1793,15 @@ function viewPostFromAdmin(slug){
   function press(t,v){
     if(S.err){reset()}
     if(t !== 'd') secretSeq = '';
-
     if(t === 'd'){
       if(checkSecretSeq(v)){
-        reset();
-        draw();
-        openAdmin();
-        return;
+        reset();draw();openAdmin();return;
       }
       if(S.fresh){S.cur=v;S.fresh=false}
       else if(S.cur==='0')S.cur=v;
       else if(S.cur.replace('-','').replace('.','').length<16)S.cur+=v;
-      draw();
-      return;
+      draw();return;
     }
-
     var x=parseFloat(S.cur);
     if(t==='dot'){
       if(S.fresh){S.cur='0.';S.fresh=false}
@@ -1553,9 +1826,7 @@ function viewPostFromAdmin(slug){
       else if(v==='BS'){if(!S.fresh){S.cur=S.cur.length>1&&!(S.cur.length===2&&S.cur[0]==='-')?S.cur.slice(0,-1):'0'}}
       else if(v==='NEG'){if(S.cur!=='0'){S.cur=S.cur[0]==='-'?S.cur.slice(1):'-'+S.cur}}
       else if(v==='%'){var pc=(S.op&&S.acc!==null)?S.acc*x/100:x/100;S.cur=fmt(pc);S.fresh=true}
-    }else if(t==='sci'){
-      applySci(v,x);
-    }
+    }else if(t==='sci'){ applySci(v,x); }
     draw();
   }
 
@@ -2017,7 +2288,7 @@ var tl=(function(){
 function tlLayout(){tl.layout()}
 
 /* ============================================================
-   13. BLOG (fetch API + fallback + localStorage)
+   13. BLOG
    ============================================================ */
 var blogState={loaded:false,posts:[],loading:false};
 var BLOG_FALLBACK=[
@@ -2104,13 +2375,345 @@ function openPost(slug){
 }
 
 /* ============================================================
-   14. INIT
+   14. CHAT — "PERWAKILAN SANG RAJA"
+   ============================================================ */
+(function(){
+  var msgs=$('#chatMessages'), form=$('#chatForm'), input=$('#chatInput'), sendBtn=$('#chatSend'), chipsEl=$('#chatFaqChips');
+  if(!msgs || !form) return;
+
+  /* --- Data portofolio --- */
+  var P = {
+    nama:'Muhammad Syazani Al Taftazani',
+    panggilan:'Syazani / Zani',
+    ttl:'Palu, 14 September 2012',
+    alamat:'Jalan Kopo, Beji, Depok',
+    jk:'Laki-laki',
+    sekolah:'SMPIT As-Syifa Boarding School, Jalancagak',
+    kelas:'Kelas 8 (2026/27)',
+    keahlian:['Koding','Bahasa Inggris'],
+    kelebihan:['Pintar','Kreatif','Disiplin'],
+    hobi:['Bermain Game','Koding','Membaca'],
+    kepribadian:['Sopan','Murah Senyum','Beradab'],
+    motto:'The greater the mass, the greater the force of attraction',
+    quote:'Di sekolah anda diberi pelajaran lalu ujian, di kehidupan anda diberi ujian untuk memberi pelajaran',
+    wa:'0816641946',
+    ig:'@Al_ZANI.',
+    email:'altaftazanisyazani@gmail.com'
+  };
+  var ORG=[
+    'Komunitas Literasi Sekolah (2025–2026) — Anggota',
+    'Duta Bahasa (2025–2026) — Anggota',
+    'PJ Kebersihan Kelas (2026–2027) — Anggota',
+    'Panitia ASFERA Divisi Publikasi (2026–2027) — Anggota'
+  ];
+  var WIN=[
+    'Juara 2 Catur PPA (2025)',
+    'Peserta Catur ASFERA (2026)',
+    'Catur Antar As-syifa (2025)',
+    'Mutabaah Terbaik Usbu Ruhi (Agustus 2026)'
+  ];
+  var PROJ=[
+    'Kalkulator (Biasa & Sains) — di Projek → Projek di Web',
+    'Kompas Kiblat (GPS, cari kota, sensor) — di Projek → Projek di Web',
+    'Card Game — buka poker.html',
+    'Board Games — buka board.html'
+  ];
+  var TIMELINE=[
+    '2012 — Lahir di Palu, 14 September',
+    '2019–2021 — SD Al-Azhar Palu (Kelas 1–2)',
+    '2021–2025 — Homeschooling Kak Seto Bekasi (Kelas 3–6)',
+    '2025–2028 — SMPIT As-Syifa Boarding School (Kelas 7–9)'
+  ];
+  var TAHFIDZ=[
+    'Kelas 7 Smt 1: 10 halaman',
+    'Kelas 7 Smt 2: 1 Juz 3 halaman',
+    'Kelas 8 Smt 1: 1 Juz 19 halaman'
+  ];
+
+  /* --- Helper escape & list --- */
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  function list(a){return '<ul>'+a.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>'}
+
+  /* --- INTENTS --- */
+  var INTENTS = [
+    {keys:['halo','hai','hello','hi','hey','pagi','siang','sore','malam','assalam','salam'],
+      reply:function(){
+        var h=new Date().getHours(),gr=h<11?'pagi':h<15?'siang':h<18?'sore':'malam';
+        return 'Salam hormat dari <strong>Perwakilan Sang Raja</strong> ♞<br>Selamat '+gr+', pengunjung. Aku utusan pribadi Syazani — siap menjawab seputar portofolio ini.';
+      }},
+    {keys:['terima kasih','makasih','thanks','thank you','thx','tq'],
+      reply:function(){return 'Dengan senang hati 🙏 Itulah tugas seorang perwakilan. Ada lagi yang ingin ditanyakan?'}},
+    {keys:['siapa syazani','siapa zani','tentang syazani','perkenalan','perkenalkan'],
+      reply:function(){
+        return '<strong>'+P.nama+'</strong> ('+P.panggilan+')<br>'
+          +'🎂 '+P.ttl+'<br>'
+          +'📍 '+P.alamat+'<br>'
+          +'🏫 '+P.sekolah+' — '+P.kelas+'<br><br>'
+          +'Siswa SMP yang gemar <strong>koding</strong> & <strong>catur</strong>. Motto: <em>"'+P.motto+'"</em>';
+      }},
+    {keys:['kamu siapa','siapa kamu','perwakilan','sang raja','raja','bot ini','chatbot','asisten'],
+      reply:function(){
+        return 'Aku <strong>Perwakilan Sang Raja</strong> ♞<br>'
+          +'Bidak kuda yang dipercaya mewakili Syazani untuk menjawab pertanyaan pengunjung. '
+          +'Aku hanya tahu apa yang ada di portofolio ini — selebihnya kupersilakan bertanya langsung kepada Sang Raja (Syazani).';
+      }},
+    {keys:['kelebihan','kekuatan','unggul','pintar','kreatif','disiplin'],
+      reply:function(){return '<strong>Kelebihan:</strong>'+list(P.kelebihan)}},
+    {keys:['hobi','suka apa','kesukaan','minat','hobby'],
+      reply:function(){return '<strong>Hobi:</strong>'+list(P.hobi)}},
+    {keys:['keahlian','skill','bisa apa','kemampuan'],
+      reply:function(){return '<strong>Keahlian:</strong>'+list(P.keahlian)+'Ditambah aktif di <strong>ekskul Koding & IT Club</strong> dengan predikat A.'}},
+    {keys:['kepribadian','sifat','karakter','sikap'],
+      reply:function(){return '<strong>Kepribadian:</strong>'+list(P.kepribadian)}},
+    {keys:['sekolah','smpit','as-syifa','assyifa','kelas berapa','kelas','pendidikan'],
+      reply:function(){
+        return '🏫 '+P.panggilan+' bersekolah di <strong>'+P.sekolah+'</strong> ('+P.kelas+').<br>Sebelumnya:'
+          +list(['SD Al-Azhar Palu (2019–2021)','Homeschooling Kak Seto Bekasi (2021–2025)']);
+      }},
+    {keys:['prestasi','penghargaan','juara','menang','trophy','trofi','lomba'],
+      reply:function(){return '🏆 <strong>Prestasi:</strong>'+list(WIN)}},
+    {keys:['organisasi','ekskul','komunitas','panitia','pj','duta','asfera','literasi'],
+      reply:function(){return '📋 <strong>Pengalaman Organisasi:</strong>'+list(ORG)}},
+    {keys:['projek','project','karya','website','portofolio','aplikasi'],
+      reply:function(){return '💻 <strong>Projek:</strong>'+list(PROJ)}},
+    {keys:['kalkulator','hitung','calculator'],
+      reply:function(){
+        return '🧮 Ada di <strong>Projek → Projek di Web → Kalkulator</strong>.<br>'
+          +'Mode Biasa: +, −, ×, ÷, %, ±.<br>'
+          +'Mode Sains: sin, cos, tan, log, ln, π, e, xʸ, n!, 1/x, x², √.<br><br>'
+          +'🔑 Ada pintu rahasia: ketik <strong>14092012</strong> untuk masuk <strong>Admin Blog</strong>.';
+      }},
+    {keys:['kompas','kiblat','qibla','arah','ka\'bah','kabah','mekkah','makkah'],
+      reply:function(){
+        return '🧭 Ada di <strong>Projek → Projek di Web → Kompas Kiblat</strong>.<br>'
+          +'Fitur: deteksi GPS, pilih kota, isi koordinat manual, dan sensor HP (butuh HTTPS).';
+      }},
+    {keys:['blog','tulis','artikel','admin','menulis','postingan'],
+      reply:function(){
+        return '📝 <strong>Cara menulis artikel:</strong>'
+          +list([
+            'Buka menu Projek → tab "Projek di Web"',
+            'Di kalkulator, ketik 14092012',
+            'Kamu otomatis masuk halaman Admin Blog',
+            'Isi judul, kategori, isi → klik 💾 Simpan',
+            'Artikel muncul di halaman Blog dengan badge "✍️ Kamu"'
+          ])
+          +'Bisa dihapus lewat tombol 🗑️ di Admin.';
+      }},
+    {keys:['timeline','perjalanan','riwayat','sejarah','kronologi'],
+      reply:function(){return '⛵ <strong>Timeline:</strong>'+list(TIMELINE)}},
+    {keys:['kontak','hubungi','whatsapp','wa','instagram','ig','email','surel','nomor','sosmed'],
+      reply:function(){
+        return '📞 <strong>Kontak:</strong>'
+          +list([
+            'WhatsApp: '+P.wa,
+            'Instagram: '+P.ig,
+            'Email: '+P.email
+          ]);
+      }},
+    {keys:['tahfidz','hafalan','quran','qur\'an','juz','tilawah'],
+      reply:function(){return '📖 <strong>Pencapaian Tahfidz:</strong>'+list(TAHFIDZ)}},
+    {keys:['data diri','ttl','lahir','alamat','umur','usia','ktp','identitas'],
+      reply:function(){
+        return '🪪 <strong>Data Diri:</strong>'
+          +list(['Nama: '+P.nama,'TTL: '+P.ttl,'Alamat: '+P.alamat,'JK: '+P.jk,'Sekolah: '+P.sekolah]);
+      }},
+    {keys:['motto','slogan','quote','kutipan','pepatah'],
+      reply:function(){return '✨ <strong>Motto:</strong> <em>"'+P.motto+'"</em><br><strong>Quote:</strong> <em>"'+P.quote+'"</em>'}},
+    {keys:['bantu','bisa apa','fitur','panduan','help','fungsi','cara pakai'],
+      reply:function(){
+        return 'Aku bisa menjawab:'
+          +list([
+            '👤 Profil Syazani (nama, umur, alamat, sekolah)',
+            '🏆 Prestasi & organisasi',
+            '💻 Projek (kalkulator, kompas, games)',
+            '📝 Cara menulis artikel di blog',
+            '📞 Kontak & media sosial',
+            '📖 Tahfidz & timeline'
+          ])
+          +'Silakan pilih salah satu <strong>pertanyaan umum</strong> di bawah.';
+      }}
+  ];
+
+  var FORBIDDEN=['politik','presiden','pemilu','partai','agama lain','kristen','hindu','buddha','yahudi','pornografi','porno','sex','bokep','narkoba','ganja','sabu','judi','slot','togel','kekerasan','bunuh','bom','teroris','sara','rasis','obat','resep dokter','saham','crypto','bitcoin','investasi','curhat','pacar','jodoh','mantan','resep masakan','masak'];
+
+  function isForbidden(q){
+    var lq=q.toLowerCase();
+    for(var i=0;i<FORBIDDEN.length;i++) if(lq.indexOf(FORBIDDEN[i])!==-1) return true;
+    return false;
+  }
+  function findIntent(q){
+    var lq=q.toLowerCase().trim();
+    if(isForbidden(lq)) return {forbidden:true};
+    for(var i=0;i<INTENTS.length;i++){
+      var it=INTENTS[i];
+      for(var k=0;k<it.keys.length;k++) if(lq.indexOf(it.keys[k])!==-1) return it;
+    }
+    return null;
+  }
+
+  function fallbackReply(){
+    return '🙏 <strong>Mohon maaf, hamba belum bisa menjawab itu.</strong><br><br>'
+      +'Sebagai <strong>Perwakilan Sang Raja</strong>, tugasku terbatas pada <strong>portofolio Syazani</strong>:'
+      +list(['Profil & data diri','Prestasi & organisasi','Projek (kalkulator, kompas, games)','Cara menulis blog','Kontak & timeline'])
+      +'Silakan pilih <strong>pertanyaan umum</strong> di bawah, atau hubungi Syazani langsung:<br>'
+      +'📞 '+P.wa+' · ✉️ '+P.email;
+  }
+  function forbiddenReply(){
+    return '🙏 <strong>Mohon maaf, hamba tidak bisa membahas topik itu.</strong><br><br>'
+      +'Perwakilan Sang Raja hanya menjawab seputar portofolio Syazani. Mari kembali ke topik yang ringan:'
+      +list(['Profil, prestasi, organisasi','Projek & blog','Kontak Syazani'])
+      +'Terima kasih atas pengertiannya. 😊';
+  }
+
+  /* --- Render bubble --- */
+  function appendMsg(role, html){
+    var wrap=document.createElement('div');
+    wrap.className='chat-s-msg '+role;
+    var av=document.createElement('div');
+    av.className='chat-s-avatar';
+    av.textContent= role==='bot' ? '♞' : '👤';
+    var bub=document.createElement('div');
+    bub.className='chat-s-bubble';
+    bub.innerHTML=html;
+    wrap.appendChild(av);wrap.appendChild(bub);
+    msgs.appendChild(wrap);
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+  function showTyping(){
+    var wrap=document.createElement('div');
+    wrap.className='chat-s-msg bot';
+    wrap.id='chatTyping';
+    wrap.innerHTML='<div class="chat-s-avatar">♞</div><div class="chat-s-bubble"><div class="chat-s-typing"><span></span><span></span><span></span></div></div>';
+    msgs.appendChild(wrap);
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+  function hideTyping(){var t=document.getElementById('chatTyping');if(t)t.remove()}
+
+  function handle(text){
+    text=text.trim();if(!text)return;
+    appendMsg('user',esc(text));
+    if(sendBtn)sendBtn.disabled=true;
+    showTyping();
+    setTimeout(function(){
+      hideTyping();
+      var it=findIntent(text);
+      var reply;
+      if(it && it.forbidden) reply=forbiddenReply();
+      else if(it && typeof it.reply==='function') reply=it.reply();
+      else reply=fallbackReply();
+      appendMsg('bot',reply);
+      if(sendBtn)sendBtn.disabled=false;
+      if(input)input.focus();
+    },520+Math.random()*380);
+  }
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=input.value.trim();if(!v)return;
+    input.value='';handle(v);
+  });
+
+  /* --- Quick chips FAQ (8 pertanyaan) --- */
+  var FAQ=[
+    'Siapa Syazani?',
+    'Apa prestasinya?',
+    'Apa saja projeknya?',
+    'Di sekolah mana?',
+    'Bagaimana cara kontak?',
+    'Cara menulis artikel blog?',
+    'Ceritakan timeline-nya',
+    'Kamu siapa, Perwakilan Sang Raja?'
+  ];
+  function renderFaq(){
+    if(!chipsEl)return;
+    chipsEl.innerHTML='';
+    FAQ.forEach(function(q){
+      var c=document.createElement('button');
+      c.type='button';c.className='chat-faq-chip';c.textContent=q;
+      c.addEventListener('click',function(){handle(q)});
+      chipsEl.appendChild(c);
+    });
+  }
+
+  function welcome(){
+    appendMsg('bot',
+      '♞ <strong>Salam hormat, pengunjung.</strong><br>'
+      +'Aku <strong>Perwakilan Sang Raja</strong> — bidak kuda yang dipercaya mewakili Syazani.<br><br>'
+      +'Silakan bertanya tentang:'
+      +list(['Profil & data diri','Prestasi & organisasi','Projek & blog','Kontak & timeline'])
+      +'Klik salah satu <strong>pertanyaan umum</strong> di bawah untuk memulai.'
+    );
+  }
+
+  renderFaq();
+  welcome();
+
+  /* --- Expose: reset chat saat masuk ulang --- */
+  window.__kingChatReset=function(){
+    msgs.innerHTML='';
+    welcome();
+  };
+})();
+
+/* ============================================================
+   15. TRIGGER BIDAK SAAT HOVER JAM
+   ============================================================ */
+(function(){
+  var floatclock=$('#floatclock');
+  var kingPeek=$('#kingPeek');
+  if(!floatclock || !kingPeek) return;
+
+  var hideTimer=null;
+
+  function showKing(){
+    clearTimeout(hideTimer);
+    kingPeek.classList.add('show');
+  }
+  function hideKing(){
+    clearTimeout(hideTimer);
+    hideTimer=setTimeout(function(){ kingPeek.classList.remove('show') }, 300);
+  }
+
+  /* Desktop: hover jam → tampil bidak */
+  floatclock.addEventListener('mouseenter', showKing);
+  floatclock.addEventListener('mouseleave', hideKing);
+  /* Mobile: tap jam → toggle */
+  floatclock.addEventListener('click', function(e){
+    e.stopPropagation();
+    if(kingPeek.classList.contains('show')) kingPeek.classList.remove('show');
+    else kingPeek.classList.add('show');
+  });
+
+  /* Kalau bidak tidak di-hover beberapa detik, sembunyikan lagi */
+  kingPeek.addEventListener('mouseenter', function(){ clearTimeout(hideTimer) });
+  kingPeek.addEventListener('mouseleave', hideKing);
+
+  /* Klik bidak → buka SPA #view-chat */
+  kingPeek.addEventListener('click', function(e){
+    e.stopPropagation();
+    kingPeek.classList.remove('show');
+    if(typeof window.__kingChatReset === 'function') window.__kingChatReset();
+    show('chat');
+  });
+
+  /* Klik di luar → sembunyikan */
+  document.addEventListener('click', function(e){
+    if(!floatclock.contains(e.target) && !kingPeek.contains(e.target)){
+      kingPeek.classList.remove('show');
+    }
+  });
+})();
+
+/* ============================================================
+   16. INIT
    ============================================================ */
 initTyping();
-var adminSaveBtn = $('#adminSave');
+var adminSaveBtn=$('#adminSave');
 if(adminSaveBtn) adminSaveBtn.addEventListener('click', saveFromAdmin);
 updateNav();
 if(location.hash==='#blog')show('blog');
+if(location.hash==='#chat')show('chat');
 
 })();
 </script>
