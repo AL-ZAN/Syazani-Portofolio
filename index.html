@@ -407,13 +407,13 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 .floatclock b{font-size:.92rem;font-variant-numeric:tabular-nums}
 .floatclock small{display:block;color:var(--muted);font-size:.64rem;line-height:1.2;letter-spacing:.04em}
 
-/* ==== KING'S REPRESENTATIVE (chess piece trigger) ==== */
+/* ==== HONOURED HORSE PEEK TRIGGER ==== */
 .king-peek{
   position:fixed;
   right:calc(28px + env(safe-area-inset-right,0px));
   bottom:calc(72px + env(safe-area-inset-bottom,0px));
   z-index:71;
-  width:54px;height:54px;
+  width:56px;height:56px;
   border-radius:50%;
   background:radial-gradient(circle at 35% 30%,#FFF7ED,#FDE68A 55%,#B45309 100%);
   color:#78350F;
@@ -421,7 +421,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
   box-shadow:0 8px 24px -6px rgba(120,53,15,.5),0 0 0 2px rgba(120,53,15,.3);
   cursor:pointer;
   display:grid;place-items:center;
-  font-size:1.7rem;
+  font-size:1.75rem;
   opacity:0;
   transform:translateY(10px) scale(.7);
   pointer-events:none;
@@ -429,262 +429,373 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
   font-family:'Segoe UI Symbol','Noto Sans Symbols 2','DejaVu Sans',serif;
   line-height:1;
 }
-.king-peek.show{
-  opacity:1;
-  transform:translateY(0) scale(1);
-  pointer-events:auto;
-}
-.king-peek:hover{
-  transform:translateY(-3px) scale(1.12) rotate(-8deg);
-  box-shadow:0 14px 32px -6px rgba(120,53,15,.7),0 0 0 4px rgba(253,230,138,.5);
-}
+.king-peek.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.king-peek:hover{transform:translateY(-3px) scale(1.12) rotate(-8deg);box-shadow:0 14px 32px -6px rgba(120,53,15,.7),0 0 0 4px rgba(253,230,138,.5)}
 .king-peek:active{transform:scale(.95)}
-.king-peek::before{
-  content:'';
-  position:absolute;
-  inset:-6px;
-  border-radius:50%;
-  border:2px dashed rgba(180,83,9,.5);
-  animation:kingSpin 14s linear infinite;
-  pointer-events:none;
-}
+.king-peek::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px dashed rgba(180,83,9,.5);animation:kingSpin 14s linear infinite;pointer-events:none}
 @keyframes kingSpin{to{transform:rotate(360deg)}}
-.king-peek-tip{
-  position:absolute;
-  right:calc(100% + 10px);
-  top:50%;
-  transform:translateY(-50%);
-  background:var(--ink);
-  color:#FFF7ED;
-  padding:6px 12px;
-  border-radius:10px;
-  font:600 .72rem var(--f-mono);
-  white-space:nowrap;
-  opacity:0;
-  pointer-events:none;
-  transition:.2s;
-  letter-spacing:.03em;
-}
+.king-peek-tip{position:absolute;right:calc(100% + 10px);top:50%;transform:translateY(-50%);background:var(--ink);color:#FFF7ED;padding:6px 12px;border-radius:10px;font:600 .72rem var(--f-mono);white-space:nowrap;opacity:0;pointer-events:none;transition:.2s;letter-spacing:.03em}
 .king-peek:hover .king-peek-tip{opacity:1;transform:translateY(-50%) translateX(-3px)}
-.king-peek-tip::after{
-  content:'';
-  position:absolute;
-  left:100%;top:50%;
-  transform:translateY(-50%);
-  border:5px solid transparent;
-  border-left-color:var(--ink);
-}
-@media (max-width:480px){
-  .king-peek{width:48px;height:48px;font-size:1.45rem;right:calc(22px + env(safe-area-inset-right,0px));bottom:calc(68px + env(safe-area-inset-bottom,0px))}
-  .king-peek-tip{display:none}
-}
+.king-peek-tip::after{content:'';position:absolute;left:100%;top:50%;transform:translateY(-50%);border:5px solid transparent;border-left-color:var(--ink)}
+@media (max-width:480px){.king-peek{width:50px;height:50px;font-size:1.5rem;right:calc(22px + env(safe-area-inset-right,0px));bottom:calc(70px + env(safe-area-inset-bottom,0px))}.king-peek-tip{display:none}}
 
-/* ==== CHAT SPA (Perwakilan Sang Raja) ==== */
-.chat-wrap{max-width:820px;margin:0 auto;padding:clamp(24px,5vw,48px) 0}
-.chat-shell{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:24px;
-  box-shadow:var(--shadow);
+/* ==== CHAT FULL SCREEN — THE HONOURED HORSE ==== */
+#view-chat{
+  position:fixed;
+  inset:0;
+  top:env(safe-area-inset-top,0px);
+  bottom:env(safe-area-inset-bottom,0px);
+  z-index:150;
+  display:none;
+  background:linear-gradient(160deg,#FFF7ED 0%,#FEF3C7 100%);
   overflow:hidden;
+}
+#view-chat.active{display:flex;flex-direction:column;animation:chatFullIn .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes chatFullIn{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:none}}
+
+.hh-shell{
   display:flex;
   flex-direction:column;
-  height:min(640px,calc(100vh - 220px));
-}
-.chat-shell-header{
-  display:flex;align-items:center;gap:14px;
-  padding:16px 20px;
-  background:linear-gradient(135deg,#78350F,#B45309 50%,#D97706 100%);
-  color:#FFF7ED;
+  height:100%;
+  width:100%;
+  background:
+    radial-gradient(circle at 15% 20%,rgba(253,230,138,.35) 0%,transparent 40%),
+    radial-gradient(circle at 85% 80%,rgba(180,83,9,.12) 0%,transparent 45%),
+    linear-gradient(160deg,#FFF7ED 0%,#FEF3C7 100%);
   position:relative;
   overflow:hidden;
 }
-.chat-shell-header::after{
+.hh-shell::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,transparent 0 24px,rgba(180,83,9,.04) 24px 25px),
+    repeating-linear-gradient(-45deg,transparent 0 24px,rgba(180,83,9,.04) 24px 25px);
+  pointer-events:none;
+  z-index:0;
+}
+.hh-shell::after{
+  content:'♞';
+  position:absolute;
+  right:-80px;
+  bottom:-80px;
+  font-size:400px;
+  color:rgba(180,83,9,.05);
+  pointer-events:none;
+  line-height:1;
+  z-index:0;
+  font-family:'Segoe UI Symbol','Noto Sans Symbols 2',serif;
+}
+
+.hh-header{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:14px clamp(16px,3vw,28px);
+  background:linear-gradient(135deg,#78350F 0%,#B45309 55%,#D97706 100%);
+  color:#FFF7ED;
+  box-shadow:0 4px 20px -8px rgba(120,53,15,.5);
+  position:relative;
+  z-index:2;
+  flex-shrink:0;
+}
+.hh-header::after{
   content:'';
   position:absolute;
   inset:0;
   background:repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 8px,transparent 8px 16px);
   pointer-events:none;
 }
-.chat-shell-avatar{
-  width:52px;height:52px;border-radius:50%;
+.hh-avatar{
+  width:56px;height:56px;border-radius:50%;
   background:radial-gradient(circle at 35% 30%,#FFF7ED,#FDE68A 55%,#B45309 100%);
   color:#78350F;
   display:grid;place-items:center;
-  font-size:1.7rem;
-  border:3px solid rgba(255,255,255,.7);
-  box-shadow:0 6px 16px -4px rgba(0,0,0,.4);
+  font-size:1.85rem;
+  border:3px solid rgba(255,255,255,.75);
+  box-shadow:0 6px 18px -4px rgba(0,0,0,.4);
   flex-shrink:0;
-  font-family:'Segoe UI Symbol','Noto Sans Symbols 2','DejaVu Sans',serif;
   position:relative;
   z-index:1;
-  animation:kingAvatarPulse 3s ease-in-out infinite;
+  font-family:'Segoe UI Symbol','Noto Sans Symbols 2','DejaVu Sans',serif;
+  animation:hhAvatarPulse 3s ease-in-out infinite;
 }
-@keyframes kingAvatarPulse{0%,100%{box-shadow:0 6px 16px -4px rgba(0,0,0,.4),0 0 0 0 rgba(253,230,138,.5)}50%{box-shadow:0 6px 16px -4px rgba(0,0,0,.4),0 0 0 8px rgba(253,230,138,0)}}
-.chat-shell-info{flex:1;min-width:0;position:relative;z-index:1}
-.chat-shell-info h3{font-family:var(--f-display);font-size:1.15rem;font-weight:800;letter-spacing:.01em;color:#FFF7ED;line-height:1.15}
-.chat-shell-info .chat-shell-sub{
-  font:600 .74rem var(--f-mono);opacity:.85;
-  display:flex;align-items:center;gap:6px;margin-top:3px;
+@keyframes hhAvatarPulse{0%,100%{box-shadow:0 6px 18px -4px rgba(0,0,0,.4),0 0 0 0 rgba(253,230,138,.5)}50%{box-shadow:0 6px 18px -4px rgba(0,0,0,.4),0 0 0 10px rgba(253,230,138,0)}}
+.hh-info{flex:1;min-width:0;position:relative;z-index:1}
+.hh-info h3{
+  font-family:var(--f-display);
+  font-size:clamp(1rem,2.2vw,1.35rem);
+  font-weight:800;
+  letter-spacing:.02em;
+  color:#FFF7ED;
+  line-height:1.15;
+  text-transform:uppercase;
 }
-.chat-shell-dot{
-  width:7px;height:7px;border-radius:50%;background:#4ADE80;
+.hh-info-sub{
+  font:600 .74rem var(--f-mono);
+  opacity:.88;
+  display:flex;align-items:center;gap:8px;
+  margin-top:4px;
+  flex-wrap:wrap;
+}
+.hh-dot{
+  width:8px;height:8px;border-radius:50%;background:#4ADE80;
   box-shadow:0 0 0 3px rgba(74,222,128,.35);
-  animation:chatDotPulse 1.6s ease-in-out infinite;
+  animation:hhDotPulse 1.6s ease-in-out infinite;
+  flex-shrink:0;
 }
-@keyframes chatDotPulse{0%,100%{opacity:1}50%{opacity:.5}}
-.chat-shell-back{
+@keyframes hhDotPulse{0%,100%{opacity:1}50%{opacity:.5}}
+.hh-stat{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 9px;border-radius:999px;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.2);
+  font-size:.68rem;
+  color:#FFF7ED;
+  white-space:nowrap;
+}
+.hh-header-actions{display:flex;gap:8px;position:relative;z-index:1;flex-shrink:0}
+.hh-btn{
   background:rgba(255,255,255,.15);
   border:1px solid rgba(255,255,255,.25);
   color:#FFF7ED;
-  padding:7px 14px;border-radius:999px;
-  font:700 .74rem var(--f-mono);
+  width:40px;height:40px;border-radius:50%;
   cursor:pointer;transition:.2s;
-  display:inline-flex;align-items:center;gap:6px;
-  position:relative;z-index:1;
-  flex-shrink:0;
+  display:grid;place-items:center;
+  padding:0;
 }
-.chat-shell-back:hover{background:rgba(255,255,255,.28);transform:translateX(-2px)}
+.hh-btn:hover{background:rgba(255,255,255,.3);transform:scale(1.08)}
+.hh-btn .ic{width:18px;height:18px}
+.hh-btn.back-btn{width:auto;padding:0 16px;border-radius:999px;gap:6px;font:700 .78rem var(--f-mono);display:inline-flex;align-items:center}
+.hh-btn.back-btn:hover{transform:translateX(-2px)}
 
-.chat-shell-body{
+.hh-body{
   flex:1;
-  display:flex;flex-direction:column;
-  background:linear-gradient(180deg,#f8fbfd,#EFF8FF);
+  display:flex;
+  flex-direction:column;
   min-height:0;
+  position:relative;
+  z-index:1;
 }
-.chat-shell-messages{
+.hh-messages{
   flex:1;
   overflow-y:auto;
-  padding:18px 18px 8px;
-  display:flex;flex-direction:column;gap:14px;
+  padding:clamp(20px,4vw,36px) clamp(16px,4vw,48px) 8px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
   scroll-behavior:smooth;
+  max-width:100%;
 }
-.chat-shell-messages::-webkit-scrollbar{width:8px}
-.chat-shell-messages::-webkit-scrollbar-track{background:transparent}
-.chat-shell-messages::-webkit-scrollbar-thumb{background:var(--ice-mid);border-radius:4px}
+.hh-messages::-webkit-scrollbar{width:10px}
+.hh-messages::-webkit-scrollbar-track{background:transparent}
+.hh-messages::-webkit-scrollbar-thumb{background:rgba(180,83,9,.3);border-radius:5px;border:2px solid transparent;background-clip:padding-box}
+.hh-messages::-webkit-scrollbar-thumb:hover{background:rgba(180,83,9,.5);background-clip:padding-box;border:2px solid transparent}
 
-.chat-s-msg{display:flex;gap:10px;max-width:82%;animation:chatMsgIn .35s cubic-bezier(.2,.8,.2,1)}
-@keyframes chatMsgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.chat-s-msg.bot{align-self:flex-start}
-.chat-s-msg.user{align-self:flex-end;flex-direction:row-reverse}
-.chat-s-avatar{
-  width:34px;height:34px;border-radius:50%;flex-shrink:0;
-  display:grid;place-items:center;font-size:1rem;
+.hh-msg{
+  display:flex;
+  gap:12px;
+  max-width:min(720px,85%);
+  animation:hhMsgIn .4s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes hhMsgIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.hh-msg.bot{align-self:flex-start}
+.hh-msg.user{align-self:flex-end;flex-direction:row-reverse}
+.hh-msg-avatar{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  display:grid;place-items:center;
+  font-size:1.15rem;
   font-family:'Segoe UI Symbol','Noto Sans Symbols 2','DejaVu Sans',serif;
 }
-.chat-s-msg.bot .chat-s-avatar{
+.hh-msg.bot .hh-msg-avatar{
   background:radial-gradient(circle at 35% 30%,#FFF7ED,#FDE68A 55%,#B45309 100%);
   color:#78350F;
-  border:2px solid #fff;
-  box-shadow:0 3px 10px -3px rgba(120,53,15,.5);
+  border:2.5px solid #fff;
+  box-shadow:0 4px 12px -3px rgba(120,53,15,.5);
 }
-.chat-s-msg.user .chat-s-avatar{background:var(--ice-soft);color:var(--deep);border:2px solid var(--ice)}
-.chat-s-bubble{
-  padding:11px 15px;
-  border-radius:16px;
-  font-size:.92rem;line-height:1.55;
-  word-wrap:break-word;white-space:pre-wrap;
+.hh-msg.user .hh-msg-avatar{
+  background:linear-gradient(135deg,var(--ice-soft),var(--ice-mid));
+  color:var(--deep);
+  border:2.5px solid #fff;
 }
-.chat-s-msg.bot .chat-s-bubble{
-  background:#fff;color:var(--ink);
-  border:1px solid var(--line);
-  border-top-left-radius:4px;
-  box-shadow:0 2px 8px -4px rgba(28,25,23,.1);
+.hh-bubble{
+  padding:14px 20px;
+  border-radius:20px;
+  font-size:clamp(.9rem,1.2vw,1rem);
+  line-height:1.6;
+  word-wrap:break-word;
+  white-space:pre-wrap;
+  position:relative;
 }
-.chat-s-msg.user .chat-s-bubble{
-  background:var(--deep);color:#fff;
-  border-top-right-radius:4px;
+.hh-msg.bot .hh-bubble{
+  background:#fff;
+  color:var(--ink);
+  border:1px solid rgba(180,83,9,.15);
+  border-top-left-radius:6px;
+  box-shadow:0 4px 16px -8px rgba(120,53,15,.25);
 }
-.chat-s-bubble strong{color:#B45309;font-weight:700}
-.chat-s-msg.user .chat-s-bubble strong{color:#fff}
-.chat-s-bubble a{color:var(--deep);text-decoration:underline;font-weight:600}
-.chat-s-bubble ul{margin:6px 0 0;padding-left:18px;list-style:disc}
-.chat-s-bubble li{margin-bottom:3px}
-.chat-s-bubble em{color:var(--muted);font-style:italic}
+.hh-msg.user .hh-bubble{
+  background:linear-gradient(135deg,#B45309,#D97706);
+  color:#FFF7ED;
+  border-top-right-radius:6px;
+  box-shadow:0 4px 16px -8px rgba(180,83,9,.4);
+}
+.hh-bubble strong{color:#B45309;font-weight:700}
+.hh-msg.user .hh-bubble strong{color:#FDE68A}
+.hh-bubble a{color:var(--deep);text-decoration:underline;font-weight:600}
+.hh-bubble ul{margin:6px 0 0;padding-left:20px;list-style:disc}
+.hh-bubble li{margin-bottom:4px}
+.hh-bubble em{color:#92400E;font-style:italic}
+.hh-msg.user .hh-bubble em{color:#FDE68A}
+.hh-time{
+  font:500 .65rem var(--f-mono);
+  color:var(--muted);
+  opacity:.6;
+  margin-top:6px;
+  padding:0 4px;
+}
+.hh-msg.user .hh-time{text-align:right}
 
-.chat-s-typing{display:inline-flex;gap:5px;align-items:center;padding:13px 16px}
-.chat-s-typing span{
+.hh-typing{display:inline-flex;gap:5px;align-items:center;padding:14px 18px}
+.hh-typing span{
   width:8px;height:8px;border-radius:50%;
   background:#B45309;opacity:.5;
-  animation:chatTyping 1.2s ease-in-out infinite;
+  animation:hhTyping 1.2s ease-in-out infinite;
 }
-.chat-s-typing span:nth-child(2){animation-delay:.15s}
-.chat-s-typing span:nth-child(3){animation-delay:.3s}
-@keyframes chatTyping{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-7px);opacity:1}}
+.hh-typing span:nth-child(2){animation-delay:.15s}
+.hh-typing span:nth-child(3){animation-delay:.3s}
+@keyframes hhTyping{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-8px);opacity:1}}
 
-.chat-faq-bar{
-  padding:10px 16px;
-  background:#fff;
-  border-top:1px solid var(--line);
+.hh-suggestions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:12px clamp(16px,4vw,48px) 6px;
+  max-width:100%;
 }
-.chat-faq-label{
+.hh-sug-label{
+  width:100%;
+  font:600 .68rem var(--f-mono);
+  color:#92400E;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.hh-sug-chip{
+  padding:8px 15px;
+  background:rgba(255,255,255,.85);
+  border:1px solid rgba(180,83,9,.25);
+  color:#78350F;
+  border-radius:999px;
+  font:600 .78rem var(--f-body);
+  cursor:pointer;
+  transition:.18s;
+  white-space:nowrap;
+  backdrop-filter:blur(4px);
+}
+.hh-sug-chip:hover{
+  background:linear-gradient(135deg,#B45309,#D97706);
+  color:#FFF7ED;
+  border-color:#B45309;
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px -4px rgba(180,83,9,.5);
+}
+
+.hh-faq-bar{
+  padding:12px clamp(16px,4vw,48px) 8px;
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(8px);
+  border-top:1px solid rgba(180,83,9,.12);
+}
+.hh-faq-label{
   display:block;
-  font:600 .65rem var(--f-mono);
-  color:#B45309;letter-spacing:.08em;
+  font:600 .68rem var(--f-mono);
+  color:#92400E;
+  letter-spacing:.08em;
   text-transform:uppercase;
   margin-bottom:8px;
-  padding-left:2px;
 }
-.chat-faq-chips{
-  display:flex;flex-wrap:wrap;gap:6px;
-  max-height:96px;overflow-y:auto;
+.hh-faq-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  max-height:110px;
+  overflow-y:auto;
 }
-.chat-faq-chip{
-  padding:7px 13px;
+.hh-faq-chip{
+  padding:8px 15px;
   background:linear-gradient(135deg,#FFF7ED,#FEF3C7);
   border:1px solid #FDE68A;
   color:#78350F;
   border-radius:999px;
-  font:600 .74rem var(--f-body);
-  cursor:pointer;transition:.18s;
+  font:600 .78rem var(--f-body);
+  cursor:pointer;
+  transition:.18s;
   white-space:nowrap;
 }
-.chat-faq-chip:hover{
+.hh-faq-chip:hover{
   background:linear-gradient(135deg,#B45309,#D97706);
-  color:#fff;border-color:#B45309;
+  color:#FFF7ED;
+  border-color:#B45309;
   transform:translateY(-1px);
   box-shadow:0 4px 12px -4px rgba(180,83,9,.5);
 }
 
-.chat-shell-input{
-  display:flex;gap:10px;align-items:center;
-  padding:12px 16px 16px;
-  background:#fff;
-  border-top:1px solid var(--line);
+.hh-input-area{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:14px clamp(16px,4vw,48px) calc(16px + env(safe-area-inset-bottom,0px));
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(10px);
+  border-top:1px solid rgba(180,83,9,.15);
+  flex-shrink:0;
 }
-.chat-shell-input input{
+.hh-input{
   flex:1;min-width:0;
-  padding:12px 18px;
+  padding:14px 22px;
   border-radius:999px;
-  border:1.5px solid var(--line);
-  background:#f8fbfd;
-  font:500 .92rem var(--f-body);
-  color:var(--ink);outline:none;
+  border:2px solid rgba(180,83,9,.2);
+  background:#fff;
+  font:500 .95rem var(--f-body);
+  color:var(--ink);
+  outline:none;
   transition:.2s;
 }
-.chat-shell-input input:focus{border-color:#B45309;background:#fff;box-shadow:0 0 0 4px rgba(253,230,138,.4)}
-.chat-shell-input input::placeholder{color:var(--muted)}
-.chat-shell-send{
-  width:46px;height:46px;border-radius:50%;
+.hh-input:focus{border-color:#B45309;box-shadow:0 0 0 4px rgba(253,230,138,.4)}
+.hh-input::placeholder{color:var(--muted)}
+.hh-send{
+  width:50px;height:50px;border-radius:50%;
   background:linear-gradient(135deg,#B45309,#D97706);
   color:#fff;border:none;cursor:pointer;
   display:grid;place-items:center;flex-shrink:0;
   transition:.2s;
   box-shadow:0 6px 16px -4px rgba(180,83,9,.55);
 }
-.chat-shell-send:hover{transform:scale(1.08);box-shadow:0 10px 22px -6px rgba(180,83,9,.7)}
-.chat-shell-send:active{transform:scale(.94)}
-.chat-shell-send:disabled{opacity:.5;cursor:not-allowed}
-.chat-shell-send .ic{width:20px;height:20px}
+.hh-send:hover{transform:scale(1.08);box-shadow:0 10px 22px -6px rgba(180,83,9,.7)}
+.hh-send:active{transform:scale(.94)}
+.hh-send:disabled{opacity:.5;cursor:not-allowed}
+.hh-send .ic{width:22px;height:22px}
 
 @media (max-width:640px){
-  .chat-shell{height:calc(100vh - 180px);border-radius:20px}
-  .chat-shell-avatar{width:44px;height:44px;font-size:1.4rem}
-  .chat-shell-info h3{font-size:1rem}
-  .chat-shell-back span{display:none}
-  .chat-s-bubble{font-size:.86rem;padding:9px 12px}
-  .chat-faq-chip{font-size:.68rem;padding:6px 10px}
-  .chat-faq-chips{max-height:80px}
+  .hh-avatar{width:44px;height:44px;font-size:1.4rem}
+  .hh-info h3{font-size:.95rem}
+  .hh-info-sub{font-size:.65rem;gap:5px}
+  .hh-stat{font-size:.6rem;padding:2px 7px}
+  .hh-btn{width:36px;height:36px}
+  .hh-btn.back-btn{padding:0 12px;font-size:.7rem}
+  .hh-msg{max-width:92%}
+  .hh-msg-avatar{width:36px;height:36px;font-size:1rem}
+  .hh-bubble{padding:11px 16px;font-size:.88rem;border-radius:16px}
+  .hh-sug-chip,.hh-faq-chip{font-size:.7rem;padding:6px 11px}
+  .hh-faq-chips{max-height:90px}
+  .hh-messages{padding:16px 14px 8px;gap:12px}
+  .hh-input{padding:12px 18px;font-size:.88rem}
+  .hh-send{width:44px;height:44px}
+  .hh-send .ic{width:18px;height:18px}
+  .hh-suggestions,.hh-faq-bar{padding-left:14px;padding-right:14px}
+  .hh-input-area{padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px))}
 }
 </style>
 
@@ -744,7 +855,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
       <a href="#projek" data-go="home#projek" data-sec="projek">Projek</a>
       <a href="#pengalaman" data-go="home#pengalaman" data-sec="pengalaman">Pengalaman</a>
       <button data-go="blog" type="button">Blog</button>
-      <button data-go="chat" type="button">Chat</button>
+      <button data-go="chat" type="button">The Honoured Horse</button>
       <button class="switch" id="switchBtn" type="button">Sisi Lain</button>
     </nav>
   </div>
@@ -1289,39 +1400,46 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
 </div>
 <!-- END #view-admin -->
 
-<!-- ========================= VIEW: CHAT (Perwakilan Sang Raja) ========================= -->
+<!-- ========================= VIEW: CHAT FULL SCREEN — THE HONOURED HORSE ========================= -->
 <div id="view-chat" class="view" hidden>
-  <div class="wrap">
-    <div class="chat-wrap">
-      <div class="chat-shell">
-        <div class="chat-shell-header">
-          <div class="chat-shell-avatar" aria-hidden="true">♞</div>
-          <div class="chat-shell-info">
-            <h3>Perwakilan Sang Raja</h3>
-            <div class="chat-shell-sub">
-              <span class="chat-shell-dot"></span>
-              <span>Utusan catur portofolio — siap membantu</span>
-            </div>
-          </div>
-          <button class="chat-shell-back" type="button" data-go="home">
-            <svg class="ic" style="width:.9em;height:.9em"><use href="#i-left"/></svg>
-            <span>Beranda</span>
-          </button>
-        </div>
-        <div class="chat-shell-body">
-          <div class="chat-shell-messages" id="chatMessages" role="log" aria-live="polite"></div>
-          <div class="chat-faq-bar">
-            <span class="chat-faq-label">💡 Pertanyaan umum</span>
-            <div class="chat-faq-chips" id="chatFaqChips"></div>
-          </div>
-          <form class="chat-shell-input" id="chatForm" autocomplete="off">
-            <input type="text" id="chatInput" placeholder="Tanya tentang Syazani…" maxlength="300" aria-label="Ketik pertanyaan">
-            <button type="submit" class="chat-shell-send" id="chatSend" aria-label="Kirim">
-              <svg class="ic"><use href="#i-right"/></svg>
-            </button>
-          </form>
+  <div class="hh-shell">
+    <div class="hh-header">
+      <div class="hh-avatar" aria-hidden="true">♞</div>
+      <div class="hh-info">
+        <h3>THE HONOURED HORSE</h3>
+        <div class="hh-info-sub">
+          <span class="hh-dot"></span>
+          <span>Utusan terhormat — siap melayani</span>
+          <span class="hh-stat" id="hhMsgCount">💬 0 pesan</span>
+          <span class="hh-stat" id="hhLiveTime">🕐 --:--</span>
         </div>
       </div>
+      <div class="hh-header-actions">
+        <button class="hh-btn" id="hhReset" type="button" title="Reset percakapan" aria-label="Reset">
+          <svg class="ic"><use href="#i-repeat"/></svg>
+        </button>
+        <button class="hh-btn back-btn" type="button" data-go="home" title="Kembali">
+          <svg class="ic"><use href="#i-left"/></svg><span>Beranda</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="hh-body">
+      <div class="hh-messages" id="hhMessages" role="log" aria-live="polite"></div>
+
+      <div class="hh-suggestions" id="hhSuggestions"></div>
+
+      <div class="hh-faq-bar">
+        <span class="hh-faq-label">💡 Pertanyaan umum</span>
+        <div class="hh-faq-chips" id="hhFaqChips"></div>
+      </div>
+
+      <form class="hh-input-area" id="hhForm" autocomplete="off">
+        <input type="text" id="hhInput" class="hh-input" placeholder="Tanya tentang Syazani…" maxlength="300" aria-label="Ketik pertanyaan">
+        <button type="submit" class="hh-send" id="hhSend" aria-label="Kirim">
+          <svg class="ic"><use href="#i-right"/></svg>
+        </button>
+      </form>
     </div>
   </div>
 </div>
@@ -1350,7 +1468,7 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
             <li><a data-go="home#projek">Projek</a></li>
             <li><a data-go="home#pengalaman">Pengalaman</a></li>
             <li><a data-go="blog">Blog</a></li>
-            <li><a data-go="chat">Perwakilan Sang Raja</a></li>
+            <li><a data-go="chat">The Honoured Horse</a></li>
             <li><a data-go="timeline">Timeline</a></li>
           </ul>
         </div>
@@ -1382,15 +1500,15 @@ tbody tr:not(.grp):not(.avg):hover td{background:var(--ice-soft)}
   </div>
 </footer>
 
-<!-- ========================= FLOATING CLOCK + KING PEEK ========================= -->
-<div class="floatclock" id="floatclock" aria-label="Jam lokal (hover untuk panggil Perwakilan Sang Raja)">
+<!-- ========================= FLOATING CLOCK + HORSE PEEK ========================= -->
+<div class="floatclock" id="floatclock" aria-label="Jam lokal (hover untuk panggil The Honoured Horse)">
   <svg class="ic"><use href="#i-clock"/></svg>
   <div><b id="lClock">--:--:--</b><small id="lZone">Waktu lokalmu</small></div>
 </div>
 
-<button class="king-peek" id="kingPeek" type="button" aria-label="Panggil Perwakilan Sang Raja" title="Perwakilan Sang Raja">
+<button class="king-peek" id="kingPeek" type="button" aria-label="Panggil The Honoured Horse" title="The Honoured Horse">
   <span aria-hidden="true">♞</span>
-  <span class="king-peek-tip">Perwakilan Sang Raja</span>
+  <span class="king-peek-tip">The Honoured Horse</span>
 </button>
 
 <script>
@@ -1440,11 +1558,13 @@ function show(v,sec){
     if(v==='timeline')tlLayout();
     if(v==='blog')loadBlog();
     if(v==='admin')renderAdmin();
+    if(v==='chat'){ document.body.style.overflow='hidden'; }
+    else { document.body.style.overflow=''; }
   }
   updateNav();closeMenu();
   var t=sec?document.getElementById(sec):null;
   if(t){requestAnimationFrame(function(){t.scrollIntoView({behavior:(RM||changed)?'auto':'smooth',block:'start'})})}
-  else window.scrollTo({top:0,behavior:'auto'});
+  else if(v!=='chat') window.scrollTo({top:0,behavior:'auto'});
 }
 
 document.addEventListener('click',function(e){
@@ -1511,6 +1631,8 @@ function tick(){
   var d=new Date();
   $('#lClock').textContent=fLocal.format(d);
   $('#fClock').textContent=fWib.format(d);
+  var hhLive=$('#hhLiveTime');
+  if(hhLive) hhLive.textContent='🕐 '+fLocal.format(d).slice(0,5);
 }
 tick();setInterval(tick,1000);
 
@@ -1639,7 +1761,6 @@ function formatDate(d){
   catch(e){return d}
 }
 
-/* ---- Admin SPA ---- */
 function openAdmin(){ show('admin'); }
 
 function renderAdmin(){
@@ -2140,7 +2261,7 @@ function viewPostFromAdmin(slug){
 })();
 
 /* ============================================================
-   12. TIMELINE KAPAL & PULAU
+   12. TIMELINE
    ============================================================ */
 var tl=(function(){
   var SCH={
@@ -2375,11 +2496,15 @@ function openPost(slug){
 }
 
 /* ============================================================
-   14. CHAT — "PERWAKILAN SANG RAJA"
+   14. CHAT FULL SCREEN — THE HONOURED HORSE
    ============================================================ */
-(function(){
-  var msgs=$('#chatMessages'), form=$('#chatForm'), input=$('#chatInput'), sendBtn=$('#chatSend'), chipsEl=$('#chatFaqChips');
-  if(!msgs || !form) return;
+var hhEngine=(function(){
+  var messagesEl=$('#hhMessages'), form=$('#hhForm'), input=$('#hhInput'), sendBtn=$('#hhSend');
+  var faqEl=$('#hhFaqChips'), suggestionsEl=$('#hhSuggestions'), resetBtn=$('#hhReset'), countEl=$('#hhMsgCount');
+  if(!messagesEl || !form) return {reset:function(){}};
+
+  var msgCount=0;
+  function bumpCount(){ msgCount++; if(countEl) countEl.textContent='💬 '+msgCount+' pesan'; }
 
   /* --- Data portofolio --- */
   var P = {
@@ -2430,7 +2555,6 @@ function openPost(slug){
     'Kelas 8 Smt 1: 1 Juz 19 halaman'
   ];
 
-  /* --- Helper escape & list --- */
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
   function list(a){return '<ul>'+a.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>'}
 
@@ -2439,10 +2563,10 @@ function openPost(slug){
     {keys:['halo','hai','hello','hi','hey','pagi','siang','sore','malam','assalam','salam'],
       reply:function(){
         var h=new Date().getHours(),gr=h<11?'pagi':h<15?'siang':h<18?'sore':'malam';
-        return 'Salam hormat dari <strong>Perwakilan Sang Raja</strong> ♞<br>Selamat '+gr+', pengunjung. Aku utusan pribadi Syazani — siap menjawab seputar portofolio ini.';
+        return 'Salam hormat dari <strong>THE HONOURED HORSE</strong> ♞<br>Selamat '+gr+', pengunjung terhormat. Aku kuda yang dipercaya mewakili Syazani — siap menjawab seputar portofolio ini.';
       }},
     {keys:['terima kasih','makasih','thanks','thank you','thx','tq'],
-      reply:function(){return 'Dengan senang hati 🙏 Itulah tugas seorang perwakilan. Ada lagi yang ingin ditanyakan?'}},
+      reply:function(){return 'Dengan senang hati 🙏 Itulah kehormatan bagi seorang kuda utusan. Ada lagi yang ingin ditanyakan?'}},
     {keys:['siapa syazani','siapa zani','tentang syazani','perkenalan','perkenalkan'],
       reply:function(){
         return '<strong>'+P.nama+'</strong> ('+P.panggilan+')<br>'
@@ -2451,11 +2575,11 @@ function openPost(slug){
           +'🏫 '+P.sekolah+' — '+P.kelas+'<br><br>'
           +'Siswa SMP yang gemar <strong>koding</strong> & <strong>catur</strong>. Motto: <em>"'+P.motto+'"</em>';
       }},
-    {keys:['kamu siapa','siapa kamu','perwakilan','sang raja','raja','bot ini','chatbot','asisten'],
+    {keys:['kamu siapa','siapa kamu','honoured horse','honoured','kuda','horse','bot ini','chatbot','asisten'],
       reply:function(){
-        return 'Aku <strong>Perwakilan Sang Raja</strong> ♞<br>'
-          +'Bidak kuda yang dipercaya mewakili Syazani untuk menjawab pertanyaan pengunjung. '
-          +'Aku hanya tahu apa yang ada di portofolio ini — selebihnya kupersilakan bertanya langsung kepada Sang Raja (Syazani).';
+        return 'Aku <strong>THE HONOURED HORSE</strong> ♞<br>'
+          +'Kuda yang dihormati dan dipercaya mewakili Syazani untuk menjawab pengunjung. '
+          +'Aku tahu semua yang ada di portofolio ini — selebihnya kupersilakan bertanya langsung kepada Sang Empunya (Syazani).';
       }},
     {keys:['kelebihan','kekuatan','unggul','pintar','kreatif','disiplin'],
       reply:function(){return '<strong>Kelebihan:</strong>'+list(P.kelebihan)}},
@@ -2554,55 +2678,104 @@ function openPost(slug){
 
   function fallbackReply(){
     return '🙏 <strong>Mohon maaf, hamba belum bisa menjawab itu.</strong><br><br>'
-      +'Sebagai <strong>Perwakilan Sang Raja</strong>, tugasku terbatas pada <strong>portofolio Syazani</strong>:'
+      +'Sebagai <strong>THE HONOURED HORSE</strong>, tugasku terbatas pada <strong>portofolio Syazani</strong>:'
       +list(['Profil & data diri','Prestasi & organisasi','Projek (kalkulator, kompas, games)','Cara menulis blog','Kontak & timeline'])
       +'Silakan pilih <strong>pertanyaan umum</strong> di bawah, atau hubungi Syazani langsung:<br>'
       +'📞 '+P.wa+' · ✉️ '+P.email;
   }
   function forbiddenReply(){
     return '🙏 <strong>Mohon maaf, hamba tidak bisa membahas topik itu.</strong><br><br>'
-      +'Perwakilan Sang Raja hanya menjawab seputar portofolio Syazani. Mari kembali ke topik yang ringan:'
+      +'THE HONOURED HORSE hanya menjawab seputar portofolio Syazani. Mari kembali ke topik yang ringan:'
       +list(['Profil, prestasi, organisasi','Projek & blog','Kontak Syazani'])
       +'Terima kasih atas pengertiannya. 😊';
   }
 
-  /* --- Render bubble --- */
+  /* --- Rendering --- */
+  function timeNow(){
+    var d=new Date();
+    return pad(d.getHours())+':'+pad(d.getMinutes());
+  }
   function appendMsg(role, html){
     var wrap=document.createElement('div');
-    wrap.className='chat-s-msg '+role;
+    wrap.className='hh-msg '+role;
     var av=document.createElement('div');
-    av.className='chat-s-avatar';
+    av.className='hh-msg-avatar';
     av.textContent= role==='bot' ? '♞' : '👤';
+    var right=document.createElement('div');
+    right.style.display='flex';
+    right.style.flexDirection='column';
+    right.style.maxWidth='100%';
     var bub=document.createElement('div');
-    bub.className='chat-s-bubble';
+    bub.className='hh-bubble';
     bub.innerHTML=html;
-    wrap.appendChild(av);wrap.appendChild(bub);
-    msgs.appendChild(wrap);
-    msgs.scrollTop=msgs.scrollHeight;
+    var tm=document.createElement('div');
+    tm.className='hh-time';
+    tm.textContent=timeNow();
+    right.appendChild(bub);right.appendChild(tm);
+    wrap.appendChild(av);wrap.appendChild(right);
+    messagesEl.appendChild(wrap);
+    messagesEl.scrollTop=messagesEl.scrollHeight;
+    bumpCount();
   }
   function showTyping(){
     var wrap=document.createElement('div');
-    wrap.className='chat-s-msg bot';
-    wrap.id='chatTyping';
-    wrap.innerHTML='<div class="chat-s-avatar">♞</div><div class="chat-s-bubble"><div class="chat-s-typing"><span></span><span></span><span></span></div></div>';
-    msgs.appendChild(wrap);
-    msgs.scrollTop=msgs.scrollHeight;
+    wrap.className='hh-msg bot';
+    wrap.id='hhTyping';
+    wrap.innerHTML='<div class="hh-msg-avatar">♞</div><div><div class="hh-bubble" style="padding:0"><div class="hh-typing"><span></span><span></span><span></span></div></div></div>';
+    messagesEl.appendChild(wrap);
+    messagesEl.scrollTop=messagesEl.scrollHeight;
   }
-  function hideTyping(){var t=document.getElementById('chatTyping');if(t)t.remove()}
+  function hideTyping(){var t=document.getElementById('hhTyping');if(t)t.remove()}
+
+  /* --- Follow-up suggestions --- */
+  var FOLLOW_MAP={
+    'profil':['Apa keahliannya?','Apa hobinya?','Bagaimana kontak?'],
+    'prestasi':['Ikut organisasi apa?','Apa motto-nya?','Ceritakan timeline'],
+    'projek':['Cara pakai kalkulator?','Kompas kiblat itu apa?','Cara menulis blog?'],
+    'blog':['Ketik password apa?','Apa isi blog?','Bisa hapus artikel?'],
+    'kontak':['Ada Instagram?','Email-nya apa?','Alamat di mana?'],
+    'default':['Siapa Syazani?','Apa prestasinya?','Apa saja projeknya?']
+  };
+  function renderSuggestions(chips){
+    if(!suggestionsEl) return;
+    suggestionsEl.innerHTML='';
+    if(!chips || !chips.length) return;
+    var lab=document.createElement('div');
+    lab.className='hh-sug-label';
+    lab.textContent='💡 Pertanyaan lanjutan';
+    suggestionsEl.appendChild(lab);
+    chips.forEach(function(q){
+      var c=document.createElement('button');
+      c.type='button';c.className='hh-sug-chip';c.textContent=q;
+      c.addEventListener('click',function(){handle(q)});
+      suggestionsEl.appendChild(c);
+    });
+  }
+  function guessFollow(text){
+    var lq=text.toLowerCase();
+    if(lq.indexOf('profil')!==-1 || lq.indexOf('siapa')!==-1 || lq.indexOf('data')!==-1) return FOLLOW_MAP.profil;
+    if(lq.indexOf('prestasi')!==-1 || lq.indexOf('juara')!==-1) return FOLLOW_MAP.prestasi;
+    if(lq.indexOf('projek')!==-1 || lq.indexOf('karya')!==-1) return FOLLOW_MAP.projek;
+    if(lq.indexOf('blog')!==-1 || lq.indexOf('artikel')!==-1) return FOLLOW_MAP.blog;
+    if(lq.indexOf('kontak')!==-1 || lq.indexOf('hubungi')!==-1) return FOLLOW_MAP.kontak;
+    return null;
+  }
 
   function handle(text){
     text=text.trim();if(!text)return;
-    appendMsg('user',esc(text));
+    appendMsg('user', esc(text));
     if(sendBtn)sendBtn.disabled=true;
+    if(suggestionsEl) suggestionsEl.innerHTML='';
     showTyping();
     setTimeout(function(){
       hideTyping();
       var it=findIntent(text);
-      var reply;
-      if(it && it.forbidden) reply=forbiddenReply();
-      else if(it && typeof it.reply==='function') reply=it.reply();
-      else reply=fallbackReply();
+      var reply, follow;
+      if(it && it.forbidden){ reply=forbiddenReply(); follow=FOLLOW_MAP.default; }
+      else if(it && typeof it.reply==='function'){ reply=it.reply(); follow=guessFollow(text) || FOLLOW_MAP.default; }
+      else { reply=fallbackReply(); follow=FOLLOW_MAP.default; }
       appendMsg('bot',reply);
+      renderSuggestions(follow);
       if(sendBtn)sendBtn.disabled=false;
       if(input)input.focus();
     },520+Math.random()*380);
@@ -2614,7 +2787,7 @@ function openPost(slug){
     input.value='';handle(v);
   });
 
-  /* --- Quick chips FAQ (8 pertanyaan) --- */
+  /* --- FAQ chips --- */
   var FAQ=[
     'Siapa Syazani?',
     'Apa prestasinya?',
@@ -2623,41 +2796,45 @@ function openPost(slug){
     'Bagaimana cara kontak?',
     'Cara menulis artikel blog?',
     'Ceritakan timeline-nya',
-    'Kamu siapa, Perwakilan Sang Raja?'
+    'Kamu siapa, The Honoured Horse?'
   ];
   function renderFaq(){
-    if(!chipsEl)return;
-    chipsEl.innerHTML='';
+    if(!faqEl)return;
+    faqEl.innerHTML='';
     FAQ.forEach(function(q){
       var c=document.createElement('button');
-      c.type='button';c.className='chat-faq-chip';c.textContent=q;
+      c.type='button';c.className='hh-faq-chip';c.textContent=q;
       c.addEventListener('click',function(){handle(q)});
-      chipsEl.appendChild(c);
+      faqEl.appendChild(c);
     });
   }
 
   function welcome(){
+    msgCount=0;
+    if(countEl) countEl.textContent='💬 0 pesan';
+    messagesEl.innerHTML='';
     appendMsg('bot',
-      '♞ <strong>Salam hormat, pengunjung.</strong><br>'
-      +'Aku <strong>Perwakilan Sang Raja</strong> — bidak kuda yang dipercaya mewakili Syazani.<br><br>'
+      '♞ <strong>Salam hormat, pengunjung terhormat.</strong><br>'
+      +'Aku <strong>THE HONOURED HORSE</strong> — kuda yang dipercaya mewakili Syazani di portofolio ini.<br><br>'
       +'Silakan bertanya tentang:'
       +list(['Profil & data diri','Prestasi & organisasi','Projek & blog','Kontak & timeline'])
-      +'Klik salah satu <strong>pertanyaan umum</strong> di bawah untuk memulai.'
+      +'Klik salah satu <strong>pertanyaan umum</strong> di bawah untuk memulai. Atau ketik langsung pertanyaanmu.'
     );
+    renderSuggestions(FOLLOW_MAP.default);
   }
 
   renderFaq();
   welcome();
 
-  /* --- Expose: reset chat saat masuk ulang --- */
-  window.__kingChatReset=function(){
-    msgs.innerHTML='';
+  if(resetBtn) resetBtn.addEventListener('click', function(){
     welcome();
-  };
+  });
+
+  return {reset: welcome};
 })();
 
 /* ============================================================
-   15. TRIGGER BIDAK SAAT HOVER JAM
+   15. TRIGGER HORSE SAAT HOVER JAM
    ============================================================ */
 (function(){
   var floatclock=$('#floatclock');
@@ -2675,29 +2852,24 @@ function openPost(slug){
     hideTimer=setTimeout(function(){ kingPeek.classList.remove('show') }, 300);
   }
 
-  /* Desktop: hover jam → tampil bidak */
   floatclock.addEventListener('mouseenter', showKing);
   floatclock.addEventListener('mouseleave', hideKing);
-  /* Mobile: tap jam → toggle */
   floatclock.addEventListener('click', function(e){
     e.stopPropagation();
     if(kingPeek.classList.contains('show')) kingPeek.classList.remove('show');
     else kingPeek.classList.add('show');
   });
 
-  /* Kalau bidak tidak di-hover beberapa detik, sembunyikan lagi */
   kingPeek.addEventListener('mouseenter', function(){ clearTimeout(hideTimer) });
   kingPeek.addEventListener('mouseleave', hideKing);
 
-  /* Klik bidak → buka SPA #view-chat */
   kingPeek.addEventListener('click', function(e){
     e.stopPropagation();
     kingPeek.classList.remove('show');
-    if(typeof window.__kingChatReset === 'function') window.__kingChatReset();
+    if(hhEngine && typeof hhEngine.reset==='function') hhEngine.reset();
     show('chat');
   });
 
-  /* Klik di luar → sembunyikan */
   document.addEventListener('click', function(e){
     if(!floatclock.contains(e.target) && !kingPeek.contains(e.target)){
       kingPeek.classList.remove('show');
