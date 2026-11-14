@@ -52,8 +52,8 @@ body.is-home { overflow: hidden; }
 .btn.primary{background:var(--ice);border-color:var(--ice);color:#000}
 .btn.primary:hover{background:var(--deep);border-color:var(--deep);color:#fff}
 
-/* ============ HERO (HOME) ============ */
-.hero{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;margin:0;padding:0}
+/* ============ HERO (HOME FULL SCREEN) ============ */
+.hero{position:relative;width:100vw;height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;margin:0;padding:0}
 .hero-space-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(circle at 50% 50%,#0F172A 0%,#000000 100%);overflow:hidden}
 .stars{position:absolute;inset:0;background-image:radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),radial-gradient(1px 1px at 50px 160px, #fff, rgba(0,0,0,0)),radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),radial-gradient(1.5px 1.5px at 160px 120px, #fff, rgba(0,0,0,0));background-repeat:repeat;background-size:200px 200px;opacity:.6;animation:starScroll 60s linear infinite}
 @keyframes starScroll{from{background-position:0 0}to{background-position:200px 200px}}
@@ -61,12 +61,12 @@ body.is-home { overflow: hidden; }
 .planet-1{width:400px;height:400px;bottom:-150px;left:-150px;opacity:.3}
 .planet-2{width:600px;height:600px;top:-200px;right:-200px;opacity:.2}
 
-.hero-laptop-block{position:relative;width:100%;max-width:1100px;height:clamp(500px,70vh,700px);display:flex;align-items:center;justify-content:center;perspective:1000px;z-index:1}
+.hero-laptop-block{position:relative;width:100%;max-width:1200px;height:100%;display:flex;align-items:center;justify-content:center;perspective:1000px;z-index:1}
 .hero-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity 1.5s ease 0.8s;}
 .hero-lines.visible{opacity:1}
 
 /* Laptop Diturunkan (Top 58%) & Animasi Scale */
-.laptop-element{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%) scale(0.5);z-index:10;width:min(550px,85vw);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+.laptop-element{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%) scale(0.8);z-index:10;width:min(550px,85vw);opacity:0;transition:opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1),transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);}
 .laptop-element.show-laptop{opacity:1;transform:translate(-50%,-50%) scale(1);}
 
 .laptop-body{position:relative;width:100%;aspect-ratio:16/10;background:#1C1917;border-radius:16px 16px 0 0;padding:12px 12px 0 12px;box-shadow:0 30px 60px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.1)}
@@ -75,44 +75,35 @@ body.is-home { overflow: hidden; }
 .laptop-base{position:relative;width:110%;height:16px;margin-left:-5%;background:linear-gradient(to bottom,#d4d4d8,#a1a1aa);border-radius:0 0 16px 16px}
 .laptop-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:6px;background:#71717a;border-radius:0 0 6px 6px}
 
-/* Laptop Screen Content */
-.mini-scene-content{text-align:center;color:#0F172A;display:flex;flex-direction:column;align-items:center;gap:12px}
-.mini-word{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(1.4rem,3.5vw,2.2rem);color:#0F172A;line-height:1.1;margin-bottom:4px;}
-.mini-sub{font-size:clamp(0.8rem,1.5vw,0.95rem);color:#475569;max-width:85%;margin-bottom:16px;}
-.mini-btns{display:flex;gap:10px;margin-bottom:20px;}
-.mini-btns span{background:#F1F5F9;color:#475569;padding:8px 16px;border-radius:999px;font-size:clamp(0.7rem,1.2vw,0.85rem);font-weight:600;display:flex;align-items:center;gap:6px;}
-.mini-btns span:first-child{background:#38BDF8;color:#fff;}
-.mini-boxes{display:flex;gap:16px;}
-.mini-boxes div{background:#fff;padding:12px 24px;border-radius:16px;font-family:'Inter',sans-serif;font-weight:800;color:#0F172A;box-shadow:0 4px 15px rgba(0,0,0,0.05);font-size:clamp(1rem,2vw,1.5rem);display:flex;flex-direction:column;align-items:center;line-height:1.2;}
-.mini-boxes small{font-size:clamp(0.6rem,1vw,0.75rem);color:#64748B;font-weight:600;margin-top:4px;}
-.mini-boxes div:first-child{color:#0284C7;}
+/* CSS Khusus untuk Konten di Dalam Laptop agar SAMA PERSIS dengan Intro */
+.laptop-scaled-content{transform:scale(0.4);display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;transform-origin:center center;}
 
-/* 5 Lingkaran (Posisi Disesuaikan Gambar) */
+/* 5 Lingkaran (Disesuaikan Biar Seimbang) */
 .hero-circle{position:absolute;width:clamp(80px,11vw,100px);height:clamp(80px,11vw,100px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:700;z-index:8;cursor:pointer;background:rgba(10,15,30,0.85);backdrop-filter:blur(4px);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,opacity .8s ease;border:2px solid transparent;opacity:0;}
 .intro-done .hero-circle {opacity:1;}
 .hero-circle:hover{transform:scale(1.1);}
 .hero-circle .c-icon{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1;margin-bottom:4px;}
 .hero-circle .c-label{font-size:clamp(.65rem,1.2vw,.85rem);letter-spacing:.02em;}
 
-.hc-profil{top:18%;left:20%;border-color:#38BDF8;box-shadow:0 0 20px rgba(56,189,248,.6),inset 0 0 15px rgba(56,189,248,.3);}
+.hc-profil{top:15%;left:15%;border-color:#38BDF8;box-shadow:0 0 20px rgba(56,189,248,.6),inset 0 0 15px rgba(56,189,248,.3);}
 .hc-profil:hover{box-shadow:0 0 40px rgba(56,189,248,1),inset 0 0 20px rgba(56,189,248,.6);}
-.hc-blog{top:18%;right:20%;border-color:#34D399;box-shadow:0 0 20px rgba(52,211,153,.6),inset 0 0 15px rgba(52,211,153,.3);}
+.hc-blog{top:15%;right:15%;border-color:#34D399;box-shadow:0 0 20px rgba(52,211,153,.6),inset 0 0 15px rgba(52,211,153,.3);}
 .hc-blog:hover{box-shadow:0 0 40px rgba(52,211,153,1),inset 0 0 20px rgba(52,211,153,.6);}
-.hc-projek{top:50%;left:10%;transform:translateY(-50%);border-color:#FB923C;box-shadow:0 0 20px rgba(251,146,60,.6),inset 0 0 15px rgba(251,146,60,.3);}
+.hc-projek{top:50%;left:8%;transform:translateY(-50%);border-color:#FB923C;box-shadow:0 0 20px rgba(251,146,60,.6),inset 0 0 15px rgba(251,146,60,.3);}
 .hc-projek:hover{transform:translateY(-50%) scale(1.1);box-shadow:0 0 40px rgba(251,146,60,1),inset 0 0 20px rgba(251,146,60,.6);}
-.hc-timeline{top:50%;right:10%;transform:translateY(-50%);border-color:#A78BFA;box-shadow:0 0 20px rgba(167,139,250,.6),inset 0 0 15px rgba(167,139,250,.3);}
+.hc-timeline{top:50%;right:8%;transform:translateY(-50%);border-color:#A78BFA;box-shadow:0 0 20px rgba(167,139,250,.6),inset 0 0 15px rgba(167,139,250,.3);}
 .hc-timeline:hover{transform:translateY(-50%) scale(1.1);box-shadow:0 0 40px rgba(167,139,250,1),inset 0 0 20px rgba(167,139,250,.6);}
-.hc-chatbot{bottom:12%;left:50%;transform:translateX(-50%);border-color:#FDE68A;box-shadow:0 0 20px rgba(253,230,138,.6),inset 0 0 15px rgba(253,230,138,.3);background:rgba(50,30,10,0.85);}
+.hc-chatbot{bottom:8%;left:50%;transform:translateX(-50%);border-color:#FDE68A;box-shadow:0 0 20px rgba(253,230,138,.6),inset 0 0 15px rgba(253,230,138,.3);background:rgba(50,30,10,0.85);}
 .hc-chatbot:hover{transform:translateX(-50%) scale(1.1);box-shadow:0 0 40px rgba(253,230,138,1),inset 0 0 20px rgba(253,230,138,.6);}
 
 @media (max-width:768px){
-  .hc-profil{top:10%;left:10%}
-  .hc-blog{top:10%;right:10%}
+  .hc-profil{top:10%;left:8%}
+  .hc-blog{top:10%;right:8%}
   .hc-projek{top:40%;left:5%;transform:none}
   .hc-projek:hover{transform:scale(1.1)}
   .hc-timeline{top:40%;right:5%;transform:none}
   .hc-timeline:hover{transform:scale(1.1)}
-  .hc-chatbot{bottom:8%}
+  .hc-chatbot{bottom:5%}
 }
 
 /* ============ ABOUT & TRAITS ============ */
@@ -422,8 +413,8 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 /* ============ INTRO OVERLAY (ZOOM-OUT CANVA EFFECT) ============ */
 .intro-overlay{position:fixed;inset:0;z-index:99999;background:#020617;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1.2s ease,visibility 1.2s;}
 .intro-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
-.intro-target-area{display:flex;flex-direction:column;align-items:center;gap:24px;padding:20px;transition:transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.2s ease;transform-origin:center center;}
-.intro-h1{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(2.2rem,6vw,5rem);line-height:1.04;letter-spacing:-.04em;text-align:center;max-width:1040px;display:flex;flex-wrap:wrap;justify-content:center;gap:.2em;color:#F8FAFC}
+.intro-target-area{display:flex;flex-direction:column;align-items:center;gap:24px;padding:20px;transition:transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.5s ease;transform-origin:center center;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;max-width:800px;}
+.intro-h1{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(2.2rem,6vw,5rem);line-height:1.04;letter-spacing:-.04em;text-align:center;display:flex;flex-wrap:wrap;justify-content:center;gap:.2em;color:#F8FAFC}
 .shoot-word,.shoot-box,.shoot-sub,.shoot-btns{opacity:0;transform:scale(.5) translateY(20px);transition:all .5s cubic-bezier(.175,.885,.32,1.275)}
 .shoot-word.show,.shoot-box.show,.shoot-sub.show,.shoot-btns.show{opacity:1;transform:scale(1) translateY(0)}
 .intro-sub{font-family:'Inter',var(--f-body);font-size:clamp(1rem,1.5vw,1.2rem);color:var(--muted);text-align:center;max-width:600px;margin-top:10px;padding:0 20px}
@@ -576,6 +567,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     <div class="planet planet-1"></div>
     <div class="planet planet-2"></div>
   </div>
+  
   <div class="intro-target-area" id="introTargetArea">
     <h1 class="intro-h1">
       <span class="shoot-word">Halo,</span>
@@ -615,7 +607,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 <main>
   <!-- ========== VIEW HOME (BERSIH TANPA NAVBAR/FOOTER) ========== -->
   <div id="view-home" class="view">
-    <section id="beranda" class="hero wrap">
+    <section id="beranda" class="hero">
       <div class="hero-space-bg">
         <div class="stars"></div>
         <div class="planet planet-1"></div>
@@ -643,17 +635,21 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
         <div class="laptop-element" id="realLaptop">
           <div class="laptop-body">
             <div class="laptop-screen" id="realLaptopScreen">
-              <div class="mini-scene-content" style="opacity:1;">
-                <div class="mini-word">Halo, Namaku Muhammad Syazani</div>
-                <div class="mini-sub">Selamat datang di portofolio digital saya. Siswa SMP dengan minat tinggi di teknologi, koding, dan strategi.</div>
-                <div class="mini-btns">
-                  <span><svg class="ic"><use href="#i-user"/></svg> Profil</span>
-                  <span><svg class="ic"><use href="#i-ship"/></svg> Timeline</span>
-                  <span><svg class="ic"><use href="#i-pen"/></svg> Blog</span>
+              <!-- Konten laptop pakai HTML yang PERSIS SAMA dengan Intro -->
+              <div class="laptop-scaled-content">
+                <h1 class="intro-h1">
+                  <span>Halo,</span> <span>Namaku</span> <span>Muhammad</span> <span>Syazani</span> <span>Al</span> <span>Taftazani</span>
+                </h1>
+                <p class="intro-sub">Selamat datang di portofolio digital saya. Siswa SMP dengan minat tinggi di teknologi, koding, dan strategi.</p>
+                <div class="intro-btns">
+                  <div class="btn primary"><svg class="ic"><use href="#i-user"/></svg>Profil</div>
+                  <div class="btn"><svg class="ic"><use href="#i-ship"/></svg>Timeline</div>
+                  <div class="btn"><svg class="ic"><use href="#i-pen"/></svg>Blog</div>
                 </div>
-                <div class="mini-boxes">
-                  <div>90+<small>Nilai</small></div>
-                  <div>1+<small>Prestasi</small></div>
+                <div class="intro-stats">
+                  <div class="shoot-box">90+<small>Nilai</small></div>
+                  <div class="shoot-box">1+<small>Prestasi</small></div>
+                  <div class="shoot-box">3+<small>Projek</small></div>
                 </div>
               </div>
               <div class="laptop-glare"></div>
@@ -662,7 +658,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           </div>
         </div>
 
-        <!-- 5 Lingkaran -->
+        <!-- 5 Lingkaran (Posisi Disesuaikan Biar Seimbang) -->
         <div class="hero-circle hc-profil" data-target="profil">
           <span class="c-icon">👤</span><span class="c-label">Profil</span>
         </div>
@@ -1206,9 +1202,9 @@ var pad = function(n){return String(n).padStart(2,'0')};
     ended = true;
     timeouts.forEach(clearTimeout);
 
-    // 1. Canva Zoom-out Effect: Teks mengecil ke tengah
-    targetArea.style.transform = 'scale(0.1)';
-    targetArea.style.opacity = '0';
+    // 1. Pull-out Effect: Teks mengecil ke tengah (Canva style)
+    targetArea.style.transform = 'translate(-50%, -50%) scale(0.4)';
+    targetArea.style.opacity = '0'; // Memudar setelah mengecil
     
     // 2. Pistol memudar
     gun.style.opacity = '0';
@@ -1300,7 +1296,7 @@ var pad = function(n){return String(n).padStart(2,'0')};
 })();
 
 /* ============================================================
-   2. SPA NAVIGATION (TANPA NAVBAR/FOOTER)
+   2. SPA NAVIGATION
    ============================================================ */
 var views = {
   home: $('#view-home'),
