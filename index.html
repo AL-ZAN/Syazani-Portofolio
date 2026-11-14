@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400..700&family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..800&display=swap">
 <style>
+/* ========== ISI CSS DI SINI (BAGIAN 2) ========== */
   :root{
   --bg:#000000;--card:rgba(20,25,35,.8);--ink:#F8FAFC;--muted:#94A3B8;
   --ice:#38BDF8;--deep:#0284C7;--ice-soft:rgba(56,189,248,.15);--ice-mid:#0EA5E9;--peach-deep:#1E293B;
@@ -32,6 +33,10 @@ button{font-family:inherit;cursor:pointer}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
 .eyebrow{font:500 .78rem/1.4 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .muted{color:var(--muted)}
+
+/* SEMBUNYIKAN NAVBAR & FOOTER DI HOME */
+body.is-home .nav, body.is-home .foot { display: none !important; }
+body.is-home { overflow: hidden; } /* Mencegah scroll di home */
 
 /* ============ NAV ============ */
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;background:rgba(0,0,0,.6);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
@@ -68,62 +73,66 @@ button{font-family:inherit;cursor:pointer}
 .btn.primary{background:var(--ice);border-color:var(--ice);color:#000}
 .btn.primary:hover{background:var(--deep);border-color:var(--deep);color:#fff}
 
-/* ============ HERO (DARK SPACE THEME) ============ */
-.hero{position:relative;padding-block:clamp(40px,7vw,80px);min-height:calc(100vh - 64px);display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
-.hero-space-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(circle at 50% 50%,#111827 0%,#000000 100%);overflow:hidden}
+/* ============ HERO (HOME) ============ */
+.hero{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;margin:0;padding:0}
+.hero-space-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(circle at 50% 50%,#0F172A 0%,#000000 100%);overflow:hidden}
 .stars{position:absolute;inset:0;background-image:radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),radial-gradient(1px 1px at 50px 160px, #fff, rgba(0,0,0,0)),radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),radial-gradient(1.5px 1.5px at 160px 120px, #fff, rgba(0,0,0,0));background-repeat:repeat;background-size:200px 200px;opacity:.6;animation:starScroll 60s linear infinite}
 @keyframes starScroll{from{background-position:0 0}to{background-position:200px 200px}}
 .planet{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,#334155,#0F172A);box-shadow:inset -20px -20px 40px rgba(0,0,0,.8)}
-.planet-1{width:300px;height:300px;bottom:-100px;left:-100px;opacity:.4}
-.planet-2{width:400px;height:400px;top:-150px;right:-150px;opacity:.3}
+.planet-1{width:400px;height:400px;bottom:-150px;left:-150px;opacity:.3}
+.planet-2{width:600px;height:600px;top:-200px;right:-200px;opacity:.2}
 
 .hero-laptop-block{position:relative;width:100%;max-width:1100px;height:clamp(500px,65vh,700px);display:flex;align-items:center;justify-content:center;perspective:1000px;z-index:1}
-.hero-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity 1s ease 0.5s;}
+.hero-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity 1.5s ease 0.8s;}
 .hero-lines.visible{opacity:1}
 
-.laptop-element{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.85);z-index:10;width:min(500px,80vw);transition:transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);}
+/* Laptop Awalnya 0 (Tersembunyi), Lalu Muncul */
+.laptop-element{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.5);z-index:10;width:min(550px,85vw);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+.laptop-element.show-laptop{opacity:1;transform:translate(-50%,-50%) scale(1);}
+
 .laptop-body{position:relative;width:100%;aspect-ratio:16/10;background:#1C1917;border-radius:16px 16px 0 0;padding:12px 12px 0 12px;box-shadow:0 30px 60px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.1)}
 .laptop-screen{width:100%;height:100%;background:#F8FAFC;border-radius:6px;overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
 .laptop-glare{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.4) 0%,transparent 50%);pointer-events:none;z-index:10}
 .laptop-base{position:relative;width:110%;height:16px;margin-left:-5%;background:linear-gradient(to bottom,#d4d4d8,#a1a1aa);border-radius:0 0 16px 16px}
 .laptop-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:6px;background:#71717a;border-radius:0 0 6px 6px}
 
-/* Laptop Screen Content */
+/* Laptop Screen Content (Persis Gambar) */
 .mini-scene-content{text-align:center;color:#0F172A;display:flex;flex-direction:column;align-items:center;gap:12px}
-.mini-word{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(1.2rem,3vw,2rem);color:#0F172A;line-height:1.1}
-.mini-sub{font-size:clamp(.7rem,1.5vw,.9rem);color:#475569;max-width:80%}
-.mini-btns{display:flex;gap:8px;margin-top:4px}
-.mini-btns span{background:#E2E8F0;color:#1E293B;padding:6px 12px;border-radius:20px;font-size:clamp(.6rem,1.2vw,.75rem);font-weight:600;display:flex;align-items:center;gap:4px}
-.mini-btns span:first-child{background:#38BDF8;color:#fff}
-.mini-boxes{display:flex;gap:12px;margin-top:10px}
-.mini-boxes div{background:#fff;padding:10px 20px;border-radius:12px;font-family:'Inter',sans-serif;font-weight:800;color:#0284C7;box-shadow:0 4px 12px rgba(0,0,0,.08);font-size:clamp(.8rem,2vw,1.2rem);display:flex;flex-direction:column;align-items:center}
-.mini-boxes small{font-size:.6rem;color:#64748B;font-weight:600;margin-top:2px}
+.mini-word{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(1.4rem,3.5vw,2.2rem);color:#0F172A;line-height:1.1;margin-bottom:4px;}
+.mini-sub{font-size:clamp(0.8rem,1.5vw,0.95rem);color:#475569;max-width:85%;margin-bottom:16px;}
+.mini-btns{display:flex;gap:10px;margin-bottom:20px;}
+.mini-btns span{background:#F1F5F9;color:#475569;padding:8px 16px;border-radius:999px;font-size:clamp(0.7rem,1.2vw,0.85rem);font-weight:600;display:flex;align-items:center;gap:6px;}
+.mini-btns span:first-child{background:#38BDF8;color:#fff;}
+.mini-boxes{display:flex;gap:16px;}
+.mini-boxes div{background:#fff;padding:12px 24px;border-radius:16px;font-family:'Inter',sans-serif;font-weight:800;color:#0F172A;box-shadow:0 4px 15px rgba(0,0,0,0.05);font-size:clamp(1rem,2vw,1.5rem);display:flex;flex-direction:column;align-items:center;line-height:1.2;}
+.mini-boxes small{font-size:clamp(0.6rem,1vw,0.75rem);color:#64748B;font-weight:600;margin-top:4px;}
+.mini-boxes div:first-child{color:#0284C7;}
 
-/* 5 Glowing Circles */
-.hero-circle{position:absolute;width:clamp(70px,10vw,90px);height:clamp(70px,10vw,90px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:800;z-index:8;cursor:pointer;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;border:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);opacity:0;transition:opacity 1s ease 0.8s, transform 0.3s;}
+/* 5 Lingkaran (Sesuai Gambar) */
+.hero-circle{position:absolute;width:clamp(80px,11vw,100px);height:clamp(80px,11vw,100px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:700;z-index:8;cursor:pointer;background:rgba(10,15,30,0.85);backdrop-filter:blur(4px);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,opacity .8s ease;border:2px solid transparent;opacity:0;}
 .intro-done .hero-circle {opacity:1;}
-.hero-circle:hover{transform:scale(1.15) translateY(-4px)}
-.hero-circle .c-icon{font-size:clamp(1.4rem,2.5vw,1.8rem);line-height:1}
-.hero-circle .c-label{font-size:clamp(.65rem,1.2vw,.8rem);margin-top:3px;letter-spacing:.02em}
+.hero-circle:hover{transform:scale(1.1);}
+.hero-circle .c-icon{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1;margin-bottom:4px;}
+.hero-circle .c-label{font-size:clamp(.65rem,1.2vw,.85rem);letter-spacing:.02em;}
 
-.hc-profil{top:15%;left:18%;border:2px solid #38BDF8;box-shadow:0 0 20px rgba(56,189,248,.6),inset 0 0 15px rgba(56,189,248,.4)}
-.hc-profil:hover{box-shadow:0 0 40px rgba(56,189,248,1),inset 0 0 20px rgba(56,189,248,.8)}
-.hc-blog{top:15%;right:18%;border:2px solid #34D399;box-shadow:0 0 20px rgba(52,211,153,.6),inset 0 0 15px rgba(52,211,153,.4)}
-.hc-blog:hover{box-shadow:0 0 40px rgba(52,211,153,1),inset 0 0 20px rgba(52,211,153,.8)}
-.hc-projek{top:45%;left:8%;transform:translateY(-50%);border:2px solid #FB923C;box-shadow:0 0 20px rgba(251,146,60,.6),inset 0 0 15px rgba(251,146,60,.4)}
-.hc-projek:hover{transform:translateY(-50%) scale(1.15) translateY(-4px);box-shadow:0 0 40px rgba(251,146,60,1),inset 0 0 20px rgba(251,146,60,.8)}
-.hc-timeline{top:45%;right:8%;transform:translateY(-50%);border:2px solid #A78BFA;box-shadow:0 0 20px rgba(167,139,250,.6),inset 0 0 15px rgba(167,139,250,.4)}
-.hc-timeline:hover{transform:translateY(-50%) scale(1.15) translateY(-4px);box-shadow:0 0 40px rgba(167,139,250,1),inset 0 0 20px rgba(167,139,250,.8)}
-.hc-chatbot{bottom:10%;left:50%;transform:translateX(-50%);border:2px solid #FDE68A;box-shadow:0 0 20px rgba(253,230,138,.6),inset 0 0 15px rgba(253,230,138,.4);background:linear-gradient(135deg,rgba(120,53,15,.8),rgba(180,83,9,.8))}
-.hc-chatbot:hover{transform:translateX(-50%) scale(1.15) translateY(-4px);box-shadow:0 0 40px rgba(253,230,138,1),inset 0 0 20px rgba(253,230,138,.8)}
+.hc-profil{top:15%;left:20%;border-color:#38BDF8;box-shadow:0 0 20px rgba(56,189,248,.6),inset 0 0 15px rgba(56,189,248,.3);}
+.hc-profil:hover{box-shadow:0 0 40px rgba(56,189,248,1),inset 0 0 20px rgba(56,189,248,.6);}
+.hc-blog{top:15%;right:20%;border-color:#34D399;box-shadow:0 0 20px rgba(52,211,153,.6),inset 0 0 15px rgba(52,211,153,.3);}
+.hc-blog:hover{box-shadow:0 0 40px rgba(52,211,153,1),inset 0 0 20px rgba(52,211,153,.6);}
+.hc-projek{top:45%;left:8%;transform:translateY(-50%);border-color:#FB923C;box-shadow:0 0 20px rgba(251,146,60,.6),inset 0 0 15px rgba(251,146,60,.3);}
+.hc-projek:hover{transform:translateY(-50%) scale(1.1);box-shadow:0 0 40px rgba(251,146,60,1),inset 0 0 20px rgba(251,146,60,.6);}
+.hc-timeline{top:45%;right:8%;transform:translateY(-50%);border-color:#A78BFA;box-shadow:0 0 20px rgba(167,139,250,.6),inset 0 0 15px rgba(167,139,250,.3);}
+.hc-timeline:hover{transform:translateY(-50%) scale(1.1);box-shadow:0 0 40px rgba(167,139,250,1),inset 0 0 20px rgba(167,139,250,.6);}
+.hc-chatbot{bottom:5%;left:50%;transform:translateX(-50%);border-color:#FDE68A;box-shadow:0 0 20px rgba(253,230,138,.6),inset 0 0 15px rgba(253,230,138,.3);background:rgba(50,30,10,0.85);}
+.hc-chatbot:hover{transform:translateX(-50%) scale(1.1);box-shadow:0 0 40px rgba(253,230,138,1),inset 0 0 20px rgba(253,230,138,.6);}
 
 @media (max-width:768px){
   .hc-profil{top:10%;left:10%}
   .hc-blog{top:10%;right:10%}
   .hc-projek{top:40%;left:5%;transform:none}
-  .hc-projek:hover{transform:scale(1.15) translateY(-4px)}
+  .hc-projek:hover{transform:scale(1.1)}
   .hc-timeline{top:40%;right:5%;transform:none}
-  .hc-timeline:hover{transform:scale(1.15) translateY(-4px)}
+  .hc-timeline:hover{transform:scale(1.1)}
   .hc-chatbot{bottom:5%}
 }
 
@@ -555,7 +564,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 }
 </style>
 </head>
-<body>
+<body class="is-home">
 
 <!-- ========== SVG SYMBOLS ========== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -603,8 +612,13 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
   <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6l-12 12"/></symbol>
 </svg>
 
-<!-- ========== INTRO OVERLAY (Hanya Teks & Pistol) ========== -->
+<!-- ========== INTRO OVERLAY (FASE 1: Tembak Menembak, TANPA LAPTOP) ========== -->
 <div id="intro-overlay" class="intro-overlay">
+  <div class="hero-space-bg">
+    <div class="stars"></div>
+    <div class="planet planet-1"></div>
+    <div class="planet planet-2"></div>
+  </div>
   <div class="intro-target-area" id="introTargetArea">
     <h1 class="intro-h1">
       <span class="shoot-word">Halo,</span>
@@ -627,7 +641,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     </div>
   </div>
 
-  <!-- Gun untuk Animasi Menembak -->
+  <!-- Pistol -->
   <div class="intro-gun" id="introGun">
     <svg viewBox="0 0 120 60" class="gun-svg">
       <path d="M10 30 L10 22 Q10 18 14 18 L55 18 Q60 18 62 22 L70 22 L70 28 L78 28 L78 34 L70 34 L70 40 L62 40 Q60 44 55 44 L14 44 Q10 44 10 40 Z" fill="#94A3B8"/>
@@ -641,7 +655,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
   <button class="intro-skip" id="introSkip">Skip ▸</button>
 </div>
 
-<!-- ========== HEADER ========== -->
+<!-- ========== HEADER (Disembunyikan di Home) ========== -->
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#beranda" data-go="home">
@@ -662,7 +676,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 </header>
 
 <main>
-  <!-- ========== VIEW HOME ========== -->
+  <!-- ========== VIEW HOME (FASE 2: Laptop Muncul & Lingkaran) ========== -->
   <div id="view-home" class="view">
     <section id="beranda" class="hero wrap">
       <div class="hero-space-bg">
@@ -688,13 +702,13 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           <path class="line line-chatbot" d="M 500 480 Q 500 400 500 350" stroke="#FDE68A" stroke-width="3" fill="none" filter="url(#glow-gold)"/>
         </svg>
 
-        <!-- Laptop yang akan muncul setelah intro -->
+        <!-- Laptop Elegan -->
         <div class="laptop-element" id="realLaptop">
           <div class="laptop-body">
             <div class="laptop-screen" id="realLaptopScreen">
               <div class="mini-scene-content" style="opacity:1;">
                 <div class="mini-word">Halo, Namaku Muhammad Syazani</div>
-                <div class="mini-sub">Selamat datang di portofolio digital saya.</div>
+                <div class="mini-sub">Selamat datang di portofolio digital saya. Siswa SMP dengan minat tinggi di teknologi, koding, dan strategi.</div>
                 <div class="mini-btns">
                   <span><svg class="ic"><use href="#i-user"/></svg> Profil</span>
                   <span><svg class="ic"><use href="#i-ship"/></svg> Timeline</span>
@@ -711,7 +725,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           </div>
         </div>
 
-        <!-- 5 Lingkaran -->
+        <!-- 5 Lingkaran (Sesuai Gambar) -->
         <div class="hero-circle hc-profil" data-target="profil">
           <span class="c-icon">👤</span><span class="c-label">Profil</span>
         </div>
@@ -1187,7 +1201,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
   </div>
 </main>
 
-<!-- ========== FOOTER ========== -->
+<!-- ========== FOOTER (Disembunyikan di Home) ========== -->
 <footer class="foot">
   <div class="wrap">
     <div class="foot-grid">
@@ -1195,7 +1209,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
         <p class="name"><span class="hico c-blue"><svg class="ic"><use href="#i-user"/></svg></span>Muhammad Syazani Al Taftazani</p>
         <p class="slogan">"The greater the mass, The greater the force of atraction"</p>
         <p>&copy; 2026 Syazani. Semua hak dilindungi.</p>
-        <p style="margin-top:12px"><button type="button" id="replayIntro" style="background:transparent;border:1px solid rgba(255,247,237,.3);color:rgba(255,247,237,.7);padding:6px 14px;border-radius:20px;font-size:.75rem;cursor:pointer;font-family:var(--f-mono)">▶ Putar Ulang Animasi</button></p>
       </div>
       <nav class="f-nav" aria-label="Tautan cepat">
         <div>
@@ -1236,13 +1249,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
   </div>
 </footer>
 
-<!-- ========== FLOATING CLOCK ========== -->
-<div class="floatclock" id="floatclock" aria-label="Jam lokal">
-  <svg class="ic"><use href="#i-clock"/></svg>
-  <div><b id="lClock">--:--:--</b><small id="lZone">Waktu lokalmu</small></div>
-</div>
-
-<!-- ========== THE HONOURED HORSE (Unified AI Widget) ========== -->
+<!-- ========== THE HONOURED HORSE (Floating AI) ========== -->
 <button class="ai-fab" id="ai-fab" title="The Honoured Horse AI">♞</button>
 <div class="ai-widget" id="ai-widget">
   <div class="ai-container">
@@ -1277,6 +1284,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 </div>
 
 <script>
+/* ========== ISI JAVASCRIPT DI SINI (BAGIAN 3) ========== */
   (function(){
 'use strict';
 var $ = function(s,r){return (r||document).querySelector(s)};
@@ -1298,6 +1306,7 @@ var pad = function(n){return String(n).padStart(2,'0')};
   var btns = $('#introBtns');
   var boxes = $$('.shoot-box');
   var skipBtn = $('#introSkip');
+  var realLaptop = $('#realLaptop');
   var timeouts = [];
   var ended = false;
 
@@ -1308,24 +1317,27 @@ var pad = function(n){return String(n).padStart(2,'0')};
     ended = true;
     timeouts.forEach(clearTimeout);
 
-    // 1. Canva Zoom-out Effect: Text shrinks to center
+    // 1. Canva Zoom-out Effect: Text mengecil ke tengah
     targetArea.style.transform = 'scale(0.1)';
     targetArea.style.opacity = '0';
     
-    // 2. Gun fades out
+    // 2. Pistol memudar
     gun.style.opacity = '0';
     
-    // 3. Overlay background fades out
-    overlay.classList.add('hidden');
-    
-    // 4. Laptop scales up (comes forward) and lines appear
-    var laptop = $('#realLaptop');
-    if(laptop) {
-      laptop.style.transform = 'translate(-50%, -50%) scale(1)';
+    // 3. Laptop Muncul (membesar dari tengah)
+    if(realLaptop) {
+      realLaptop.classList.add('show-laptop');
     }
-    document.body.classList.add('intro-done');
     
-    // 5. Cleanup
+    // 4. Background intro memudar, lalu garis & lingkaran muncul
+    overlay.classList.add('hidden');
+    document.body.classList.add('intro-done');
+    setTimeout(function() {
+      var lines = $('.hero-lines');
+      if(lines) lines.classList.add('visible');
+    }, 600);
+
+    // 5. Hapus overlay setelah selesai
     setTimeout(function(){ 
       overlay.style.display = 'none'; 
     }, 1200);
@@ -1340,12 +1352,13 @@ var pad = function(n){return String(n).padStart(2,'0')};
   var played = false;
   try{ played = sessionStorage.getItem('intro_played'); }catch(e){}
 
-  // Jika sudah pernah lihat, langsung tampilkan laptop
+  // Jika sudah pernah lihat, langsung tampilkan laptop tanpa animasi
   if(!forceIntro && played){
     overlay.style.display = 'none';
-    var laptop = $('#realLaptop');
-    if(laptop) laptop.style.transform = 'translate(-50%, -50%) scale(1)';
+    if(realLaptop) realLaptop.classList.add('show-laptop');
     document.body.classList.add('intro-done');
+    var lines = $('.hero-lines');
+    if(lines) lines.classList.add('visible');
     ended = true;
     return;
   }
@@ -1359,7 +1372,7 @@ var pad = function(n){return String(n).padStart(2,'0')};
 
   function shootNext(){
     if(currentIdx >= sequence.length){
-      // Ammo habis! Berhenti sejenak (800ms) lalu Zoom-out
+      // Amunisi habis! Berhenti sejenak (800ms) lalu Zoom-out
       delay(800, endIntro);
       return;
     }
@@ -1383,13 +1396,13 @@ var pad = function(n){return String(n).padStart(2,'0')};
     
     delay(160, function(){
       el.classList.add('show');
-      delay(100, shootNext); // Jeda antar tembakan (100ms)
+      delay(100, shootNext); // Jeda antar tembakan
     });
   }
   
   delay(startTime, shootNext);
 
-  // Absolute fallback: pastikan selesai dalam 10 detik
+  // Absolute fallback
   delay(10000, function(){
     if(ended) return;
     sequence.forEach(function(el){ el.classList.add('show'); });
@@ -1398,7 +1411,7 @@ var pad = function(n){return String(n).padStart(2,'0')};
 })();
 
 /* ============================================================
-   2. SPA NAVIGATION
+   2. SPA NAVIGATION & HIDE NAV/FOOT ON HOME
    ============================================================ */
 var views = {
   home: $('#view-home'),
@@ -1436,10 +1449,17 @@ function show(v, sec){
     cur = v;
     var el = views[v];
     if(el){ el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); }
+    
+    // SEMBUNYIKAN NAVBAR & FOOTER DI HOME
+    if (v === 'home') {
+      document.body.classList.add('is-home');
+    } else {
+      document.body.classList.remove('is-home');
+    }
+
     if(v === 'timeline' && typeof tlLayout === 'function') setTimeout(tlLayout, 50);
     if(v === 'blog' && typeof loadBlog === 'function') loadBlog();
     if(v === 'admin' && typeof renderAdmin === 'function') renderAdmin();
-    document.body.style.overflow = '';
   }
   updateNav(); closeMenu();
   if(sec){
@@ -1475,12 +1495,6 @@ if(circleChatbot) {
     if(fab) fab.click();
   });
 }
-
-var replayBtn = $('#replayIntro');
-if(replayBtn) replayBtn.addEventListener('click', function(){
-  try{ sessionStorage.removeItem('intro_played'); }catch(e){}
-  location.href = location.pathname + '?intro=1';
-});
 
 /* ============================================================
    3. CLOCK & DATE
