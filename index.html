@@ -78,10 +78,10 @@ button{font-family:inherit;cursor:pointer}
 .planet-2{width:400px;height:400px;top:-150px;right:-150px;opacity:.3}
 
 .hero-laptop-block{position:relative;width:100%;max-width:1100px;height:clamp(500px,65vh,700px);display:flex;align-items:center;justify-content:center;perspective:1000px;z-index:1}
-.hero-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity 1s ease}
+.hero-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity 1s ease 0.5s;}
 .hero-lines.visible{opacity:1}
 
-.laptop-element{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10;width:min(500px,80vw)}
+.laptop-element{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.85);z-index:10;width:min(500px,80vw);transition:transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);}
 .laptop-body{position:relative;width:100%;aspect-ratio:16/10;background:#1C1917;border-radius:16px 16px 0 0;padding:12px 12px 0 12px;box-shadow:0 30px 60px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.1)}
 .laptop-screen{width:100%;height:100%;background:#F8FAFC;border-radius:6px;overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
 .laptop-glare{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.4) 0%,transparent 50%);pointer-events:none;z-index:10}
@@ -100,7 +100,8 @@ button{font-family:inherit;cursor:pointer}
 .mini-boxes small{font-size:.6rem;color:#64748B;font-weight:600;margin-top:2px}
 
 /* 5 Glowing Circles */
-.hero-circle{position:absolute;width:clamp(70px,10vw,90px);height:clamp(70px,10vw,90px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:800;z-index:8;cursor:pointer;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;border:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px)}
+.hero-circle{position:absolute;width:clamp(70px,10vw,90px);height:clamp(70px,10vw,90px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:800;z-index:8;cursor:pointer;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;border:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);opacity:0;transition:opacity 1s ease 0.8s, transform 0.3s;}
+.intro-done .hero-circle {opacity:1;}
 .hero-circle:hover{transform:scale(1.15) translateY(-4px)}
 .hero-circle .c-icon{font-size:clamp(1.4rem,2.5vw,1.8rem);line-height:1}
 .hero-circle .c-label{font-size:clamp(.65rem,1.2vw,.8rem);margin-top:3px;letter-spacing:.02em}
@@ -452,10 +453,10 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 .floatclock b{font-size:.92rem;font-variant-numeric:tabular-nums}
 .floatclock small{display:block;color:var(--muted);font-size:.64rem;line-height:1.2}
 
-/* ============ INTRO OVERLAY (ZOOM-OUT EFFECT) ============ */
-.intro-overlay{position:fixed;inset:0;z-index:99999;background:#020617;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s}
+/* ============ INTRO OVERLAY (ZOOM-OUT CANVA EFFECT) ============ */
+.intro-overlay{position:fixed;inset:0;z-index:99999;background:#020617;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s ease,visibility 1s;}
 .intro-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
-.intro-target-area{display:flex;flex-direction:column;align-items:center;gap:24px;padding:20px;transition:transform 1s cubic-bezier(.7,0,.3,1),opacity 1s ease;transform-origin:center center}
+.intro-target-area{display:flex;flex-direction:column;align-items:center;gap:24px;padding:20px;transition:transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.2s ease;transform-origin:center center;}
 .intro-h1{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(2.2rem,6vw,5rem);line-height:1.04;letter-spacing:-.04em;text-align:center;max-width:1040px;display:flex;flex-wrap:wrap;justify-content:center;gap:.2em;color:#F8FAFC}
 .shoot-word,.shoot-box,.shoot-sub,.shoot-btns{opacity:0;transform:scale(.5) translateY(20px);transition:all .5s cubic-bezier(.175,.885,.32,1.275)}
 .shoot-word.show,.shoot-box.show,.shoot-sub.show,.shoot-btns.show{opacity:1;transform:scale(1) translateY(0)}
@@ -602,7 +603,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
   <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6l-12 12"/></symbol>
 </svg>
 
-<!-- ========== INTRO OVERLAY ========== -->
+<!-- ========== INTRO OVERLAY (Hanya Teks & Pistol) ========== -->
 <div id="intro-overlay" class="intro-overlay">
   <div class="intro-target-area" id="introTargetArea">
     <h1 class="intro-h1">
@@ -626,7 +627,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     </div>
   </div>
 
-  <!-- Gun for shooting animation -->
+  <!-- Gun untuk Animasi Menembak -->
   <div class="intro-gun" id="introGun">
     <svg viewBox="0 0 120 60" class="gun-svg">
       <path d="M10 30 L10 22 Q10 18 14 18 L55 18 Q60 18 62 22 L70 22 L70 28 L78 28 L78 34 L70 34 L70 40 L62 40 Q60 44 55 44 L14 44 Q10 44 10 40 Z" fill="#94A3B8"/>
@@ -671,7 +672,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
       </div>
       
       <div class="hero-laptop-block">
-        <!-- Connecting Lines -->
+        <!-- Garis Penghubung -->
         <svg class="hero-lines" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
           <defs>
             <filter id="glow-blue"><feGaussianBlur stdDeviation="4" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -687,7 +688,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           <path class="line line-chatbot" d="M 500 480 Q 500 400 500 350" stroke="#FDE68A" stroke-width="3" fill="none" filter="url(#glow-gold)"/>
         </svg>
 
-        <!-- The Laptop -->
+        <!-- Laptop yang akan muncul setelah intro -->
         <div class="laptop-element" id="realLaptop">
           <div class="laptop-body">
             <div class="laptop-screen" id="realLaptopScreen">
@@ -710,7 +711,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           </div>
         </div>
 
-        <!-- 5 Circles -->
+        <!-- 5 Lingkaran -->
         <div class="hero-circle hc-profil" data-target="profil">
           <span class="c-icon">👤</span><span class="c-label">Profil</span>
         </div>
@@ -1284,7 +1285,7 @@ var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce
 var pad = function(n){return String(n).padStart(2,'0')};
 
 /* ============================================================
-   1. INTRO ANIMATION (ZOOM-OUT TO LAPTOP)
+   1. INTRO ANIMATION (CANVA ZOOM-OUT EFFECT)
    ============================================================ */
 (function(){
   var overlay = $('#intro-overlay');
@@ -1306,22 +1307,28 @@ var pad = function(n){return String(n).padStart(2,'0')};
     if(ended) return;
     ended = true;
     timeouts.forEach(clearTimeout);
-    
-    // Zoom-out effect: scale down target area to simulate entering the laptop
-    targetArea.style.transform = 'scale(0.3) translateY(20vh)';
+
+    // 1. Canva Zoom-out Effect: Text shrinks to center
+    targetArea.style.transform = 'scale(0.1)';
     targetArea.style.opacity = '0';
+    
+    // 2. Gun fades out
     gun.style.opacity = '0';
     
-    // Fade out overlay
+    // 3. Overlay background fades out
     overlay.classList.add('hidden');
     
-    // Show hero lines
-    var lines = $('.hero-lines');
-    if(lines) lines.classList.add('visible');
+    // 4. Laptop scales up (comes forward) and lines appear
+    var laptop = $('#realLaptop');
+    if(laptop) {
+      laptop.style.transform = 'translate(-50%, -50%) scale(1)';
+    }
+    document.body.classList.add('intro-done');
     
+    // 5. Cleanup
     setTimeout(function(){ 
       overlay.style.display = 'none'; 
-    }, 850);
+    }, 1200);
     
     try{ sessionStorage.setItem('intro_played','1'); }catch(e){}
   }
@@ -1333,11 +1340,13 @@ var pad = function(n){return String(n).padStart(2,'0')};
   var played = false;
   try{ played = sessionStorage.getItem('intro_played'); }catch(e){}
 
+  // Jika sudah pernah lihat, langsung tampilkan laptop
   if(!forceIntro && played){
     overlay.style.display = 'none';
+    var laptop = $('#realLaptop');
+    if(laptop) laptop.style.transform = 'translate(-50%, -50%) scale(1)';
+    document.body.classList.add('intro-done');
     ended = true;
-    var lines = $('.hero-lines');
-    if(lines) lines.classList.add('visible');
     return;
   }
 
@@ -1350,11 +1359,13 @@ var pad = function(n){return String(n).padStart(2,'0')};
 
   function shootNext(){
     if(currentIdx >= sequence.length){
+      // Ammo habis! Berhenti sejenak (800ms) lalu Zoom-out
       delay(800, endIntro);
       return;
     }
     var el = sequence[currentIdx];
     currentIdx++;
+    
     try {
       var r = el.getBoundingClientRect();
       var gr = gun.getBoundingClientRect();
@@ -1369,15 +1380,17 @@ var pad = function(n){return String(n).padStart(2,'0')};
         setTimeout(function(){ muzzle.classList.remove('flash'); }, 150);
       });
     } catch(e){}
+    
     delay(160, function(){
       el.classList.add('show');
-      delay(60, shootNext);
+      delay(100, shootNext); // Jeda antar tembakan (100ms)
     });
   }
+  
   delay(startTime, shootNext);
 
-  // Absolute fallback
-  delay(9000, function(){
+  // Absolute fallback: pastikan selesai dalam 10 detik
+  delay(10000, function(){
     if(ended) return;
     sequence.forEach(function(el){ el.classList.add('show'); });
     endIntro();
