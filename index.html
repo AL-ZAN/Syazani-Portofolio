@@ -20,7 +20,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-html{scroll-padding-top:84px;scroll-behavior:smooth}
+html{scroll-padding-top:20px;scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;margin:0}
 h1,h2,h3,h4{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
 p{margin:0}
@@ -34,29 +34,8 @@ button{font-family:inherit;cursor:pointer}
 .eyebrow{font:500 .78rem/1.4 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .muted{color:var(--muted)}
 
-/* SEMBUNYIKAN NAVBAR & FOOTER DI HOME */
-body.is-home .nav, body.is-home .foot { display: none !important; }
-body.is-home { overflow: hidden; } /* Mencegah scroll di home */
-
-/* ============ NAV ============ */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;background:rgba(0,0,0,.6);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
-.brand{display:flex;align-items:center;gap:10px;font:700 1.08rem var(--f-display);text-decoration:none;color:var(--ink)}
-.brand-mark{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#FDE68A,#B45309);color:#78350F;display:grid;place-items:center;font-size:1.35rem;line-height:1}
-.menu{display:flex;align-items:center;gap:4px}
-.menu a,.menu button{font:600 .9rem var(--f-body);color:var(--muted);padding:8px 14px;border-radius:999px;border:0;background:transparent;text-decoration:none;cursor:pointer;transition:background .2s,color .2s}
-.menu a:hover,.menu button:hover{color:var(--ice);background:var(--ice-soft)}
-.menu a.active,.menu button.active{background:var(--ice);color:#000}
-.menu .switch{background:rgba(255,255,255,.1);color:var(--ink);margin-left:6px}
-.menu .switch:hover{background:var(--ice);color:#000}
-.tgl{display:none;width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;place-items:center}
-@media (max-width:900px){
-  .tgl{display:grid}
-  .menu{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:4px;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 16px 16px}
-  .menu.open{display:flex}
-  .menu a,.menu button{text-align:left;padding:12px 16px}
-  .menu .switch{margin-left:0}
-}
+/* SEMBUNYIKAN SCROLL DI HOME */
+body.is-home { overflow: hidden; }
 
 /* ============ VIEWS ============ */
 .view.enter{animation:slideIn .55s cubic-bezier(.2,.8,.2,1)}
@@ -82,12 +61,12 @@ body.is-home { overflow: hidden; } /* Mencegah scroll di home */
 .planet-1{width:400px;height:400px;bottom:-150px;left:-150px;opacity:.3}
 .planet-2{width:600px;height:600px;top:-200px;right:-200px;opacity:.2}
 
-.hero-laptop-block{position:relative;width:100%;max-width:1100px;height:clamp(500px,65vh,700px);display:flex;align-items:center;justify-content:center;perspective:1000px;z-index:1}
+.hero-laptop-block{position:relative;width:100%;max-width:1100px;height:clamp(500px,70vh,700px);display:flex;align-items:center;justify-content:center;perspective:1000px;z-index:1}
 .hero-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity 1.5s ease 0.8s;}
 .hero-lines.visible{opacity:1}
 
-/* Laptop Awalnya 0 (Tersembunyi), Lalu Muncul */
-.laptop-element{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.5);z-index:10;width:min(550px,85vw);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+/* Laptop Diturunkan (Top 58%) & Animasi Scale */
+.laptop-element{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%) scale(0.5);z-index:10;width:min(550px,85vw);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
 .laptop-element.show-laptop{opacity:1;transform:translate(-50%,-50%) scale(1);}
 
 .laptop-body{position:relative;width:100%;aspect-ratio:16/10;background:#1C1917;border-radius:16px 16px 0 0;padding:12px 12px 0 12px;box-shadow:0 30px 60px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.1)}
@@ -96,7 +75,7 @@ body.is-home { overflow: hidden; } /* Mencegah scroll di home */
 .laptop-base{position:relative;width:110%;height:16px;margin-left:-5%;background:linear-gradient(to bottom,#d4d4d8,#a1a1aa);border-radius:0 0 16px 16px}
 .laptop-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:6px;background:#71717a;border-radius:0 0 6px 6px}
 
-/* Laptop Screen Content (Persis Gambar) */
+/* Laptop Screen Content */
 .mini-scene-content{text-align:center;color:#0F172A;display:flex;flex-direction:column;align-items:center;gap:12px}
 .mini-word{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(1.4rem,3.5vw,2.2rem);color:#0F172A;line-height:1.1;margin-bottom:4px;}
 .mini-sub{font-size:clamp(0.8rem,1.5vw,0.95rem);color:#475569;max-width:85%;margin-bottom:16px;}
@@ -108,22 +87,22 @@ body.is-home { overflow: hidden; } /* Mencegah scroll di home */
 .mini-boxes small{font-size:clamp(0.6rem,1vw,0.75rem);color:#64748B;font-weight:600;margin-top:4px;}
 .mini-boxes div:first-child{color:#0284C7;}
 
-/* 5 Lingkaran (Sesuai Gambar) */
+/* 5 Lingkaran (Posisi Disesuaikan Gambar) */
 .hero-circle{position:absolute;width:clamp(80px,11vw,100px);height:clamp(80px,11vw,100px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:700;z-index:8;cursor:pointer;background:rgba(10,15,30,0.85);backdrop-filter:blur(4px);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,opacity .8s ease;border:2px solid transparent;opacity:0;}
 .intro-done .hero-circle {opacity:1;}
 .hero-circle:hover{transform:scale(1.1);}
 .hero-circle .c-icon{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1;margin-bottom:4px;}
 .hero-circle .c-label{font-size:clamp(.65rem,1.2vw,.85rem);letter-spacing:.02em;}
 
-.hc-profil{top:15%;left:20%;border-color:#38BDF8;box-shadow:0 0 20px rgba(56,189,248,.6),inset 0 0 15px rgba(56,189,248,.3);}
+.hc-profil{top:18%;left:20%;border-color:#38BDF8;box-shadow:0 0 20px rgba(56,189,248,.6),inset 0 0 15px rgba(56,189,248,.3);}
 .hc-profil:hover{box-shadow:0 0 40px rgba(56,189,248,1),inset 0 0 20px rgba(56,189,248,.6);}
-.hc-blog{top:15%;right:20%;border-color:#34D399;box-shadow:0 0 20px rgba(52,211,153,.6),inset 0 0 15px rgba(52,211,153,.3);}
+.hc-blog{top:18%;right:20%;border-color:#34D399;box-shadow:0 0 20px rgba(52,211,153,.6),inset 0 0 15px rgba(52,211,153,.3);}
 .hc-blog:hover{box-shadow:0 0 40px rgba(52,211,153,1),inset 0 0 20px rgba(52,211,153,.6);}
-.hc-projek{top:45%;left:8%;transform:translateY(-50%);border-color:#FB923C;box-shadow:0 0 20px rgba(251,146,60,.6),inset 0 0 15px rgba(251,146,60,.3);}
+.hc-projek{top:50%;left:10%;transform:translateY(-50%);border-color:#FB923C;box-shadow:0 0 20px rgba(251,146,60,.6),inset 0 0 15px rgba(251,146,60,.3);}
 .hc-projek:hover{transform:translateY(-50%) scale(1.1);box-shadow:0 0 40px rgba(251,146,60,1),inset 0 0 20px rgba(251,146,60,.6);}
-.hc-timeline{top:45%;right:8%;transform:translateY(-50%);border-color:#A78BFA;box-shadow:0 0 20px rgba(167,139,250,.6),inset 0 0 15px rgba(167,139,250,.3);}
+.hc-timeline{top:50%;right:10%;transform:translateY(-50%);border-color:#A78BFA;box-shadow:0 0 20px rgba(167,139,250,.6),inset 0 0 15px rgba(167,139,250,.3);}
 .hc-timeline:hover{transform:translateY(-50%) scale(1.1);box-shadow:0 0 40px rgba(167,139,250,1),inset 0 0 20px rgba(167,139,250,.6);}
-.hc-chatbot{bottom:5%;left:50%;transform:translateX(-50%);border-color:#FDE68A;box-shadow:0 0 20px rgba(253,230,138,.6),inset 0 0 15px rgba(253,230,138,.3);background:rgba(50,30,10,0.85);}
+.hc-chatbot{bottom:12%;left:50%;transform:translateX(-50%);border-color:#FDE68A;box-shadow:0 0 20px rgba(253,230,138,.6),inset 0 0 15px rgba(253,230,138,.3);background:rgba(50,30,10,0.85);}
 .hc-chatbot:hover{transform:translateX(-50%) scale(1.1);box-shadow:0 0 40px rgba(253,230,138,1),inset 0 0 20px rgba(253,230,138,.6);}
 
 @media (max-width:768px){
@@ -133,7 +112,7 @@ body.is-home { overflow: hidden; } /* Mencegah scroll di home */
   .hc-projek:hover{transform:scale(1.1)}
   .hc-timeline{top:40%;right:5%;transform:none}
   .hc-timeline:hover{transform:scale(1.1)}
-  .hc-chatbot{bottom:5%}
+  .hc-chatbot{bottom:8%}
 }
 
 /* ============ ABOUT & TRAITS ============ */
@@ -433,28 +412,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 .blog-toast{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(20px);background:#34D399;color:#000;padding:12px 22px;border-radius:999px;font:600 .9rem var(--f-body);box-shadow:0 20px 40px -12px rgba(0,0,0,.4);opacity:0;transition:.3s;z-index:300;pointer-events:none}
 .blog-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ============ FOOTER ============ */
-.foot{background:#000;color:#FFF7ED;margin-top:clamp(40px,6vw,72px);padding-block:clamp(36px,5vw,56px) clamp(84px,9vw,96px);border-top:1px solid var(--line)}
-.foot-grid{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;gap:clamp(24px,4vw,48px)}
-.foot h4{font:600 .74rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ice);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.foot .name{display:flex;align-items:center;gap:10px;font:700 1.4rem var(--f-display);margin-bottom:8px;color:#FFF7ED}
-.foot .name .hico{width:38px;height:38px}
-.foot p,.foot li{color:rgba(255,247,237,.72);font-size:.92rem}
-.foot .slogan{font-style:italic;margin-bottom:14px}
-.foot a{color:rgba(255,247,237,.85);text-decoration:none;cursor:pointer;transition:color .2s}
-.foot a:hover{color:var(--ice)}
-.f-nav{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.f-nav ul{display:flex;flex-direction:column;gap:6px}
-.f-nav .lead-l{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#FFF7ED}
-.f-nav .lead-l .ic{color:var(--ice)}
-.f-right{display:flex;flex-direction:column;justify-content:space-between;gap:22px}
-.quote{display:flex;gap:12px;align-items:flex-start;font:500 1.08rem/1.55 var(--f-display);color:#FFF7ED}
-.quote .hico{width:36px;height:36px}
-.f-clock{align-self:flex-end;display:flex;align-items:center;gap:10px;font:600 .9rem var(--f-mono);padding:8px 14px;border-radius:12px;border:1px solid rgba(255,247,237,.2);color:#FFF7ED}
-.f-clock small{color:var(--ice);font-weight:600}
-.f-copy{margin-top:34px;padding-top:18px;border-top:1px solid rgba(255,247,237,.15);font:500 .78rem var(--f-mono);color:rgba(255,247,237,.6)}
-@media (max-width:900px){.foot-grid{grid-template-columns:1fr}.f-clock{align-self:flex-start}}
-
 /* ============ FLOATING CLOCK ============ */
 .floatclock{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 12px 28px -12px rgba(0,0,0,.5);font-family:var(--f-mono);cursor:pointer;transition:.25s;backdrop-filter:blur(10px)}
 .floatclock:hover{border-color:var(--ice);transform:translateY(-2px)}
@@ -463,7 +420,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 .floatclock small{display:block;color:var(--muted);font-size:.64rem;line-height:1.2}
 
 /* ============ INTRO OVERLAY (ZOOM-OUT CANVA EFFECT) ============ */
-.intro-overlay{position:fixed;inset:0;z-index:99999;background:#020617;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s ease,visibility 1s;}
+.intro-overlay{position:fixed;inset:0;z-index:99999;background:#020617;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1.2s ease,visibility 1.2s;}
 .intro-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
 .intro-target-area{display:flex;flex-direction:column;align-items:center;gap:24px;padding:20px;transition:transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.2s ease;transform-origin:center center;}
 .intro-h1{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(2.2rem,6vw,5rem);line-height:1.04;letter-spacing:-.04em;text-align:center;max-width:1040px;display:flex;flex-wrap:wrap;justify-content:center;gap:.2em;color:#F8FAFC}
@@ -612,7 +569,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
   <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6l-12 12"/></symbol>
 </svg>
 
-<!-- ========== INTRO OVERLAY (FASE 1: Tembak Menembak, TANPA LAPTOP) ========== -->
+<!-- ========== INTRO OVERLAY ========== -->
 <div id="intro-overlay" class="intro-overlay">
   <div class="hero-space-bg">
     <div class="stars"></div>
@@ -655,28 +612,8 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
   <button class="intro-skip" id="introSkip">Skip ▸</button>
 </div>
 
-<!-- ========== HEADER (Disembunyikan di Home) ========== -->
-<header class="nav">
-  <div class="wrap nav-in">
-    <a class="brand" href="#beranda" data-go="home">
-      <span class="brand-mark" aria-hidden="true">♞&#xFE0E;</span>
-      <span class="brand-text">Syazani</span>
-    </a>
-    <button class="tgl" id="navTgl" type="button" aria-label="Buka menu" aria-expanded="false"><svg class="ic"><use href="#i-menu"/></svg></button>
-    <nav class="menu" id="menu" aria-label="Navigasi utama">
-      <a href="#beranda" data-go="home" class="active">Beranda</a>
-      <a href="#profil" data-go="profil">Profil</a>
-      <a href="#projek" data-go="projek">Projek</a>
-      <a href="#pengalaman" data-go="pengalaman">Pengalaman</a>
-      <button data-go="blog" type="button">Blog</button>
-      <button data-go="timeline" type="button">Timeline</button>
-      <button class="switch" id="switchBtn" type="button">Sisi Lain</button>
-    </nav>
-  </div>
-</header>
-
 <main>
-  <!-- ========== VIEW HOME (FASE 2: Laptop Muncul & Lingkaran) ========== -->
+  <!-- ========== VIEW HOME (BERSIH TANPA NAVBAR/FOOTER) ========== -->
   <div id="view-home" class="view">
     <section id="beranda" class="hero wrap">
       <div class="hero-space-bg">
@@ -725,7 +662,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           </div>
         </div>
 
-        <!-- 5 Lingkaran (Sesuai Gambar) -->
+        <!-- 5 Lingkaran -->
         <div class="hero-circle hc-profil" data-target="profil">
           <span class="c-icon">👤</span><span class="c-label">Profil</span>
         </div>
@@ -745,9 +682,10 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     </section>
   </div>
 
-  <!-- ========== VIEW PROFIL ========== -->
+  <!-- ========== VIEW PROFIL (Termasuk Pengalaman) ========== -->
   <div id="view-profil" class="view" hidden>
     <div class="page-head wrap">
+      <button class="btn" data-go="home" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
       <p class="eyebrow">// profil</p>
       <h1><span class="hico c-blue"><svg class="ic"><use href="#i-user"/></svg></span>Mengenal Saya</h1>
     </div>
@@ -761,9 +699,38 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           <article class="trait card"><span class="ico c-pink"><svg class="ic"><use href="#i-smile"/></svg></span><h3>Kepribadian</h3><ul class="chips"><li>Sopan</li><li>Murah Senyum</li><li>Beradab</li></ul></article>
         </div>
       </div>
-      <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
-        <button class="btn primary" data-go="projek"><svg class="ic"><use href="#i-folder"/></svg>Lihat Projek</button>
-        <button class="btn" data-go="pengalaman"><svg class="ic"><use href="#i-briefcase"/></svg>Pengalaman</button>
+    </section>
+
+    <!-- Bagian Pengalaman Digabung -->
+    <section class="sec wrap" style="padding-top:0">
+      <div class="sec-head">
+        <p class="eyebrow">// pengalaman</p>
+        <h2><span class="hico c-green"><svg class="ic"><use href="#i-briefcase"/></svg></span>Pengalaman Saya</h2>
+      </div>
+      <div class="xp-grid">
+        <article class="xp-card card">
+          <h3><span class="hico c-teal"><svg class="ic"><use href="#i-users"/></svg></span>Organisasi</h3>
+          <ul class="xp">
+            <li><span class="ico c-green"><svg class="ic"><use href="#i-book"/></svg></span><div><b>Komunitas Literasi Sekolah</b><small>2025–2026 · Anggota</small></div></li>
+            <li><span class="ico c-orange"><svg class="ic"><use href="#i-mega"/></svg></span><div><b>Duta Bahasa</b><small>2025–2026 · Anggota</small></div></li>
+            <li><span class="ico c-teal"><svg class="ic"><use href="#i-spark"/></svg></span><div><b>PJ Kebersihan Kelas</b><small>2026–2027 · Anggota</small></div></li>
+            <li><span class="ico c-red"><svg class="ic"><use href="#i-flag"/></svg></span><div><b>Panitia ASFERA (Divisi Publikasi)</b><small>2026–2027 · Anggota</small></div></li>
+          </ul>
+        </article>
+        <article class="xp-card card">
+          <h3><span class="hico c-amber"><svg class="ic"><use href="#i-trophy"/></svg></span>Prestasi / Penghargaan</h3>
+          <ul class="xp">
+            <li><span class="ico c-amber"><svg class="ic"><use href="#i-trophy"/></svg></span><div><b>Juara 2 Catur PPA</b><small>2025</small></div></li>
+            <li><span class="ico c-purple"><svg class="ic"><use href="#i-pawn"/></svg></span><div><b>Peserta Catur ASFERA</b><small>2026</small></div></li>
+            <li><span class="ico c-blue"><svg class="ic"><use href="#i-users"/></svg></span><div><b>Catur Antar As-syifa</b><small>2025</small></div></li>
+            <li><span class="ico c-pink"><svg class="ic"><use href="#i-medal"/></svg></span><div><b>Mutabaah Terbaik Usbu Ruhi (Agustus)</b><small>2026</small></div></li>
+          </ul>
+        </article>
+      </div>
+      
+      <!-- Tombol ke Sisi Lain -->
+      <div style="margin-top:40px;text-align:center;">
+        <button class="btn primary" data-go="other" style="padding:16px 32px;font-size:1.05rem;"><svg class="ic"><use href="#i-swap"/></svg> Lihat Data & Nilai (Sisi Lain)</button>
       </div>
     </section>
   </div>
@@ -771,6 +738,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
   <!-- ========== VIEW PROJEK ========== -->
   <div id="view-projek" class="view" hidden>
     <div class="page-head wrap">
+      <button class="btn" data-go="home" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
       <p class="eyebrow">// projek</p>
       <h1><span class="hico c-orange"><svg class="ic"><use href="#i-folder"/></svg></span>Projek Saya</h1>
     </div>
@@ -982,39 +950,10 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     </section>
   </div>
 
-  <!-- ========== VIEW PENGALAMAN ========== -->
-  <div id="view-pengalaman" class="view" hidden>
-    <div class="page-head wrap">
-      <p class="eyebrow">// pengalaman</p>
-      <h1><span class="hico c-green"><svg class="ic"><use href="#i-briefcase"/></svg></span>Pengalaman Saya</h1>
-    </div>
-    <section class="sec wrap">
-      <div class="xp-grid">
-        <article class="xp-card card">
-          <h3><span class="hico c-teal"><svg class="ic"><use href="#i-users"/></svg></span>Organisasi</h3>
-          <ul class="xp">
-            <li><span class="ico c-green"><svg class="ic"><use href="#i-book"/></svg></span><div><b>Komunitas Literasi Sekolah</b><small>2025–2026 · Anggota</small></div></li>
-            <li><span class="ico c-orange"><svg class="ic"><use href="#i-mega"/></svg></span><div><b>Duta Bahasa</b><small>2025–2026 · Anggota</small></div></li>
-            <li><span class="ico c-teal"><svg class="ic"><use href="#i-spark"/></svg></span><div><b>PJ Kebersihan Kelas</b><small>2026–2027 · Anggota</small></div></li>
-            <li><span class="ico c-red"><svg class="ic"><use href="#i-flag"/></svg></span><div><b>Panitia ASFERA (Divisi Publikasi)</b><small>2026–2027 · Anggota</small></div></li>
-          </ul>
-        </article>
-        <article class="xp-card card">
-          <h3><span class="hico c-amber"><svg class="ic"><use href="#i-trophy"/></svg></span>Prestasi / Penghargaan</h3>
-          <ul class="xp">
-            <li><span class="ico c-amber"><svg class="ic"><use href="#i-trophy"/></svg></span><div><b>Juara 2 Catur PPA</b><small>2025</small></div></li>
-            <li><span class="ico c-purple"><svg class="ic"><use href="#i-pawn"/></svg></span><div><b>Peserta Catur ASFERA</b><small>2026</small></div></li>
-            <li><span class="ico c-blue"><svg class="ic"><use href="#i-users"/></svg></span><div><b>Catur Antar As-syifa</b><small>2025</small></div></li>
-            <li><span class="ico c-pink"><svg class="ic"><use href="#i-medal"/></svg></span><div><b>Mutabaah Terbaik Usbu Ruhi (Agustus)</b><small>2026</small></div></li>
-          </ul>
-        </article>
-      </div>
-    </section>
-  </div>
-
-  <!-- ========== VIEW OTHER ========== -->
+  <!-- ========== VIEW OTHER (Sisi Lain) ========== -->
   <div id="view-other" class="view" hidden>
     <div class="page-head wrap">
+      <button class="btn" data-go="profil" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Profil</button>
       <p class="eyebrow">// sisi lain</p>
       <h1><span class="hico c-blue"><svg class="ic"><use href="#i-book"/></svg></span>Data, Nilai, dan Hafalan</h1>
     </div>
@@ -1077,11 +1016,11 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     <div class="wrap">
       <div class="tl-head">
         <div>
+          <button class="btn" data-go="home" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
           <p class="eyebrow">// timeline</p>
           <h1><span class="hico c-purple"><svg class="ic"><use href="#i-ship"/></svg></span>Perjalanan Pendidikan</h1>
         </div>
         <div class="tl-ctl">
-          <button class="btn" type="button" data-go="home"><svg class="ic"><use href="#i-left"/></svg>Beranda</button>
           <button class="btn" type="button" id="tlPrev" aria-label="Geser ke kiri"><svg class="ic"><use href="#i-left"/></svg></button>
           <button class="btn primary" type="button" id="tlNext" aria-label="Geser ke kanan"><svg class="ic"><use href="#i-right"/></svg></button>
         </div>
@@ -1123,11 +1062,9 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     <div class="wrap">
       <div class="tl-head">
         <div>
+          <button class="btn" data-go="home" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
           <p class="eyebrow">// blog</p>
           <h1><span class="hico c-blue"><svg class="ic"><use href="#i-pen"/></svg></span>Catatan &amp; Tulisan</h1>
-        </div>
-        <div class="tl-ctl">
-          <button class="btn" type="button" data-go="home"><svg class="ic"><use href="#i-left"/></svg>Beranda</button>
         </div>
       </div>
       <p class="tl-hint">Kumpulan catatan, cerita, dan pengalaman. Ingin menulis artikel baru? Ketik <strong>14092012</strong> di kalkulator (bagian Projek).</p>
@@ -1163,12 +1100,12 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     <div class="wrap">
       <div class="tl-head">
         <div>
+          <button class="btn" data-go="home" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
           <p class="eyebrow">// admin</p>
           <h1><span class="hico c-amber"><svg class="ic"><use href="#i-pen"/></svg></span>Admin Blog</h1>
         </div>
         <div class="tl-ctl">
           <button class="btn" type="button" data-go="blog"><svg class="ic"><use href="#i-monitor"/></svg>Lihat Blog</button>
-          <button class="btn" type="button" data-go="home"><svg class="ic"><use href="#i-left"/></svg>Beranda</button>
         </div>
       </div>
       <p class="tl-hint">🔓 Kamu berhasil masuk lewat password kalkulator. Tulis dan kelola artikel di sini — data tersimpan di browser ini (localStorage).</p>
@@ -1200,54 +1137,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     </div>
   </div>
 </main>
-
-<!-- ========== FOOTER (Disembunyikan di Home) ========== -->
-<footer class="foot">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <p class="name"><span class="hico c-blue"><svg class="ic"><use href="#i-user"/></svg></span>Muhammad Syazani Al Taftazani</p>
-        <p class="slogan">"The greater the mass, The greater the force of atraction"</p>
-        <p>&copy; 2026 Syazani. Semua hak dilindungi.</p>
-      </div>
-      <nav class="f-nav" aria-label="Tautan cepat">
-        <div>
-          <h4><svg class="ic"><use href="#i-compass"/></svg>Navigasi</h4>
-          <ul>
-            <li><a class="lead-l" data-go="home"><svg class="ic"><use href="#i-home"/></svg>Beranda</a></li>
-            <li><a data-go="profil">Profil</a></li>
-            <li><a data-go="projek">Projek</a></li>
-            <li><a data-go="pengalaman">Pengalaman</a></li>
-            <li><a data-go="blog">Blog</a></li>
-            <li><a data-go="timeline">Timeline</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>&nbsp;</h4>
-          <ul>
-            <li><a class="lead-l" data-go="other"><svg class="ic"><use href="#i-swap"/></svg>Sisi Lain</a></li>
-            <li><a data-go="other">Data Diri</a></li>
-            <li><a data-go="other">Akademik</a></li>
-            <li><a href="poker.html" target="_blank" rel="noopener"><svg class="ic" style="width:.95em;height:.95em"><use href="#i-dice"/></svg>Card Game</a></li>
-            <li><a href="board.html" target="_blank" rel="noopener"><svg class="ic" style="width:.95em;height:.95em"><use href="#i-pawn"/></svg>Board Games</a></li>
-          </ul>
-        </div>
-      </nav>
-      <div class="f-right">
-        <p class="quote">
-          <span class="hico c-amber"><svg class="ic"><use href="#i-quote"/></svg></span>
-          <span>"Di sekolah anda diberi pelajaran lalu ujian, Di kehidupan anda diberi ujian untuk memberi pelajaran"</span>
-        </p>
-        <div class="f-clock">
-          <svg class="ic"><use href="#i-clock"/></svg>
-          <span id="fClock">--:--:--</span>
-          <small>WIB</small>
-        </div>
-      </div>
-    </div>
-    <p class="f-copy">&copy; 2026 Syazani. Semua hak dilindungi.</p>
-  </div>
-</footer>
 
 <!-- ========== THE HONOURED HORSE (Floating AI) ========== -->
 <button class="ai-fab" id="ai-fab" title="The Honoured Horse AI">♞</button>
@@ -1317,7 +1206,7 @@ var pad = function(n){return String(n).padStart(2,'0')};
     ended = true;
     timeouts.forEach(clearTimeout);
 
-    // 1. Canva Zoom-out Effect: Text mengecil ke tengah
+    // 1. Canva Zoom-out Effect: Teks mengecil ke tengah
     targetArea.style.transform = 'scale(0.1)';
     targetArea.style.opacity = '0';
     
@@ -1411,13 +1300,12 @@ var pad = function(n){return String(n).padStart(2,'0')};
 })();
 
 /* ============================================================
-   2. SPA NAVIGATION & HIDE NAV/FOOT ON HOME
+   2. SPA NAVIGATION (TANPA NAVBAR/FOOTER)
    ============================================================ */
 var views = {
   home: $('#view-home'),
   profil: $('#view-profil'),
   projek: $('#view-projek'),
-  pengalaman: $('#view-pengalaman'),
   other: $('#view-other'),
   timeline: $('#view-timeline'),
   blog: $('#view-blog'),
@@ -1425,18 +1313,6 @@ var views = {
   admin: $('#view-admin')
 };
 var cur = 'home';
-var menu = $('#menu'), navTgl = $('#navTgl'), switchBtn = $('#switchBtn');
-
-function closeMenu(){ if(menu){ menu.classList.remove('open'); if(navTgl) navTgl.setAttribute('aria-expanded','false'); } }
-if(navTgl) navTgl.addEventListener('click', function(){ var o = menu.classList.toggle('open'); navTgl.setAttribute('aria-expanded', String(o)); });
-
-function updateNav(){
-  if(switchBtn) switchBtn.textContent = cur === 'other' ? 'Halaman Utama' : 'Sisi Lain';
-  $$('.menu a, .menu button[data-go]').forEach(function(a){
-    var v = a.getAttribute('data-go');
-    a.classList.toggle('active', v === cur || (v && v.split('#')[0] === cur));
-  });
-}
 
 function show(v, sec){
   if(!views[v]) return;
@@ -1450,7 +1326,7 @@ function show(v, sec){
     var el = views[v];
     if(el){ el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); }
     
-    // SEMBUNYIKAN NAVBAR & FOOTER DI HOME
+    // SEMBUNYIKAN SCROLL DI HOME
     if (v === 'home') {
       document.body.classList.add('is-home');
     } else {
@@ -1461,7 +1337,6 @@ function show(v, sec){
     if(v === 'blog' && typeof loadBlog === 'function') loadBlog();
     if(v === 'admin' && typeof renderAdmin === 'function') renderAdmin();
   }
-  updateNav(); closeMenu();
   if(sec){
     var t = document.getElementById(sec);
     if(t) requestAnimationFrame(function(){ t.scrollIntoView({behavior: (RM || changed) ? 'auto' : 'smooth', block: 'start'}); });
@@ -1477,10 +1352,11 @@ document.addEventListener('click', function(e){
   var p = g.getAttribute('data-go').split('#');
   show(p[0], p[1] || null);
 });
-if(switchBtn) switchBtn.addEventListener('click', function(){ show(cur === 'other' ? 'home' : 'other'); });
+
 var postBackBtn = $('#postBack');
 if(postBackBtn) postBackBtn.addEventListener('click', function(){ show('blog'); });
 
+// Klik 5 Lingkaran
 $$('.hero-circle[data-target]').forEach(function(c){
   c.addEventListener('click', function(){
     var target = c.getAttribute('data-target');
@@ -1497,25 +1373,14 @@ if(circleChatbot) {
 }
 
 /* ============================================================
-   3. CLOCK & DATE
+   3. CLOCK & DATE (Footer clock diganti floating)
    ============================================================ */
 var fLocal = new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
 var fWib = new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jakarta',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
-function zoneLabel(){
-  var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
-  var map = {'Asia/Jakarta':'WIB','Asia/Pontianak':'WIB','Asia/Makassar':'WITA','Asia/Jayapura':'WIT'};
-  if(map[tz]) return map[tz];
-  var off = -new Date().getTimezoneOffset();
-  var sg = off >= 0 ? '+' : '-';
-  off = Math.abs(off);
-  return 'UTC' + sg + Math.floor(off/60) + (off%60 ? ':' + pad(off%60) : '');
-}
-var zl = zoneLabel();
-if($('#lZone')) $('#lZone').textContent = 'Waktu lokalmu (' + zl + ')';
 function tick(){
   var d = new Date();
-  if($('#lClock')) $('#lClock').textContent = fLocal.format(d);
-  if($('#fClock')) $('#fClock').textContent = fWib.format(d);
+  var lClock = $('#lClock');
+  if(lClock) lClock.textContent = fLocal.format(d);
 }
 tick(); setInterval(tick, 1000);
 
@@ -2283,7 +2148,6 @@ document.querySelectorAll('.proj-tabs button').forEach(function(b){
 var adminSaveBtn = $('#adminSave');
 if(adminSaveBtn) adminSaveBtn.addEventListener('click', saveFromAdmin);
 
-updateNav();
 if(location.hash === '#blog') show('blog');
 
 })();
