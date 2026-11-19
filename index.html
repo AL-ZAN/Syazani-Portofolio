@@ -8,8 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400..700&family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..800&display=swap">
 <style>
-/* ========== ISI CSS DI SINI (BAGIAN 2) ========== */
-  :root{
+:root{
   --bg:#000000;--card:rgba(20,25,35,.8);--ink:#F8FAFC;--muted:#94A3B8;
   --ice:#38BDF8;--deep:#0284C7;--ice-soft:rgba(56,189,248,.15);--ice-mid:#0EA5E9;--peach-deep:#1E293B;
   --line:rgba(255,255,255,.1);
@@ -61,25 +60,25 @@ body.is-home { overflow: hidden; }
 .planet-1{width:400px;height:400px;bottom:-150px;left:-150px;opacity:.3}
 .planet-2{width:600px;height:600px;top:-200px;right:-200px;opacity:.2}
 
-.hero-laptop-block{position:relative;width:100%;max-width:1200px;height:100%;display:flex;align-items:center;justify-content:center;perspective:1000px;z-index:1}
-.hero-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity 1.5s ease 0.8s;}
+.hero-laptop-block{position:relative;width:100%;max-width:1200px;height:100%;display:flex;align-items:center;justify-content:center;perspective:1500px;z-index:1}
+.hero-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity 1s ease 0.5s;}
 .hero-lines.visible{opacity:1}
 
-/* Laptop Diturunkan (Top 58%) & Animasi Scale */
-.laptop-element{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%) scale(0.8);z-index:10;width:min(550px,85vw);opacity:0;transition:opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1),transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);}
-.laptop-element.show-laptop{opacity:1;transform:translate(-50%,-50%) scale(1);}
+/* Laptop Diturunkan (Top 58%) & Animasi 3D ASUS TUF */
+.laptop-element{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%) scale(0.8) rotateX(20deg) rotateY(-10deg);z-index:10;width:min(550px,85vw);opacity:0;transition:opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1),transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);transform-style:preserve-3d;}
+.laptop-element.show-laptop{opacity:1;transform:translate(-50%,-50%) scale(1) rotateX(0deg) rotateY(0deg);}
 
-.laptop-body{position:relative;width:100%;aspect-ratio:16/10;background:#1C1917;border-radius:16px 16px 0 0;padding:12px 12px 0 12px;box-shadow:0 30px 60px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.1)}
+.laptop-body{position:relative;width:100%;aspect-ratio:16/10;background:#1C1917;border-radius:16px 16px 0 0;padding:12px 12px 0 12px;box-shadow:0 30px 60px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.1), 0 0 30px rgba(56,189,248,.3)}
 .laptop-screen{width:100%;height:100%;background:#F8FAFC;border-radius:6px;overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
 .laptop-glare{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.4) 0%,transparent 50%);pointer-events:none;z-index:10}
 .laptop-base{position:relative;width:110%;height:16px;margin-left:-5%;background:linear-gradient(to bottom,#d4d4d8,#a1a1aa);border-radius:0 0 16px 16px}
 .laptop-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:6px;background:#71717a;border-radius:0 0 6px 6px}
 
-/* CSS Khusus untuk Konten di Dalam Laptop agar SAMA PERSIS dengan Intro */
+/* CSS Khusus untuk Konten di Dalam Laptop */
 .laptop-scaled-content{transform:scale(0.4);display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;transform-origin:center center;}
 
-/* 5 Lingkaran (Disesuaikan Biar Seimbang) */
-.hero-circle{position:absolute;width:clamp(80px,11vw,100px);height:clamp(80px,11vw,100px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:700;z-index:8;cursor:pointer;background:rgba(10,15,30,0.85);backdrop-filter:blur(4px);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,opacity .8s ease;border:2px solid transparent;opacity:0;}
+/* 5 Lingkaran */
+.hero-circle{position:absolute;width:clamp(80px,11vw,100px);height:clamp(80px,11vw,100px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:700;z-index:8;cursor:pointer;background:rgba(10,15,30,0.85);backdrop-filter:blur(4px);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,opacity .5s ease;border:2px solid transparent;opacity:0;}
 .intro-done .hero-circle {opacity:1;}
 .hero-circle:hover{transform:scale(1.1);}
 .hero-circle .c-icon{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1;margin-bottom:4px;}
@@ -410,25 +409,25 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 .floatclock b{font-size:.92rem;font-variant-numeric:tabular-nums}
 .floatclock small{display:block;color:var(--muted);font-size:.64rem;line-height:1.2}
 
-/* ============ INTRO OVERLAY (ZOOM-OUT CANVA EFFECT) ============ */
-.intro-overlay{position:fixed;inset:0;z-index:99999;background:#020617;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1.2s ease,visibility 1.2s;}
+/* ============ INTRO OVERLAY (ASUS TUF CYBERPUNK) ============ */
+.intro-overlay{position:fixed;inset:0;z-index:99999;background:#020617;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s ease,visibility 1s;}
 .intro-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
-.intro-target-area{display:flex;flex-direction:column;align-items:center;gap:24px;padding:20px;transition:transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.5s ease;transform-origin:center center;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;max-width:800px;}
-.intro-h1{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(2.2rem,6vw,5rem);line-height:1.04;letter-spacing:-.04em;text-align:center;display:flex;flex-wrap:wrap;justify-content:center;gap:.2em;color:#F8FAFC}
-.shoot-word,.shoot-box,.shoot-sub,.shoot-btns{opacity:0;transform:scale(.5) translateY(20px);transition:all .5s cubic-bezier(.175,.885,.32,1.275)}
+.intro-target-area{display:flex;flex-direction:column;align-items:center;gap:24px;padding:20px;transition:transform 1s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1s ease;transform-origin:center center;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;max-width:800px;}
+.intro-h1{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(2.2rem,6vw,5rem);line-height:1.04;letter-spacing:-.04em;text-align:center;display:flex;flex-wrap:wrap;justify-content:center;gap:.2em;color:#F8FAFC;text-shadow:0 0 10px rgba(56,189,248,.5);}
+.shoot-word,.shoot-box,.shoot-sub,.shoot-btns{opacity:0;transform:scale(.5) translateY(20px);transition:all .3s cubic-bezier(.175,.885,.32,1.275)}
 .shoot-word.show,.shoot-box.show,.shoot-sub.show,.shoot-btns.show{opacity:1;transform:scale(1) translateY(0)}
 .intro-sub{font-family:'Inter',var(--f-body);font-size:clamp(1rem,1.5vw,1.2rem);color:var(--muted);text-align:center;max-width:600px;margin-top:10px;padding:0 20px}
 .intro-btns{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;justify-content:center}
 .intro-stats{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;justify-content:center}
-.shoot-box{padding:20px 40px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:24px;box-shadow:0 14px 30px -20px rgba(0,0,0,.5);display:flex;flex-direction:column;font-family:var(--f-display);font-weight:800;font-size:2rem;color:var(--ice);min-width:130px;text-align:center;backdrop-filter:blur(10px)}
+.shoot-box{padding:20px 40px;background:rgba(56,189,248,.05);border:1px solid rgba(56,189,248,.3);border-radius:24px;box-shadow:0 0 20px rgba(56,189,248,.2);display:flex;flex-direction:column;font-family:var(--f-display);font-weight:800;font-size:2rem;color:var(--ice);min-width:130px;text-align:center;backdrop-filter:blur(10px)}
 .shoot-box small{font-size:.9rem;color:var(--muted);margin-top:4px;font-family:var(--f-body);font-weight:600}
-.intro-gun{position:fixed;width:120px;opacity:0;pointer-events:none;z-index:100;left:50%;top:70%;transform:translate(-50%,-50%);transition:opacity .3s,top .3s cubic-bezier(.2,.8,.2,1),left .3s cubic-bezier(.2,.8,.2,1),transform .3s}
-.intro-gun.show{opacity:1}
-.gun-svg{width:100%;height:auto;display:block;transform-origin:center;filter:drop-shadow(0 0 10px rgba(148,163,184,.5))}
-.gun-muzzle{position:absolute;top:20px;left:80px;width:30px;height:30px;background:radial-gradient(circle,#fff,var(--ice),transparent);border-radius:50%;opacity:0;pointer-events:none}
-.gun-muzzle.flash{animation:muzzleFlash .15s ease-out}
-@keyframes muzzleFlash{0%{opacity:1;transform:scale(.5)}100%{opacity:0;transform:scale(2)}}
-.intro-skip{position:absolute;bottom:24px;right:24px;z-index:1000;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:8px 20px;border-radius:30px;font-family:var(--f-mono);font-size:.8rem;font-weight:700;color:var(--muted);cursor:pointer;opacity:0;pointer-events:none;transition:all .3s}
+
+/* Efek Laser & Glitch */
+.laser-line{position:absolute;top:0;left:0;width:100%;height:2px;background:var(--ice);box-shadow:0 0 20px var(--ice);animation:laserDrop 1s ease-in forwards;opacity:0;}
+@keyframes laserDrop{0%{top:0;opacity:1}100%{top:100%;opacity:0}}
+.scanlines{position:absolute;inset:0;background:linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,.2) 50%, rgba(0,0,0,.2));background-size:100% 4px;pointer-events:none;opacity:.3;animation:scanMove 10s linear infinite}
+@keyframes scanMove{from{background-position:0 0}to{background-position:0 100%}}
+.intro-skip{position:absolute;bottom:24px;right:24px;z-index:1000;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:8px 20px;border-radius:30px;font-family:var(--f-mono);font-size:.8rem;font-weight:700;color:var(--muted);cursor:pointer;opacity:0;pointer-events:none;transition:all .3s}
 .intro-skip.show{opacity:1;pointer-events:auto}
 .intro-skip:hover{background:rgba(255,255,255,.2);color:#fff}
 
@@ -560,13 +559,11 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
   <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6l-12 12"/></symbol>
 </svg>
 
-<!-- ========== INTRO OVERLAY ========== -->
+<!-- ========== INTRO OVERLAY (ASUS TUF STYLE) ========== -->
 <div id="intro-overlay" class="intro-overlay">
-  <div class="hero-space-bg">
-    <div class="stars"></div>
-    <div class="planet planet-1"></div>
-    <div class="planet planet-2"></div>
-  </div>
+  <!-- Garis Laser & Glitch Background -->
+  <div class="laser-line"></div>
+  <div class="scanlines"></div>
   
   <div class="intro-target-area" id="introTargetArea">
     <h1 class="intro-h1">
@@ -590,22 +587,11 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     </div>
   </div>
 
-  <!-- Pistol -->
-  <div class="intro-gun" id="introGun">
-    <svg viewBox="0 0 120 60" class="gun-svg">
-      <path d="M10 30 L10 22 Q10 18 14 18 L55 18 Q60 18 62 22 L70 22 L70 28 L78 28 L78 34 L70 34 L70 40 L62 40 Q60 44 55 44 L14 44 Q10 44 10 40 Z" fill="#94A3B8"/>
-      <rect x="70" y="26" width="20" height="10" fill="#94A3B8"/>
-      <path d="M30 44 Q30 56 40 56 Q50 56 50 44" fill="none" stroke="#94A3B8" stroke-width="3"/>
-      <rect x="88" y="28" width="4" height="6" fill="#475569"/>
-    </svg>
-    <div class="gun-muzzle" id="gunMuzzle"></div>
-  </div>
-
-  <button class="intro-skip" id="introSkip">Skip ▸</button>
+  <button class="intro-skip" id="introSkip">SKIP INTRO ▸</button>
 </div>
 
 <main>
-  <!-- ========== VIEW HOME (BERSIH TANPA NAVBAR/FOOTER) ========== -->
+  <!-- ========== VIEW HOME ========== -->
   <div id="view-home" class="view">
     <section id="beranda" class="hero">
       <div class="hero-space-bg">
@@ -615,7 +601,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
       </div>
       
       <div class="hero-laptop-block">
-        <!-- Garis Penghubung -->
         <svg class="hero-lines" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
           <defs>
             <filter id="glow-blue"><feGaussianBlur stdDeviation="4" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -631,11 +616,10 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           <path class="line line-chatbot" d="M 500 480 Q 500 400 500 350" stroke="#FDE68A" stroke-width="3" fill="none" filter="url(#glow-gold)"/>
         </svg>
 
-        <!-- Laptop Elegan -->
+        <!-- Laptop ASUS TUF Style -->
         <div class="laptop-element" id="realLaptop">
           <div class="laptop-body">
             <div class="laptop-screen" id="realLaptopScreen">
-              <!-- Konten laptop pakai HTML yang PERSIS SAMA dengan Intro -->
               <div class="laptop-scaled-content">
                 <h1 class="intro-h1">
                   <span>Halo,</span> <span>Namaku</span> <span>Muhammad</span> <span>Syazani</span> <span>Al</span> <span>Taftazani</span>
@@ -658,7 +642,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           </div>
         </div>
 
-        <!-- 5 Lingkaran (Posisi Disesuaikan Biar Seimbang) -->
+        <!-- 5 Lingkaran -->
         <div class="hero-circle hc-profil" data-target="profil">
           <span class="c-icon">👤</span><span class="c-label">Profil</span>
         </div>
@@ -697,7 +681,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
       </div>
     </section>
 
-    <!-- Bagian Pengalaman Digabung -->
     <section class="sec wrap" style="padding-top:0">
       <div class="sec-head">
         <p class="eyebrow">// pengalaman</p>
@@ -724,7 +707,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
         </article>
       </div>
       
-      <!-- Tombol ke Sisi Lain -->
       <div style="margin-top:40px;text-align:center;">
         <button class="btn primary" data-go="other" style="padding:16px 32px;font-size:1.05rem;"><svg class="ic"><use href="#i-swap"/></svg> Lihat Data & Nilai (Sisi Lain)</button>
       </div>
@@ -747,7 +729,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 
       <div class="proj-tab-panel on" id="panelWeb" role="tabpanel">
         <div class="proj-grid">
-          <!-- Kalkulator -->
           <article class="proj card">
             <div class="proj-head">
               <span class="ico c-orange"><svg class="ic"><use href="#i-calc"/></svg></span>
@@ -805,7 +786,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
             </div>
           </article>
 
-          <!-- Kompas Kiblat -->
           <article class="proj card">
             <div class="proj-head">
               <span class="ico c-teal"><svg class="ic"><use href="#i-compass"/></svg></span>
@@ -885,7 +865,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
         </div>
       </div>
 
-      <!-- TAB LUAR WEB -->
       <div class="proj-tab-panel" id="panelExternal" role="tabpanel">
         <div class="proj-grid">
           <article class="proj external wide">
@@ -1169,8 +1148,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 </div>
 
 <script>
-/* ========== ISI JAVASCRIPT DI SINI (BAGIAN 3) ========== */
-  (function(){
+(function(){
 'use strict';
 var $ = function(s,r){return (r||document).querySelector(s)};
 var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
@@ -1178,14 +1156,12 @@ var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce
 var pad = function(n){return String(n).padStart(2,'0')};
 
 /* ============================================================
-   1. INTRO ANIMATION (CANVA ZOOM-OUT EFFECT)
+   1. INTRO ANIMATION (ASUS TUF AUTO-PLAY)
    ============================================================ */
 (function(){
   var overlay = $('#intro-overlay');
   if(!overlay) return;
   var targetArea = $('#introTargetArea');
-  var gun = $('#introGun');
-  var muzzle = $('#gunMuzzle');
   var words = $$('.shoot-word');
   var sub = $('#introSub');
   var btns = $('#introBtns');
@@ -1202,27 +1178,25 @@ var pad = function(n){return String(n).padStart(2,'0')};
     ended = true;
     timeouts.forEach(clearTimeout);
 
-    // 1. Pull-out Effect: Teks mengecil ke tengah (Canva style)
-    targetArea.style.transform = 'translate(-50%, -50%) scale(0.4)';
-    targetArea.style.opacity = '0'; // Memudar setelah mengecil
+    // 1. 3D Zoom-Out Effect (ASUS TUF Style)
+    targetArea.style.transform = 'translate(-50%, -50%) scale(0.2) rotateX(45deg)';
+    targetArea.style.opacity = '0'; 
     
-    // 2. Pistol memudar
-    gun.style.opacity = '0';
-    
-    // 3. Laptop Muncul (membesar dari tengah)
+    // 2. Laptop Muncul (3D rotate to flat)
     if(realLaptop) {
       realLaptop.classList.add('show-laptop');
     }
     
-    // 4. Background intro memudar, lalu garis & lingkaran muncul
+    // 3. Fade out overlay
     overlay.classList.add('hidden');
     document.body.classList.add('intro-done');
+    
+    // 4. Tampilkan garis penghubung setelah laptop muncul
     setTimeout(function() {
       var lines = $('.hero-lines');
       if(lines) lines.classList.add('visible');
-    }, 600);
+    }, 800);
 
-    // 5. Hapus overlay setelah selesai
     setTimeout(function(){ 
       overlay.style.display = 'none'; 
     }, 1200);
@@ -1237,7 +1211,6 @@ var pad = function(n){return String(n).padStart(2,'0')};
   var played = false;
   try{ played = sessionStorage.getItem('intro_played'); }catch(e){}
 
-  // Jika sudah pernah lihat, langsung tampilkan laptop tanpa animasi
   if(!forceIntro && played){
     overlay.style.display = 'none';
     if(realLaptop) realLaptop.classList.add('show-laptop');
@@ -1248,47 +1221,31 @@ var pad = function(n){return String(n).padStart(2,'0')};
     return;
   }
 
-  delay(1200, function(){ skipBtn.classList.add('show'); });
-  delay(300, function(){ gun.style.opacity = '1'; });
+  // Animasi Otomatis (ASUS TUF Flow)
+  delay(1000, function(){ skipBtn.classList.add('show'); });
 
   var sequence = Array.from(words).concat([sub, btns]).concat(Array.from(boxes));
   var currentIdx = 0;
-  var startTime = 900;
+  var startTime = 800;
 
   function shootNext(){
     if(currentIdx >= sequence.length){
-      // Amunisi habis! Berhenti sejenak (800ms) lalu Zoom-out
-      delay(800, endIntro);
+      delay(1000, endIntro); // Jeda 1 detik sebelum zoom out
       return;
     }
     var el = sequence[currentIdx];
     currentIdx++;
     
-    try {
-      var r = el.getBoundingClientRect();
-      var gr = gun.getBoundingClientRect();
-      var tx = r.left + r.width/2;
-      var ty = r.top + r.height/2;
-      var gx = gr.left + gr.width/2;
-      var gy = gr.top + gr.height/2;
-      var angle = Math.atan2(ty-gy, tx-gx) * 180 / Math.PI;
-      gun.style.transform = 'translate(-50%, -50%) rotate(' + angle + 'deg)';
-      delay(80, function(){
-        muzzle.classList.add('flash');
-        setTimeout(function(){ muzzle.classList.remove('flash'); }, 150);
-      });
-    } catch(e){}
-    
-    delay(160, function(){
+    delay(100, function(){
       el.classList.add('show');
-      delay(100, shootNext); // Jeda antar tembakan
+      delay(80, shootNext); // Jeda antar teks muncul (cepat, mekanik)
     });
   }
   
   delay(startTime, shootNext);
 
   // Absolute fallback
-  delay(10000, function(){
+  delay(8000, function(){
     if(ended) return;
     sequence.forEach(function(el){ el.classList.add('show'); });
     endIntro();
@@ -1322,7 +1279,6 @@ function show(v, sec){
     var el = views[v];
     if(el){ el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); }
     
-    // SEMBUNYIKAN SCROLL DI HOME
     if (v === 'home') {
       document.body.classList.add('is-home');
     } else {
@@ -1352,14 +1308,12 @@ document.addEventListener('click', function(e){
 var postBackBtn = $('#postBack');
 if(postBackBtn) postBackBtn.addEventListener('click', function(){ show('blog'); });
 
-// Klik 5 Lingkaran
 $$('.hero-circle[data-target]').forEach(function(c){
   c.addEventListener('click', function(){
     var target = c.getAttribute('data-target');
     if(target) show(target);
   });
 });
-// Chatbot Circle
 var circleChatbot = $('#circle-chatbot');
 if(circleChatbot) {
   circleChatbot.addEventListener('click', function() {
@@ -1369,10 +1323,9 @@ if(circleChatbot) {
 }
 
 /* ============================================================
-   3. CLOCK & DATE (Footer clock diganti floating)
+   3. CLOCK & DATE
    ============================================================ */
 var fLocal = new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
-var fWib = new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jakarta',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
 function tick(){
   var d = new Date();
   var lClock = $('#lClock');
