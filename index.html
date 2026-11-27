@@ -64,7 +64,6 @@ body.is-home { overflow: hidden; }
 .hero-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity 1s ease 0.5s;}
 .hero-lines.visible{opacity:1}
 
-/* Laptop Diturunkan (Top 58%) & Animasi 3D ASUS TUF */
 .laptop-element{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%) scale(0.8) rotateX(20deg) rotateY(-10deg);z-index:10;width:min(550px,85vw);opacity:0;transition:opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1),transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);transform-style:preserve-3d;}
 .laptop-element.show-laptop{opacity:1;transform:translate(-50%,-50%) scale(1) rotateX(0deg) rotateY(0deg);}
 
@@ -74,10 +73,8 @@ body.is-home { overflow: hidden; }
 .laptop-base{position:relative;width:110%;height:16px;margin-left:-5%;background:linear-gradient(to bottom,#d4d4d8,#a1a1aa);border-radius:0 0 16px 16px}
 .laptop-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:6px;background:#71717a;border-radius:0 0 6px 6px}
 
-/* CSS Khusus untuk Konten di Dalam Laptop */
 .laptop-scaled-content{transform:scale(0.4);display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;transform-origin:center center;}
 
-/* 5 Lingkaran */
 .hero-circle{position:absolute;width:clamp(80px,11vw,100px);height:clamp(80px,11vw,100px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:700;z-index:8;cursor:pointer;background:rgba(10,15,30,0.85);backdrop-filter:blur(4px);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,opacity .5s ease;border:2px solid transparent;opacity:0;}
 .intro-done .hero-circle {opacity:1;}
 .hero-circle:hover{transform:scale(1.1);}
@@ -409,7 +406,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 .floatclock b{font-size:.92rem;font-variant-numeric:tabular-nums}
 .floatclock small{display:block;color:var(--muted);font-size:.64rem;line-height:1.2}
 
-/* ============ INTRO OVERLAY (ASUS TUF CYBERPUNK) ============ */
+/* ============ INTRO OVERLAY ============ */
 .intro-overlay{position:fixed;inset:0;z-index:99999;background:#020617;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s ease,visibility 1s;}
 .intro-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
 .intro-target-area{display:flex;flex-direction:column;align-items:center;gap:24px;padding:20px;transition:transform 1s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1s ease;transform-origin:center center;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;max-width:800px;}
@@ -421,8 +418,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 .intro-stats{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;justify-content:center}
 .shoot-box{padding:20px 40px;background:rgba(56,189,248,.05);border:1px solid rgba(56,189,248,.3);border-radius:24px;box-shadow:0 0 20px rgba(56,189,248,.2);display:flex;flex-direction:column;font-family:var(--f-display);font-weight:800;font-size:2rem;color:var(--ice);min-width:130px;text-align:center;backdrop-filter:blur(10px)}
 .shoot-box small{font-size:.9rem;color:var(--muted);margin-top:4px;font-family:var(--f-body);font-weight:600}
-
-/* Efek Laser & Glitch */
 .laser-line{position:absolute;top:0;left:0;width:100%;height:2px;background:var(--ice);box-shadow:0 0 20px var(--ice);animation:laserDrop 1s ease-in forwards;opacity:0;}
 @keyframes laserDrop{0%{top:0;opacity:1}100%{top:100%;opacity:0}}
 .scanlines{position:absolute;inset:0;background:linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,.2) 50%, rgba(0,0,0,.2));background-size:100% 4px;pointer-events:none;opacity:.3;animation:scanMove 10s linear infinite}
@@ -430,7 +425,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 .intro-skip{position:absolute;bottom:24px;right:24px;z-index:1000;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:8px 20px;border-radius:30px;font-family:var(--f-mono);font-size:.8rem;font-weight:700;color:var(--muted);cursor:pointer;opacity:0;pointer-events:none;transition:all .3s}
 .intro-skip.show{opacity:1;pointer-events:auto}
 .intro-skip:hover{background:rgba(255,255,255,.2);color:#fff}
-
 @media (max-width:768px){
   .intro-h1{font-size:2rem}
   .shoot-box{padding:14px 24px;font-size:1.5rem;min-width:100px}
@@ -447,7 +441,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 @keyframes widgetIn{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
 .ai-widget .ai-container{height:100%;display:flex;flex-direction:column;padding:22px;overflow:hidden}
 .ai-header{display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid rgba(180,83,9,.3);margin-bottom:16px;flex-shrink:0}
-.ai-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 0 25px rgba(253,230,138,.5);flex-shrink:0}
+.ai-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 0 25px rgba(253,230,138,.5);flex-shrink:0;background:radial-gradient(circle at 35% 30%,#FFF7ED,#FDE68A 55%,#B45309 100%);color:#78350F;font-family:serif}
 .ai-header-info{flex:1;min-width:0}
 .ai-header-info h3{font-family:var(--f-display);font-size:1.05rem;color:#FDE68A;letter-spacing:1px;margin-bottom:2px;font-weight:700}
 .ai-status{font-size:.75rem;color:#34D399;font-weight:600;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -456,7 +450,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 .ai-header-actions{margin-left:auto;display:flex;gap:8px}
 .ai-action-btn{background:rgba(180,83,9,.2);border:1px solid rgba(180,83,9,.5);color:#FDE68A;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
 .ai-action-btn:hover{background:rgba(180,83,9,.5);border-color:#FDE68A;color:#fff}
-.ai-action-btn.active{background:#34D399;color:#000;border-color:#34D399}
 .ai-messages{flex:1;overflow-y:auto;padding:8px 6px 8px 0;display:flex;flex-direction:column;gap:14px;min-height:0}
 .ai-message{display:flex;gap:10px;max-width:85%}
 .ai-message.ai{align-self:flex-start}
@@ -464,18 +457,13 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 .ai-msg-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem;background:radial-gradient(circle at 35% 30%,#FFF7ED,#FDE68A 55%,#B45309 100%);color:#78350F;font-family:serif}
 .ai-message.user .ai-msg-avatar{background:linear-gradient(135deg,#0284C7,#38BDF8);color:#fff}
 .ai-msg-bubble-wrap{position:relative;display:flex;flex-direction:column;gap:6px;max-width:100%}
+.ai-message.user .ai-msg-bubble-wrap{align-items:flex-end}
 .ai-msg-bubble{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:11px 16px;border-radius:14px;color:#E2E8F0;font-size:.95rem;line-height:1.55;word-wrap:break-word;white-space:pre-wrap;border-top-left-radius:4px}
 .ai-message.user .ai-msg-bubble{background:linear-gradient(135deg,rgba(2,132,199,.4),rgba(56,189,248,.3));border-color:rgba(56,189,248,.5);border-top-right-radius:4px;border-top-left-radius:14px;color:#fff}
 .ai-msg-bubble strong{color:#FDE68A}
 .ai-msg-bubble code{background:rgba(0,0,0,.4);padding:2px 6px;border-radius:4px;font-family:var(--f-mono);font-size:.85rem;color:#FDE68A}
-.ai-msg-bubble pre.ai-code{white-space:pre;overflow-x:auto;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px;margin:8px 0}
-.ai-msg-bubble pre.ai-code code{display:block;background:transparent;padding:0;color:#38BDF8}
 .ai-msg-bubble.typing-effect::after{content:'▊';color:#FDE68A;animation:cursorBlink .7s step-end infinite;margin-left:2px}
 @keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
-.ai-msg-actions{display:flex;gap:6px;opacity:0;transition:opacity .25s;padding:0 4px}
-.ai-message:hover .ai-msg-actions{opacity:1}
-.ai-msg-action-btn{background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);color:#94A3B8;padding:4px 10px;border-radius:12px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:var(--f-body)}
-.ai-msg-action-btn:hover{background:rgba(255,255,255,.1);border-color:#FDE68A;color:#FDE68A}
 .ai-msg-time{font-size:.65rem;color:#64748B;padding:0 6px;margin-top:-2px}
 .ai-typing{display:flex;gap:4px;padding:8px 0}
 .ai-typing span{width:8px;height:8px;border-radius:50%;background:#FDE68A;animation:typingBounce 1.4s ease-in-out infinite}
@@ -492,22 +480,75 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 .ai-send-btn{background:#FDE68A;border:none;border-radius:50%;width:48px;height:48px;color:#78350F;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ai-send-btn:hover:not(:disabled){transform:scale(1.1);background:#fff}
 .ai-send-btn:disabled{opacity:.5;cursor:not-allowed}
-.ai-voice-btn{background:rgba(180,83,9,.2);border:2px solid rgba(180,83,9,.5);color:#FDE68A;width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ai-voice-btn:hover{background:rgba(180,83,9,.5);border-color:#FDE68A;color:#fff}
-.ai-voice-btn.recording{background:#F87171;color:#fff;border-color:#F87171}
-.ai-file-btn{background:rgba(180,83,9,.2);border:2px solid rgba(180,83,9,.5);color:#FDE68A;width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0}
-.ai-file-btn:hover{background:rgba(180,83,9,.5);border-color:#FDE68A;color:#fff}
-.ai-scroll-btn{position:absolute;bottom:90px;right:22px;width:40px;height:40px;border-radius:50%;background:#FDE68A;border:none;color:#78350F;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;z-index:5}
-.ai-scroll-btn.visible{opacity:1;pointer-events:auto}
 .ai-disclaimer{font-size:.68rem;line-height:1.35;color:#94A3B8;opacity:.8;text-align:center;padding:7px 8px 0;flex-shrink:0}
-
 @media (max-width:480px){
   .ai-fab{width:56px;height:56px;font-size:1.7rem;bottom:16px;left:16px}
   .ai-widget{left:12px;bottom:84px;width:calc(100vw - 24px);height:min(560px,calc(100vh - 120px))}
   .ai-widget .ai-container{padding:14px}
   .ai-msg-bubble{font-size:.85rem;padding:9px 12px}
   .ai-input-area input{padding:10px 14px;font-size:.85rem}
-  .ai-send-btn,.ai-voice-btn,.ai-file-btn{width:40px;height:40px;font-size:1rem}
+  .ai-send-btn{width:40px;height:40px;font-size:1rem}
+}
+
+/* ============================================================
+   ALAN BECKER STYLE VIEW TRANSITIONS
+   ============================================================ */
+.transition-layer{position:fixed;inset:0;z-index:9997;pointer-events:none;overflow:hidden;contain:strict}
+.transition-layer .swoosh{position:absolute;top:-25%;left:-40%;width:180%;height:150%;
+  background:conic-gradient(from 200deg at 30% 50%,#38BDF8 0deg,#A78BFA 80deg,#FB923C 160deg,#34D399 240deg,#38BDF8 360deg);
+  transform:translateX(-140%) skewX(-18deg);opacity:0;will-change:transform;
+  filter:drop-shadow(0 0 60px rgba(56,189,248,.5))}
+.transition-layer.active .swoosh{animation:abSwoosh .85s cubic-bezier(.7,0,.3,1) forwards}
+@keyframes abSwoosh{
+  0%{transform:translateX(-140%) skewX(-18deg);opacity:1}
+  48%{transform:translateX(0%) skewX(-18deg);opacity:1}
+  100%{transform:translateX(140%) skewX(-18deg);opacity:1}
+}
+.transition-layer .burst{position:absolute;inset:0;pointer-events:none}
+.transition-layer .burst .p{position:absolute;width:14px;height:14px;border-radius:50%;opacity:0;will-change:transform,opacity}
+.transition-layer.active .burst .p{animation:abBurst .7s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes abBurst{
+  0%{opacity:0;transform:translate(0,0) scale(.4)}
+  25%{opacity:1}
+  100%{opacity:0;transform:translate(var(--dx,0),var(--dy,0)) scale(1.2) rotate(180deg)}
+}
+.view.enter{animation:abEnter .72s cubic-bezier(.34,1.56,.64,1) both}
+.view.ab-leave{animation:abLeave .38s cubic-bezier(.55,0,.55,1) both}
+.view.ab-enter{animation:abEnter .72s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes abLeave{
+  0%{opacity:1;transform:none;filter:none}
+  100%{opacity:0;transform:scale(.92) translateY(-24px);filter:blur(10px) brightness(1.4)}
+}
+@keyframes abEnter{
+  0%{opacity:0;transform:scale(1.08) translateY(36px);filter:blur(14px) brightness(1.7)}
+  55%{opacity:1;transform:scale(.985) translateY(-6px);filter:blur(0) brightness(1.05)}
+  100%{opacity:1;transform:none;filter:none}
+}
+body.ab-shake{animation:abShake .32s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes abShake{
+  10%,90%{transform:translate3d(-1px,0,0)}
+  20%,80%{transform:translate3d(2px,0,0)}
+  30%,50%,70%{transform:translate3d(-3px,0,0)}
+  40%,60%{transform:translate3d(3px,0,0)}
+}
+.hero-circle.clicked{animation:abClick .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes abClick{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+.hc-projek.clicked,.hc-timeline.clicked{animation:abClickSide .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes abClickSide{
+  0%{transform:translateY(-50%) scale(1)}
+  40%{transform:translateY(-50%) scale(1.18)}
+  100%{transform:translateY(-50%) scale(1)}
+}
+#view-other .sec-head h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+#view-other .sec-head{margin-bottom:18px}
+#gBody td:first-child{color:#E2E8F0;white-space:nowrap}
+.blog-card:focus-visible{outline:3px solid var(--ice);outline-offset:3px}
+.ai-widget .ai-messages::-webkit-scrollbar{width:6px}
+.ai-widget .ai-messages::-webkit-scrollbar-thumb{background:rgba(253,230,138,.3);border-radius:3px}
+@media (max-width:520px){
+  .tl-head{flex-direction:column;align-items:flex-start}
+  .tl-head h1{font-size:1.9rem}
+  .yr{width:290px}
 }
 </style>
 </head>
@@ -559,12 +600,10 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
   <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6l-12 12"/></symbol>
 </svg>
 
-<!-- ========== INTRO OVERLAY (ASUS TUF STYLE) ========== -->
+<!-- ========== INTRO OVERLAY ========== -->
 <div id="intro-overlay" class="intro-overlay">
-  <!-- Garis Laser & Glitch Background -->
   <div class="laser-line"></div>
   <div class="scanlines"></div>
-  
   <div class="intro-target-area" id="introTargetArea">
     <h1 class="intro-h1">
       <span class="shoot-word">Halo,</span>
@@ -576,9 +615,9 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     </h1>
     <p class="intro-sub shoot-sub" id="introSub">Selamat datang di portofolio digital saya. Siswa SMP dengan minat tinggi di teknologi, koding, dan strategi.</p>
     <div class="intro-btns shoot-btns" id="introBtns">
-      <div class="btn primary"><svg class="ic"><use href="#i-user"/></svg>Profil</div>
-      <div class="btn"><svg class="ic"><use href="#i-ship"/></svg>Timeline</div>
-      <div class="btn"><svg class="ic"><use href="#i-pen"/></svg>Blog</div>
+      <button class="btn primary" type="button" data-intro-go="profil"><svg class="ic"><use href="#i-user"/></svg>Profil</button>
+      <button class="btn" type="button" data-intro-go="timeline"><svg class="ic"><use href="#i-ship"/></svg>Timeline</button>
+      <button class="btn" type="button" data-intro-go="blog"><svg class="ic"><use href="#i-pen"/></svg>Blog</button>
     </div>
     <div class="intro-stats">
       <div class="shoot-box">90+<small>Nilai</small></div>
@@ -586,8 +625,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
       <div class="shoot-box">3+<small>Projek</small></div>
     </div>
   </div>
-
-  <button class="intro-skip" id="introSkip">SKIP INTRO ▸</button>
+  <button class="intro-skip" id="introSkip" type="button">SKIP INTRO ▸</button>
 </div>
 
 <main>
@@ -599,7 +637,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
         <div class="planet planet-1"></div>
         <div class="planet planet-2"></div>
       </div>
-      
       <div class="hero-laptop-block">
         <svg class="hero-lines" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
           <defs>
@@ -616,7 +653,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           <path class="line line-chatbot" d="M 500 480 Q 500 400 500 350" stroke="#FDE68A" stroke-width="3" fill="none" filter="url(#glow-gold)"/>
         </svg>
 
-        <!-- Laptop ASUS TUF Style -->
         <div class="laptop-element" id="realLaptop">
           <div class="laptop-body">
             <div class="laptop-screen" id="realLaptopScreen">
@@ -626,9 +662,9 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
                 </h1>
                 <p class="intro-sub">Selamat datang di portofolio digital saya. Siswa SMP dengan minat tinggi di teknologi, koding, dan strategi.</p>
                 <div class="intro-btns">
-                  <div class="btn primary"><svg class="ic"><use href="#i-user"/></svg>Profil</div>
-                  <div class="btn"><svg class="ic"><use href="#i-ship"/></svg>Timeline</div>
-                  <div class="btn"><svg class="ic"><use href="#i-pen"/></svg>Blog</div>
+                  <button class="btn primary" type="button" data-go="profil"><svg class="ic"><use href="#i-user"/></svg>Profil</button>
+                  <button class="btn" type="button" data-go="timeline"><svg class="ic"><use href="#i-ship"/></svg>Timeline</button>
+                  <button class="btn" type="button" data-go="blog"><svg class="ic"><use href="#i-pen"/></svg>Blog</button>
                 </div>
                 <div class="intro-stats">
                   <div class="shoot-box">90+<small>Nilai</small></div>
@@ -642,27 +678,26 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           </div>
         </div>
 
-        <!-- 5 Lingkaran -->
-        <div class="hero-circle hc-profil" data-target="profil">
+        <button class="hero-circle hc-profil" type="button" data-go="profil" aria-label="Buka Profil">
           <span class="c-icon">👤</span><span class="c-label">Profil</span>
-        </div>
-        <div class="hero-circle hc-blog" data-target="blog">
+        </button>
+        <button class="hero-circle hc-blog" type="button" data-go="blog" aria-label="Buka Blog">
           <span class="c-icon">📝</span><span class="c-label">Blog</span>
-        </div>
-        <div class="hero-circle hc-projek" data-target="projek">
+        </button>
+        <button class="hero-circle hc-projek" type="button" data-go="projek" aria-label="Buka Projek">
           <span class="c-icon">💻</span><span class="c-label">Projek</span>
-        </div>
-        <div class="hero-circle hc-timeline" data-target="timeline">
+        </button>
+        <button class="hero-circle hc-timeline" type="button" data-go="timeline" aria-label="Buka Timeline">
           <span class="c-icon">⏳</span><span class="c-label">Timeline</span>
-        </div>
-        <div class="hero-circle hc-chatbot" id="circle-chatbot">
+        </button>
+        <button class="hero-circle hc-chatbot" type="button" id="circle-chatbot" aria-label="Buka Chatbot">
           <span class="c-icon">♞</span><span class="c-label">Chatbot</span>
-        </div>
+        </button>
       </div>
     </section>
   </div>
 
-  <!-- ========== VIEW PROFIL (Termasuk Pengalaman) ========== -->
+  <!-- ========== VIEW PROFIL ========== -->
   <div id="view-profil" class="view" hidden>
     <div class="page-head wrap">
       <button class="btn" data-go="home" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
@@ -706,7 +741,6 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
           </ul>
         </article>
       </div>
-      
       <div style="margin-top:40px;text-align:center;">
         <button class="btn primary" data-go="other" style="padding:16px 32px;font-size:1.05rem;"><svg class="ic"><use href="#i-swap"/></svg> Lihat Data & Nilai (Sisi Lain)</button>
       </div>
@@ -721,13 +755,13 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
       <h1><span class="hico c-orange"><svg class="ic"><use href="#i-folder"/></svg></span>Projek Saya</h1>
     </div>
     <section class="sec wrap">
-      <p class="sub" style="color:var(--muted);margin-bottom:24px">Dua kategori: projek interaktif yang bisa langsung dicoba di web ini, dan projek terpisah yang dibuka di halaman sendiri.</p>
-      <div class="proj-tabs" role="tablist">
-        <button type="button" role="tab" id="tabWeb" class="on" aria-selected="true"><svg class="ic"><use href="#i-monitor"/></svg>Projek di Web</button>
-        <button type="button" role="tab" id="tabExternal" aria-selected="false"><svg class="ic"><use href="#i-external"/></svg>Projek di Luar Web</button>
+      <p style="color:var(--muted);margin-bottom:24px">Dua kategori: projek interaktif yang bisa langsung dicoba di web ini, dan projek terpisah yang dibuka di halaman sendiri.</p>
+      <div class="proj-tabs" role="tablist" aria-label="Kategori projek">
+        <button type="button" role="tab" id="tabWeb" class="on" aria-selected="true" aria-controls="panelWeb"><svg class="ic"><use href="#i-monitor"/></svg>Projek di Web</button>
+        <button type="button" role="tab" id="tabExternal" aria-selected="false" aria-controls="panelExternal"><svg class="ic"><use href="#i-external"/></svg>Projek di Luar Web</button>
       </div>
 
-      <div class="proj-tab-panel on" id="panelWeb" role="tabpanel">
+      <div class="proj-tab-panel on" id="panelWeb" role="tabpanel" aria-labelledby="tabWeb">
         <div class="proj-grid">
           <article class="proj card">
             <div class="proj-head">
@@ -865,7 +899,7 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
         </div>
       </div>
 
-      <div class="proj-tab-panel" id="panelExternal" role="tabpanel">
+      <div class="proj-tab-panel" id="panelExternal" role="tabpanel" aria-labelledby="tabExternal">
         <div class="proj-grid">
           <article class="proj external wide">
             <div>
@@ -912,11 +946,11 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
                   <div style="width:42px;height:42px;background:#b58863;display:grid;place-items:center;font-size:1.5rem;color:#fff;border-radius:4px">♛</div>
                   <div style="width:42px;height:42px;background:#f0d9b5;display:grid;place-items:center;font-size:1.5rem;color:#000;border-radius:4px">♚</div>
                   <div style="width:42px;height:42px;background:#b58863;display:grid;place-items:center;font-size:1.5rem;color:#fff;border-radius:4px">♟</div>
-                  <div style="width:42px;height:42px;background:#b58863;display:grid;place-items:center;font-size:1.5rem;color:#fff;border-radius:4px">♙</div>
-                  <div style="width:42px;height:42px;background:#f0d9b5;display:grid;place-items:center;font-size:1.5rem;color:#000;border-radius:4px">♖</div>
-                  <div style="width:42px;height:42px;background:#b58863;display:grid;place-items:center;font-size:1.5rem;color:#fff;border-radius:4px">♘</div>
+                  <div style="width:42px;height:42px;background:#f0d9b5;display:grid;place-items:center;font-size:1.5rem;color:#000;border-radius:4px">♜</div>
+                  <div style="width:42px;height:42px;background:#b58863;display:grid;place-items:center;font-size:1.5rem;color:#fff;border-radius:4px">♞</div>
+                  <div style="width:42px;height:42px;background:#f0d9b5;display:grid;place-items:center;font-size:1.5rem;color:#000;border-radius:4px">♝</div>
                 </div>
-                <div style="display:flex;gap:16px;font-size:2rem">⚫ 🎲 ⚪</div>
+                <span class="cg-label" style="color:#FDE68A">Catur · Checkers · Monopoly</span>
               </div>
             </div>
           </article>
@@ -925,62 +959,83 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
     </section>
   </div>
 
-  <!-- ========== VIEW OTHER (Sisi Lain) ========== -->
+  <!-- ========== VIEW OTHER ========== -->
   <div id="view-other" class="view" hidden>
     <div class="page-head wrap">
       <button class="btn" data-go="profil" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Profil</button>
-      <p class="eyebrow">// sisi lain</p>
-      <h1><span class="hico c-blue"><svg class="ic"><use href="#i-book"/></svg></span>Data, Nilai, dan Hafalan</h1>
+      <p class="eyebrow">// data &amp; nilai</p>
+      <h1><span class="hico c-blue"><svg class="ic"><use href="#i-id"/></svg></span>Sisi Lain</h1>
     </div>
-    <section class="ktp-sec wrap">
-      <div class="sec-head" style="margin-top:22px"><h2 style="font-size:1.6rem"><span class="hico c-pink"><svg class="ic"><use href="#i-id"/></svg></span>Profil Data Diri</h2></div>
-      <div class="ktp" aria-label="Kartu data diri">
-        <div class="ktp-top"><b><svg class="ic"><use href="#i-id"/></svg>KARTU PROFIL</b><span class="ktp-chip" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+
+    <section class="sec wrap ktp-sec">
+      <div class="sec-head">
+        <p class="eyebrow">// kartu pelajar</p>
+        <h2><span class="hico c-blue"><svg class="ic"><use href="#i-id"/></svg></span>Identitas</h2>
+      </div>
+      <div class="ktp">
+        <div class="ktp-top">
+          <b><svg class="ic"><use href="#i-school"/></svg> KARTU PELAJAR</b>
+          <div class="ktp-chip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
         <div class="ktp-body">
           <dl>
-            <dt><svg class="ic"><use href="#i-user"/></svg>NAMA</dt><dd>Muhammad Syazani Al Taftazani</dd>
-            <dt><svg class="ic"><use href="#i-cake"/></svg>TTL</dt><dd>Palu, 14 September 2012</dd>
-            <dt><svg class="ic"><use href="#i-pin"/></svg>ALAMAT</dt><dd>Jalan Kopo, Beji, Depok</dd>
-            <dt><svg class="ic"><use href="#i-smile"/></svg>JK</dt><dd>Laki-laki</dd>
+            <dt><svg class="ic"><use href="#i-user"/></svg> Nama</dt><dd>Muhammad Syazani Al Taftazani</dd>
+            <dt><svg class="ic"><use href="#i-cake"/></svg> TTL</dt><dd>Palu, 14 September 2012</dd>
+            <dt><svg class="ic"><use href="#i-pin"/></svg> Alamat</dt><dd>Jalan Kopo, Beji, Depok</dd>
+            <dt><svg class="ic"><use href="#i-user"/></svg> JK</dt><dd>Laki-laki</dd>
+            <dt><svg class="ic"><use href="#i-school"/></svg> Status</dt><dd>Siswa SMP</dd>
+            <dt><svg class="ic"><use href="#i-star"/></svg> Minat</dt><dd>Teknologi · Koding · Strategi</dd>
           </dl>
-          <div class="photo" aria-hidden="true">MS</div>
+          <div class="photo" aria-label="Foto inisial">MS</div>
         </div>
       </div>
     </section>
-    <section class="sec wrap">
+
+    <section class="sec wrap" style="padding-top:0">
       <div class="sec-head">
-        <p class="eyebrow">// akademik</p>
-        <h2><span class="hico c-teal"><svg class="ic"><use href="#i-school"/></svg></span>Akademik &amp; Nilai (Kelas 7–9)</h2>
-        <p class="sub">Rekap nilai semester Ganjil dan Genap. Geser tabel ke samping di layar kecil.</p>
+        <p class="eyebrow">// rekap nilai</p>
+        <h2><span class="hico c-green"><svg class="ic"><use href="#i-calc"/></svg></span>Rekap Nilai</h2>
       </div>
       <div class="tbl-card card">
         <div class="tbl-wrap">
-          <table id="grades">
+          <table>
+            <caption class="muted" style="caption-side:bottom;padding-top:8px;font-size:.75rem;text-align:left">// DATA CONTOH — nilai ilustratif, bukan transkrip resmi.</caption>
             <thead>
-              <tr><th rowspan="2">Mata Pelajaran</th><th colspan="2">Kelas 7</th><th colspan="2">Kelas 8</th><th colspan="2">Kelas 9</th></tr>
-              <tr><th>Ganjil</th><th>Genap</th><th>Ganjil</th><th>Genap</th><th>Ganjil</th><th>Genap</th></tr>
+              <tr>
+                <th rowspan="2" scope="col">Mata Pelajaran</th>
+                <th colspan="2" scope="colgroup">Kelas 7</th>
+                <th colspan="2" scope="colgroup">Kelas 8</th>
+                <th colspan="2" scope="colgroup">Kelas 9</th>
+              </tr>
+              <tr>
+                <th scope="col">Ganjil</th><th scope="col">Genap</th>
+                <th scope="col">Ganjil</th><th scope="col">Genap</th>
+                <th scope="col">Ganjil</th><th scope="col">Genap</th>
+              </tr>
             </thead>
-            <tbody id="gBody"></tbody>
+            <tbody id="gBody">
+              <!-- DATA CONTOH -->
+            </tbody>
           </table>
         </div>
       </div>
     </section>
+
     <section class="sec wrap" style="padding-top:0">
+      <div class="sec-head">
+        <p class="eyebrow">// tahfidz &amp; ekskul</p>
+        <h2><span class="hico c-teal"><svg class="ic"><use href="#i-quran"/></svg></span>Tahfidz &amp; Ekskul</h2>
+      </div>
       <div class="tahfidz card">
-        <div class="sec-head" style="margin-bottom:18px"><p class="eyebrow">// tahfidz &amp; ekstrakurikuler</p><h2 style="font-size:1.7rem"><span class="hico c-green"><svg class="ic"><use href="#i-quran"/></svg></span>Tahfidz &amp; Ekskul per Semester</h2></div>
         <div class="tah-grid">
-          <div class="tah-item"><span class="ico c-green"><svg class="ic"><use href="#i-quran"/></svg></span><span>Hafalan · Kelas 7 Smt 1</span><b>10 halaman</b></div>
-          <div class="tah-item"><span class="ico c-green"><svg class="ic"><use href="#i-quran"/></svg></span><span>Hafalan · Kelas 7 Smt 2</span><b>1 Juz 3 halaman</b></div>
-          <div class="tah-item"><span class="ico c-green"><svg class="ic"><use href="#i-quran"/></svg></span><span>Hafalan · Kelas 8 Smt 1</span><b>1 Juz 19 halaman</b></div>
-          <div class="tah-item"><span class="ico c-teal"><svg class="ic"><use href="#i-repeat"/></svg></span><span>Tilawah · Kelas 7 Smt 1</span><b>10 halaman</b></div>
-          <div class="tah-item"><span class="ico c-teal"><svg class="ic"><use href="#i-repeat"/></svg></span><span>Tilawah · Kelas 7 Smt 2</span><b>Khatam</b></div>
-          <div class="tah-item"><span class="ico c-teal"><svg class="ic"><use href="#i-repeat"/></svg></span><span>Tilawah · Kelas 8 Smt 1</span><b>10 halaman</b></div>
-          <div class="tah-item"><span class="ico c-purple"><svg class="ic"><use href="#i-term"/></svg></span><span>Ekskul Koding · Kelas 7 Smt 1</span><b>Predikat A</b></div>
-          <div class="tah-item"><span class="ico c-purple"><svg class="ic"><use href="#i-term"/></svg></span><span>Ekskul Koding · Kelas 7 Smt 2</span><b>Predikat A</b></div>
-          <div class="tah-item"><span class="ico c-purple"><svg class="ic"><use href="#i-term"/></svg></span><span>Ekskul Koding · Kelas 8 Smt 1</span><b>Predikat A</b></div>
-          <div class="tah-item"><span class="ico c-orange"><svg class="ic"><use href="#i-cpu"/></svg></span><span>IT Club · Kelas 7 Smt 1</span><b>Predikat A</b></div>
-          <div class="tah-item"><span class="ico c-orange"><svg class="ic"><use href="#i-cpu"/></svg></span><span>IT Club · Kelas 7 Smt 2</span><b>Predikat A</b></div>
-          <div class="tah-item"><span class="ico c-orange"><svg class="ic"><use href="#i-cpu"/></svg></span><span>IT Club · Kelas 8 Smt 1</span><b>Predikat A</b></div>
+          <div class="tah-item"><span>Hafalan · 7 / 1</span><b>10 halaman</b></div>
+          <div class="tah-item"><span>Hafalan · 7 / 2</span><b>1 Juz · 3 halaman</b></div>
+          <div class="tah-item"><span>Hafalan · 8 / 1</span><b>1 Juz · 19 halaman</b></div>
+          <div class="tah-item"><span>Tilawah · 7 / 1</span><b>10 halaman</b></div>
+          <div class="tah-item"><span>Tilawah · 7 / 2</span><b>Khatam</b></div>
+          <div class="tah-item"><span>Tilawah · 8 / 1</span><b>10 halaman</b></div>
+          <div class="tah-item"><span>Ekskul Koding</span><b>Predikat A</b></div>
+          <div class="tah-item"><span>IT Club</span><b>Predikat A</b></div>
         </div>
       </div>
     </section>
@@ -988,44 +1043,36 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 
   <!-- ========== VIEW TIMELINE ========== -->
   <div id="view-timeline" class="view" hidden>
-    <div class="wrap">
-      <div class="tl-head">
-        <div>
-          <button class="btn" data-go="home" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
-          <p class="eyebrow">// timeline</p>
-          <h1><span class="hico c-purple"><svg class="ic"><use href="#i-ship"/></svg></span>Perjalanan Pendidikan</h1>
-        </div>
-        <div class="tl-ctl">
-          <button class="btn" type="button" id="tlPrev" aria-label="Geser ke kiri"><svg class="ic"><use href="#i-left"/></svg></button>
-          <button class="btn primary" type="button" id="tlNext" aria-label="Geser ke kanan"><svg class="ic"><use href="#i-right"/></svg></button>
-        </div>
+    <div class="tl-head wrap">
+      <div>
+        <button class="btn" data-go="home" style="margin-bottom:14px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
+        <p class="eyebrow">// timeline</p>
+        <h1><span class="hico c-purple"><svg class="ic"><use href="#i-ship"/></svg></span>Perjalanan</h1>
+        <span class="tl-hint">← Geser horizontal / tarik dengan mouse untuk menjelajah →</span>
       </div>
-      <p class="tl-hint">Geser ke kanan untuk mengarungi perjalanan dari 2012 hingga sekarang. Kapal berlayar menuju tiap pulau (tahap pendidikan).</p>
+      <div class="tl-ctl">
+        <button class="btn" id="tlPrev" type="button" aria-label="Geser ke kiri"><svg class="ic"><use href="#i-left"/></svg> Kiri</button>
+        <button class="btn" id="tlNext" type="button" aria-label="Geser ke kanan">Kanan <svg class="ic"><use href="#i-right"/></svg></button>
+      </div>
     </div>
-    <div class="tl-scroll" id="tlScroll" tabindex="0">
+    <div class="tl-scroll" id="tlScroll">
       <div class="tl-track" id="tlTrack">
-        <svg class="tl-path" id="tlSvg" aria-hidden="true">
-          <defs><clipPath id="tlClip"><rect id="tlClipRect" x="0" y="0" width="0" height="200"/></clipPath></defs>
-          <path class="base" id="tlBase"/>
-          <path class="prog" id="tlProg" clip-path="url(#tlClip)"/>
+        <svg class="tl-path" id="tlPathSvg" preserveAspectRatio="none">
+          <path class="base" d="" />
+          <path class="prog" d="" />
         </svg>
-        <div class="ship" id="tlShip">
-          <span class="ship-tag" id="tlYear">2012</span>
+        <div class="ship" id="ship">
           <div class="ship-bob">
-            <svg class="ship-svg" id="tlShipSvg" viewBox="0 0 68 44" aria-hidden="true">
-              <path d="M34 4 L34 28 L18 28 Z" fill="#FFFFFF" stroke="#1C1917" stroke-width="1.8" stroke-linejoin="round"/>
-              <path d="M34 4 L34 28 L50 28 Z" fill="#7DD3FC" stroke="#1C1917" stroke-width="1.8" stroke-linejoin="round"/>
-              <line x1="34" y1="2" x2="34" y2="32" stroke="#1C1917" stroke-width="2"/>
-              <path d="M34 2 L42 5 L34 8 Z" fill="#DC2626" stroke="#1C1917" stroke-width="1"/>
-              <path d="M6 32 L62 32 L54 40 L14 40 Z" fill="#F59E0B" stroke="#1C1917" stroke-width="2" stroke-linejoin="round"/>
-              <line x1="12" y1="35" x2="56" y2="35" stroke="#92400E" stroke-width="1" opacity=".5"/>
+            <svg class="ship-svg" viewBox="0 0 68 44" aria-hidden="true">
+              <path d="M4 30 L64 30 L56 40 L12 40 Z" fill="#38BDF8" stroke="#0284C7" stroke-width="2"/>
+              <rect x="20" y="20" width="28" height="10" fill="#0EA5E9" stroke="#0284C7" stroke-width="2"/>
+              <path d="M34 6 L34 20 M34 6 L46 14 L34 18" fill="#FDE68A" stroke="#B45309" stroke-width="2" stroke-linejoin="round"/>
             </svg>
+            <span class="ship-tag" id="shipTag">2012</span>
           </div>
         </div>
         <div class="tl-waves" aria-hidden="true">
-          <svg viewBox="0 0 800 40" preserveAspectRatio="none">
-            <path d="M0 20 Q50 5 100 20 T200 20 T300 20 T400 20 T500 20 T600 20 T700 20 T800 20" fill="none" stroke="#7DD3FC" stroke-width="2" opacity=".4"/>
-          </svg>
+          <svg viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="M0 20 Q 100 0 200 20 T 400 20 T 600 20 T 800 20 T 1000 20 T 1200 20" fill="none" stroke="#38BDF8" stroke-width="2"/></svg>
         </div>
         <div class="years" id="tlYears"></div>
       </div>
@@ -1034,1073 +1081,1189 @@ tr.avg td{font-weight:800;background:rgba(56,189,248,.1);border-bottom:0}
 
   <!-- ========== VIEW BLOG ========== -->
   <div id="view-blog" class="view" hidden>
-    <div class="wrap">
-      <div class="tl-head">
-        <div>
-          <button class="btn" data-go="home" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
-          <p class="eyebrow">// blog</p>
-          <h1><span class="hico c-blue"><svg class="ic"><use href="#i-pen"/></svg></span>Catatan &amp; Tulisan</h1>
-        </div>
-      </div>
-      <p class="tl-hint">Kumpulan catatan, cerita, dan pengalaman. Ingin menulis artikel baru? Ketik <strong>14092012</strong> di kalkulator (bagian Projek).</p>
-      <div class="blog-stats">
-        <div class="blog-stat card"><div class="num" id="statTotal">—</div><div class="lbl">Total Artikel</div></div>
-        <div class="blog-stat card"><div class="num" id="statLast" style="font-size:1rem">—</div><div class="lbl">Update Terakhir</div></div>
-        <div class="blog-stat card"><div class="num" style="font-size:1.1rem">Syazani</div><div class="lbl">Penulis</div></div>
-        <div class="blog-stat card"><div class="num" style="font-size:1.1rem"><span class="status-dot"></span>Aktif</div><div class="lbl">Status</div></div>
-      </div>
-      <div id="blogLoading" class="blog-loading">⏳ Memuat artikel…</div>
-      <div id="blogGrid" class="blog-grid" hidden></div>
-      <div id="blogEmpty" class="blog-empty" hidden>
-        <div class="ico"><svg class="ic" style="width:1.8rem;height:1.8rem"><use href="#i-pen"/></svg></div>
-        <div>Belum ada artikel. Ketik <strong>14092012</strong> di kalkulator untuk menulis artikel baru.</div>
-      </div>
+    <div class="page-head wrap">
+      <button class="btn" data-go="home" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
+      <p class="eyebrow">// blog</p>
+      <h1><span class="hico c-green"><svg class="ic"><use href="#i-pen"/></svg></span>Catatan &amp; Tulisan</h1>
     </div>
+    <section class="sec wrap">
+      <div class="blog-stats">
+        <div class="blog-stat card"><div class="num" id="blogStatCount">0</div><div class="lbl">Artikel</div></div>
+        <div class="blog-stat card"><div class="num" id="blogStatCats">0</div><div class="lbl">Kategori</div></div>
+        <div class="blog-stat card"><div class="num"><span class="status-dot"></span>Lokal</div><div class="lbl">Penyimpanan</div></div>
+        <div class="blog-stat card"><div class="num" id="blogStatLast">—</div><div class="lbl">Update</div></div>
+      </div>
+      <div class="blog-grid" id="blogGrid"></div>
+    </section>
   </div>
 
   <!-- ========== VIEW POST ========== -->
   <div id="view-post" class="view" hidden>
-    <div class="wrap">
-      <div class="post-wrap">
-        <button class="post-back" id="postBack" type="button">
-          <svg class="ic" style="width:1em;height:1em"><use href="#i-left"/></svg> Kembali ke Blog
-        </button>
-        <article class="post-article" id="postArticle"></article>
-      </div>
+    <div class="post-wrap wrap">
+      <button class="post-back" id="postBack" type="button"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Blog</button>
+      <article class="post-article" id="postArticle"></article>
     </div>
   </div>
 
   <!-- ========== VIEW ADMIN ========== -->
   <div id="view-admin" class="view" hidden>
-    <div class="wrap">
-      <div class="tl-head">
-        <div>
-          <button class="btn" data-go="home" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Beranda</button>
-          <p class="eyebrow">// admin</p>
-          <h1><span class="hico c-amber"><svg class="ic"><use href="#i-pen"/></svg></span>Admin Blog</h1>
-        </div>
-        <div class="tl-ctl">
-          <button class="btn" type="button" data-go="blog"><svg class="ic"><use href="#i-monitor"/></svg>Lihat Blog</button>
-        </div>
-      </div>
-      <p class="tl-hint">🔓 Kamu berhasil masuk lewat password kalkulator. Tulis dan kelola artikel di sini — data tersimpan di browser ini (localStorage).</p>
+    <div class="page-head wrap">
+      <button class="btn" data-go="blog" style="margin-bottom:20px;"><svg class="ic"><use href="#i-left"/></svg> Kembali ke Blog</button>
+      <p class="eyebrow">// admin</p>
+      <h1><span class="hico c-amber"><svg class="ic"><use href="#i-pen"/></svg></span>Admin Blog</h1>
+    </div>
+    <section class="sec wrap">
       <div class="admin-grid">
         <div class="admin-card card">
-          <div class="admin-card-head"><span class="hico c-blue"><svg class="ic"><use href="#i-pen"/></svg></span><h2>Tulis Artikel Baru</h2></div>
-          <div class="admin-form">
-            <label>Judul<input type="text" id="adminTitle" placeholder="Judul artikel…" maxlength="120"></label>
-            <label>Kategori
-              <select id="adminCategory">
-                <option value="Cerita">Cerita</option>
-                <option value="Tips">Tips</option>
-                <option value="Pengalaman">Pengalaman</option>
-                <option value="Koding">Koding</option>
-                <option value="Sekolah">Sekolah</option>
-                <option value="Strategi">Strategi</option>
-                <option value="Umum" selected>Umum</option>
-              </select>
-            </label>
-            <label>Isi Artikel<textarea id="adminContent" placeholder="Tulis isi artikel di sini…" maxlength="8000"></textarea></label>
-            <button class="btn primary admin-save" id="adminSave" type="button">💾 Simpan Artikel</button>
+          <div class="admin-card-head">
+            <span class="hico c-blue"><svg class="ic"><use href="#i-pen"/></svg></span>
+            <h2 id="adminFormTitle">Tambah Artikel</h2>
           </div>
+          <form class="admin-form" id="adminForm" novalidate>
+            <input type="hidden" id="adminId">
+            <label>Judul<input type="text" id="adminTitle" required maxlength="120" placeholder="Judul artikel"></label>
+            <label>Kategori<input type="text" id="adminCat" required maxlength="30" placeholder="mis. Catatan"></label>
+            <label>Ringkasan<textarea id="adminExcerpt" rows="2" maxlength="220" placeholder="Ringkasan singkat (opsional)"></textarea></label>
+            <label>Isi Artikel<textarea id="adminBody" required rows="9" placeholder="Tulis isi..."></textarea></label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="submit" class="btn primary" id="adminSubmit">Simpan Artikel</button>
+              <button type="button" class="btn" id="adminReset">Reset</button>
+              <button type="button" class="btn" id="adminSeed" title="Isi ulang artikel contoh">Muat Contoh</button>
+            </div>
+          </form>
         </div>
         <div class="admin-card card">
-          <div class="admin-card-head"><span class="hico c-green"><svg class="ic"><use href="#i-folder"/></svg></span><h2>Artikel Saya (<span id="adminCount">0</span>)</h2></div>
-          <div id="adminList" class="admin-list"></div>
+          <div class="admin-card-head">
+            <span class="hico c-amber"><svg class="ic"><use href="#i-folder"/></svg></span>
+            <h2>Daftar Artikel</h2>
+          </div>
+          <div class="admin-list" id="adminList"></div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </main>
 
-<!-- ========== THE HONOURED HORSE (Floating AI) ========== -->
-<button class="ai-fab" id="ai-fab" title="The Honoured Horse AI">♞</button>
-<div class="ai-widget" id="ai-widget">
+<!-- ========== FLOATING CLOCK ========== -->
+<button class="floatclock" id="floatClock" type="button" aria-label="Buka jam & tanggal">
+  <svg class="ic"><use href="#i-clock"/></svg>
+  <div><b id="clockTime">--:--:--</b><small id="clockDate">—</small></div>
+</button>
+
+<!-- ========== CHATBOT WIDGET ========== -->
+<button class="ai-fab" id="aiFab" type="button" aria-label="Buka chatbot The Honoured Horse">♞</button>
+<div class="ai-widget" id="aiWidget" role="dialog" aria-modal="false" aria-label="The Honoured Horse chatbot">
   <div class="ai-container">
     <div class="ai-header">
-      <div class="ai-avatar" style="background:radial-gradient(circle at 35% 30%,#FFF7ED,#FDE68A 55%,#B45309 100%); color:#78350F; font-family:serif;">♞</div>
+      <div class="ai-avatar" aria-hidden="true">♞</div>
       <div class="ai-header-info">
         <h3>THE HONOURED HORSE</h3>
-        <div class="ai-status"><span class="ai-status-dot"></span><span id="ai-status-text">Mode Lokal — siap melayani</span><span class="ai-stats" id="ai-stats">💬 0 pesan</span></div>
+        <div class="ai-status"><span class="ai-status-dot"></span>Online · Rule-based<span class="ai-stats" id="aiStats">0 pesan</span></div>
       </div>
       <div class="ai-header-actions">
-        <button class="ai-action-btn" id="ai-tts-toggle" title="Suara AI">🔊</button>
-        <button class="ai-action-btn" id="ai-clear-btn" title="Bersihkan chat">🗑️</button>
+        <button class="ai-action-btn" id="aiClose" type="button" aria-label="Tutup chatbot">✕</button>
       </div>
     </div>
-    <div class="ai-messages" id="ai-messages"></div>
-    <button class="ai-scroll-btn" id="ai-scroll-btn" title="Scroll ke bawah">⬇</button>
-    <div class="ai-suggestion-chips" id="ai-chips">
-      <span class="ai-chip" data-prompt="Siapa Syazani?">👤 Profil</span>
-      <span class="ai-chip" data-prompt="Apa prestasinya?">🏆 Prestasi</span>
-      <span class="ai-chip" data-prompt="Apa saja projeknya?">💻 Projek</span>
-      <span class="ai-chip" data-prompt="Ceritakan timeline-nya">⛵ Timeline</span>
+    <div class="ai-messages" id="aiMessages" aria-live="polite" aria-atomic="false"></div>
+    <div class="ai-suggestion-chips" id="aiChips">
+      <button class="ai-chip" type="button" data-q="Siapa kamu?">Siapa kamu?</button>
+      <button class="ai-chip" type="button" data-q="Apa saja projekmu?">Projek</button>
+      <button class="ai-chip" type="button" data-q="Apa prestasimu?">Prestasi</button>
+      <button class="ai-chip" type="button" data-q="Apa prinsip hidupmu?">Prinsip</button>
     </div>
     <div class="ai-input-area">
-      <input type="text" id="ai-input" placeholder="Tanya tentang Syazani..." autocomplete="off" maxlength="2000">
-      <label class="ai-file-btn" title="Unggah file teks">📎<input type="file" id="ai-file-input" accept=".txt,.md,.js,.html,.css,.json,.csv,.py" style="display:none"></label>
-      <button class="ai-voice-btn" id="ai-voice-btn" title="Input suara">🎤</button>
-      <button class="ai-send-btn" id="ai-send-btn" title="Kirim">➤</button>
+      <input type="text" id="aiInput" placeholder="Tanya sesuatu..." aria-label="Ketik pesan" autocomplete="off">
+      <button class="ai-send-btn" id="aiSend" type="button" aria-label="Kirim pesan">➤</button>
     </div>
-    <div id="ai-file-preview" style="display:none;padding:6px 12px;font-size:.75rem;color:#7ecfff;background:rgba(0,40,90,.5);border-radius:8px;margin:4px 0;"></div>
-    <div class="ai-disclaimer">The Honoured Horse AI. Mode lokal terbatas; jangan kirim data pribadi.</div>
+    <div class="ai-disclaimer">Chatbot lokal berbasis data portofolio. Tanpa API eksternal.</div>
   </div>
 </div>
 
+<!-- ========== TOAST ========== -->
+<div class="blog-toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ========== TRANSITION LAYER (Alan Becker style) ========== -->
+<div class="transition-layer" id="transitionLayer" aria-hidden="true">
+  <div class="swoosh"></div>
+  <div class="burst" id="transitionBurst"></div>
+</div>
 <script>
-(function(){
-'use strict';
-var $ = function(s,r){return (r||document).querySelector(s)};
-var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
-var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-var pad = function(n){return String(n).padStart(2,'0')};
-
 /* ============================================================
-   1. INTRO ANIMATION (ASUS TUF AUTO-PLAY)
+   PORTFOLIO SYAZANI — JavaScript
+   Vanilla JS · tanpa framework · tanpa backend
    ============================================================ */
-(function(){
-  var overlay = $('#intro-overlay');
-  if(!overlay) return;
-  var targetArea = $('#introTargetArea');
-  var words = $$('.shoot-word');
-  var sub = $('#introSub');
-  var btns = $('#introBtns');
-  var boxes = $$('.shoot-box');
-  var skipBtn = $('#introSkip');
-  var realLaptop = $('#realLaptop');
-  var timeouts = [];
-  var ended = false;
+(() => {
+'use strict';
 
-  function delay(ms, fn){ var id = setTimeout(fn, ms); timeouts.push(id); return id; }
-  
-  function endIntro(){
-    if(ended) return;
-    ended = true;
-    timeouts.forEach(clearTimeout);
+/* ========== UTILITAS ========== */
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-    // 1. 3D Zoom-Out Effect (ASUS TUF Style)
-    targetArea.style.transform = 'translate(-50%, -50%) scale(0.2) rotateX(45deg)';
-    targetArea.style.opacity = '0'; 
-    
-    // 2. Laptop Muncul (3D rotate to flat)
-    if(realLaptop) {
-      realLaptop.classList.add('show-laptop');
+function toast(msg, bg='#34D399'){
+  const el = $('#toast');
+  el.textContent = msg;
+  el.style.background = bg;
+  el.style.color = bg === '#34D399' ? '#000' : '#000';
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+function fmtDate(iso){
+  try { return new Date(iso).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'}); }
+  catch { return iso; }
+}
+function wordCount(s){ return (s.trim().match(/\S+/g)||[]).length; }
+function truncate(s, n){ s = String(s); return s.length > n ? s.slice(0,n).trim() + '…' : s; }
+
+/* ========== NAVIGASI + TRANSISI ALAN BECKER ========== */
+const VIEWS = ['home','profil','projek','other','timeline','blog','post','admin'];
+let currentView = 'home';
+
+function buildBurst(){
+  const burst = $('#transitionBurst');
+  if(!burst) return;
+  burst.innerHTML = '';
+  const colors = ['#38BDF8','#A78BFA','#FB923C','#34D399','#FDE68A','#F87171'];
+  for(let i=0;i<20;i++){
+    const p = document.createElement('span');
+    p.className = 'p';
+    const a = Math.random() * Math.PI * 2;
+    const d = 220 + Math.random() * 320;
+    p.style.left = '50%';
+    p.style.top  = '50%';
+    p.style.background = colors[i % colors.length];
+    p.style.setProperty('--dx', Math.cos(a)*d + 'px');
+    p.style.setProperty('--dy', Math.sin(a)*d + 'px');
+    p.style.animationDelay = (Math.random()*80) + 'ms';
+    burst.appendChild(p);
+  }
+}
+
+function playTransition(){
+  const layer = $('#transitionLayer');
+  if(!layer) return;
+  buildBurst();
+  layer.classList.remove('active');
+  void layer.offsetWidth;
+  layer.classList.add('active');
+  document.body.classList.add('ab-shake');
+  setTimeout(() => document.body.classList.remove('ab-shake'), 340);
+  setTimeout(() => layer.classList.remove('active'), 950);
+}
+
+function showView(name, opts={}){
+  if(!VIEWS.includes(name)) return;
+  const target = $('#view-' + name);
+  if(!target) return;
+  const current = $('.view:not([hidden])');
+
+  document.body.classList.toggle('is-home', name === 'home');
+
+  const swap = () => {
+    if(current && current !== target){
+      current.hidden = true;
+      current.classList.remove('ab-leave','ab-enter','enter');
     }
-    
-    // 3. Fade out overlay
-    overlay.classList.add('hidden');
-    document.body.classList.add('intro-done');
-    
-    // 4. Tampilkan garis penghubung setelah laptop muncul
-    setTimeout(function() {
-      var lines = $('.hero-lines');
-      if(lines) lines.classList.add('visible');
-    }, 800);
+    target.hidden = false;
+    target.classList.remove('ab-leave','ab-enter','enter');
+    void target.offsetWidth;
+    target.classList.add('ab-enter');
+    window.scrollTo(0, 0);
+    setTimeout(() => target.classList.remove('ab-enter'), 780);
 
-    setTimeout(function(){ 
-      overlay.style.display = 'none'; 
-    }, 1200);
-    
-    try{ sessionStorage.setItem('intro_played','1'); }catch(e){}
+    if(name === 'timeline') initTimeline();
+    if(name === 'blog')     renderBlog();
+    if(name === 'admin')    renderAdmin();
+    currentView = name;
+  };
+
+  if(current && current !== target){
+    current.classList.add('ab-leave');
+    setTimeout(swap, 300);
+  } else {
+    swap();
+  }
+}
+
+function go(name){
+  if(!VIEWS.includes(name)) return;
+  playTransition();
+  setTimeout(() => showView(name), 340);
+}
+
+/* Delegasi klik global untuk [data-go] dan [data-intro-go] */
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]');
+  if(g){ e.preventDefault(); go(g.dataset.go); return; }
+  const ig = e.target.closest('[data-intro-go]');
+  if(ig){ e.preventDefault(); endIntro(() => go(ig.dataset.introGo)); return; }
+});
+
+/* ========== INTRO OVERLAY ========== */
+let introEnded = false;
+function startIntro(){
+  const words = $$('#intro-overlay .shoot-word');
+  words.forEach((w,i) => setTimeout(() => w.classList.add('show'), 180 + i*160));
+  const base = 180 + words.length*160;
+  setTimeout(() => $('#introSub')?.classList.add('show'), base);
+  setTimeout(() => $('#introBtns')?.classList.add('show'), base + 200);
+  $$('#intro-overlay .shoot-box').forEach((b,i) => setTimeout(() => b.classList.add('show'), base + 380 + i*90));
+  setTimeout(() => $('#introSkip')?.classList.add('show'), 900);
+}
+
+function endIntro(cb){
+  if(introEnded){ if(cb) cb(); return; }
+  introEnded = true;
+  const overlay = $('#intro-overlay');
+  overlay?.classList.add('hidden');
+  document.body.classList.add('intro-done');
+  document.body.classList.remove('is-home');
+  setTimeout(() => {
+    $('#realLaptop')?.classList.add('show-laptop');
+    $('.hero-lines')?.classList.add('visible');
+    if(cb) cb();
+  }, 220);
+  setTimeout(() => { if(overlay) overlay.style.display = 'none'; }, 1200);
+}
+
+$('#introSkip')?.addEventListener('click', () => endIntro());
+
+/* ========== HERO CIRCLE (Chatbot khusus) ========== */
+$('#circle-chatbot')?.addEventListener('click', e => {
+  e.preventDefault();
+  openChat();
+  const btn = e.currentTarget;
+  btn.classList.add('clicked');
+  setTimeout(() => btn.classList.remove('clicked'), 500);
+});
+
+/* Bounce feedback di semua hero circle */
+$$('.hero-circle').forEach(c => {
+  c.addEventListener('click', () => {
+    c.classList.add('clicked');
+    setTimeout(() => c.classList.remove('clicked'), 500);
+  });
+});
+
+/* ========== TAB PROJEK ========== */
+function setProjTab(which){
+  const tabs   = {web: $('#tabWeb'),   external: $('#tabExternal')};
+  const panels = {web: $('#panelWeb'), external: $('#panelExternal')};
+  Object.keys(tabs).forEach(k => {
+    const on = k === which;
+    tabs[k]?.classList.toggle('on', on);
+    tabs[k]?.setAttribute('aria-selected', on ? 'true' : 'false');
+    panels[k]?.classList.toggle('on', on);
+  });
+}
+$('#tabWeb')?.addEventListener('click', () => setProjTab('web'));
+$('#tabExternal')?.addEventListener('click', () => setProjTab('external'));
+
+/* ========== KALKULATOR ========== */
+const CALC = {
+  display: '0',
+  prev: null,
+  op: null,
+  waiting: false,
+  history: ''
+};
+
+function calcRender(){
+  const val  = $('#cVal');
+  const hist = $('#cHist');
+  if(val){
+    val.textContent = CALC.display;
+    val.classList.toggle('sm', CALC.display.length > 10);
+  }
+  if(hist) hist.textContent = CALC.history;
+}
+
+function fmt(n){
+  if(typeof n === 'number'){
+    if(!isFinite(n) || Number.isNaN(n)) return 'Error';
+    if(Math.abs(n) > 1e15) return n.toExponential(6).replace('.', ',');
+    const r = Math.round(n * 1e10) / 1e10;
+    return String(r).replace('.', ',');
+  }
+  return String(n);
+}
+function parseDisp(){
+  return parseFloat(CALC.display.replace(',', '.'));
+}
+function opLabel(op){
+  return {'+':'+','-':'−','*':'×','/':'÷','^':'^'}[op] || op;
+}
+function applyOp(a, op, b){
+  switch(op){
+    case '+': return a+b;
+    case '-': return a-b;
+    case '*': return a*b;
+    case '/': return b === 0 ? NaN : a/b;
+    case '^': return Math.pow(a,b);
+  }
+  return b;
+}
+function factorial(n){
+  if(n < 0 || !Number.isInteger(n)) return NaN;
+  if(n > 170) return Infinity;
+  let r = 1;
+  for(let i=2;i<=n;i++) r *= i;
+  return r;
+}
+
+function calcInput(d){
+  if(CALC.waiting){ CALC.display = d; CALC.waiting = false; }
+  else if(CALC.display === '0') CALC.display = d;
+  else if(CALC.display === '-0') CALC.display = '-' + d;
+  else if(CALC.display === 'Error') { CALC.display = d; }
+  else if(CALC.display.length < 16) CALC.display += d;
+  calcRender();
+}
+function calcDot(){
+  if(CALC.waiting){ CALC.display = '0,'; CALC.waiting = false; }
+  else if(CALC.display === 'Error'){ CALC.display = '0,'; }
+  else if(!CALC.display.includes(',')) CALC.display += ',';
+  calcRender();
+}
+function calcOp(op){
+  const cur = parseDisp();
+  if(Number.isNaN(cur)) return;
+  if(CALC.prev !== null && CALC.op && !CALC.waiting){
+    const res = applyOp(CALC.prev, CALC.op, cur);
+    CALC.display = fmt(res);
+    CALC.prev = res;
+  } else {
+    CALC.prev = cur;
+  }
+  CALC.op = op;
+  CALC.waiting = true;
+  CALC.history = fmt(CALC.prev) + ' ' + opLabel(op);
+  calcRender();
+}
+function calcEquals(){
+  const cur = parseDisp();
+  if(Number.isNaN(cur)) return;
+  if(CALC.prev !== null && CALC.op){
+    const res = applyOp(CALC.prev, CALC.op, cur);
+    CALC.history = fmt(CALC.prev) + ' ' + opLabel(CALC.op) + ' ' + CALC.display + ' =';
+    CALC.display = fmt(res);
+    CALC.prev = null;
+    CALC.op = null;
+    CALC.waiting = true;
+    calcRender();
+  }
+}
+function calcC(){ CALC.display='0'; CALC.prev=null; CALC.op=null; CALC.waiting=false; CALC.history=''; calcRender(); }
+function calcCE(){ CALC.display='0'; CALC.waiting=false; calcRender(); }
+function calcBS(){
+  if(CALC.waiting){ CALC.display='0'; CALC.waiting=false; }
+  else if(CALC.display === 'Error') CALC.display = '0';
+  else if(CALC.display.length > 1) CALC.display = CALC.display.slice(0,-1);
+  else CALC.display = '0';
+  calcRender();
+}
+function calcNeg(){
+  if(CALC.display === '0') return;
+  CALC.display = CALC.display.startsWith('-') ? CALC.display.slice(1) : '-' + CALC.display;
+  calcRender();
+}
+function calcPct(){
+  const cur = parseDisp();
+  if(CALC.prev !== null && (CALC.op === '+' || CALC.op === '-')){
+    CALC.display = fmt(CALC.prev * cur / 100);
+  } else {
+    CALC.display = fmt(cur / 100);
+  }
+  CALC.waiting = false;
+  calcRender();
+}
+function calcSci(fn){
+  const cur = parseDisp();
+  if(fn === 'pi'){ CALC.display = '3,141592653589'; CALC.waiting = false; calcRender(); return; }
+  if(fn === 'e'){  CALC.display = '2,718281828459'; CALC.waiting = false; calcRender(); return; }
+  if(fn === 'pow'){ CALC.prev = cur; CALC.op = '^'; CALC.waiting = true; CALC.history = fmt(cur) + ' xʸ'; calcRender(); return; }
+  if(Number.isNaN(cur) && fn !== 'fact'){ return; }
+  let res = cur;
+  switch(fn){
+    case 'sin': res = Math.sin(cur * Math.PI / 180); break;
+    case 'cos': res = Math.cos(cur * Math.PI / 180); break;
+    case 'tan': res = Math.tan(cur * Math.PI / 180); break;
+    case 'log': res = Math.log10(cur); break;
+    case 'ln':  res = Math.log(cur);   break;
+    case 'sqrt': res = Math.sqrt(cur); break;
+    case 'sqr':  res = cur * cur;       break;
+    case 'inv':  res = 1 / cur;         break;
+    case 'fact': res = factorial(cur);  break;
+  }
+  CALC.history = {sin:'sin',cos:'cos',tan:'tan',log:'log',ln:'ln',sqrt:'√',sqr:'x²',inv:'1/',fact:'!'}[fn] + '(' + fmt(cur) + ')';
+  CALC.display = fmt(res);
+  CALC.waiting = true;
+  calcRender();
+}
+
+/* Event delegation kalkulator */
+$('#calc')?.addEventListener('click', e => {
+  const k = e.target.closest('button');
+  if(!k) return;
+  const t = k.dataset.t, v = k.dataset.v;
+  if(t === 'd') calcInput(v);
+  else if(t === 'dot') calcDot();
+  else if(t === 'op') calcOp(v);
+  else if(t === 'eq') calcEquals();
+  else if(t === 'sci') calcSci(v);
+  else if(t === 'fn'){
+    if(v === 'C') calcC();
+    else if(v === 'CE') calcCE();
+    else if(v === 'BS') calcBS();
+    else if(v === 'NEG') calcNeg();
+    else if(v === '%') calcPct();
+  }
+});
+
+$('#calcModes')?.addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if(!b) return;
+  $$('#calcModes button').forEach(x => x.classList.toggle('on', x === b));
+  const sci = $('#cSciKeys');
+  if(sci) sci.hidden = b.dataset.mode !== 'sci';
+});
+
+function calcIsActive(){
+  const v = $('#view-projek');
+  return v && !v.hidden;
+}
+window.addEventListener('keydown', e => {
+  if(!calcIsActive()) return;
+  const ae = document.activeElement;
+  if(ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.tagName === 'SELECT')) return;
+  const k = e.key;
+  if(/^[0-9]$/.test(k)){ calcInput(k); e.preventDefault(); return; }
+  if(k === ',' || k === '.'){ calcDot(); e.preventDefault(); return; }
+  if(k === '+'){ calcOp('+'); e.preventDefault(); return; }
+  if(k === '-'){ calcOp('-'); e.preventDefault(); return; }
+  if(k === '*'){ calcOp('*'); e.preventDefault(); return; }
+  if(k === '/'){ calcOp('/'); e.preventDefault(); return; }
+  if(k === 'Enter' || k === '='){ calcEquals(); e.preventDefault(); return; }
+  if(k === 'Backspace'){ calcBS(); e.preventDefault(); return; }
+  if(k === 'Escape'){ calcC(); e.preventDefault(); return; }
+  if(k === '%'){ calcPct(); e.preventDefault(); return; }
+});
+
+/* ========== KOMPAS KIBLAT ========== */
+const KAABA = { lat: 21.4225, lon: 39.8262 };
+const CITIES = [
+  {name:'Depok',    lat:-6.4025, lon:106.8186},
+  {name:'Bekasi',   lat:-6.2383, lon:106.9756},
+  {name:'Jakarta',  lat:-6.2088, lon:106.8456},
+  {name:'Bogor',    lat:-6.5950, lon:106.8166},
+  {name:'Bandung',  lat:-6.9175, lon:107.6191},
+  {name:'Subang',   lat:-6.6833, lon:107.6667},
+  {name:'Surabaya', lat:-7.2575, lon:112.7521},
+  {name:'Medan',    lat:3.5952,  lon:98.6722},
+  {name:'Padang',   lat:-0.9471, lon:100.4172},
+  {name:'Palembang',lat:-2.9909, lon:104.7566},
+  {name:'Palu',     lat:-0.9003, lon:119.8779},
+  {name:'Makassar', lat:-5.1477, lon:119.4327},
+  {name:'Denpasar', lat:-8.6500, lon:115.2167}
+];
+
+const Q = { lat: null, lon: null, bearing: null, heading: null, orientAttached: false };
+
+function bearingTo(lat, lon){
+  const φ1 = lat * Math.PI/180;
+  const φ2 = KAABA.lat * Math.PI/180;
+  const Δλ = (KAABA.lon - lon) * Math.PI/180;
+  const y = Math.sin(Δλ);
+  const x = Math.cos(φ1) * Math.tan(φ2) - Math.sin(φ1) * Math.cos(Δλ);
+  return ((Math.atan2(y, x) * 180/Math.PI) + 360) % 360;
+}
+
+function qiblaStatusSet(text, kind){
+  const el = $('#qibla-status');
+  const t  = $('#qibla-status-text');
+  if(!el || !t) return;
+  t.textContent = text;
+  el.className = 'qibla-status' + (kind ? ' ' + kind : '');
+}
+
+function updateQibla(){
+  const needle = $('#qibla-needle');
+  const dial   = $('#qibla-dial');
+  const bEl    = $('#qibla-bearing');
+  const hEl    = $('#qibla-heading');
+  const dEl    = $('#qibla-deg-val');
+
+  if(Q.bearing !== null){
+    if(bEl) bEl.textContent = Q.bearing.toFixed(1) + '°';
+    if(dEl) dEl.textContent = Q.bearing.toFixed(1) + '°';
+  }
+  if(Q.heading !== null && hEl) hEl.textContent = Q.heading.toFixed(1) + '°';
+
+  if(Q.bearing !== null && Q.heading !== null){
+    const diff = ((Q.bearing - Q.heading + 540) % 360) - 180;
+    if(needle) needle.style.transform = `translateX(-50%) rotate(${diff}deg)`;
+    if(dial)   dial.style.transform   = `rotate(${-Q.heading}deg)`;
+    const abs = Math.abs(diff);
+    if(abs < 5) qiblaStatusSet('✓ Sudah menghadap kiblat!', 'aligned');
+    else if(abs < 15) qiblaStatusSet(`Hampir — selisih ${abs.toFixed(0)}°`, 'warn');
+    else qiblaStatusSet(`Putar ${diff > 0 ? 'kiri' : 'kanan'} ${abs.toFixed(0)}°`, 'warn');
+  } else if(Q.bearing !== null){
+    if(needle) needle.style.transform = `translateX(-50%) rotate(${Q.bearing}deg)`;
+    if(dial)   dial.style.transform   = 'rotate(0deg)';
+    qiblaStatusSet(`Arah kiblat ${Q.bearing.toFixed(1)}° dari Utara. Aktifkan kompas untuk panduan langsung.`, 'warn');
+  }
+}
+
+function setQiblaLoc(lat, lon, name){
+  Q.lat = lat; Q.lon = lon;
+  Q.bearing = bearingTo(lat, lon);
+  const loc = $('#qibla-location');
+  if(loc) loc.textContent = name || (lat.toFixed(3) + ',' + lon.toFixed(3));
+  updateQibla();
+}
+
+function handleOrient(e){
+  let heading = null;
+  if(e.webkitCompassHeading !== undefined && e.webkitCompassHeading !== null){
+    heading = e.webkitCompassHeading;
+  } else if(e.absolute === true && e.alpha !== null){
+    heading = 360 - e.alpha;
+  } else if(e.alpha !== null && e.alpha !== undefined && Q.heading === null){
+    heading = 360 - e.alpha;
+  }
+  if(heading === null) return;
+  Q.heading = ((heading % 360) + 360) % 360;
+  updateQibla();
+}
+
+async function activateCompass(){
+  const btn = $('#qibla-activate');
+  try {
+    if(typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
+      const perm = await DeviceOrientationEvent.requestPermission();
+      if(perm !== 'granted'){ qiblaStatusSet('Izin sensor ditolak. Gunakan mode manual.', 'error'); return; }
+    }
+  } catch(err){
+    qiblaStatusSet('Gagal minta izin sensor: ' + err.message, 'error');
+    return;
+  }
+  if(!Q.orientAttached){
+    window.addEventListener('deviceorientationabsolute', handleOrient, true);
+    window.addEventListener('deviceorientation', handleOrient, true);
+    Q.orientAttached = true;
+  }
+  if(btn){ btn.disabled = true; btn.textContent = '✓ Kompas Aktif'; }
+  if(Q.bearing === null){
+    qiblaStatusSet('Sensor aktif. Deteksi lokasi untuk arah kiblat.', 'warn');
+  }
+}
+
+function locateUser(){
+  const btn = $('#qibla-locate');
+  if(!navigator.geolocation){
+    qiblaStatusSet('Browser tidak mendukung geolokasi.', 'error');
+    return;
+  }
+  if(btn) btn.disabled = true;
+  qiblaStatusSet('Mendeteksi lokasi…');
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      setQiblaLoc(pos.coords.latitude, pos.coords.longitude, 'Lokasi GPS');
+      if(btn) btn.disabled = false;
+    },
+    err => {
+      qiblaStatusSet('Gagal: ' + err.message + '. Coba pilih kota manual.', 'error');
+      if(btn) btn.disabled = false;
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+  );
+}
+
+function applyManualCity(){
+  const sel = $('#qibla-city');
+  if(!sel || !sel.value) return;
+  const [lat, lon, name] = sel.value.split(',');
+  setQiblaLoc(parseFloat(lat), parseFloat(lon), name);
+}
+function applyManualCoords(){
+  const lat = parseFloat($('#qibla-lat-input')?.value);
+  const lon = parseFloat($('#qibla-lon-input')?.value);
+  if(!isFinite(lat) || !isFinite(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180){
+    qiblaStatusSet('Koordinat tidak valid.', 'error');
+    return;
+  }
+  setQiblaLoc(lat, lon, lat.toFixed(3) + ', ' + lon.toFixed(3));
+}
+
+function setupCitySearch(){
+  const input   = $('#qibla-city-search');
+  const results = $('#qibla-city-search-results');
+  const status  = $('#qibla-city-search-status');
+  if(!input || !results || !status) return;
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    if(!q){
+      results.hidden = true; results.innerHTML = '';
+      status.textContent = 'Ketik nama kota untuk mencari.';
+      return;
+    }
+    const matches = CITIES.filter(c => c.name.toLowerCase().includes(q));
+    if(!matches.length){
+      results.hidden = true;
+      status.textContent = 'Kota tidak ditemukan.';
+      return;
+    }
+    results.hidden = false;
+    status.textContent = matches.length + ' hasil';
+    results.innerHTML = matches.map(c =>
+      `<button class="qibla-city-result" type="button" role="option" data-lat="${c.lat}" data-lon="${c.lon}" data-name="${esc(c.name)}">
+        <span>${esc(c.name)}</span><small>${c.lat.toFixed(3)}, ${c.lon.toFixed(3)}</small>
+      </button>`
+    ).join('');
+    results.querySelectorAll('.qibla-city-result').forEach(b => {
+      b.addEventListener('click', () => {
+        setQiblaLoc(parseFloat(b.dataset.lat), parseFloat(b.dataset.lon), b.dataset.name);
+        input.value = b.dataset.name;
+        results.hidden = true;
+      });
+    });
+  });
+}
+
+$('#qibla-activate')?.addEventListener('click', activateCompass);
+$('#qibla-locate')?.addEventListener('click', locateUser);
+$('#qibla-city')?.addEventListener('change', applyManualCity);
+$('#qibla-manual-apply')?.addEventListener('click', applyManualCoords);
+setupCitySearch();
+
+/* ========== TIMELINE ========== */
+const TL = [
+  { year:2012, tag:'Kelahiran', title:'Lahir di Palu', desc:'14 September 2012 — awal perjalanan.', kind:'born' },
+  { year:2016, tag:'Masa Kecil', title:'Tumbuh & Belajar', desc:'Mengenal huruf, angka, dan rasa ingin tahu besar.' },
+  { year:2019, tag:'Pendidikan', title:'Masuk Sekolah Dasar', desc:'Mulai suka membaca dan memecahkan teka-teki.' },
+  { year:2022, tag:'Minat', title:'Suka Game & Koding', desc:'Game membuka pintu ke dunia koding.' },
+  { year:2024, tag:'Pendidikan', title:'Masuk SMP', desc:'Mulai serius belajar teknologi dan strategi, termasuk catur.' },
+  { year:2025, tag:'Prestasi', title:'Juara 2 Catur PPA', desc:'Prestasi pertama bidang strategi.', items:[
+    {icon:'i-trophy', title:'Juara 2 Catur PPA', meta:'2025'},
+    {icon:'i-users',  title:'Catur Antar As-syifa', meta:'2025'}
+  ]},
+  { year:2025, tag:'Organisasi', title:'Komunitas Literasi', desc:'Bergabung sebagai anggota 2025–2026.', items:[
+    {icon:'i-book', title:'Komunitas Literasi Sekolah', meta:'2025–2026 · Anggota'},
+    {icon:'i-mega', title:'Duta Bahasa', meta:'2025–2026 · Anggota'}
+  ]},
+  { year:2026, tag:'Prestasi', title:'Catur ASFERA & Mutabaah', desc:'Ajang strategi & capaian ibadah.', items:[
+    {icon:'i-pawn',  title:'Peserta Catur ASFERA', meta:'2026'},
+    {icon:'i-medal', title:'Mutabaah Terbaik Usbu Ruhi', meta:'Agustus 2026'}
+  ]},
+  { year:2027, tag:'Organisasi', title:'PJ & Panitia', desc:'Peran kepemimpinan kelas dan sekolah.', items:[
+    {icon:'i-spark', title:'PJ Kebersihan Kelas', meta:'2026–2027 · Anggota'},
+    {icon:'i-flag',  title:'Panitia ASFERA (Publikasi)', meta:'2026–2027 · Anggota'}
+  ]},
+  { year:2028, tag:'Pendidikan', title:'Lulus SMP', desc:'Menuju SMA, memperdalam koding dan strategi.' },
+  { year:2030, tag:'Future', title:'Kuliah Teknologi', desc:'Cita-cita mendalami ilmu komputer.', kind:'future' },
+  { year:2035, tag:'Future', title:'Software Engineer', desc:'Berkarya di dunia teknologi.', kind:'future' }
+];
+
+let tlRendered = false;
+
+function tlCard(d){
+  return `<article class="tcard">
+    <div class="tc-head">
+      <h3>${esc(d.title)}</h3>
+      <span class="tc-yr">${d.year}</span>
+    </div>
+    <span class="tc-tag">${esc(d.tag)}</span>
+    <p>${esc(d.desc)}</p>
+    ${d.items && d.items.length ? `<div class="tc-x">
+      ${d.items.map(it => `<div class="xrow">
+        <span class="ico"><svg class="ic"><use href="#${it.icon}"/></svg></span>
+        <div><b>${esc(it.title)}</b><small>${esc(it.meta || '')}</small></div>
+      </div>`).join('')}
+    </div>` : ''}
+  </article>`;
+}
+
+function drawTLPath(){
+  const track = $('#tlTrack');
+  const svg   = $('#tlPathSvg');
+  if(!track || !svg) return;
+  const W = track.scrollWidth;
+  const MID = 170;
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', MID);
+  svg.setAttribute('viewBox', `0 0 ${W} ${MID}`);
+  const y = MID / 2;
+  // path sedikit bergelombang
+  let d = `M 0 ${y}`;
+  for(let x = 0; x < W; x += 180){
+    const nx = Math.min(W, x + 180);
+    const cy = y + ((x/180) % 2 === 0 ? -8 : 8);
+    d += ` Q ${x + 90} ${cy} ${nx} ${y}`;
+  }
+  const base = svg.querySelector('.base');
+  const prog = svg.querySelector('.prog');
+  if(base) base.setAttribute('d', d);
+  if(prog){
+    prog.setAttribute('d', d);
+    prog.style.strokeDasharray = 'none';
+    prog.style.strokeWidth = '5';
+    prog.style.clipPath = 'inset(0 100% 0 0)';
+  }
+}
+
+function updateShip(){
+  if(!tlRendered) return;
+  const scroller = $('#tlScroll');
+  const track    = $('#tlTrack');
+  const ship     = $('#ship');
+  const tag      = $('#shipTag');
+  const prog     = $('#tlPathSvg .prog');
+  if(!scroller || !track || !ship) return;
+
+  const W  = track.scrollWidth;
+  const cw = scroller.clientWidth;
+  const sl = scroller.scrollLeft;
+  const cx = sl + cw * 0.5;
+  const clampedX = Math.max(50, Math.min(W - 50, cx));
+
+  const area = 310, mid = 170;
+  const y = area + mid/2 - 22;
+  ship.style.transform = `translate(${clampedX - 34}px, ${y}px)`;
+
+  if(prog){
+    const ratio = clampedX / W;
+    prog.style.clipPath = `inset(0 ${(1 - ratio) * 100}% 0 0)`;
   }
 
-  skipBtn.addEventListener('click', endIntro);
+  const idx = Math.min(TL.length - 1, Math.max(0, Math.floor(clampedX / 360)));
+  if(tag) tag.textContent = TL[idx].year;
 
-  var forceIntro = false;
-  try{ forceIntro = new URLSearchParams(location.search).has('intro'); }catch(e){}
-  var played = false;
-  try{ played = sessionStorage.getItem('intro_played'); }catch(e){}
+  $$('.yr').forEach((el, i) => el.classList.toggle('on', i === idx));
+}
 
-  if(!forceIntro && played){
-    overlay.style.display = 'none';
-    if(realLaptop) realLaptop.classList.add('show-laptop');
-    document.body.classList.add('intro-done');
-    var lines = $('.hero-lines');
-    if(lines) lines.classList.add('visible');
-    ended = true;
+function initTimeline(){
+  if(tlRendered){
+    // re-measure & update
+    requestAnimationFrame(updateShip);
+    return;
+  }
+  tlRendered = true;
+  const yearsEl = $('#tlYears');
+  if(!yearsEl) return;
+  yearsEl.innerHTML = TL.map((d, i) => {
+    const p = i % 2 === 0 ? 'a' : 'b';
+    const cls = ['yr', d.kind === 'born' ? 'born' : '', d.kind === 'future' ? 'future' : ''].filter(Boolean).join(' ');
+    return `<div class="${cls}" data-p="${p}" data-i="${i}">
+      <div class="yr-top">${i % 2 === 0 ? tlCard(d) : ''}</div>
+      <div class="yr-mid"><div class="node"></div></div>
+      <div class="yr-bot">${i % 2 !== 0 ? tlCard(d) : ''}</div>
+    </div>`;
+  }).join('');
+
+  requestAnimationFrame(() => {
+    drawTLPath();
+    updateShip();
+    // rise animation
+    $$('.yr').forEach((el, i) => setTimeout(() => el.classList.add('in'), i * 55));
+  });
+}
+
+/* Scroll + drag timeline */
+(() => {
+  const scroller = $('#tlScroll');
+  if(!scroller) return;
+  scroller.addEventListener('scroll', updateShip, { passive: true });
+  window.addEventListener('resize', updateShip);
+
+  let isDown = false, startX = 0, startScroll = 0;
+  scroller.addEventListener('pointerdown', e => {
+    if(e.target.closest('button, a')) return;
+    isDown = true;
+    startX = e.clientX;
+    startScroll = scroller.scrollLeft;
+    scroller.classList.add('drag');
+    scroller.setPointerCapture?.(e.pointerId);
+  });
+  scroller.addEventListener('pointermove', e => {
+    if(!isDown) return;
+    scroller.scrollLeft = startScroll - (e.clientX - startX);
+  });
+  const endDrag = () => { isDown = false; scroller.classList.remove('drag'); };
+  scroller.addEventListener('pointerup', endDrag);
+  scroller.addEventListener('pointercancel', endDrag);
+  scroller.addEventListener('pointerleave', () => { if(isDown) endDrag(); });
+})();
+
+$('#tlPrev')?.addEventListener('click', () => {
+  const s = $('#tlScroll');
+  s?.scrollBy({ left: -720, behavior: 'smooth' });
+});
+$('#tlNext')?.addEventListener('click', () => {
+  const s = $('#tlScroll');
+  s?.scrollBy({ left: 720, behavior: 'smooth' });
+});
+
+/* ========== BLOG + POST + ADMIN ========== */
+const BLOG_KEY = 'portfolio_blog_posts';
+
+const SEED_POSTS = [
+  {
+    id:'seed-1', category:'Catatan', date:'2026-09-14',
+    title:'Belajar Koding Tanpa Takut Salah',
+    excerpt:'Koding itu bukan soal langsung benar, tapi berani mencoba dan memperbaiki.',
+    body:'Koding bukan tentang langsung benar. Justru dari error kita belajar.\n\nWaktu pertama kali bikin kalkulator, saya bingung kenapa tombol tidak berfungsi. Ternyata karena belum menambahkan event listener. Pelan-pelan saya cek satu-satu.\n\nPelajaran: baca pesan error, coba lagi, dan jangan takut salah. Yang penting terus maju.'
+  },
+  {
+    id:'seed-2', category:'Strategi', date:'2026-08-30',
+    title:'Catur: Belajar Berpikir Sebelum Bertindak',
+    excerpt:'Setiap langkah di papan catur melatih kesabaran dan perhitungan.',
+    body:'Catur mengajarkan saya untuk berpikir dua sampai tiga langkah ke depan.\n\nSetiap langkah punya konsekuensi. Kadang kita harus mengorbankan bidak untuk menang. Hal yang sama berlaku dalam hidup: tidak semua hal harus didapatkan saat ini juga.\n\nSaya juara 2 Catur PPA 2025 dan ikut Catur ASFERA 2026. Tapi yang paling berharga adalah proses belajarnya.'
+  },
+  {
+    id:'seed-3', category:'Prinsip', date:'2026-08-20',
+    title:'Disiplin Waktu & Adab',
+    excerpt:'Ilmu setinggi apapun tidak berarti tanpa adab yang baik.',
+    body:'Dua prinsip yang saya pegang:\n\n1. Disiplin pada waktu dan tugas — jangan menunda, selesaikan tepat waktu.\n2. Adab kepada guru, teman, dan orang tua — hormat dan sopan di mana pun.\n\nPrinsip ini yang membuat saya tetap fokus belajar di tengah banyaknya distraksi.'
+  },
+  {
+    id:'seed-4', category:'Projek', date:'2026-08-10',
+    title:'Kompas Kiblat: Belajar Navigasi dari Rumus',
+    excerpt:'Menghitung arah kiblat pakai bearing dan sensor HP.',
+    body:'Kompas kiblat adalah projek kecil yang mengajarkan banyak hal:\n\n- Cara menghitung bearing dari koordinat\n- Cara membaca device orientation\n- Bagaimana memberi fallback saat sensor tidak tersedia\n\nHasilnya, saya jadi lebih paham trigonometri terapan.'
+  },
+  {
+    id:'seed-5', category:'Tahfidz', date:'2026-07-25',
+    title:'Target Hafalan & Tilawah',
+    excerpt:'Menata target hafalan per semester agar tetap konsisten.',
+    body:'Target hafalan dan tilawah membantu saya tetap teratur.\n\nKelas 7 Semester 1: 10 halaman hafalan.\nKelas 7 Semester 2: 1 Juz 3 halaman.\nKelas 8 Semester 1: 1 Juz 19 halaman.\n\nYang penting bukan seberapa cepat, tapi seberapa konsisten.'
+  },
+  {
+    id:'seed-6', category:'Refleksi', date:'2026-06-30',
+    title:'Membaca: Jendela ke Dunia Lain',
+    excerpt:'Buku membuat saya bisa berada di banyak tempat sekaligus.',
+    body:'Membaca adalah salah satu hobi saya. Lewat buku, saya bisa belajar dari pengalaman orang lain tanpa harus mengalaminya sendiri.\n\nBuku favorit saya: biografi tokoh teknologi dan kisah petualangan. Dari situ saya banyak belajar soal keberanian dan kegigihan.'
+  }
+];
+
+function getPosts(){
+  try {
+    const raw = localStorage.getItem(BLOG_KEY);
+    if(raw){
+      const arr = JSON.parse(raw);
+      if(Array.isArray(arr)) return arr;
+    }
+  } catch(e){}
+  try { localStorage.setItem(BLOG_KEY, JSON.stringify(SEED_POSTS)); } catch(e){}
+  return SEED_POSTS.slice();
+}
+
+function savePosts(arr){
+  try { localStorage.setItem(BLOG_KEY, JSON.stringify(arr)); }
+  catch(e){ toast('Gagal menyimpan', '#F87171'); }
+}
+
+function renderBlog(){
+  const posts = getPosts();
+  const grid  = $('#blogGrid');
+  if(!grid) return;
+
+  const cats = new Set(posts.map(p => p.category));
+  $('#blogStatCount').textContent = posts.length;
+  $('#blogStatCats').textContent  = cats.size;
+  $('#blogStatLast').textContent  = posts.length ? fmtDate(posts[0].date) : '—';
+
+  if(!posts.length){
+    grid.innerHTML = '<div class="blog-empty" style="grid-column:1/-1">Belum ada artikel.</div>';
     return;
   }
 
-  // Animasi Otomatis (ASUS TUF Flow)
-  delay(1000, function(){ skipBtn.classList.add('show'); });
+  grid.innerHTML = posts.map(p => `
+    <article class="blog-card" tabindex="0" role="button" data-post-id="${p.id}" aria-label="Baca artikel: ${esc(p.title)}">
+      <span class="cat">${esc(p.category)}</span>
+      <h3>${esc(p.title)}</h3>
+      <p class="excerpt">${esc(p.excerpt || truncate(p.body, 120))}</p>
+      <div class="meta">
+        <span>${fmtDate(p.date)}</span>
+        <span class="read">Baca →</span>
+      </div>
+    </article>
+  `).join('');
 
-  var sequence = Array.from(words).concat([sub, btns]).concat(Array.from(boxes));
-  var currentIdx = 0;
-  var startTime = 800;
-
-  function shootNext(){
-    if(currentIdx >= sequence.length){
-      delay(1000, endIntro); // Jeda 1 detik sebelum zoom out
-      return;
-    }
-    var el = sequence[currentIdx];
-    currentIdx++;
-    
-    delay(100, function(){
-      el.classList.add('show');
-      delay(80, shootNext); // Jeda antar teks muncul (cepat, mekanik)
+  grid.querySelectorAll('.blog-card').forEach(card => {
+    card.addEventListener('click', () => openPost(card.dataset.postId));
+    card.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openPost(card.dataset.postId); }
     });
-  }
-  
-  delay(startTime, shootNext);
-
-  // Absolute fallback
-  delay(8000, function(){
-    if(ended) return;
-    sequence.forEach(function(el){ el.classList.add('show'); });
-    endIntro();
-  });
-})();
-
-/* ============================================================
-   2. SPA NAVIGATION
-   ============================================================ */
-var views = {
-  home: $('#view-home'),
-  profil: $('#view-profil'),
-  projek: $('#view-projek'),
-  other: $('#view-other'),
-  timeline: $('#view-timeline'),
-  blog: $('#view-blog'),
-  post: $('#view-post'),
-  admin: $('#view-admin')
-};
-var cur = 'home';
-
-function show(v, sec){
-  if(!views[v]) return;
-  var changed = v !== cur;
-  if(changed){
-    Object.keys(views).forEach(function(k){
-      if(!views[k]) return;
-      views[k].hidden = (k !== v);
-    });
-    cur = v;
-    var el = views[v];
-    if(el){ el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); }
-    
-    if (v === 'home') {
-      document.body.classList.add('is-home');
-    } else {
-      document.body.classList.remove('is-home');
-    }
-
-    if(v === 'timeline' && typeof tlLayout === 'function') setTimeout(tlLayout, 50);
-    if(v === 'blog' && typeof loadBlog === 'function') loadBlog();
-    if(v === 'admin' && typeof renderAdmin === 'function') renderAdmin();
-  }
-  if(sec){
-    var t = document.getElementById(sec);
-    if(t) requestAnimationFrame(function(){ t.scrollIntoView({behavior: (RM || changed) ? 'auto' : 'smooth', block: 'start'}); });
-  } else {
-    window.scrollTo({top: 0, behavior: 'auto'});
-  }
-}
-
-document.addEventListener('click', function(e){
-  var g = e.target.closest('[data-go]');
-  if(!g) return;
-  e.preventDefault();
-  var p = g.getAttribute('data-go').split('#');
-  show(p[0], p[1] || null);
-});
-
-var postBackBtn = $('#postBack');
-if(postBackBtn) postBackBtn.addEventListener('click', function(){ show('blog'); });
-
-$$('.hero-circle[data-target]').forEach(function(c){
-  c.addEventListener('click', function(){
-    var target = c.getAttribute('data-target');
-    if(target) show(target);
-  });
-});
-var circleChatbot = $('#circle-chatbot');
-if(circleChatbot) {
-  circleChatbot.addEventListener('click', function() {
-    var fab = $('#ai-fab');
-    if(fab) fab.click();
   });
 }
 
-/* ============================================================
-   3. CLOCK & DATE
-   ============================================================ */
-var fLocal = new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
-function tick(){
-  var d = new Date();
-  var lClock = $('#lClock');
-  if(lClock) lClock.textContent = fLocal.format(d);
+function openPost(id){
+  const p = getPosts().find(x => x.id === id);
+  if(!p) return;
+  const art = $('#postArticle');
+  if(!art) return;
+  art.innerHTML = `
+    <h1>${esc(p.title)}</h1>
+    <div class="post-meta">
+      <span class="pill">${esc(p.category)}</span>
+      <span>${fmtDate(p.date)}</span>
+      <span>${wordCount(p.body)} kata</span>
+    </div>
+    <div class="post-body">${esc(p.body)}</div>
+  `;
+  showView('post');
 }
-tick(); setInterval(tick, 1000);
+$('#postBack')?.addEventListener('click', () => showView('blog'));
 
-/* ============================================================
-   4. BLOG & ADMIN
-   ============================================================ */
-var BLOG_LOCAL_KEY = 'syazani_blog_local_v1';
-function getLocalPosts(){ try{ return JSON.parse(localStorage.getItem(BLOG_LOCAL_KEY)) || []; }catch(e){ return []; } }
-function saveLocalPosts(arr){ try{ localStorage.setItem(BLOG_LOCAL_KEY, JSON.stringify(arr)); }catch(e){} }
-function showToast(msg, isRed){
-  var t = document.createElement('div');
-  t.className = 'blog-toast';
-  if(isRed) t.style.background = '#F87171';
-  t.textContent = msg;
-  document.body.appendChild(t);
-  requestAnimationFrame(function(){ t.classList.add('show'); });
-  setTimeout(function(){ t.classList.remove('show'); setTimeout(function(){ t.remove(); }, 350); }, 2400);
-}
-function escapeHtml(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-function formatDate(d){ if(!d) return '—'; try{ return new Date(d).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}); }catch(e){ return d; } }
-
-function openAdmin(){ show('admin'); }
+/* Admin */
 function renderAdmin(){
-  var t = $('#adminTitle'), c = $('#adminCategory'), m = $('#adminContent');
-  if(t) t.value = ''; if(c) c.value = 'Umum'; if(m) m.value = '';
-  renderAdminList();
-}
-function renderAdminList(){
-  var list = $('#adminList'), count = $('#adminCount');
+  const posts = getPosts();
+  const list  = $('#adminList');
   if(!list) return;
-  var arr = getLocalPosts();
-  if(count) count.textContent = arr.length;
-  if(!arr.length){ list.innerHTML = '<div class="admin-empty">Belum ada artikel.<br>Tulis artikel pertamamu di form sebelah 👈</div>'; return; }
-  list.innerHTML = arr.map(function(p){
-    var slug = escapeHtml(p.slug);
-    return '<div class="admin-item" data-slug="' + slug + '">'
-      + '<div class="admin-item-body"><span class="cat-mini">' + escapeHtml(p.category || 'Umum') + '</span>'
-      + '<h3>' + escapeHtml(p.title || 'Tanpa Judul') + '</h3><span class="date">📅 ' + formatDate(p.date) + '</span></div>'
-      + '<div class="admin-item-actions"><button class="admin-item-btn" data-action="view" data-slug="' + slug + '">👁️</button>'
-      + '<button class="admin-item-btn del" data-action="delete" data-slug="' + slug + '">🗑️</button></div></div>';
-  }).join('');
-  list.querySelectorAll('.admin-item-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var slug = btn.getAttribute('data-slug'), act = btn.getAttribute('data-action');
-      if(act === 'view') viewPostFromAdmin(slug);
-      else if(act === 'delete') deleteLocalPost(slug);
-    });
-  });
-}
-function saveFromAdmin(){
-  var titleEl = $('#adminTitle'), catEl = $('#adminCategory'), contEl = $('#adminContent');
-  var title = titleEl.value.trim(), category = catEl.value, content = contEl.value.trim();
-  if(!title){ alert('Judul tidak boleh kosong!'); titleEl.focus(); return; }
-  if(!content){ alert('Isi artikel tidak boleh kosong!'); contEl.focus(); return; }
-  var now = new Date();
-  var post = { slug: 'local-' + now.getTime() + '-' + Math.random().toString(36).slice(2,6), title: title, category: category, date: now.toISOString().slice(0,10), excerpt: content.replace(/\s+/g,' ').slice(0,140) + (content.length > 140 ? '…' : ''), content: content, local: true };
-  var arr = getLocalPosts(); arr.unshift(post); saveLocalPosts(arr);
-  titleEl.value = ''; contEl.value = ''; catEl.value = 'Umum';
-  renderAdminList(); blogState.loaded = false; showToast('✅ Artikel "' + title + '" tersimpan');
-}
-function deleteLocalPost(slug){
-  var arr = getLocalPosts(); var post = arr.find(function(p){ return p.slug === slug; });
-  if(!post) return;
-  if(!confirm('Yakin ingin menghapus artikel:\n\n"' + post.title + '"\n\nArtikel akan hilang permanen dari browser ini.')) return;
-  arr = arr.filter(function(p){ return p.slug !== slug; });
-  saveLocalPosts(arr); renderAdminList(); blogState.loaded = false; showToast('🗑️ "' + post.title + '" dihapus', true);
-}
-function viewPostFromAdmin(slug){
-  blogState.loaded = false; show('blog');
-  var tries = 0;
-  var check = setInterval(function(){
-    tries++;
-    if(blogState.loaded){ clearInterval(check); openPost(slug); }
-    if(tries > 50){ clearInterval(check); }
-  }, 100);
-}
-
-var blogState = {loaded: false, posts: [], loading: false};
-var BLOG_FALLBACK = [
-  {slug:'welcome', title:'Selamat Datang di Blog Saya', category:'Cerita', date:'2026-01-15', excerpt:'Perkenalan singkat tentang siapa saya dan apa yang akan saya tulis di blog ini.', content:'Halo! Selamat datang di blog pribadi saya.\n\nDi sini saya akan menulis tentang:\n\n- Pengalaman belajar koding\n- Tips & trik seputar teknologi\n- Cerita di sekolah\n- Dan masih banyak lagi.\n\nTerima kasih sudah berkunjung dan selamat membaca!'},
-  {slug:'belajar-koding', title:'Belajar Koding untuk Pemula', category:'Tips', date:'2026-02-10', excerpt:'Langkah awal belajar koding dari nol: HTML, CSS, JavaScript, lalu bikin proyek kecil.', content:'Belajar koding itu menyenangkan!\n\nLangkah awal yang saya sarankan:\n\n1. Pelajari HTML & CSS\n2. Lanjut ke JavaScript\n3. Buat proyek kecil (kalkulator, to-do list)\n4. Latihan setiap hari\n\nKonsisten lebih penting daripada cepat.'},
-  {slug:'catur-strategi', title:'Strategi Catur untuk Pemula', category:'Strategi', date:'2026-03-05', excerpt:'Opening catur sederhana yang cocok dipelajari pemula agar tidak bingung di awal permainan.', content:'Catur adalah permainan strategi yang luar biasa.\n\nOpening untuk pemula:\n\n- Italian Game\n- London System\n- Scandinavian Defense\n\nKunci utama:\n\n- Kontrol tengah papan\n- Kembangkan bidak (kuda, gajah)\n- Amankan raja dengan castle'}
-];
-async function loadBlog(){
-  if(blogState.loaded || blogState.loading) return;
-  blogState.loading = true;
-  var grid = $('#blogGrid'), loading = $('#blogLoading'), empty = $('#blogEmpty');
-  if(!grid) return;
-  if(loading) loading.hidden = false;
-  grid.hidden = true; if(empty) empty.hidden = true;
-  var posts = [];
-  try{
-    var res = await fetch('/api/list-posts', {cache: 'no-cache'});
-    if(res.ok){ var j = await res.json(); if(Array.isArray(j)) posts = j; else if(j && Array.isArray(j.posts)) posts = j.posts; }
-  }catch(e){}
-  if(!posts.length){ try{ var r2 = await fetch('posts.json', {cache: 'no-cache'}); if(r2.ok){ var j2 = await r2.json(); if(Array.isArray(j2)) posts = j2; } }catch(e){} }
-  if(!posts.length) posts = BLOG_FALLBACK;
-  var localPosts = getLocalPosts(); posts = localPosts.concat(posts);
-  posts = posts.map(function(p){ return { slug: p.slug || p.id || String(p.title || '').toLowerCase().replace(/\s+/g,'-'), title: p.title || 'Tanpa Judul', category: p.category || 'Umum', date: p.date || p.createdAt || '', excerpt: p.excerpt || String(p.content || '').slice(0,140), content: p.content || p.body || p.excerpt || '', local: !!p.local }; }).sort(function(a,b){ return (b.date || '').localeCompare(a.date || ''); });
-  blogState.posts = posts; blogState.loaded = true; blogState.loading = false;
-  if($('#statTotal')) $('#statTotal').textContent = posts.length;
-  if($('#statLast')) $('#statLast').textContent = posts[0] ? formatDate(posts[0].date) : '—';
-  if(loading) loading.hidden = true;
-  if(!posts.length){ if(empty) empty.hidden = false; grid.hidden = true; return; }
-  grid.hidden = false; if(empty) empty.hidden = true;
-  grid.innerHTML = posts.map(function(p){
-    return '<article class="blog-card" data-slug="' + escapeHtml(p.slug) + '">'
-      + '<span class="cat">' + escapeHtml(p.category) + '</span>' + (p.local ? '<span class="local-badge">✍️ Kamu</span>' : '')
-      + '<h3>' + escapeHtml(p.title) + '</h3><p class="excerpt">' + escapeHtml(p.excerpt) + '</p>'
-      + '<div class="meta"><span>📅 ' + formatDate(p.date) + '</span><span class="read">Baca →</span></div></article>';
-  }).join('');
-  $$('.blog-card', grid).forEach(function(card){ card.addEventListener('click', function(){ openPost(card.getAttribute('data-slug')); }); });
-}
-function openPost(slug){
-  var post = blogState.posts.find(function(p){ return p.slug === slug; });
-  if(!post) return;
-  var art = $('#postArticle');
-  art.innerHTML = '<h1>' + escapeHtml(post.title) + '</h1>'
-    + '<div class="post-meta"><span class="pill">' + escapeHtml(post.category) + '</span><span>📅 ' + formatDate(post.date) + '</span><span>✍️ Syazani</span>' + (post.local ? '<span class="local-badge">✍️ Kamu</span>' : '') + '</div>'
-    + '<div class="post-body">' + escapeHtml(post.content) + '</div>';
-  show('post');
-}
-
-/* ============================================================
-   5. KALKULATOR
-   ============================================================ */
-(function(){
-  var SYM = {'+':'+','-':'−','*':'×','/':'÷','^':'^'};
-  var keys = $('#cKeys'), out = $('#cVal'), hist = $('#cHist'), box = $('#calc'), sciKeys = $('#cSciKeys'), modes = $('#calcModes');
-  if(!keys) return;
-  var S;
-  function reset(){ S = {cur:'0', acc:null, op:null, fresh:true, hist:'', err:false}; }
-  reset();
-  function fmt(n){ if(!isFinite(n)) return 'Error'; if(Number.isInteger(n) && Math.abs(n) < 1e15) return String(n); return String(parseFloat(n.toPrecision(12))); }
-  function comp(a,b,op){ switch(op){ case '+': return a+b; case '-': return a-b; case '*': return a*b; case '/': return b === 0 ? NaN : a/b; case '^': return Math.pow(a,b); } return b; }
-  function fail(msg){ S.err = true; S.cur = msg; S.acc = null; S.op = null; S.hist = ''; S.fresh = true; }
-  function draw(){ var t = S.err ? S.cur : S.cur.replace('.', ','); out.textContent = t; hist.textContent = S.hist; out.classList.toggle('sm', t.length > 10); }
-  var SECRET_CODE = '14092012', secretSeq = '';
-  function checkSecretSeq(digit){
-    var next = secretSeq + digit;
-    if(SECRET_CODE.indexOf(next) === 0){ secretSeq = next; if(secretSeq === SECRET_CODE){ secretSeq = ''; return true; } return false; }
-    secretSeq = (SECRET_CODE.indexOf(digit) === 0) ? digit : ''; return false;
+  if(!posts.length){
+    list.innerHTML = '<div class="admin-empty">Belum ada artikel.</div>';
+    return;
   }
-  function press(t, v){
-    if(S.err){ reset(); }
-    if(t !== 'd') secretSeq = '';
-    if(t === 'd'){
-      if(checkSecretSeq(v)){ reset(); draw(); openAdmin(); return; }
-      if(S.fresh){ S.cur = v; S.fresh = false; } else if(S.cur === '0') S.cur = v; else if(S.cur.replace('-','').replace('.','').length < 16) S.cur += v;
-      draw(); return;
+  list.innerHTML = posts.map(p => `
+    <div class="admin-item">
+      <div class="admin-item-body">
+        <span class="cat-mini">${esc(p.category)}</span>
+        <h3>${esc(p.title)}</h3>
+        <div class="date">${fmtDate(p.date)}</div>
+      </div>
+      <div class="admin-item-actions">
+        <button class="admin-item-btn" type="button" data-edit="${p.id}" aria-label="Edit artikel">✎</button>
+        <button class="admin-item-btn del" type="button" data-del="${p.id}" aria-label="Hapus artikel">🗑</button>
+      </div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => loadEdit(b.dataset.edit)));
+  list.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => delPost(b.dataset.del)));
+}
+
+function resetAdminForm(){
+  $('#adminId').value = '';
+  $('#adminTitle').value = '';
+  $('#adminCat').value = '';
+  $('#adminExcerpt').value = '';
+  $('#adminBody').value = '';
+  $('#adminFormTitle').textContent = 'Tambah Artikel';
+  $('#adminSubmit').textContent = 'Simpan Artikel';
+}
+function loadEdit(id){
+  const p = getPosts().find(x => x.id === id);
+  if(!p) return;
+  $('#adminId').value = p.id;
+  $('#adminTitle').value = p.title;
+  $('#adminCat').value = p.category;
+  $('#adminExcerpt').value = p.excerpt || '';
+  $('#adminBody').value = p.body;
+  $('#adminFormTitle').textContent = 'Edit Artikel';
+  $('#adminSubmit').textContent = 'Simpan Perubahan';
+  $('#adminTitle').focus();
+}
+function delPost(id){
+  const posts = getPosts().filter(p => p.id !== id);
+  savePosts(posts);
+  renderAdmin();
+  toast('Artikel dihapus', '#F87171');
+}
+
+$('#adminForm')?.addEventListener('submit', e => {
+  e.preventDefault();
+  const id       = $('#adminId').value;
+  const title    = $('#adminTitle').value.trim();
+  const category = $('#adminCat').value.trim();
+  const excerpt  = $('#adminExcerpt').value.trim();
+  const body     = $('#adminBody').value.trim();
+  if(!title || !category || !body){
+    toast('Lengkapi judul, kategori, dan isi', '#FDE68A');
+    return;
+  }
+  const posts = getPosts();
+  const today = new Date().toISOString().slice(0,10);
+  if(id){
+    const p = posts.find(x => x.id === id);
+    if(p){
+      Object.assign(p, { title, category, excerpt, body, date: today });
     }
-    var x = parseFloat(S.cur);
-    if(t === 'dot'){ if(S.fresh){ S.cur = '0.'; S.fresh = false; } else if(S.cur.indexOf('.') < 0) S.cur += '.'; }
-    else if(t === 'op'){
-      if(S.op && !S.fresh){ var r = comp(S.acc, x, S.op); if(isNaN(r)){ fail('Tidak bisa dibagi 0'); draw(); return; } S.acc = r; S.cur = fmt(r); } else S.acc = x;
-      S.op = v; S.fresh = true; S.hist = fmt(S.acc).replace('.', ',') + ' ' + SYM[v];
-    } else if(t === 'eq'){
-      if(S.op){ var r2 = comp(S.acc, x, S.op); if(isNaN(r2)){ fail('Tidak bisa dibagi 0'); draw(); return; } S.hist = fmt(S.acc).replace('.', ',') + ' ' + SYM[S.op] + ' ' + S.cur.replace('.', ',') + ' ='; S.cur = fmt(r2); S.acc = null; S.op = null; S.fresh = true; }
-    } else if(t === 'fn'){
-      if(v === 'C') reset();
-      else if(v === 'CE'){ S.cur = '0'; S.fresh = true; }
-      else if(v === 'BS'){ if(!S.fresh){ S.cur = S.cur.length > 1 && !(S.cur.length === 2 && S.cur[0] === '-') ? S.cur.slice(0,-1) : '0'; } }
-      else if(v === 'NEG'){ if(S.cur !== '0'){ S.cur = S.cur[0] === '-' ? S.cur.slice(1) : '-' + S.cur; } }
-      else if(v === '%'){ var pc = (S.op && S.acc !== null) ? S.acc * x / 100 : x / 100; S.cur = fmt(pc); S.fresh = true; }
-    } else if(t === 'sci'){ applySci(v, x); }
-    draw();
-  }
-  function applySci(v, x){
-    if(v === 'pi'){ S.cur = fmt(Math.PI); S.fresh = true; return; }
-    if(v === 'e'){ S.cur = fmt(Math.E); S.fresh = true; return; }
-    if(v === 'pow'){ if(S.op && !S.fresh){ var r0 = comp(S.acc, x, S.op); if(!isNaN(r0)){ S.acc = r0; S.cur = fmt(r0); } } else S.acc = x; S.op = '^'; S.fresh = true; S.hist = fmt(S.acc).replace('.', ',') + ' ^'; return; }
-    var r, label;
-    if(v === 'sin'){ label = 'sin'; r = Math.sin(x * Math.PI / 180); r = Math.abs(r) < 1e-12 ? 0 : r; }
-    else if(v === 'cos'){ label = 'cos'; r = Math.cos(x * Math.PI / 180); r = Math.abs(r) < 1e-12 ? 0 : r; }
-    else if(v === 'tan'){ label = 'tan'; if(Math.abs(Math.cos(x * Math.PI / 180)) < 1e-12){ fail('Tidak terdefinisi'); return; } r = Math.tan(x * Math.PI / 180); r = Math.abs(r) < 1e-12 ? 0 : r; }
-    else if(v === 'log'){ label = 'log'; if(x <= 0){ fail('Input tidak valid'); return; } r = Math.log10(x); }
-    else if(v === 'ln'){ label = 'ln'; if(x <= 0){ fail('Input tidak valid'); return; } r = Math.log(x); }
-    else if(v === 'sqrt'){ label = '√'; if(x < 0){ fail('Input tidak valid'); return; } r = Math.sqrt(x); }
-    else if(v === 'sqr'){ label = 'sqr'; r = x * x; }
-    else if(v === 'inv'){ label = '1/'; if(x === 0){ fail('Tidak bisa dibagi 0'); return; } r = 1 / x; }
-    else if(v === 'fact'){ label = 'n!'; if(x < 0 || !Number.isInteger(x) || x > 170){ fail('Input tidak valid'); return; } r = 1; for(var i = 2; i <= x; i++) r *= i; }
-    if(typeof r !== 'number' || !isFinite(r)){ fail('Tidak terdefinisi'); return; }
-    S.hist = label + '(' + S.cur.replace('.', ',') + ')'; S.cur = fmt(r); S.fresh = true;
-  }
-  keys.addEventListener('click', function(e){ var b = e.target.closest('.key'); if(b) press(b.getAttribute('data-t'), b.getAttribute('data-v')); });
-  if(sciKeys) sciKeys.addEventListener('click', function(e){ var b = e.target.closest('.key'); if(b) press(b.getAttribute('data-t'), b.getAttribute('data-v')); });
-  if(modes) modes.addEventListener('click', function(e){ var b = e.target.closest('button'); if(!b) return; $$('button', modes).forEach(function(x){ x.classList.toggle('on', x === b); }); sciKeys.hidden = (b.getAttribute('data-mode') !== 'sci'); });
-  if(box) box.addEventListener('keydown', function(e){
-    var k = e.key;
-    if(/^[0-9]$/.test(k)) press('d', k);
-    else if(k === '.' || k === ',') press('dot', '.');
-    else if(k === '+' || k === '-' || k === '*' || k === '/'){ e.preventDefault(); press('op', k); }
-    else if(k === 'Enter' || k === '='){ e.preventDefault(); press('eq', '='); }
-    else if(k === 'Backspace') press('fn', 'BS');
-    else if(k === 'Escape') press('fn', 'C');
-    else if(k === '%') press('fn', '%');
-  });
-  draw();
-})();
-
-/* ============================================================
-   6. KOMPAS KIBLAT
-   ============================================================ */
-(function(){
-  if(window.__qiblaInitDone) return;
-  window.__qiblaInitDone = true;
-  var KAABA_LAT = 21.4224779, KAABA_LON = 39.8251832;
-  var g = function(id){ return document.getElementById(id); };
-  var dial = g('qibla-dial'), needle = g('qibla-needle'), needleTail = g('qibla-needle-tail');
-  var bearingEl = g('qibla-bearing'), headingEl = g('qibla-heading'), locationEl = g('qibla-location');
-  var statusEl = g('qibla-status'), statusText = g('qibla-status-text');
-  var degVal = g('qibla-deg-val'), activateBtn = g('qibla-activate'), locateBtn = g('qibla-locate');
-  var citySelect = g('qibla-city'), citySearchInput = g('qibla-city-search');
-  var citySearchStatus = g('qibla-city-search-status'), citySearchResults = g('qibla-city-search-results');
-  var latInput = g('qibla-lat-input'), lonInput = g('qibla-lon-input'), manualApplyBtn = g('qibla-manual-apply');
-  if(!dial || !needle) return;
-  var qiblaBearing = null, currentHeading = 0, sensorHeadingReceived = false, orientationActive = false, sensorCheckTimer = null;
-  var cityEntries = Array.from(citySelect.querySelectorAll('optgroup option')).map(function(option){
-    return { value: option.value, name: option.textContent.trim(), group: option.parentElement ? option.parentElement.label : '', lat: option.value.split(',')[0], lon: option.value.split(',')[1], chosenLabel: (option.value.split(',')[2] || option.textContent.trim()).replace(/\s*\(perkiraan\)\s*$/i, '') };
-  });
-  function normalizeCityText(v){ return String(v || '').toLocaleLowerCase('id').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\b(kabupaten|kab\.?|kota administrasi|kota)\b/g,' ').replace(/[^a-z0-9]+/g,' ').trim(); }
-  function renderCitySearch(){
-    var rawQuery = citySearchInput.value.trim(), query = normalizeCityText(rawQuery);
-    citySearchResults.replaceChildren();
-    if(!query){ citySearchResults.hidden = true; citySearchStatus.textContent = cityEntries.length + ' kota tersedia. Ketik nama kota.'; return; }
-    var terms = query.split(/\s+/).filter(Boolean);
-    var matches = cityEntries.filter(function(c){ var txt = normalizeCityText(c.name + ' ' + c.chosenLabel); return terms.every(function(t){ return txt.indexOf(t) !== -1; }); });
-    citySearchStatus.textContent = matches.length ? matches.length + ' kota ditemukan.' : 'Kota "' + rawQuery + '" tidak ditemukan.';
-    if(!matches.length){ citySearchResults.hidden = true; return; }
-    matches.slice(0, 20).forEach(function(city){
-      var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'qibla-city-result';
-      var name = document.createElement('span'); name.textContent = city.name;
-      var region = document.createElement('small'); region.textContent = city.group.replace(/\s+&.*$/,'');
-      btn.appendChild(name); btn.appendChild(region);
-      btn.addEventListener('click', function(){
-        citySelect.value = city.value; citySelect.dispatchEvent(new Event('change', {bubbles: true}));
-        citySearchInput.value = city.name; citySearchResults.hidden = true;
-        citySearchStatus.textContent = 'Dipilih: ' + city.name;
-      });
-      citySearchResults.appendChild(btn);
-    });
-    citySearchResults.hidden = false;
-  }
-  if(citySearchInput){
-    citySearchInput.setAttribute('aria-expanded','false');
-    citySearchInput.addEventListener('input', renderCitySearch);
-    citySearchInput.addEventListener('keydown', function(e){ if(e.key === 'Escape') citySearchResults.hidden = true; });
-    renderCitySearch();
-  }
-  var normalize360 = function(n){ return ((n % 360) + 360) % 360; };
-  var normalizeDiff = function(n){ return ((n + 540) % 360) - 180; };
-  function calculateQiblaBearing(lat, lon){
-    var toRad = Math.PI / 180, phi1 = lat * toRad, phi2 = KAABA_LAT * toRad, dL = (KAABA_LON - lon) * toRad;
-    var y = Math.sin(dL) * Math.cos(phi2), x = Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(dL);
-    return normalize360(Math.atan2(y, x) / toRad);
-  }
-  function formatDirection(deg){ var dirs = ['Utara','Timur Laut','Timur','Tenggara','Selatan','Barat Daya','Barat','Barat Laut']; return dirs[Math.round(normalize360(deg) / 45) % 8]; }
-  function setStatus(msg, kind){ statusText.textContent = msg; statusEl.classList.remove('aligned','warn','error'); if(kind) statusEl.classList.add(kind); }
-  function updateCompass(){
-    if(qiblaBearing === null) return;
-    var heading = sensorHeadingReceived ? currentHeading : 0, relative = normalizeDiff(qiblaBearing - heading);
-    if(dial) dial.style.transform = 'rotate(' + (-heading) + 'deg)';
-    needle.style.transform = 'translateX(-50%) rotate(' + relative + 'deg)';
-    needleTail.style.transform = 'translateX(-50%) rotate(' + normalize360(relative + 180) + 'deg)';
-    degVal.textContent = qiblaBearing.toFixed(1) + '°';
-    headingEl.textContent = sensorHeadingReceived ? currentHeading.toFixed(0) + '°' : 'Belum aktif';
-    if(sensorHeadingReceived){
-      var abs = Math.abs(relative);
-      if(abs < 5) setStatus('✅ Kamu sudah menghadap kiblat!', 'aligned');
-      else if(abs < 20) setStatus('🎯 Hampir! Putar sedikit ' + (relative > 0 ? 'ke kanan' : 'ke kiri'));
-      else setStatus('↩️ Putar ' + abs.toFixed(0) + '° ' + (relative > 0 ? 'ke kanan' : 'ke kiri'), 'warn');
-    }
-  }
-  function applyLocation(lat, lon, label){
-    if(!Number.isFinite(lat) || !Number.isFinite(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180){ setStatus('Koordinat tidak valid.', 'error'); return; }
-    qiblaBearing = calculateQiblaBearing(lat, lon); bearingEl.textContent = qiblaBearing.toFixed(1) + '°';
-    locationEl.textContent = label || lat.toFixed(4) + '°, ' + lon.toFixed(4) + '°';
-    latInput.value = lat.toFixed(6); lonInput.value = lon.toFixed(6);
-    updateCompass();
-    if(!sensorHeadingReceived) setStatus('Arah kiblat ' + qiblaBearing.toFixed(1) + '° (' + formatDirection(qiblaBearing) + ').', 'warn');
-  }
-  function detectLocation(){
-    if(!navigator.geolocation){ setStatus('Browser tidak mendukung geolokasi.', 'warn'); return; }
-    locateBtn.disabled = true; setStatus('📡 Meminta lokasi GPS…');
-    navigator.geolocation.getCurrentPosition(function(pos){
-      locateBtn.disabled = false;
-      var c = pos.coords;
-      applyLocation(c.latitude, c.longitude, c.latitude.toFixed(4) + '°, ' + c.longitude.toFixed(4) + '°');
-    }, function(err){
-      locateBtn.disabled = false;
-      var msg = 'Lokasi gagal dideteksi.';
-      if(err.code === 1) msg = 'Izin lokasi ditolak.';
-      else if(err.code === 2) msg = 'Lokasi belum tersedia.';
-      else if(err.code === 3) msg = 'Waktu habis.';
-      setStatus(msg, 'warn');
-    }, {enableHighAccuracy: true, timeout: 20000, maximumAge: 60000});
-  }
-  function getScreenAngle(){
-    if(screen.orientation && Number.isFinite(screen.orientation.angle)) return screen.orientation.angle;
-    if(typeof window.orientation === 'number' && Number.isFinite(window.orientation)) return window.orientation;
-    return 0;
-  }
-  function onOrientation(e){
-    var heading = null;
-    if(typeof e.webkitCompassHeading === 'number' && Number.isFinite(e.webkitCompassHeading)) heading = e.webkitCompassHeading;
-    else if((e.absolute === true || e.type === 'deviceorientationabsolute') && typeof e.alpha === 'number' && Number.isFinite(e.alpha)) heading = 360 - e.alpha - getScreenAngle();
-    if(heading === null) return;
-    sensorHeadingReceived = true; currentHeading = normalize360(heading); updateCompass();
-  }
-  function stopOrientation(){
-    window.removeEventListener('deviceorientationabsolute', onOrientation, true);
-    window.removeEventListener('deviceorientation', onOrientation, true);
-    orientationActive = false; sensorHeadingReceived = false; currentHeading = 0;
-    clearTimeout(sensorCheckTimer);
-    if(activateBtn) activateBtn.innerHTML = '🧭 Aktifkan Kompas';
-    if(dial) dial.style.transform = 'rotate(0deg)';
-    headingEl.textContent = 'Belum aktif';
-    if(qiblaBearing !== null){
-      needle.style.transform = 'translateX(-50%) rotate(' + qiblaBearing + 'deg)';
-      needleTail.style.transform = 'translateX(-50%) rotate(' + normalize360(qiblaBearing + 180) + 'deg)';
-      setStatus('Arah kiblat ' + qiblaBearing.toFixed(1) + '° (' + formatDirection(qiblaBearing) + ').', 'warn');
-    }
-  }
-  function startOrientation(){
-    if(!window.isSecureContext){ setStatus('Kompas butuh HTTPS.', 'error'); return; }
-    if(!('DeviceOrientationEvent' in window)){ setStatus('Perangkat tidak mendukung sensor.', 'warn'); return; }
-    window.addEventListener('deviceorientationabsolute', onOrientation, true);
-    window.addEventListener('deviceorientation', onOrientation, true);
-    orientationActive = true;
-    if(activateBtn) activateBtn.innerHTML = '⏹ Matikan Kompas';
-    setStatus('Menunggu sensor… pegang HP datar.', 'warn');
-    if(qiblaBearing === null) detectLocation();
-    clearTimeout(sensorCheckTimer);
-    sensorCheckTimer = setTimeout(function(){ if(!sensorHeadingReceived) setStatus('Sensor belum memberi heading. Pastikan HTTPS & izin aktif.', 'warn'); }, 6000);
-  }
-  async function activateCompass(){
-    if(orientationActive){ stopOrientation(); return; }
-    if(!window.isSecureContext){ setStatus('Buka via HTTPS.', 'error'); return; }
-    try{
-      if(typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
-        var p = await DeviceOrientationEvent.requestPermission();
-        if(p !== 'granted'){ setStatus('Izin sensor ditolak.', 'error'); return; }
-      }
-      startOrientation();
-    } catch(err){ setStatus('Sensor gagal: ' + (err.message || 'izin tidak tersedia') + '.', 'warn'); }
-  }
-  if(citySelect) citySelect.addEventListener('change', function(){ if(!citySelect.value) return; var parts = citySelect.value.split(','); latInput.value = parts[0]; lonInput.value = parts[1]; });
-  if(manualApplyBtn) manualApplyBtn.addEventListener('click', function(){
-    if(latInput.value.trim() === '' || lonInput.value.trim() === ''){ setStatus('Isi latitude & longitude.', 'error'); return; }
-    var lat = Number(latInput.value), lon = Number(lonInput.value);
-    var chosen = citySelect.value ? citySelect.value.split(',')[2] : 'Koordinat manual';
-    applyLocation(lat, lon, chosen);
-  });
-  if(activateBtn) activateBtn.addEventListener('click', activateCompass);
-  if(locateBtn) locateBtn.addEventListener('click', detectLocation);
-  headingEl.textContent = 'Belum aktif';
-  if(!window.isSecureContext) setStatus('Gunakan HTTPS untuk GPS/sensor.', 'warn');
-  else setStatus('Tekan "Deteksi Lokasi" lalu "Aktifkan Kompas".', 'warn');
-})();
-
-/* ============================================================
-   7. RAPOR
-   ============================================================ */
-(function(){
-  var PAI = [['Aqidah',[94,92,95,93,96,95]],['Fiqh',[91,93,92,94,93,95]],['Siroh',[95,96,94,97,96,98]]];
-  var UMUM = [['IPA',[92,90,93,91,94,93]],['IPS',[93,94,92,95,94,96]],['B. Indonesia',[90,92,91,93,92,94]],['B. Inggris',[96,97,98,97,99,98]],['B. Arab',[89,91,90,92,91,93]],['Matematika',[91,89,92,90,93,92]],['TIK',[98,99,98,100,99,100]],['PJOK',[93,94,95,94,96,95]]];
-  var sums = [0,0,0,0,0,0], cnt = 0, h = '';
-  function rows(list){
-    list.forEach(function(r){
-      cnt++;
-      h += '<tr><td>' + r[0] + '</td>' + r[1].map(function(v,i){ sums[i] += v; return '<td' + (v >= 98 ? ' class="hi"' : '') + '>' + v + '</td>'; }).join('') + '</tr>';
+  } else {
+    posts.unshift({
+      id: 'p' + Date.now() + Math.random().toString(36).slice(2,6),
+      title, category, excerpt, body, date: today
     });
   }
-  h += '<tr class="grp"><td colspan="7">Mata Pelajaran PAI</td></tr>'; rows(PAI);
-  h += '<tr class="grp"><td colspan="7">Mata Pelajaran Umum</td></tr>'; rows(UMUM);
-  h += '<tr class="avg"><td>Rata-rata</td>' + sums.map(function(s){ return '<td>' + (s/cnt).toFixed(1).replace('.', ',') + '</td>'; }).join('') + '</tr>';
-  var gBody = $('#gBody'); if(gBody) gBody.innerHTML = h;
-})();
-
-/* ============================================================
-   8. TIMELINE
-   ============================================================ */
-var tl = (function(){
-  var SCH = {
-    a: {n:'Al-Azhar, Palu', ic:'i-school', c:'c-amber'},
-    b: {n:'Homeschooling Kak Seto, Bekasi', ic:'i-home', c:'c-green'},
-    c: {n:'SMPIT As-Syifa Boarding School, Jalancagak', ic:'i-school', c:'c-blue'}
-  };
-  var YEARS = [
-    {l:'2012', born:true},
-    {l:'2019/20', k:'Kelas 1', s:'a', note:'Awal perjalanan sekolah.', first:true},
-    {l:'2020/21', k:'Kelas 2', s:'a', note:'Menutup masa di Al-Azhar.'},
-    {l:'2021/22', k:'Kelas 3', s:'b', note:'Mulai homeschooling di Bekasi.', first:true},
-    {l:'2022/23', k:'Kelas 4', s:'b', note:'Belajar mandiri dengan jadwal sendiri.'},
-    {l:'2023/24', k:'Kelas 5', s:'b', note:'Terus belajar dan menjaga kebiasaan baik.'},
-    {l:'2024/25', k:'Kelas 6', s:'b', note:'Menutup jenjang dasar.'},
-    {l:'2025/26', k:'Kelas 7', s:'c', note:'Mulai hidup di boarding school dan mulai berorganisasi.', first:true, org:[['i-book','c-green','Komunitas Literasi Sekolah','2025–2026 · Anggota'],['i-mega','c-orange','Duta Bahasa','2025–2026 · Anggota']], win:[['i-trophy','c-amber','Juara 2 Catur PPA','2025'],['i-users','c-blue','Catur Antar As-syifa','2025']]},
-    {l:'2026/27', k:'Kelas 8', s:'c', note:'Aktif sebagai panitia dan peserta lomba catur.', org:[['i-spark','c-teal','PJ Kebersihan Kelas','2026–2027'],['i-flag','c-red','Panitia ASFERA','2026–2027']], win:[['i-pawn','c-purple','Peserta Catur ASFERA','2026'],['i-medal','c-pink','Mutabaah Terbaik','2026']]},
-    {l:'2027/28', k:'Kelas 9', s:'c', note:'Tahun terakhir di jenjang SMP.', future:true}
-  ];
-  var sc = $('#tlScroll'), track = $('#tlTrack'), yrs = $('#tlYears');
-  var base = $('#tlBase'), prog = $('#tlProg'), clipR = $('#tlClipRect');
-  var ship = $('#tlShip'), shipSvg = $('#tlShipSvg'), lab = $('#tlYear');
-  if(!sc || !track) return {layout: function(){}};
-  var cols = [], nodeEls = [], nodeX = [], samples = [], lastLeft = 0, dirLeft = false, svgTop = 0;
-  function ico(id, c){ return '<span class="ico ' + c + '"><svg class="ic"><use href="#' + id + '"/></svg></span>'; }
-  function rows(list, kind){ return list.map(function(o){ return '<div class="xrow">' + ico(o[0],o[1]) + '<div><b>' + o[2] + '</b><small>' + kind + ' · ' + o[3] + '</small></div></div>'; }).join(''); }
-  function card(y){
-    if(y.born){ return '<article class="tcard"><div class="tc-head">' + ico('i-cake','c-blue') + '<h3>Lahir di Palu</h3><span class="tc-yr">' + y.l + '</span></div><span class="tc-tag">14 September 2012</span><p>Titik awal perjalanan.</p></article>'; }
-    var S = SCH[y.s];
-    var ic = y.future ? ['i-route','c-purple'] : [S.ic, S.c];
-    var h = '<article class="tcard"><div class="tc-head">' + ico(ic[0], ic[1]) + '<h3>' + y.k + '</h3><span class="tc-yr">' + y.l + '</span></div>';
-    h += '<span class="tc-tag">' + (y.first ? 'Pindah sekolah · ' : '') + S.n + '</span><p>' + y.note + '</p>';
-    if(y.org || y.win){ h += '<div class="tc-x">' + (y.org ? rows(y.org, 'Organisasi') : '') + (y.win ? rows(y.win, 'Prestasi') : '') + '</div>'; }
-    return h + '</article>';
-  }
-  function build(){
-    if(!yrs) return;
-    yrs.innerHTML = YEARS.map(function(y, i){
-      var up = i % 2 === 1, c = card(y);
-      var cls = 'yr ' + (up ? 'up' : 'down') + (y.born ? ' born' : '') + (y.future ? ' future' : '');
-      return '<div class="' + cls + '" data-p="' + (y.s || '') + '"><div class="yr-top">' + (up ? c : '') + '</div><div class="yr-mid"><span class="node"></span></div><div class="yr-bot">' + (up ? '' : c) + '</div></div>';
-    }).join('');
-    cols = $$('.yr', yrs); nodeEls = $$('.node', yrs);
-    var io = new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }); }, {root: sc, threshold: .1});
-    cols.forEach(function(c){ io.observe(c); });
-  }
-  function layoutPath(){
-    var tr = track.getBoundingClientRect(), W = track.offsetWidth;
-    if(!tr.width || !nodeEls.length) return;
-    var pathSvg = $('#tlSvg');
-    if(!pathSvg) return;
-    svgTop = pathSvg.getBoundingClientRect().top - tr.top;
-    var H = pathSvg.getBoundingClientRect().height || 170, yc = H/2, A = H * .42;
-    nodeX = nodeEls.map(function(n){ var r = n.getBoundingClientRect(); return r.left + r.width/2 - tr.left; });
-    var d = 'M16 ' + yc + ' L' + nodeX[0].toFixed(1) + ' ' + yc;
-    for(var i = 0; i < nodeX.length - 1; i++){
-      var x0 = nodeX[i], x1 = nodeX[i+1], dx = x1 - x0, cy = yc + (i % 2 === 0 ? -1 : 1) * A;
-      d += ' C' + (x0 + dx*.35).toFixed(1) + ' ' + cy.toFixed(1) + ' ' + (x0 + dx*.65).toFixed(1) + ' ' + cy.toFixed(1) + ' ' + x1.toFixed(1) + ' ' + yc;
-    }
-    d += ' L' + (W - 16) + ' ' + yc;
-    pathSvg.setAttribute('width', W); pathSvg.setAttribute('height', H);
-    base.setAttribute('d', d); prog.setAttribute('d', d); clipR.setAttribute('height', H);
-    samples = [];
-    var len = base.getTotalLength();
-    for(var l = 0; l <= len; l += 3){ var p = base.getPointAtLength(l); samples.push([p.x, p.y]); }
-    var pe = base.getPointAtLength(len); samples.push([pe.x, pe.y]);
-  }
-  function pointAt(x){
-    var a = 0, b = samples.length - 1;
-    if(b < 1) return {y: 0, a: 0};
-    if(x <= samples[0][0]) return {y: samples[0][1], a: 0};
-    if(x >= samples[b][0]) return {y: samples[b][1], a: 0};
-    while(b - a > 1){ var m = (a + b) >> 1; if(samples[m][0] <= x) a = m; else b = m; }
-    var p = samples[a], q = samples[b], t = (x - p[0]) / Math.max(.0001, q[0] - p[0]);
-    var i0 = Math.max(0, a - 6), i1 = Math.min(samples.length - 1, b + 6);
-    var ang = Math.atan2(samples[i1][1] - samples[i0][1], samples[i1][0] - samples[i0][0]);
-    return {y: p[1] + (q[1] - p[1]) * t, a: ang};
-  }
-  function update(){
-    if(!samples.length) return;
-    var vw = sc.clientWidth, max = sc.scrollWidth - vw, p = max > 0 ? sc.scrollLeft / max : 0, W = track.offsetWidth, m = 44;
-    var px = sc.scrollLeft + m + p * (vw - 2 * m), pt = pointAt(px), top = svgTop;
-    ship.style.transform = 'translate3d(' + (px - 34).toFixed(1) + 'px,' + (top + pt.y - 22).toFixed(1) + 'px,0)';
-    var dxs = sc.scrollLeft - lastLeft;
-    if(dxs > 0.5) dirLeft = false; else if(dxs < -0.5) dirLeft = true;
-    lastLeft = sc.scrollLeft;
-    var deg = (dirLeft ? -pt.a : pt.a) * 180 / Math.PI;
-    if(shipSvg) shipSvg.style.transform = 'rotate(' + deg.toFixed(1) + 'deg)';
-    clipR.setAttribute('width', Math.max(0, px).toFixed(1));
-    var on = 0;
-    cols.forEach(function(c, i){ var passed = nodeX[i] <= px; c.classList.toggle('passed', passed); if(passed) on = i; });
-    cols.forEach(function(c, i){ c.classList.toggle('on', i === on); });
-    if(lab) lab.textContent = YEARS[on].l;
-  }
-  function layout(){ layoutPath(); update(); }
-  build();
-  var raf = 0;
-  sc.addEventListener('scroll', function(){ if(!raf) raf = requestAnimationFrame(function(){ raf = 0; update(); }); });
-  window.addEventListener('resize', function(){ if(cur === 'timeline') setTimeout(layout, 100); });
-  sc.addEventListener('wheel', function(e){
-    if(Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-    var max = sc.scrollWidth - sc.clientWidth;
-    if((sc.scrollLeft <= 0 && e.deltaY < 0) || (sc.scrollLeft >= max - 1 && e.deltaY > 0)) return;
-    e.preventDefault(); sc.scrollLeft += e.deltaY;
-  }, {passive: false});
-  var drag = null;
-  sc.addEventListener('pointerdown', function(e){ if(e.pointerType !== 'mouse') return; drag = {x: e.clientX, l: sc.scrollLeft}; sc.classList.add('drag'); try{ sc.setPointerCapture(e.pointerId); }catch(x){} });
-  sc.addEventListener('pointermove', function(e){ if(drag) sc.scrollLeft = drag.l - (e.clientX - drag.x); });
-  ['pointerup','pointercancel'].forEach(function(t){ sc.addEventListener(t, function(){ drag = null; sc.classList.remove('drag'); }); });
-  if($('#tlNext')) $('#tlNext').addEventListener('click', function(){ sc.scrollBy({left: 380, behavior: RM ? 'auto' : 'smooth'}); });
-  if($('#tlPrev')) $('#tlPrev').addEventListener('click', function(){ sc.scrollBy({left: -380, behavior: RM ? 'auto' : 'smooth'}); });
-  return {layout: layout};
-})();
-function tlLayout(){ if(tl) tl.layout(); }
-
-/* ============================================================
-   9. THE HONOURED HORSE (MERGED AI ASSISTANT)
-   ============================================================ */
-(function(){
-  var fab = document.getElementById('ai-fab');
-  var widget = document.getElementById('ai-widget');
-  if(!fab || !widget) return;
-
-  var messagesEl = document.getElementById('ai-messages');
-  var input = document.getElementById('ai-input');
-  var sendBtn = document.getElementById('ai-send-btn');
-  var voiceBtn = document.getElementById('ai-voice-btn');
-  var chips = document.getElementById('ai-chips');
-  var clearBtn = document.getElementById('ai-clear-btn');
-  var ttsToggle = document.getElementById('ai-tts-toggle');
-  var scrollBtn = document.getElementById('ai-scroll-btn');
-  var statusEl = document.getElementById('ai-status-text');
-  var statsEl = document.getElementById('ai-stats');
-  var fileInput = document.getElementById('ai-file-input');
-  var filePreview = document.getElementById('ai-file-preview');
-
-  var hist = [], processing = false, count = 0, ttsOn = false, recognition = null, recording = false;
-  var attachedFileContent = '', attachedFileName = '';
-  var backendStatusLabel = 'Mode Lokal — siap melayani';
-  var AI_MAX_INPUT = 2000;
-  var AI_MAX_HISTORY = 16;
-  var AI_RATE_LIMIT = 10;
-  var AI_RATE_WINDOW_MS = 60000;
-  var AI_REQUEST_TIMES = [];
-  var AI_API_BASE = 'https://abayuyun-ai-assistant.lovable.app';
-
-  function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function fmt(t){
-    var s = esc(t);
-    s = s.replace(/```([\w+-]*)\n([\s\S]*?)```/g, function(_, lang, code){ return '<pre class="ai-code"><code>' + code.trim() + '</code></pre>'; });
-    s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
-    s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
-    return s;
-  }
-  function time(){ var n = new Date(); return String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0'); }
-  function updStats(){ if(statsEl) statsEl.textContent = '💬 ' + count + ' pesan'; }
-  function auto(){ if(messagesEl.scrollHeight - messagesEl.scrollTop - messagesEl.clientHeight < 120) messagesEl.scrollTop = messagesEl.scrollHeight; }
-
-  function addMsg(role, text){
-    var d = document.createElement('div'); d.className = 'ai-message ' + role;
-    var av = document.createElement('div'); av.className = 'ai-msg-avatar'; av.textContent = role === 'ai' ? '♞' : '👤';
-    var wrap = document.createElement('div'); wrap.className = 'ai-msg-bubble-wrap';
-    var bub = document.createElement('div'); bub.className = 'ai-msg-bubble'; bub.innerHTML = fmt(text);
-    var tm = document.createElement('div'); tm.className = 'ai-msg-time'; tm.textContent = time();
-    wrap.appendChild(bub); wrap.appendChild(tm);
-    if(role === 'ai'){
-      var ac = document.createElement('div'); ac.className = 'ai-msg-actions';
-      var cb = document.createElement('button'); cb.className = 'ai-msg-action-btn'; cb.innerHTML = '📋 Salin';
-      cb.addEventListener('click', function(){ navigator.clipboard.writeText(bub.textContent).then(function(){ cb.innerHTML = '✅ Tersalin'; setTimeout(function(){ cb.innerHTML = '📋 Salin'; }, 1800); }); });
-      ac.appendChild(cb);
-      wrap.appendChild(ac);
-    }
-    d.appendChild(av); d.appendChild(wrap);
-    messagesEl.appendChild(d);
-    count++; updStats(); auto();
-    return {bub: bub};
-  }
-  function showTyping(){
-    var d = document.createElement('div'); d.className = 'ai-message ai'; d.id = 'ai-typing';
-    d.innerHTML = '<div class="ai-msg-avatar">♞</div><div class="ai-msg-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>';
-    messagesEl.appendChild(d); auto();
-  }
-  function hideTyping(){ var t = document.getElementById('ai-typing'); if(t) t.remove(); }
-
-  function speak(text){
-    if(!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    var u = new SpeechSynthesisUtterance(text.replace(/[*`]/g,'')); u.lang = 'id-ID'; u.rate = 1;
-    window.speechSynthesis.speak(u);
-  }
-
-  function aiSafetyCheck(text){
-    var t = String(text || '').toLowerCase();
-    var selfHarm = /(bunuh diri|menyakiti diri|self[- ]?harm|suicide|kill myself)/.test(t);
-    var weapon = /(bom|senjata|explosive|weapon|how to make bomb)/.test(t);
-    var crime = /(mencuri|meretas|malware|steal|hack an account)/.test(t);
-    var explicit = /(pornografi|explicit sex|nude|porn)/.test(t);
-    if(explicit) return 'Aku tidak dapat membuat konten seksual eksplisit. Aku tetap bisa membantu dengan informasi aman.';
-    if(selfHarm) return 'Kalau kamu atau seseorang dalam bahaya, segera hubungi orang dewasa tepercaya atau layanan darurat. Aku bisa membantu mencari langkah aman.';
-    if(weapon) return 'Aku tidak dapat membantu instruksi berbahaya. Aku bisa membantu topik yang aman dan mendidik.';
-    if(crime) return 'Aku tidak dapat membantu aktivitas ilegal atau berbahaya.';
-    return '';
-  }
-  function aiRateLimited(){
-    var now = Date.now();
-    while(AI_REQUEST_TIMES.length && now - AI_REQUEST_TIMES[0] > AI_RATE_WINDOW_MS) AI_REQUEST_TIMES.shift();
-    if(AI_REQUEST_TIMES.length >= AI_RATE_LIMIT) return true;
-    AI_REQUEST_TIMES.push(now);
-    return false;
-  }
-  function safeMath(raw){
-    var c = raw.replace(/^hitung(kan)?/i,'').replace(/[?=]/g,'').trim();
-    if(!c || c.length > 80 || !/^[\d\s.+\-*/()%]+$/.test(c)) return '';
-    try {
-      var tokens = c.match(/\d+(?:\.\d+)?|[()+\-*/%]/g) || [];
-      if(tokens.join('').replace(/\s/g,'') !== c.replace(/\s/g,'')) return '';
-      var pos = 0;
-      function primary(){ var tok = tokens[pos++]; if(tok === '('){ var v = expr(); if(tokens[pos++] !== ')') throw 0; return v; } if(tok === '-') return -primary(); if(tok === '+') return primary(); var n = Number(tok); if(!isFinite(n)) throw 0; return n; }
-      function term(){ var v = primary(); while(pos < tokens.length && ['*','/','%'].indexOf(tokens[pos]) !== -1){ var op = tokens[pos++], b = primary(); if((op === '/' || op === '%') && b === 0) throw 0; v = op === '*' ? v*b : op === '/' ? v/b : v%b; } return v; }
-      function expr(){ var v = term(); while(pos < tokens.length && ['+','-'].indexOf(tokens[pos]) !== -1){ var op = tokens[pos++], b = term(); v = op === '+' ? v+b : v-b; } return v; }
-      var r = expr();
-      if(pos !== tokens.length || !isFinite(r)) return '';
-      return 'Hasil: **' + Number(r.toPrecision(12)) + '**';
-    } catch(e){ return ''; }
-  }
-  function localAIResponse(text){
-    var original = String(text || '').trim(); var t = original.toLowerCase();
-    var math = safeMath(original); if(math) return math;
-    
-    // The Honoured Horse Persona
-    if(/\b(halo|hai|hello|hi|hey|pagi|siang|sore|malam)\b/.test(t)) {
-      var h = new Date().getHours(), gr = h < 11 ? 'pagi' : h < 15 ? 'siang' : h < 18 ? 'sore' : 'malam';
-      return 'Salam hormat dari **THE HONOURED HORSE** ♞\nSelamat ' + gr + ', pengunjung terhormat. Aku siap menjawab seputar portofolio ini.';
-    }
-    if(/siapa kamu|kamu siapa/.test(t)) return 'Aku **THE HONOURED HORSE** ♞\nKuda yang dipercaya mewakili Syazani untuk menjawab pengunjung.';
-    if(/siapa syazani|tentang syazani/.test(t)) return '**Muhammad Syazani Al Taftazani** (Zani)\n🎂 Palu, 14 September 2012\n📍 Jalan Kopo, Beji, Depok\n🏫 SMPIT As-Syifa Boarding School — Kelas 8\n\nSiswa SMP yang gemar **koding** & **catur**.';
-    if(/prestasi|penghargaan|juara/.test(t)) return '🏆 **Prestasi:**\n- Juara 2 Catur PPA (2025)\n- Peserta Catur ASFERA (2026)\n- Catur Antar As-syifa (2025)\n- Mutabaah Terbaik Usbu Ruhi (Agustus 2026)';
-    if(/projek|karya/.test(t)) return '💻 **Projek:**\n- Kalkulator (Biasa & Sains)\n- Kompas Kiblat (GPS & Sensor)\n- Card Game\n- Board Games\n\nBuka menu **Projek** untuk detailnya.';
-    if(/kalkulator|hitung/.test(t)) return '🧮 Ada di **Projek → Projek di Web → Kalkulator**.\n\n🔑 Ada pintu rahasia: ketik **14092012** untuk masuk Admin Blog.';
-    if(/kompas|kiblat/.test(t)) return '🧭 Ada di **Projek → Projek di Web → Kompas Kiblat**.\nFitur: GPS, pilih kota, koordinat manual, sensor HP.';
-    if(/blog|artikel|admin/.test(t)) return '📝 **Cara menulis artikel:**\n1. Buka Projek → tab "Projek di Web"\n2. Di kalkulator, ketik 14092012\n3. Kamu masuk halaman Admin Blog\n4. Isi judul, kategori, isi → klik 💾 Simpan';
-    if(/timeline|perjalanan/.test(t)) return '⛵ **Timeline:**\n- 2012 — Lahir di Palu\n- 2019–2021 — SD Al-Azhar Palu\n- 2021–2025 — Homeschooling Kak Seto Bekasi\n- 2025–2028 — SMPIT As-Syifa';
-    if(/kontak|hubungi|wa|ig|email/.test(t)) return '📞 **Kontak:**\n- WhatsApp: 0816641946\n- Instagram: @Al_ZANI.\n- Email: altaftazanisyazani@gmail.com';
-    if(/coding|program|html|css|javascript/.test(t)) return 'Urutan belajar coding:\n1. HTML (struktur)\n2. CSS (tampilan)\n3. JavaScript (interaksi)\n4. Buat proyek kecil';
-    if(/terima kasih|makasih|thanks/.test(t)) return 'Dengan senang hati 🙏 Ada lagi yang ingin ditanyakan?';
-    if(/jam berapa|waktu|tanggal/.test(t)){ var now = new Date(); return 'Waktu: **' + now.toLocaleTimeString('id-ID') + '**\nTanggal: **' + now.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) + '**.'; }
-    if(t.length < 3) return 'Boleh tuliskan pertanyaan lebih lengkap?';
-    return '🙏 **Mohon maaf, hamba belum bisa menjawab itu.**\n\nTugasku terbatas pada **portofolio Syazani**:\n- Profil\n- Prestasi\n- Projek\n- Blog\n- Kontak\n- Timeline\n\nSilakan pilih pertanyaan di bawah.';
-  }
-
-  async function sendMsg(text){
-    var question = String(text || '').trim();
-    if(attachedFileContent){
-      question = (question ? question + '\n\n' : '') + '[File: ' + attachedFileName + ']\n' + attachedFileContent;
-      attachedFileContent = ''; attachedFileName = '';
-      if(filePreview) filePreview.style.display = 'none';
-      if(fileInput) fileInput.value = '';
-    }
-    if(!question || processing) return;
-    if(question.length > AI_MAX_INPUT){ addMsg('ai', 'Pesan terlalu panjang. Batas: ' + AI_MAX_INPUT + ' karakter.'); return; }
-    var refusal = aiSafetyCheck(question);
-    if(refusal){ addMsg('user', question); addMsg('ai', refusal); return; }
-    if(aiRateLimited()){ addMsg('ai', 'Batas penggunaan sementara (10 pesan/menit). Coba lagi sebentar.'); return; }
-
-    processing = true; sendBtn.disabled = true; input.disabled = true;
-    addMsg('user', question);
-    hist.push({role: 'user', content: question});
-    hist = hist.slice(-AI_MAX_HISTORY);
-    showTyping();
-    if(statusEl) statusEl.textContent = '🤔 Menyusun jawaban...';
-
-    var answer = '', usedOnline = false, sourceLabel = 'Mode Lokal';
-    try {
-      var prevHistory = hist.slice(0, -1).slice(-AI_MAX_HISTORY);
-      var response = await fetch(AI_API_BASE + '/api/chat', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({message: question, history: prevHistory, safetyPolicyVersion: 'teen-safe-1', maxOutputCharacters: 6000}),
-        signal: AbortSignal.timeout ? AbortSignal.timeout(45000) : undefined
-      });
-      var data = await response.json().catch(function(){ return {}; });
-      if(!response.ok) throw new Error(data.error || 'Status ' + response.status);
-      var modelReply = data.reply || data.answer;
-      if(data.aiReady === false || typeof modelReply !== 'string' || !modelReply.trim()) throw new Error('Backend belum aktif');
-      answer = modelReply.trim().slice(0, 6000);
-      usedOnline = true; sourceLabel = 'AI Online';
-    } catch(err){
-      answer = localAIResponse(question);
-      sourceLabel = 'Mode Lokal';
-    }
-
-    hideTyping();
-    addMsg('ai', answer);
-    if(ttsOn) speak(answer);
-    hist.push({role: 'assistant', content: answer});
-    hist = hist.slice(-AI_MAX_HISTORY);
-    processing = false; sendBtn.disabled = false; input.disabled = false;
-    if(input) input.focus();
-    if(statusEl) statusEl.textContent = usedOnline ? sourceLabel + ' — siap membantu' : sourceLabel;
-  }
-
-  async function checkBackend(){
-    try {
-      var response = await fetch(AI_API_BASE + '/api/health', {signal: AbortSignal.timeout ? AbortSignal.timeout(10000) : undefined});
-      var data = await response.json().catch(function(){ return {}; });
-      if(response.ok && data.aiReady === true) backendStatusLabel = 'AI Online';
-      else backendStatusLabel = 'Mode Lokal';
-    } catch(err){ backendStatusLabel = 'Mode Lokal'; }
-    if(statusEl) statusEl.textContent = backendStatusLabel;
-  }
-
-  function welcome(){
-    var w = '♞ **Salam hormat, pengunjung terhormat.**\nAku **THE HONOURED HORSE** — kuda yang dipercaya mewakili Syazani di portofolio ini.\n\nSilakan bertanya tentang:\n- Profil & data diri\n- Prestasi & organisasi\n- Projek & blog\n- Kontak & timeline';
-    addMsg('ai', w);
-  }
-
-  function initRec(){
-    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if(!SR){ if(voiceBtn) voiceBtn.style.opacity = '0.4'; return; }
-    recognition = new SR(); recognition.lang = 'id-ID'; recognition.continuous = false;
-    recognition.interimResults = true;
-    recognition.onstart = function(){ recording = true; voiceBtn.classList.add('recording'); input.placeholder = '🎤 Mendengarkan...'; };
-    recognition.onresult = function(e){ var t = ''; for(var i = e.resultIndex; i < e.results.length; i++) t += e.results[i][0].transcript; input.value = t; };
-    recognition.onerror = function(){ if(statusEl) statusEl.textContent = '⚠️ Gagal mendengar'; };
-    recognition.onend = function(){ recording = false; voiceBtn.classList.remove('recording'); input.placeholder = 'Tanya tentang Syazani...'; if(statusEl) statusEl.textContent = backendStatusLabel; if(input.value.trim()){ var t = input.value.trim(); input.value = ''; sendMsg(t); } };
-  }
-
-  if(fileInput){
-    fileInput.addEventListener('change', async function(e){
-      var file = e.target.files[0]; if(!file) return;
-      if(file.size > 500000){ alert('File terlalu besar (maks 500 KB)'); fileInput.value = ''; return; }
-      try {
-        var text = await file.text();
-        attachedFileContent = text.slice(0, 8000);
-        attachedFileName = file.name;
-        if(filePreview){ filePreview.style.display = 'block'; filePreview.textContent = '📎 ' + file.name + ' (' + Math.round(file.size/1024) + ' KB)'; }
-      } catch(err){ alert('Gagal membaca file'); }
-    });
-  }
-
-  fab.addEventListener('click', function(){
-    var isOpen = widget.classList.toggle('open');
-    fab.classList.toggle('active', isOpen);
-    fab.textContent = isOpen ? '✕' : '♞';
-    if(isOpen){ setTimeout(function(){ if(input) input.focus(); }, 150); }
-  });
-
-  sendBtn.addEventListener('click', function(){ var t = input.value.trim(); if(t){ input.value = ''; sendMsg(t); } });
-  input.addEventListener('keydown', function(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); var t = input.value.trim(); if(t){ input.value = ''; sendMsg(t); } } });
-  if(chips) chips.querySelectorAll('.ai-chip').forEach(function(c){
-    c.addEventListener('click', function(){ var p = c.dataset.prompt; if(p) sendMsg(p); });
-  });
-  if(clearBtn) clearBtn.addEventListener('click', function(){
-    if(hist.length > 0 && !confirm('Bersihkan semua percakapan?')) return;
-    messagesEl.innerHTML = ''; hist = []; count = 0; updStats(); welcome();
-  });
-  if(ttsToggle) ttsToggle.addEventListener('click', function(){
-    ttsOn = !ttsOn; ttsToggle.classList.toggle('active', ttsOn);
-    ttsToggle.textContent = ttsOn ? '🔊' : '🔇';
-    if(!ttsOn && 'speechSynthesis' in window) window.speechSynthesis.cancel();
-  });
-  if(voiceBtn) voiceBtn.addEventListener('click', function(){ if(!recognition) return; if(recording) recognition.stop(); else try{ recognition.start(); }catch(e){} });
-  if(scrollBtn) scrollBtn.addEventListener('click', function(){ messagesEl.scrollTop = messagesEl.scrollHeight; });
-  messagesEl.addEventListener('scroll', function(){ if(scrollBtn){ var n = messagesEl.scrollHeight - messagesEl.scrollTop - messagesEl.clientHeight > 150; scrollBtn.classList.toggle('visible', n); } });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && widget.classList.contains('open')) fab.click(); });
-
-  initRec();
-  welcome();
-  checkBackend();
-})();
-
-/* ============================================================
-   10. TAB PROJEK & INIT
-   ============================================================ */
-document.querySelectorAll('.proj-tabs button').forEach(function(b){
-  b.addEventListener('click', function(){
-    var id = b.id;
-    $$('.proj-tabs button').forEach(function(x){ x.classList.toggle('on', x === b); x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
-    $$('.proj-tab-panel').forEach(function(p){ p.classList.toggle('on', p.id === 'panel' + id.replace('tab', '')); });
-  });
+  savePosts(posts);
+  renderAdmin();
+  resetAdminForm();
+  toast('Artikel tersimpan ✓');
 });
 
-var adminSaveBtn = $('#adminSave');
-if(adminSaveBtn) adminSaveBtn.addEventListener('click', saveFromAdmin);
+$('#adminReset')?.addEventListener('click', resetAdminForm);
 
-if(location.hash === '#blog') show('blog');
+$('#adminSeed')?.addEventListener('click', () => {
+  const posts = getPosts();
+  const existing = new Set(posts.map(p => p.title));
+  const toAdd = SEED_POSTS.filter(p => !existing.has(p.title));
+  if(!toAdd.length){ toast('Contoh sudah ada semua', '#FDE68A'); return; }
+  savePosts([...toAdd, ...posts]);
+  renderAdmin();
+  toast('Contoh ditambahkan (' + toAdd.length + ')');
+});
+
+/* ========== JAM MELAYANG ========== */
+function tickClock(){
+  const now = new Date();
+  const t = String(now.getHours()).padStart(2,'0') + ':' +
+            String(now.getMinutes()).padStart(2,'0') + ':' +
+            String(now.getSeconds()).padStart(2,'0');
+  const d = now.toLocaleDateString('id-ID', { weekday:'short', day:'numeric', month:'short', year:'numeric' });
+  const tel = $('#clockTime'); if(tel) tel.textContent = t;
+  const del = $('#clockDate'); if(del) del.textContent = d;
+}
+
+/* ========== CHATBOT: THE HONOURED HORSE ========== */
+const HORSE_RULES = [
+  { keys:['siapa kamu','kamu siapa','nama kamu','siapa'], reply:'Aku The Honoured Horse ♞ — kuda kehormatan penjaga portofolio Syazani. Tanyakan apa saja soal profil, projek, prestasi, atau cara menghubungi.' },
+  { keys:['siapa syazani','tentang syazani','profil','tentang kamu','siapa pemilik'], reply:'Muhammad Syazani Al Taftazani — lahir di Palu, 14 September 2012. Siswa SMP di Depok. Minat utama: teknologi, koding, dan strategi.' },
+  { keys:['projek','project','apa yang dibuat','karya'], reply:'Projek unggulan:\n• Kalkulator (biasa + sains)\n• Kompas Kiblat (bearing + sensor HP)\n• Card Game (Poker, Catfish, BS, Uno, Exploding Kittens)\n• Board Games (Catur, Checkers, Monopoly)' },
+  { keys:['prestasi','penghargaan','juara'], reply:'Prestasi terbaik:\n🏆 Juara 2 Catur PPA (2025)\n♟ Peserta Catur ASFERA (2026)\n♟ Catur Antar As-syifa (2025)\n🏅 Mutabaah Terbaik Usbu Ruhi (Agustus 2026)' },
+  { keys:['organisasi','ekskul','kegiatan'], reply:'Organisasi:\n• Komunitas Literasi Sekolah (2025–2026)\n• Duta Bahasa (2025–2026)\n• PJ Kebersihan Kelas (2026–2027)\n• Panitia ASFERA — Divisi Publikasi (2026–2027)' },
+  { keys:['hobi','suka apa','kesukaan'], reply:'Hobi Syazani: bermain game, koding, dan membaca. Tiga hal yang selalu bikin penasaran dan terus belajar.' },
+  { keys:['prinsip','filosofi','motivasi'], reply:'Dua prinsip utama:\n1. Disiplin pada waktu dan tugas.\n2. Adab kepada guru, teman, dan orang tua.\nIlmu setinggi apapun tidak berarti tanpa adab.' },
+  { keys:['keahlian','skill','bisa apa'], reply:'Keahlian: Koding & Bahasa Inggris. Kelebihan: pintar, kreatif, disiplin.' },
+  { keys:['kontak','hubungi','email','wa','whatsapp'], reply:'Untuk menghubungi, gunakan kontak yang tersedia di sekolah atau melalui komunitas literasi sekolah. Portofolio ini dibuat murni dengan HTML/CSS/JS tanpa backend.' },
+  { keys:['nilai','rapor','sekolah','kelas'], reply:'Rata-rata nilai 80–95 sepanjang kelas 7–9. Paling kuat di Informatika, PJOK, dan Pendidikan Agama.' },
+  { keys:['kiblat','kompas','sholat'], reply:'Projek Kompas Kiblat: hitung bearing ke Ka\'bah (21.4225, 39.8262), aktifkan sensor HP, atau pilih kota manual. Cek di menu Projek → Kompas Kiblat.' },
+  { keys:['halo','hai','hi','assalamualaikum','pagi','siang','malam'], reply:'Halo! 👋 Aku The Honoured Horse. Mau tahu apa dulu — profil, projek, prestasi, atau prinsip hidup?' },
+  { keys:['terima kasih','makasih','thanks'], reply:'Sama-sama! Senang bisa membantu. Kalau ada pertanyaan lain, tanyakan saja. ♞' }
+];
+
+function horseReply(text){
+  const t = text.toLowerCase();
+  for(const r of HORSE_RULES){
+    if(r.keys.some(k => t.includes(k))) return r.reply;
+  }
+  return 'Aku belum paham itu. Coba tanya soal: profil, projek, prestasi, organisasi, hobi, prinsip, keahlian, kontak, atau nilai.';
+}
+
+let horseMsgCount = 0;
+const aiMessages = $('#aiMessages');
+
+function addHorseMsg(role, text){
+  if(!aiMessages) return;
+  const row = document.createElement('div');
+  row.className = 'ai-message ' + (role === 'user' ? 'user' : 'ai');
+  row.innerHTML = `
+    <div class="ai-msg-avatar" aria-hidden="true">${role === 'user' ? '👤' : '♞'}</div>
+    <div class="ai-msg-bubble-wrap">
+      <div class="ai-msg-bubble"></div>
+      <div class="ai-msg-time">${new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})}</div>
+    </div>
+  `;
+  aiMessages.appendChild(row);
+  const bubble = row.querySelector('.ai-msg-bubble');
+  if(role === 'user'){
+    bubble.textContent = text;
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+    horseMsgCount++;
+  } else {
+    bubble.classList.add('typing-effect');
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+    // typing effect
+    let i = 0;
+    const chars = text.split('');
+    bubble.textContent = '';
+    const iv = setInterval(() => {
+      if(i >= chars.length){
+        clearInterval(iv);
+        bubble.classList.remove('typing-effect');
+        return;
+      }
+      bubble.textContent += chars[i++];
+      aiMessages.scrollTop = aiMessages.scrollHeight;
+    }, 18);
+    horseMsgCount++;
+  }
+  const stat = $('#aiStats');
+  if(stat) stat.textContent = horseMsgCount + ' pesan';
+}
+
+function openChat(){
+  const w = $('#aiWidget');
+  const fab = $('#aiFab');
+  if(!w) return;
+  w.classList.add('open');
+  fab?.classList.add('active');
+  fab?.setAttribute('aria-label', 'Tutup chatbot');
+  if(aiMessages && !aiMessages.dataset.greeted){
+    aiMessages.dataset.greeted = '1';
+    setTimeout(() => addHorseMsg('ai', 'Halo! ♞ Aku The Honoured Horse. Tanya soal profil, projek, prestasi, atau prinsip hidup ya.'), 240);
+  }
+  setTimeout(() => $('#aiInput')?.focus(), 300);
+}
+function closeChat(){
+  const w = $('#aiWidget');
+  const fab = $('#aiFab');
+  w?.classList.remove('open');
+  fab?.classList.remove('active');
+  fab?.setAttribute('aria-label', 'Buka chatbot The Honoured Horse');
+}
+function sendChat(text){
+  if(!text || !text.trim()) return;
+  addHorseMsg('user', text.trim());
+  const reply = horseReply(text);
+  setTimeout(() => addHorseMsg('ai', reply), 320);
+  const inp = $('#aiInput');
+  if(inp) inp.value = '';
+}
+
+function initChatbot(){
+  $('#aiFab')?.addEventListener('click', () => {
+    const w = $('#aiWidget');
+    if(w?.classList.contains('open')) closeChat(); else openChat();
+  });
+  $('#aiClose')?.addEventListener('click', closeChat);
+  $('#aiSend')?.addEventListener('click', () => sendChat($('#aiInput')?.value || ''));
+  $('#aiInput')?.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ e.preventDefault(); sendChat(e.currentTarget.value); }
+  });
+  $$('#aiChips .ai-chip').forEach(chip => {
+    chip.addEventListener('click', () => sendChat(chip.dataset.q || chip.textContent));
+  });
+}
+
+/* ========== BOOT ========== */
+function boot(){
+  startIntro();
+  setTimeout(() => { if(!introEnded) endIntro(); }, 5600);
+
+  calcRender();
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  initChatbot();
+  // Pre-render timeline data (ukur nanti saat view dibuka)
+  // renderBlog & renderAdmin dipanggil saat view-nya dibuka.
+
+  // Home default → is-home aktif
+  document.body.classList.add('is-home');
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot();
+}
+
+/* Ekspose kecil untuk debugging opsional */
+window.__syazani = { go, showView, openChat, closeChat };
 
 })();
 </script>
-
 </body>
 </html>
